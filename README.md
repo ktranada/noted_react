@@ -30,8 +30,7 @@ Noted is a kanban board for personal or team use.
 # Timeline
 
 1. External libraries, gems, packages, etc (1 day)
-2. Wireframes (.5 day)
-3. Design (1 day)
+3. Design (2 day)
 4. Set up DB and data models (< .5)
 5. Set up API backend (.5 ~ 1)
 6. Set up frontend (eh, 2 - 3 days depending on if react animations want to be friendly)
