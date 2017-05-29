@@ -5,6 +5,12 @@ Noted is a kanban board for personal or team use.
 
 ------
 
+# Design
+
+[Can be viewed here](https://github.com/ktranada/noted_react/blob/master/docs/mocks/README.md)
+
+------
+
 # MVP
 
 - A user can create boards and invite members to join and contribute.
