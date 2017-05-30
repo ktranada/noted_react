@@ -17,3 +17,4 @@
 .byebug_history
 /(noted_modeles|bower_components)/*
 /docs/.DS_Store
+*.coffee
