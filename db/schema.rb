@@ -32,12 +32,17 @@ ActiveRecord::Schema.define(version: 20170530034018) do
   end
 
   create_table "card_assignments", force: :cascade do |t|
+    t.integer  "user_id",    null: false
+    t.integer  "card_id",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "card_id"], name: "index_card_assignments_on_user_id_and_card_id", unique: true, using: :btree
   end
 
   create_table "cards", force: :cascade do |t|
     t.integer  "list_id",                 null: false
     t.string   "title",                   null: false
-    t.integer  "ord",         default: 0
+    t.integer  "ord",         default: 0, null: false
     t.text     "description"
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
@@ -66,7 +71,7 @@ ActiveRecord::Schema.define(version: 20170530034018) do
 
   create_table "lists", force: :cascade do |t|
     t.string   "title",                  null: false
-    t.integer  "ord",        default: 0
+    t.integer  "ord",        default: 0, null: false
     t.integer  "board_id",               null: false
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
