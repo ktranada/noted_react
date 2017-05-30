@@ -1,8 +1,10 @@
-class AddSubscriptions < ActiveRecord::Migration[5.0]
+class CreateSubscriptions < ActiveRecord::Migration[5.0]
   def change
     create_table :subscriptions do |t|
       t.integer :user_id, null: false
       t.integer :conversation_id, null: false
+      
+      t.timestamps
     end
 
     add_index :subscriptions, [:conversation_id, :user_id], unique: true
