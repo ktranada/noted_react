@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
+  before_action :require_login!
+
   def current_user
     return nil unless session[:session_token]
     @current_user ||= User.find_by_session_token(session[:session_token])
@@ -24,7 +26,7 @@ class ApplicationController < ActionController::Base
 
 
 
-  def require_logged_in!
+  def require_login!
     unless logged_in?
       render json: ["You must be signed in to perform that action."], status: 401
     end
