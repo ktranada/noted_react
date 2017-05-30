@@ -13,11 +13,18 @@
 class User < ActiveRecord::Base
   attr_reader :password
 
+  after_initialize :ensure_session_token
+
   validates :email, :session_token, presence: true, uniqueness: true
   validates :password_digest, presence: {  message: "Password cannot be blank" }
   validates :password, length: { minimum: 6 }, allow_nil: true
 
-  after_initialize :ensure_session_token
+  has_many :boards, dependent: :destroy
+  has_many :board_memberships, dependent: :destroy, inverse_of: :user
+
+  has_many :subscriptions, dependent: :destroy
+  has_many :conversations, through: :subscriptions
+  has_many :messages, dependent: :destroy
 
   def self.find_by_credentials(email, password)
     @user = User.find_by_email(email)
