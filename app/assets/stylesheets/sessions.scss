@@ -1,0 +1,93 @@
+@import "colors";
+
+$input-width: 225px;
+.session-form {
+  height: 100%;
+  width: 100%;
+  background: #546E7A;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+
+  .session-form__content {
+    max-width: 420px;
+    padding: 20px 4rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    background: rgba(0,0,0,.6);
+    color: white;
+    > img {
+      width: 125px;
+    }
+    h3 {
+      margin: 30px 0;
+      letter-spacing: 3.5px;
+      text-transform: uppercase;
+    }
+    .session-form__input {
+      font-size: 12px;
+      letter-spacing: 1.4px;
+      font-weight: 300;
+      width: $input-width;
+      margin: 10px 0;
+      height: 40px;
+      padding: 5px 0;
+      border-bottom: .5px solid;
+      border-color: $primary-grey;
+
+      &:nth-of-type(2) {
+        margin-bottom: 40px;
+      }
+    }
+
+    .session-form__button {
+      background: $primary-grey;
+      height: 40px;
+      width: $input-width;
+      border-radius: 0;
+      font-weight: 300;
+      letter-spacing: 1.4px;
+      color: white;
+      margin: 0 auto;
+    }
+
+    .divider {
+      width: $input-width;
+      margin: 20px 0;
+    }
+
+    .session-form__link {
+      font-size: 12px;
+      color: $primary-grey;
+      > a {
+        color: white;
+      }
+    }
+
+    .session-form__errors {
+      width: $input-width;
+      margin: 5px 0;
+      list-style: none;
+      font-size: 12px;
+      letter-spacing: .6px;
+      color: $primary-red;
+      > li:nth-child(2) {
+        margin-top: 5px;
+      }
+    }
+  }
+}
