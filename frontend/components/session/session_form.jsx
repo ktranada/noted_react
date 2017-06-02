@@ -20,7 +20,8 @@ class SessionForm extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.isLoggedIn) {
-      let nextRoute = `/boards/${nextProps.currentBoard ? nextProps.currentBoard.id : ''}`;
+      // let nextRoute = `/boards/${nextProps.currentBoard ? nextProps.currentBoard.id : ''}`;
+      let nextRoute = "/boards"
       this.props.history.push(nextRoute);
     }
   }

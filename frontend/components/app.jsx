@@ -4,7 +4,7 @@ import { AuthRoute, ProtectedRoute, ProtectedRedirectRoute } from '../util/route
 import SessionFormContainer from './session/session_form_container';
 import Landing from './landing';
 
-const App = (props) => {
+const App = () => {
   return (
     <div>
       <Switch>

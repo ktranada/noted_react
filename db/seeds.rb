@@ -10,6 +10,7 @@
 
 user = User.create!(email: "kev@gmail.com", password: "123pass")
 board = user.boards.create!(title: "React")
+board2 = user.boards.create!(title: "Redux")
 list = board.lists.create!(title: "Components")
 card_one = list.cards.create!(title: "Presentational vs. Container")
 names = %w{danny vicky julie}
