@@ -9,13 +9,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const rootEl = document.getElementById('root');
   let store;
   if (window.currentUser) {
-    const preloadedState = { session: { currentUser: window.currentUser, errors: [] } };
+    const preloadedState = {
+      session: {
+        currentUser: window.currentUser.info,
+        errors: []
+      },
+      boards: window.currentUser.boards
+    };
     store = configureStore(preloadedState);
     delete window.currentUser;
   } else {
     store = configureStore();
   }
-
+  window.logout = logout;
   window.store = store;
   ReactDOM.render(<Root store={store} />, rootEl);
 });

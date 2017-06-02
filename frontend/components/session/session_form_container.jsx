@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import { signup, login, receiveErrors } from '../../actions/session_actions';
 import SessionForm from './session_form';
 
-const mapStateToProps = ({session}) => ({
+const mapStateToProps = ({session, boards}) => ({
   isLoggedIn: Boolean(session.currentUser),
+  currentBoard: boards.currentBoard,
   errors: session.errors
 });
 
