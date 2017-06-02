@@ -20,8 +20,7 @@ class SessionForm extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.isLoggedIn) {
-      // let nextRoute = `/boards/${nextProps.currentBoard ? nextProps.currentBoard.id : ''}`;
-      let nextRoute = "/boards"
+      let nextRoute = `/boards${nextProps.currentBoardId ? `/${nextProps.currentBoard.id}` : ''}`;
       this.props.history.push(nextRoute);
     }
   }
@@ -63,7 +62,6 @@ class SessionForm extends React.Component {
   }
 
   renderErrors() {
-    console.log(this.props);
     return(
       <ul className="session-form__errors">
         {this.props.errors.map((error, i) => (

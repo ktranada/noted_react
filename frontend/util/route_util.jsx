@@ -20,8 +20,8 @@ const Protected = ({component: Component, path, isLoggedIn}) => (
   )} />
 );
 
-const ProtectedRedirect = ({ to, path, isLoggedIn }) => (
-  <Route exact path={path} render={() => (
+const ProtectedRedirect = ({ exact, to, path, isLoggedIn }) => (
+  <Route push exact={exact} path={path} render={() => (
       isLoggedIn ?
         (<Redirect to={to}/>) :
         (<Redirect to="/login" />)

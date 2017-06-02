@@ -1,10 +1,13 @@
 @import "colors";
 
 .landing-container {
+  display: flex;
+    > * {
+      padding: 25px 20px;
+    }
     .board-toggle {
         width: 115px;
         height: 100%;
-        padding: 25px 20px;
         background: $bluegrey-dark;
         list-style: none;
 

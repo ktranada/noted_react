@@ -1,5 +1,5 @@
 import * as SessionAPI from '../util/session_api'
-import { setCurrentBoard, addBoards } from './board_actions';
+import { setCurrentBoardId, addBoards } from './board_index_actions';
 
 export const RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
 export const RECEIVE_ERRORS = "RECEIVE_ERRORS"
@@ -16,7 +16,7 @@ export const receiveErrors = errors => ({
 
 const parseSignInResponse = (promise, dispatch) => {
   promise.then(response => {
-                dispatch(setCurrentBoard(response.boards.board));
+                dispatch(setCurrentBoardId(response.boards.board.Id));
                 dispatch(addBoards(response.boards.index))
                 return response;
               }, err => dispatch(receiveErrors(err.responseJSON)))

@@ -10,28 +10,30 @@ class BoardIndex extends React.Component {
   handleClick(board) {
     return (e) => {
       e.preventDefault();
-      if (board.id === this.props.currentBoard.id) {
+      if (board.id === this.props.currentBoardId) {
         return;
       }
-      this.props.setCurrentBoard(board);
-      const nextPath = `/boards/${board.id}`
-      this.props.history.push(nextPath);
+
+      this.props.toggleBoard(board.id);
+      this.props.history.push(`/boards/${board.id}`);
     }
   }
 
   render() {
-    const boards = this.props.boards.map((board) => {
-      let isCurrentBoard = this.props.currentBoard.id === board.id;
-      return <BoardIndexItem
+    let { boards, match } = this.props;
+    const matchBoardId = Number.parseInt(match.params.boardId);
+    const boardsList = boards.map((board) => {
+      let isCurrentBoard = matchBoardId === board.id;
+      return (<BoardIndexItem
         isCurrentBoard={isCurrentBoard}
         onclick={this.handleClick(board)}
         key={board.id}
         {...board } />
-    });
+    )});
 
     return (
       <ul className="board-toggle">
-        {boards}
+        {boardsList}
       </ul>
     );
   }

@@ -1,0 +1,50 @@
+@import "colors";
+.board-nav {
+  width: 300px;
+  background: $bluegrey-light;
+  position: relative;
+
+  .account-configuration {
+    position: absolute;
+    bottom: 0;
+    width: calc(100% );
+    display: flex;
+    align-items: center;
+    left: 0;
+    padding: 18px 20px;
+    background: $bluegrey-medium;
+
+    > .account-configuration__icon {
+      height: 50px;
+      width: 50px;
+      text-align: center;
+      line-height: 50px;
+      font-size: 20px;
+      background: $bluegrey-light;
+      margin-right: 15px;
+      border-radius: 50%;
+      &:hover {
+        cursor: default;
+      }
+    }
+
+    > .account-configuration__email {
+      color: #EBEBEB;
+      width: 150px;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+      margin-right: 20px;
+      font-weight: bold;
+      &:hover {
+        cursor: default;
+      }
+    }
+
+    > .material-icons {
+      color: white;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+   }
+}

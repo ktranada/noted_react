@@ -1,15 +1,16 @@
 json.set! :info do
-  json.extract! user, :id
+  json.extract! user, :id, :email
 end
 
 json.set! :boards do
-  json.set! :currentBoard do
-    if user.current_board
-      json.extract! user.current_board, :id, :title, :ord
-    else
-      json.null!
-    end
-  end
+  json.currentBoardId user.current_board ? user.current_board.id : json.null!
+  # json.set! :currentBoardId do
+  #   if user.current_board
+  #     json.extract! user.current_board, :id
+  #   else
+  #     json.null!
+  #   end
+  # end
 
   json.set! :index do
     json.array! user.boards do |board|

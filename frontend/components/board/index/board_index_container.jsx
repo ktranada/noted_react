@@ -2,16 +2,15 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import BoardIndex from './board_index';
 
-import { setCurrentBoard } from '../../../actions/board_actions';
-import { asArray } from '../../../reducers/selectors';
+import { setCurrentBoardId } from '../../../actions/board_index_actions';
+// import { getCurrentBoard } from '../../../reducers/selectors';
 
 const mapStateToProps = ({ boards }) => ({
-  currentBoard: boards.currentBoard,
   boards: boards.index
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setCurrentBoard: board => dispatch(setCurrentBoard(board))
+  toggleBoard: (id) => dispatch(setCurrentBoardId(id))
 });
 
 
