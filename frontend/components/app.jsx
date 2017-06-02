@@ -1,18 +1,21 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
-import { AuthRoute, ProtectedRoute } from '../util/route_util';
+import { Switch, Redirect } from 'react-router-dom';
+import { AuthRoute, ProtectedRoute, ProtectedRedirectRoute } from '../util/route_util';
 import SessionFormContainer from './session/session_form_container';
+import Landing from './landing';
 
-const App = () => (
-  <div>
-    <Switch>
-      debugger
-      <AuthRoute path="/login" component={SessionFormContainer} />
-      <AuthRoute path="/signup" component={SessionFormContainer} />
-      <ProtectedRoute path="/" component={SessionFormContainer} />
-    </Switch>
-  </div>
-);
+const App = (props) => {
+  return (
+    <div>
+      <Switch>
+        <AuthRoute path="/login" component={SessionFormContainer} />
+        <AuthRoute path="/signup" component={SessionFormContainer} />
+        <ProtectedRoute path="/boards" component={Landing} />
+        <ProtectedRedirectRoute path="/" to="/boards" />
+      </Switch>
+    </div>
+  )
+}
 
 
 export default App;
