@@ -1,9 +1,29 @@
 @import "colors";
 .board-nav {
-  width: 250px;
+  padding: 20px;
+  min-width: 250px;
   background: $bluegrey-light;
   position: relative;
 
+  .board-actions {
+      > .board-actions__configuration {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          color: white;
+          font-size: 16px;
+      }
+
+      hr {
+        border-color: #263238;
+        margin: 20px -20px;
+      }
+  }
+
+
+  //======================
+  // Bottom
+  //======================
   .account-configuration {
     position: absolute;
     bottom: 0;
@@ -50,11 +70,12 @@
 
 
 .board-nav .board-actions-default {
+  pointer-events: none;
   span {
     font-size: 11px;
     font-weight: bold;
     color: white;
-    letter-spacing: .86px;
+    letter-spacing: 1px;
   }
 
   .board-actions-default__chat {
@@ -65,6 +86,10 @@
     }
     ul, li {
       margin-top: 7px;
+      color: white;
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 1px;
     }
 
     > ul li ul > li {
