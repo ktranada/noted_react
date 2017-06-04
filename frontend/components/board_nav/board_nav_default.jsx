@@ -1,6 +1,6 @@
 import React from 'react';
 
-const BoardActionsDefault = (props) => (
+const BoardNavDefault = (props) => (
   <div className="board-actions-default">
     <span>VIEW BOARD</span>
     <div className="board-actions-default__chat">
@@ -22,4 +22,4 @@ const BoardActionsDefault = (props) => (
     </div>
   </div>
 )
-export default BoardActionsDefault;
+export default BoardNavDefault;

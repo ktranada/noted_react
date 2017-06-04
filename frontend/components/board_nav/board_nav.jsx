@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import  Spinner  from '../../misc/spinner';
-import BoardActionsConfiguration from './board_actions_configuration';
+import Spinner from '../misc/spinner';
+import BoardConfiguration from './board_configuration';
 
 class BoardNav extends React.Component {
   render() {
@@ -9,10 +9,10 @@ class BoardNav extends React.Component {
       <div className="board-actions">
         <BoardConfiguration {...this.props.currentBoard} />
         <hr />
-        <Spinner />
       </div>
     )
   }
 }
+// <Spinner />
 
 export default BoardNav;

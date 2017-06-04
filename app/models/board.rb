@@ -13,7 +13,7 @@ class Board < ActiveRecord::Base
   validates :owner, :title, presence: true, allow_nil: false
 
   belongs_to :owner, class_name: "User", foreign_key: "user_id"
-  has_many :board_memberships, dependent: :destroy, inverse_of: :boards
+  has_many :board_memberships, dependent: :destroy, inverse_of: :board
   has_many :members, through: :board_memberships, source: :user
   has_many :lists
 
@@ -34,6 +34,6 @@ class Board < ActiveRecord::Base
   end
 
   def create_initial_membership
-    BoardMembership.create(user_id: user_id, board_id: id)
+    BoardMembership.create(user_id: user_id, board_id: id, username: self.user.email)
   end
 end

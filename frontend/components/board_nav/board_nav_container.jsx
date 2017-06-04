@@ -6,6 +6,7 @@ import { getCurrentBoard } from '../../reducers/selectors';
 const mapStateToProps = (state, { match }) => {
   const currentBoardId = match.params.boardId;
   return ({
+    conversations: state.conversations,
     currentBoard: getCurrentBoard(currentBoardId, state.boards.index),
   });
 }

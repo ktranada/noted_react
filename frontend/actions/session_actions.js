@@ -16,7 +16,7 @@ export const receiveErrors = errors => ({
 
 const parseSignInResponse = (promise, dispatch) => {
   promise.then(response => {
-                dispatch(setCurrentBoardId(response.boards.board.Id));
+                dispatch(setCurrentBoardId(response.boards.currentBoardId));
                 dispatch(addBoards(response.boards.index))
                 return response;
               }, err => dispatch(receiveErrors(err.responseJSON)))

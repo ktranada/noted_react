@@ -9,8 +9,12 @@
 # rake db:reset => rake db:drop db:create db:migrate db:seed
 
 user = User.create!(email: "kev@gmail.com", password: "123pass")
-board = user.boards.create!(title: "React")
-board2 = user.boards.create!(title: "Redux")
+board = Board.create!(title: "React", user_id: user.id)
+board2 = Board.create!(title: "Redux", user_id: user.id)
+
+BoardMembership.create!(board_id: board.id, user_id: user.id, username: "Test")
+BoardMembership.create!(board_id: board2.id, user_id: user.id, username: "T2")
+
 list = board.lists.create!(title: "Components")
 card_one = list.cards.create!(title: "Presentational vs. Container")
 names = %w{danny vicky julie}

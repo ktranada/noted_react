@@ -1,5 +1,3 @@
-import * as BoardsAPI from '../util/boards_api';
-
 export const FETCH_BOARDS = "FETCH_BOARDS";
 export const SET_CURRENT_BOARD_ID = "SET_CURRENT_BOARD_ID";
 export const ADD_BOARD = "ADD_BOARD";

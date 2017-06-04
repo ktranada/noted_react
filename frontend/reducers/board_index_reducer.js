@@ -14,13 +14,13 @@ const boardIndexReducer = (state = initialState, action) => {
       });
     case ADD_BOARD:
       return merge({}, state, {
-        currentBoardId: action.board,
+        currentBoardId: action.board.id,
         index: [...state.index, action.board]
       });
 
     case ADD_BOARDS:
       return merge({}, state, {
-        currentBoardId: action.boards[0],
+        currentBoardId: action.boards[0].id,
         index: [...state.index, ...action.boards]
       });
     default:

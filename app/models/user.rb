@@ -13,6 +13,7 @@
 class User < ActiveRecord::Base
   attr_reader :password
 
+  default_scope { order(:email)}
   after_initialize :ensure_session_token
 
   validates :email, :session_token, presence: true, uniqueness: true
