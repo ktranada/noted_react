@@ -11,5 +11,14 @@ module NotedApp
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+    #to skip assets, scaffolds.css, test framework, helpers, view
+    config.generators do |g|
+      g.template_engine nil #to skip views
+      g.test_framework  nil #to skip test framework
+      g.assets  false
+      g.helper false
+      g.stylesheets false
+    end
+
   end
 end
