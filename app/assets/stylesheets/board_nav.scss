@@ -1,6 +1,6 @@
 @import "colors";
 .board-nav {
-  width: 300px;
+  width: 250px;
   background: $bluegrey-light;
   position: relative;
 
@@ -15,11 +15,11 @@
     background: $bluegrey-medium;
 
     > .account-configuration__icon {
-      height: 50px;
-      width: 50px;
+      height: 40px;
+      width: 40px;
       text-align: center;
-      line-height: 50px;
-      font-size: 20px;
+      line-height: 40px;
+      font-size: 18px;
       background: $bluegrey-light;
       margin-right: 15px;
       border-radius: 50%;
@@ -30,11 +30,10 @@
 
     > .account-configuration__email {
       color: #EBEBEB;
-      width: 150px;
+      width: 115px;
       overflow-x: hidden;
       text-overflow: ellipsis;
       margin-right: 20px;
-      font-weight: bold;
       &:hover {
         cursor: default;
       }
@@ -47,4 +46,32 @@
       }
     }
    }
+}
+
+
+.board-nav .board-actions-default {
+  span {
+    font-size: 11px;
+    font-weight: bold;
+    color: white;
+    letter-spacing: .86px;
+  }
+
+  .board-actions-default__chat {
+    margin-top: 10px;
+    ul {
+      list-style: none;
+      margin-left: 15px;
+    }
+    ul, li {
+      margin-top: 7px;
+    }
+
+    > ul li ul > li {
+      height: 10px;
+      width: 75px;
+      border-radius: 15px;
+      background: #37474F;
+    }
+  }
 }
