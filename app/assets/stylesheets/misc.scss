@@ -2,10 +2,10 @@
 // Spinner
 //====================
 
-$offset: 190;
+$offset: 187;
 $duration: 1.4s;
 
-svg.spinner {
+.spinner {
   animation: rotator $duration linear infinite;
 }
 
@@ -14,7 +14,7 @@ svg.spinner {
   100% { transform: rotate(270deg); }
 }
 
-svg.spinner > circle.path {
+.path {
   stroke-dasharray: $offset;
   stroke-dashoffset: 0;
   transform-origin: center;
@@ -25,9 +25,9 @@ svg.spinner > circle.path {
 
 @keyframes colors {
   0% { stroke: #00897B; }
-	25% { stroke: #90A4AE; }
-	50% { stroke: #CFD8DC; }
-	75% { stroke: #9E9E9E; }
+  25% { stroke: #90A4AE; }
+  50% { stroke: #CFD8DC; }
+  75% { stroke: #9E9E9E; }
   100% { stroke: #ECEFF1; }
 }
 

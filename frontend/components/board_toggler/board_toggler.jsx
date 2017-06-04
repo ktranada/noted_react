@@ -1,7 +1,7 @@
 import React from 'react';
-import BoardIndexItem  from './board_index_item';
+import BoardTogglerTab  from './board_toggler_tab';
 
-class BoardIndex extends React.Component {
+class BoardToggler extends React.Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
@@ -10,11 +10,10 @@ class BoardIndex extends React.Component {
   handleClick(board) {
     return (e) => {
       e.preventDefault();
-      if (board.id === this.props.currentBoardId) {
+      if (board.id === this.props.match.params.boardId) {
         return;
       }
 
-      this.props.toggleBoard(board.id);
       this.props.history.push(`/boards/${board.id}`);
     }
   }
@@ -24,7 +23,7 @@ class BoardIndex extends React.Component {
     const matchBoardId = Number.parseInt(match.params.boardId);
     const boardsList = boards.map((board) => {
       let isCurrentBoard = matchBoardId === board.id;
-      return (<BoardIndexItem
+      return (<BoardTogglerTab
         isCurrentBoard={isCurrentBoard}
         onclick={this.handleClick(board)}
         key={board.id}
@@ -39,4 +38,4 @@ class BoardIndex extends React.Component {
   }
 }
 
-export default BoardIndex;
+export default BoardToggler;

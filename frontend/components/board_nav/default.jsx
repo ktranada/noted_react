@@ -6,13 +6,13 @@ const BoardActionsDefault = (props) => (
     <div className="board-actions-default__chat">
       <span>CHAT</span>
       <ul >
-        <li clasName="chat-group">CHANNELS
+        <li>CHANNELS
           <ul>
             <li></li>
             <li></li>
           </ul>
         </li>
-        <li className="chat-group">DIRECT MESSAGES
+        <li>DIRECT MESSAGES
           <ul>
             <li></li>
             <li></li>
