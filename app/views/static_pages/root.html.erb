@@ -2,8 +2,12 @@
 <script id="bootstrap-current-user" type="text/javascript">
   <% if logged_in? %>
   	window.currentUser = <%= render(
-      "api/users/bootstrapped.json.jbuilder",
+      "api/users/user.json.jbuilder",
   		user: current_user).html_safe %>
+
+    window.boards = <%= render(
+      "api/boards/boards.json.jbuilder",
+      boards: current_user.boards).html_safe %>
   <% end %>
 </script>
 

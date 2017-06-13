@@ -1,10 +1,10 @@
 order = []
 json.set! :byId do
-  @users.each do |user|
-    json.set! user.id do
-      json.extract! user, :id, :email
+  @memberships.each do |mbs|
+    json.set! mbs.user_id do
+      json.extract! mbs, :user_id, :username
     end
-    order << user.id
+    order << mbs.user_id
   end
 end
 

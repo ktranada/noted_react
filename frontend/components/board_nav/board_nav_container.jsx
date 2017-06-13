@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import BoardNav from './board_nav';
-import { getCurrentBoard } from '../../reducers/selectors';
+import { getCurrentBoardById } from '../../reducers/selectors';
 
 const mapStateToProps = (state, { match }) => {
   const currentBoardId = match.params.boardId;
   return ({
     conversations: state.conversations,
-    currentBoard: getCurrentBoard(currentBoardId, state.boards.index),
+    currentBoard: getCurrentBoardById(currentBoardId, state.boards),
   });
 }
 
