@@ -1,7 +1,7 @@
 export const FETCH_BOARDS = "FETCH_BOARDS";
 export const SET_CURRENT_BOARD_ID = "SET_CURRENT_BOARD_ID";
 export const ADD_BOARD = "ADD_BOARD";
-export const ADD_BOARDS = "ADD_BOARDS";
+export const RECEIVE_BOARDS = "RECEIVE_BOARDS";
 
 export const fetchBoards = () => dispatch => (
   BoardsAPI.fetchBoards()
@@ -18,7 +18,7 @@ export const addBoard = (board) => ({
   board
 });
 
-export const addBoards = boards => ({
-  type: ADD_BOARDS,
+export const receiveBoards = boards => ({
+  type: RECEIVE_BOARDS,
   boards
 });

@@ -1,5 +1,5 @@
 import merge from 'lodash/merge';
-import { SET_CURRENT_BOARD_ID, ADD_BOARD, ADD_BOARDS } from '../actions/board_toggler_actions';
+import { SET_CURRENT_BOARD_ID, ADD_BOARD, RECEIVE_BOARDS } from '../actions/board_toggler_actions';
 
 const initialState = {
   byId: null,
@@ -16,7 +16,7 @@ const boardsReducer = (state = initialState, action) => {
         order: [...state.order, action.board.id]
       });
 
-    case ADD_BOARDS:
+    case RECEIVE_BOARDS:
       return merge({}, state, {
         byId: action.boards.byId,
         order: action.boards.order

@@ -10,7 +10,7 @@ class BoardToggler extends React.Component {
   handleClick(board) {
     return (e) => {
       e.preventDefault();
-      if (board.id === this.props.match.params.boardId) {
+      if (board.id === Number.parseInt(this.props.match.params.boardId)) {
         return;
       }
 

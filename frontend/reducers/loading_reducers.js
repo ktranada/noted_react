@@ -1,4 +1,4 @@
-import { RECEIVE_CONVERSATIONS } from '../actions/board_navigation_actions';
+import { RECEIVE_CONVERSATIONS } from '../actions/board_nav_actions';
 
 const initialState = {
   loadingConversations: false,

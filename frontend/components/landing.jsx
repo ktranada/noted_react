@@ -1,25 +1,30 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { ProtectedRoute } from '../util/route_util';
-import BoardIndexContainer from './board/index/board_index_container';
-import BoardActionsContainer from './board/actions/board_actions_container';
-import BoardActionsDefault from './board/actions/board_actions_default.jsx';
+import BoardTogglerContainer from './board_toggler/board_toggler_container';
+import BoardNavContainer from './board_nav/board_nav_container';
+import BoardNavDefault from './board_nav/board_nav_default';
 import AccountConfigurationContainer from './account/account_configuration_container';
-// import BoardContentContainer from './board/board_content_container';
 
 const Landing = () => (
   <div className="landing-container">
-    <Switch>
-      <Route path="/boards/:boardId" component={BoardIndexContainer}/>
-      <Route path="/boards" component={BoardIndexContainer}/>
-    </Switch>
-
-    <section className="board-nav">
+    <section className="left-column">
       <Switch>
-        <Route path="/boards/:boardId" component={BoardActionsContainer} />
-        <Route component={BoardActionsDefault} />
+        <Route path="/boards/:boardId" component={BoardTogglerContainer}/>
+        <Route component={BoardTogglerContainer}/>
+      </Switch>
+    </section>
+
+    <section className="center-column">
+      <Switch>
+        <Route path="/boards/:boardId" component={BoardNavContainer} />
+        <Route component={BoardNavDefault} />
       </Switch>
       <AccountConfigurationContainer />
+    </section>
+
+    <section className="board-content">
+
     </section>
   </div>
 )

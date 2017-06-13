@@ -1,11 +1,9 @@
 order = []
 json.set! :byId do
   @conversations.each do |conversation|
-    json.set! conversation.id do
-      json.extract! conversation, :id, :title
-    end
+    json.partial! "api/conversations/conversation", conversation: conversation
     order << conversation.id
   end
 end
 
-json.set! :order, order
+json.order order
