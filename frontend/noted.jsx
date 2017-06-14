@@ -5,6 +5,7 @@ import ReactDOM from "react-dom";
 import configureStore from './store/store';
 import Root from './components/root';
 import {logout} from './actions/session_actions';
+import {createBoard} from './actions/board_toggler_actions';
 
 
 document.addEventListener('DOMContentLoaded', () => {

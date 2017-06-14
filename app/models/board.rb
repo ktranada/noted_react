@@ -7,6 +7,7 @@
 #  title      :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  ord        :integer          default("0"), not null
 #
 
 class Board < ActiveRecord::Base
@@ -19,21 +20,25 @@ class Board < ActiveRecord::Base
 
   has_many :conversations
 
-  # after_commit :create_initial_membership, on: :create
-  after_commit :create_general_channel, on: :create
+  before_create :set_ord
+  after_commit :create_general_conversation, on: :create
 
   def has_member?(user)
     self.members.include?(user)
   end
 
-  private
-
-  def create_general_channel
-    conversation = Conversation.create(board_id: id, title: "General", permission: :public)
-    Subscription.create(user_id: user_id, conversation_id: conversation.id)
+  def create_board_membership(user_id, username)
+    self.board_memberships.create!(user_id: user_id, username: username)
   end
 
-  # def create_initial_membership
-  #   BoardMembership.create(user_id: user_id, board_id: id, username: self.user.email)
-  # end
+  private
+
+  def create_general_conversation
+    conversation = Conversation.create(board_id: id, title: "General", permission: :public)
+  end
+
+  def set_ord
+    self.ord = Board.where(user_id: self.user_id).count
+  end
+
 end

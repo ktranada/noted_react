@@ -8,6 +8,11 @@ export const fetchBoards = () => dispatch => (
     .then(boards)
 )
 
+export const createBoard = board => dispatch => (
+  BoardsAPI.createBoard(board)
+    .then(board => dispatch(addBoard(board)))
+)
+
 export const setCurrentBoardId = currentBoardId => ({
   type: SET_CURRENT_BOARD_ID,
   currentBoardId

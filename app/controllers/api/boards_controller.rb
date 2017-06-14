@@ -1,8 +1,8 @@
 class Api::BoardsController < ApplicationController
   def create
-    @board = Board.new(board_params)
+    @board = Board.new(user_id: current_user.id, title: params[:title])
     if @board.save
-      BoardMembership.create!(board_id: @board.id, user_id: @board.user_id, username: params[:username])
+      @board.create_board_membership(current_user.id, params[:username])
       render :show
     else
       render json: @board.errors.full_messages, status: 422
@@ -15,7 +15,7 @@ class Api::BoardsController < ApplicationController
   private
 
   def board_params
-    params.require(:board).permit(:title, :user_id)
+    params.require(:board).permit(:title)
 
   end
 end
