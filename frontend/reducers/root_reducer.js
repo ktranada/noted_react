@@ -8,7 +8,7 @@ const rootReducer = combineReducers({
   session: sessionReducer,
   boards: boardsReducer,
   conversations: conversationsReducer,
-  modals: modalsReducer
+  currentModal: modalsReducer
 });
 
 

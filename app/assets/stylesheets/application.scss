@@ -21,13 +21,14 @@
   height: 100%;
   width: 100%;
   font-family: 'Roboto', sans-serif;
-  font-size: 17px;
+  font-size: 14px;
  }
 body {
   overflow-y: hidden;
+  font-size: 14px;
+  line-height: 1.4285em;
 }
 #root  {
-  font-size: 1rem;
   > div {
     height: 100%;
     width: 100%;
@@ -37,6 +38,7 @@ body {
 .landing-container {
   height: 100%;
   width: 100%;
+  position: relative;
 }
 
  * {

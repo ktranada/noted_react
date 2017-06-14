@@ -6,6 +6,8 @@ import BoardNavContainer from './board_nav/board_nav_container';
 import BoardNavDefault from './board_nav/board_nav_default';
 import AccountConfigurationContainer from './account/account_configuration_container';
 
+import ModalControllerContainer from './modal/modal_controller_container';
+
 const Landing = () => (
   <div className="landing-container">
     <section className="left-column">
@@ -24,8 +26,9 @@ const Landing = () => (
     </section>
 
     <section className="board-content">
-
     </section>
+
+    <ModalControllerContainer />
   </div>
 )
 
