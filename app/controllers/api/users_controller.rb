@@ -2,9 +2,7 @@ class Api::UsersController < ApplicationController
   skip_before_action :require_login!, only: [:create]
 
   def index
-    @memberships = BoardMembership.includes(:user).where(board_id: params[:board_id])
-    @users = @memberships.users
-
+      @memberships = BoardMembership.includes(:user).where(board_id: params[:board_id])
     render :index
   end
 

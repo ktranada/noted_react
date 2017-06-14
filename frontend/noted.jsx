@@ -26,5 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   window.logout = logout;
   window.store = store;
+
+  // if (process.env.NODE_ENV !== 'production') {
+  //   const {whyDidYouUpdate} = require('why-did-you-update')
+  //   whyDidYouUpdate(React)
+  // }
+
   ReactDOM.render(<Root store={store} />, rootEl);
 });

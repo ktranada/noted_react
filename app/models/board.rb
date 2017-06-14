@@ -19,7 +19,7 @@ class Board < ActiveRecord::Base
 
   has_many :conversations
 
-  after_commit :create_initial_membership, on: :create
+  # after_commit :create_initial_membership, on: :create
   after_commit :create_general_channel, on: :create
 
   def has_member?(user)
@@ -33,7 +33,7 @@ class Board < ActiveRecord::Base
     Subscription.create(user_id: user_id, conversation_id: conversation.id)
   end
 
-  def create_initial_membership
-    BoardMembership.create(user_id: user_id, board_id: id, username: self.user.email)
-  end
+  # def create_initial_membership
+  #   BoardMembership.create(user_id: user_id, board_id: id, username: self.user.email)
+  # end
 end
