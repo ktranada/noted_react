@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import BoardNav from './board_nav';
+import BoardNav from './BoardNav';
 import { getCurrentBoardById, asArray } from '../../reducers/selectors';
 import { requestConversations } from '../../actions/board_nav_actions';
 

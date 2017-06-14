@@ -1,12 +1,12 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { ProtectedRoute } from '../util/route_util';
-import BoardTogglerContainer from './board_toggler/board_toggler_container';
-import BoardNavContainer from './board_nav/board_nav_container';
-import BoardNavDefault from './board_nav/board_nav_default';
-import AccountConfigurationContainer from './account/account_configuration_container';
+import BoardTogglerContainer from './left_column/BoardTogglerContainer';
+import BoardNavContainer from './center_column/BoardNavContainer';
+import BoardNavDefault from './center_column/BoardNavDefault';
+import AccountConfigurationContainer from './center_column/bottom_section/AccountConfigurationContainer';
 
-import ModalControllerContainer from './modal/modal_controller_container';
+import ModalControllerContainer from './modal/ModalControllerContainer';
 
 const Landing = () => (
   <div className="landing-container">

@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import BoardNavChannels from './board_nav_channels';
+import BoardNavChannels from './BoardNavChannels';
 
 const BoardContentController = (props) => {
   const { conversations, currentBoard } = props;

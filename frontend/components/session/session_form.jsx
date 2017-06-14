@@ -1,10 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-  Input,
-  Button,
-  Divider
-} from 'semantic-ui-react'
 import merge from 'lodash/merge'
 
 class SessionForm extends React.Component {
@@ -96,9 +91,9 @@ class SessionForm extends React.Component {
               className="session-form__input"/>
 
 
-            <Button type="submit" className="session-form__button">{formContent.button}</Button>
+            <button type="submit" className="session-form__button">{formContent.button}</button>
 
-            <Divider />
+            <hr />
             <span className="session-form__link">{formContent.bottomText} &nbsp; <a onClick={this.changeForm(formContent.bottomActionTo)}>{formContent.bottomActionText}</a></span>
           </div>
       </form>

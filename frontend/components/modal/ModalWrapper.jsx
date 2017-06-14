@@ -18,9 +18,7 @@ class ModalWrapper extends React.Component {
       <div
         className="modal-wrapper"
         onClick={this.handleBackgroundClick}>
-        <div>
-          { this.props.children }
-        </div>
+        { this.props.children }
       </div>
     )
   }

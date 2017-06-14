@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route, Switch, NavLink } from 'react-router-dom';
-import Spinner from '../misc/spinner';
-import BoardConfiguration from './board_configuration';
-import BoardContentController from './board_content_controller';
+// import Spinner from '../misc/spinner';
+import BoardConfiguration from './top_section/BoardConfiguration';
+import BoardContentController from './middle_section/BoardContentController';
 
 class BoardNav extends React.Component {
   componentWillMount() {

@@ -1,10 +1,11 @@
 import React from 'react';
-import BoardTogglerTab  from './board_toggler_tab';
+import BoardTogglerTab  from './BoardTogglerTab';
 
 class BoardToggler extends React.Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
   }
 
   handleClick(board) {
@@ -16,6 +17,10 @@ class BoardToggler extends React.Component {
 
       this.props.history.push(`/boards/${board.id}`);
     }
+  }
+
+  toggleModal() {
+    this.props.toggleModal()
   }
 
   render() {
@@ -30,9 +35,19 @@ class BoardToggler extends React.Component {
         {...board } />
     )});
 
+    let boardFormButton = null;
+    if (boardsList.length < 3) {
+      boardFormButton = <BoardTogglerTab
+        onclick={this.toggleModal}
+        isButton={true}
+        key={-1}
+        />
+    }
+
     return (
       <ul className="board-toggle">
         {boardsList}
+        {boardFormButton}
       </ul>
     );
   }

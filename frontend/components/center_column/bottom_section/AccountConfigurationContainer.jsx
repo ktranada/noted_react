@@ -1,6 +1,6 @@
 import {connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import AccountConfiguration from './account_configuration';
+import AccountConfiguration from './AccountConfiguration';
 
 const mapStateToProps = ({session}) => ({
   currentUser: session.currentUser

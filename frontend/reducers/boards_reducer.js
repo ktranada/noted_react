@@ -3,7 +3,8 @@ import { SET_CURRENT_BOARD_ID, ADD_BOARD, RECEIVE_BOARDS } from '../actions/boar
 
 const initialState = {
   byId: null,
-  order: []
+  order: [],
+  errors: []
 };
 
 const boardsReducer = (state = initialState, action) => {
@@ -13,14 +14,20 @@ const boardsReducer = (state = initialState, action) => {
         byId: {
           [action.board.id]: action.board
         },
-        order: [...state.order, action.board.id]
+        order: [...state.order, action.board.id],
+        errors: []
       });
 
     case RECEIVE_BOARDS:
       return merge({}, state, {
         byId: action.boards.byId,
-        order: action.boards.order
+        order: action.boards.order,
+        errors: []
       });
+    // case RECEIVE_ERRORS:
+    //   return merge({}, state, {
+    //     errors: action.errors
+    //   })
     default:
       return state;
   }
