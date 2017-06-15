@@ -51,6 +51,16 @@ ActiveRecord::Schema.define(version: 20170604233802) do
     t.index ["list_id"], name: "index_cards_on_list_id", using: :btree
   end
 
+  create_table "channels", force: :cascade do |t|
+    t.integer  "board_id",               null: false
+    t.string   "title",                  null: false
+    t.integer  "permission", default: 0, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.index ["board_id"], name: "index_channels_on_board_id", using: :btree
+    t.index ["title"], name: "index_channels_on_title", using: :btree
+  end
+
   create_table "comments", force: :cascade do |t|
     t.integer  "user_id",     null: false
     t.integer  "card_id",     null: false
@@ -58,16 +68,6 @@ ActiveRecord::Schema.define(version: 20170604233802) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.index ["user_id", "card_id"], name: "index_comments_on_user_id_and_card_id", using: :btree
-  end
-
-  create_table "conversations", force: :cascade do |t|
-    t.integer  "board_id",               null: false
-    t.string   "title",                  null: false
-    t.integer  "permission", default: 0, null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.index ["board_id"], name: "index_conversations_on_board_id", using: :btree
-    t.index ["title"], name: "index_conversations_on_title", using: :btree
   end
 
   create_table "lists", force: :cascade do |t|
@@ -80,23 +80,23 @@ ActiveRecord::Schema.define(version: 20170604233802) do
   end
 
   create_table "messages", force: :cascade do |t|
-    t.integer  "author_id",                    null: false
-    t.integer  "conversation_id",              null: false
-    t.string   "socket_id",       default: "", null: false
-    t.text     "content",                      null: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.integer  "author_id",               null: false
+    t.integer  "channel_id",              null: false
+    t.string   "socket_id",  default: "", null: false
+    t.text     "content",                 null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
     t.index ["author_id"], name: "index_messages_on_author_id", using: :btree
-    t.index ["conversation_id"], name: "index_messages_on_conversation_id", using: :btree
+    t.index ["channel_id"], name: "index_messages_on_channel_id", using: :btree
   end
 
   create_table "subscriptions", force: :cascade do |t|
-    t.integer  "user_id",         null: false
-    t.integer  "conversation_id", null: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.index ["conversation_id", "user_id"], name: "index_subscriptions_on_conversation_id_and_user_id", unique: true, using: :btree
-    t.index ["conversation_id"], name: "index_subscriptions_on_conversation_id", using: :btree
+    t.integer  "user_id",    null: false
+    t.integer  "channel_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["channel_id", "user_id"], name: "index_subscriptions_on_channel_id_and_user_id", unique: true, using: :btree
+    t.index ["channel_id"], name: "index_subscriptions_on_channel_id", using: :btree
     t.index ["user_id"], name: "index_subscriptions_on_user_id", using: :btree
   end
 

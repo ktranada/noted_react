@@ -12,7 +12,7 @@ user = User.create!(email: "kev@gmail.com", password: "123pass")
 board = Board.create!(title: "React", user_id: user.id)
 board2 = Board.create!(title: "Redux", user_id: user.id)
 
-BoardMembership.create!(board_id: board.id, user_id: user.id, username: "Test")
+BoardMembership.create!(board_id: board.id, user_id: user.id, username: "Kevboard1")
 BoardMembership.create!(board_id: board2.id, user_id: user.id, username: "T2")
 
 list = board.lists.create!(title: "Components")

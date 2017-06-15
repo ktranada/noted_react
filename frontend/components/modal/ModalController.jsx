@@ -6,7 +6,7 @@ import AddBoardModalContainer from './add_board/AddBoardModalContainer';
 const ModalController = (props) => {
   switch (props.currentModal) {
     case ADD_BOARD_MODAL:
-      return <AddBoardModalContainer />
+      return <AddBoardModalContainer hideModal={props.hideModal}/>
     default:
       return null;
   }

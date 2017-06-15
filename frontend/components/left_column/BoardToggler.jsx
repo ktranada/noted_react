@@ -24,13 +24,14 @@ class BoardToggler extends React.Component {
   }
 
   render() {
+    console.log("boardtoggler")
     let { boards, match } = this.props;
     const matchBoardId = Number.parseInt(match.params.boardId);
     const boardsList = boards.map((board) => {
       let isCurrentBoard = matchBoardId === board.id;
       return (<BoardTogglerTab
         isCurrentBoard={isCurrentBoard}
-        onclick={this.handleClick(board)}
+        handleClick={this.handleClick(board)}
         key={board.id}
         {...board } />
     )});
@@ -38,7 +39,7 @@ class BoardToggler extends React.Component {
     let boardFormButton = null;
     if (boardsList.length < 3) {
       boardFormButton = <BoardTogglerTab
-        onclick={this.toggleModal}
+        handleClick={this.toggleModal}
         isButton={true}
         key={-1}
         />

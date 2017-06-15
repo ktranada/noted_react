@@ -6,7 +6,11 @@ const mapStateToProps = ({currentModal}) => ({
   currentModal
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  hideModal: () => dispatch(toggleModal(null))
+});
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(ModalController)

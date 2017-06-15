@@ -48,6 +48,7 @@ $input-width: 225px;
       padding: 5px 0;
       border-bottom: .5px solid;
       border-color: $primary-grey;
+      color: white;
 
       &:nth-of-type(2) {
         margin-bottom: 40px;
@@ -65,9 +66,13 @@ $input-width: 225px;
       margin: 0 auto;
     }
 
-    .divider {
+    hr {
       width: $input-width;
       margin: 20px 0;
+      height: 1px!important;
+      border-style: none;
+      content: " ";
+      background: gray;
     }
 
     .session-form__link {

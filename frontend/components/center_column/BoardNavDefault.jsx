@@ -12,7 +12,7 @@ const BoardNavDefault = (props) => (
             <li></li>
           </ul>
         </li>
-        <li>DIRECT MESSAGES
+        <li>MEMBERS
           <ul>
             <li></li>
             <li></li>

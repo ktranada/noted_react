@@ -2,7 +2,8 @@ order = []
 json.set! :byId do
   @memberships.each do |mbs|
     json.set! mbs.user_id do
-      json.extract! mbs, :user_id, :username
+      json.id mbs.user_id
+      json.username mbs.username
     end
     order << mbs.user_id
   end

@@ -8,31 +8,33 @@ import AccountConfigurationContainer from './center_column/bottom_section/Accoun
 
 import ModalControllerContainer from './modal/ModalControllerContainer';
 
-const Landing = () => (
-  <div className="landing-container">
-    <section className="left-column">
-      <Switch>
-        <Route path="/boards/:boardId" component={BoardTogglerContainer}/>
-        <Route component={BoardTogglerContainer}/>
-      </Switch>
-    </section>
+const Landing = () => {
+  return (
+    <div className="landing-container">
+      <section className="left-column">
+        <Switch>
+          <Route path="/boards/:boardId" component={BoardTogglerContainer}/>
+          <Route component={BoardTogglerContainer}/>
+        </Switch>
+      </section>
 
-    <section className="center-column">
-      <Switch>
-        <Route path="/boards/:boardId" component={BoardNavContainer} />
-        <Route component={BoardNavDefault} />
-      </Switch>
-      <AccountConfigurationContainer />
-    </section>
+      <section className="center-column">
+        <Switch>
+          <Route path="/boards/:boardId" component={BoardNavContainer} />
+          <Route component={BoardNavDefault} />
+        </Switch>
+        <AccountConfigurationContainer />
+      </section>
 
-    <section className="board-content">
-    </section>
+      <section className="board-content">
+        <Switch>
+        </Switch>
+      </section>
 
-    <ModalControllerContainer />
-  </div>
-)
-
-// <ModalContainer />
+      <ModalControllerContainer />
+    </div>
+  )
+}
 
 export default Landing;
 // <BoardContentContainer />

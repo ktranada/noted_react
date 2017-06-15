@@ -2,13 +2,15 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 const BoardNavChannels = (props) => {
-  const conversations = props.conversations.map(convo => (
-      <li key={convo.id}><NavLink to={`/messages/${convo.id}`}># {convo.title}</NavLink></li>
+  const channels = props.channels.map(channel => (
+      <li key={channel.id}>
+        <NavLink to={`/boards/${channel.board_id}/messages/${channel.id}`}># {channel.title}</NavLink>
+      </li>
     ));
   return (
     <ul className="board-nav__sub-category">
       <li>CHANNELS</li>
-      {conversations}
+      {channels}
     </ul>
   )
 }

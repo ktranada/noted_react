@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: conversations
+# Table name: channels
 #
 #  id         :integer          not null, primary key
 #  board_id   :integer          not null
@@ -10,13 +10,13 @@
 #  updated_at :datetime         not null
 #
 
-class Conversation < ActiveRecord::Base
+class Channel < ActiveRecord::Base
   enum permission: [:public, :private], _suffix: true
 
   validates :board, :title, :permission, presence: true
   belongs_to :board
 
-  has_many :subscriptions, inverse_of: :conversations, dependent: :destroy
+  has_many :subscriptions, inverse_of: :channels, dependent: :destroy
   has_many :participants, through: :subscriptions, source: :user
   has_many :messages, dependent: :destroy
 

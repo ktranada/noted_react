@@ -1,6 +1,6 @@
-class CreateConversations < ActiveRecord::Migration[5.0]
+class CreateChannels < ActiveRecord::Migration[5.0]
   def change
-    create_table :conversations do |t|
+    create_table :channels do |t|
       t.integer :board_id, null: false
       t.string :title, null: false
       t.integer :permission, null: false, default: 0
@@ -8,7 +8,7 @@ class CreateConversations < ActiveRecord::Migration[5.0]
       t.timestamps
     end
 
-    add_index :conversations, :title
-    add_index :conversations, :board_id
+    add_index :channels, :title
+    add_index :channels, :board_id
   end
 end

@@ -1,4 +1,6 @@
 @import "colors";
+
+$margin-left-subcategory: 30px;
 .center-column {
   padding: 20px;
   min-width: 250px;
@@ -122,7 +124,16 @@
       font-weight: bold;
       font-size: 12px;
 
-      &:nth-of-type(2) {
+      &.members {
+        > ul {
+          margin-left: $margin-left-subcategory;
+          > li {
+            margin-top: 5px;
+            font-weight: 100;
+          }
+        }
+      }
+      &:not(:first-of-type) {
         margin-top: 15px;
       }
 
@@ -138,7 +149,7 @@
 
 
       > .board-nav__sub-category {
-        margin-left: 30px;
+        margin-left: $margin-left-subcategory;
         margin-top: 10px;
 
         >li:not(:first-of-type) {

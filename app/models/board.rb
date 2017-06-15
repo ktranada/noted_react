@@ -18,10 +18,10 @@ class Board < ActiveRecord::Base
   has_many :members, through: :board_memberships, source: :user
   has_many :lists
 
-  has_many :conversations
+  has_many :channels
 
   before_create :set_ord
-  after_commit :create_general_conversation, on: :create
+  after_commit :create_general_channel, on: :create
 
   def has_member?(user)
     self.members.include?(user)
@@ -33,8 +33,8 @@ class Board < ActiveRecord::Base
 
   private
 
-  def create_general_conversation
-    conversation = Conversation.create(board_id: id, title: "General", permission: :public)
+  def create_general_channel
+    channel = Channel.create(board_id: id, title: "General", permission: :public)
   end
 
   def set_ord

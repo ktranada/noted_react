@@ -11,6 +11,8 @@
 #
 
 class BoardMembership < ActiveRecord::Base
+  default_scope { order(:username) }
+  
   validates :user_id, :board_id, :username, presence: true
   validates :username, uniqueness: { scope: :board_id,
     message: "Username has been taken" }
@@ -18,13 +20,13 @@ class BoardMembership < ActiveRecord::Base
   belongs_to :user
   belongs_to :board, inverse_of: :board_memberships
 
-  after_commit :subscribe_to_general_conversation, on: :create
+  after_commit :subscribe_to_general_channel, on: :create
 
-  def subscribe_to_general_conversation
-    general_conversation = board.conversations.where(title: "General")[0]
+  def subscribe_to_general_channel
+    channel = board.channels.where(title: "General")[0]
     Subscription.create(
       user_id: user.id,
-      conversation_id: general_conversation.id
+      channel_id: channel.id
     )
   end
 end

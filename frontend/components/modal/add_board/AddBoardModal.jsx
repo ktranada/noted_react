@@ -1,5 +1,8 @@
 import React from 'react';
 import ModalWrapperContainer from '../ModalWrapperContainer';
+import InitialContent from './InitialContent';
+import CreateBoardContent from './CreateBoardContent';
+
 
 class AddBoardModal extends React.Component {
   constructor(props) {
@@ -8,22 +11,39 @@ class AddBoardModal extends React.Component {
     this.state = {
       type: ''
     }
+
+    this.addBoard = this.addBoard.bind(this);
+    this.handleBoardSelection = this.handleBoardSelection.bind(this);
+  }
+
+  addBoard(board) {
+    this.props.addBoard(board).then((board) => {
+      this.props.hideModal();
+      this.props.history.push(`/boards/${board.id}`);
+    });
+
+  }
+
+  handleBoardSelection(type) {
+    return (e) => {
+      e.preventDefault();
+      this.setState({
+        type: type
+      });
+    }
   }
 
   render() {
+    const { type } = this.state;
     return (
       <ModalWrapperContainer>
-        <div className="board-form-initial">
-          <div className="board-form-initial__create">
-            <p>Just getting started? Create a board and gather your thoughts.</p>
-            <button type="button" className="">Create a Board</button>
-          </div>
-
-          <div className="board-form-initial__join">
-            <p>Receive a board invite? Enter the code and start collaborating.</p>
-            <button type="button" className="">Join a Board</button>
-          </div>
-        </div>
+        { type === 'create'
+            ? <CreateBoardContent
+                handleBackClick={this.handleBoardSelection('')}
+                createBoard={this.addBoard} />
+            : (type === 'join')
+              ? null
+              : <InitialContent handleBoardSelection={this.handleBoardSelection}/>}
       </ModalWrapperContainer>
     )
   }

@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
   has_many :board_memberships, dependent: :destroy, inverse_of: :user
 
   has_many :subscriptions, dependent: :destroy
-  has_many :conversations, through: :subscriptions
+  has_many :subscribed_channels, through: :subscriptions, source: :channel
   has_many :messages, dependent: :destroy
 
   def current_board

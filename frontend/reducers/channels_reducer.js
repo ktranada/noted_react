@@ -1,18 +1,20 @@
+import merge from 'lodash/merge';
 import { RECEIVE_CHANNELS } from '../actions/board_nav_actions';
 
 const initialState = {
-  loadingChannels: false,
-  loadingContent: false
+  byId: {},
+  order: []
 }
 
-export default (state = initialState, action) => {
+const channelsReducer = (state = initialState, action) => {
   Object.freeze(state);
   switch (action.type) {
     case RECEIVE_CHANNELS:
-      return Object.assign({}, state, {
-        loadingChannels: false
-      });
+      return merge({}, initialState, action.channels);
     default:
       return state;
   }
 }
+
+
+export default channelsReducer;

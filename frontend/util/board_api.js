@@ -1,3 +1,10 @@
+export const requestBoard = boardId => (
+  $.ajax({
+    method: "GET",
+    url: `/api/boards/${boardId}`
+  })
+)
+
 export const requestBoardMembers = boardId => (
   $.ajax({
     method: "GET",
@@ -5,10 +12,10 @@ export const requestBoardMembers = boardId => (
   })
 );
 
-export const requestConversations = (boardId) => (
+export const requestChannels = (boardId) => (
   $.ajax({
     method: "GET",
-    url: `/api/boards/${boardId}/conversations`
+    url: `/api/boards/${boardId}/channels`
   })
 );
 

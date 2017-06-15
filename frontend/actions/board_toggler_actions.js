@@ -1,3 +1,5 @@
+import * as BoardsAPI from '../util/board_api';
+
 export const FETCH_BOARDS = "FETCH_BOARDS";
 export const SET_CURRENT_BOARD_ID = "SET_CURRENT_BOARD_ID";
 export const ADD_BOARD = "ADD_BOARD";
@@ -10,7 +12,10 @@ export const fetchBoards = () => dispatch => (
 
 export const createBoard = board => dispatch => (
   BoardsAPI.createBoard(board)
-    .then(board => dispatch(addBoard(board)))
+    .then(board => {
+      dispatch(addBoard(board));
+      return board;
+    })
 )
 
 export const setCurrentBoardId = currentBoardId => ({

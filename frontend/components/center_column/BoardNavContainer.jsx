@@ -1,23 +1,25 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import BoardNav from './BoardNav';
-import { getCurrentBoardById, asArray } from '../../reducers/selectors';
-import { requestConversations } from '../../actions/board_nav_actions';
+import { getCurrentBoardById, asArrayByOrder } from '../../reducers/selectors';
+import { requestChannels, requestBoardMembers } from '../../actions/board_nav_actions';
 
 const mapStateToProps = (state, { match }) => {
   const currentBoardId = match.params.boardId;
   return ({
-    conversations: asArray(state.conversations.byId),
+    channels: asArrayByOrder(state.channels),
+    members: asArrayByOrder(state.members),
     currentBoard: getCurrentBoardById(currentBoardId, state.boards),
   });
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  requestConversations: boardId => dispatch(requestConversations(boardId))
+  requestChannels: boardId => requestChannels(boardId)(dispatch),
+  requestBoardMembers: boardId => requestBoardMembers(boardId)(dispatch)
 })
 
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(BoardNav));
+)(BoardNav);

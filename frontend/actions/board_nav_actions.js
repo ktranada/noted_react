@@ -1,32 +1,31 @@
 import * as BoardAPI from '../util/board_api';
 
-export const RECEIVE_CONVERSATIONS = "RECEIVE_CONVERSATIONS";
+export const RECEIVE_CHANNELS = "RECEIVE_CHANNELS";
 export const RECEIVE_BOARD_MEMBERS = "RECEIVE_BOARD_MEMBERS";
 export const SET_CURRENT_VIEW = "SET_CURRENT_VIEW";
-export const START_LOADING_CONVERSATIONS = "START_LOADING_CONVERSATIONS";
+export const START_LOADING_CHANNELS = "START_LOADING_CHANNELS";
 export const START_LOADING_MEMBERS = "START_LOADING_MEMBERS";
 
-
-export const requestConversations = boardId => dispatch => {
-  // dispatch(startLoadingConversations());
-  return BoardAPI.requestConversations(boardId)
-    .then(conversations => dispatch(receiveConversations(conversations)))
+export const requestChannels = boardId => dispatch => {
+  // dispatch(startLoadingChannels());
+  return BoardAPI.requestChannels(boardId)
+    .then(channels => dispatch(receiveChannels(channels)))
 }
 
 export const requestBoardMembers = boardId => dispatch => {
-  dispatch(startLoadingMembers());
-  return BoardAPI.requestBoardMembers()
+  // dispatch(startLoadingMembers());
+  return BoardAPI.requestBoardMembers(boardId)
     .then(boardMembers => dispatch(receiveBoardMembers(boardMembers)));
 }
 
-export const receiveBoardMembers = boardMembers => ({
+export const receiveBoardMembers = members => ({
   type: RECEIVE_BOARD_MEMBERS,
-  boardMembers
+  members
 });
 
-export const receiveConversations = conversations => ({
-  type: RECEIVE_CONVERSATIONS,
-  conversations
+export const receiveChannels = channels => ({
+  type: RECEIVE_CHANNELS,
+  channels
 });
 
 export const setCurrentView = (view) => ({
@@ -34,8 +33,8 @@ export const setCurrentView = (view) => ({
   view
 });
 
-export const startLoadingConversations = () => ({
-  type: START_LOADING_CONVERSATIONS
+export const startLoadingChannels = () => ({
+  type: START_LOADING_CHANNELS
 });
 
 export const startLoadingMembers = () => ({

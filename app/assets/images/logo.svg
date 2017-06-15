@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="489px" height="348px" viewBox="0 0 489 348" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <title>Logo</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Assets" transform="translate(-410.000000, -212.000000)">
+            <g id="Logo" transform="translate(410.000000, 212.000000)">
+                <rect id="Rectangle-3" fill-opacity="0.6" fill="#455A64" opacity="0.699999988" transform="translate(173.432692, 174.108108) rotate(45.000000) translate(-173.432692, -174.108108) " x="50.9326923" y="51.6081081" width="245" height="245"></rect>
+                <rect id="Rectangle-3-Copy-2" fill-opacity="0.6" fill="#455A64" opacity="0.699999988" transform="translate(315.067308, 174.108108) rotate(45.000000) translate(-315.067308, -174.108108) " x="192.567308" y="51.6081081" width="245" height="245"></rect>
+                <rect id="Rectangle-3-Copy" fill-opacity="0.8" fill="#455A64" opacity="0.899999976" transform="translate(244.250000, 174.108108) rotate(45.000000) translate(-244.250000, -174.108108) " x="121.75" y="51.6081081" width="245" height="245"></rect>
+                <text id="N" font-family="BrandonGrotesque-Bold, Brandon Grotesque" font-size="64" font-weight="bold" letter-spacing="6.39999866" fill="#FFFFFF">
+                    <tspan x="218.370192" y="195.635135">N</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

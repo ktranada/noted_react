@@ -1,13 +1,15 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import AddBoardModal from './AddBoardModal';
 import { createBoard } from '../../../actions/board_toggler_actions.js';
 
-const mapDispatchToProps = (dispatch) => ({
-  addBoard: board => dispatch(createBoard(board))
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  addBoard: board => createBoard(board)(dispatch),
+  hideModal: () => ownProps.hideModal()
 });
 
 
-export default connect(
+export default withRouter(connect(
   null,
   mapDispatchToProps
-)(AddBoardModal)
+)(AddBoardModal));
