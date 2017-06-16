@@ -1,6 +1,22 @@
+@import 'variables';
+
 input {
   background: none;
   border: none;
   outline: none;
   font-size: 14px;
+}
+
+textarea {
+  outline: none;
+  resize: vertical;
+  border: 1px solid transparent;
+  font-size: 12px;
+  padding: 5px;
+  border-radius: 1px;
+  width: 100%;
+
+  &.error {
+    border: 1px solid $primary-red;
+  }
 }

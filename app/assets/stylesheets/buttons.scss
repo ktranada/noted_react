@@ -43,8 +43,12 @@ button {
     background: $primary-green;
   }
 
-  &.button-bluegrey-light, &.button-green {
+  &.button-bluegrey-light, &.button-green, &.button-red {
     color: white;
+  }
+
+  &.button-red {
+    background: $primary-red;
   }
 
 

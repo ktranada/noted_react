@@ -24,15 +24,15 @@ const BoardContentController = (props) => {
 
 BoardContentController.propTypes = {
   channels: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.required,
-    board_id: PropTypes.number.required,
-    title: PropTypes.string.required,
-    permission: PropTypes.string.required
+    id: PropTypes.number.isRequired,
+    board_id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    permission: PropTypes.string.isRequired
   })),
   members: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.required,
-    user_id: PropTypes.number.required,
-    username: PropTypes.string.required
+    id: PropTypes.number.isRequired,
+    user_id: PropTypes.number.isRequired,
+    username: PropTypes.string.isRequired
   }))
 }
 

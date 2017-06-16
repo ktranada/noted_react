@@ -10,10 +10,12 @@ class Api::BoardsController < ApplicationController
 
 
   def create
-    @board = Board.new(user_id: current_user.id, title: params[:title])
+    @board = Board.new(board_params)
+    @board.user_id = current_user.id
+
     if @board.save
-      @board.create_board_membership(current_user.id, params[:username])
-      render :show
+      @board.create_board_membership(current_user.id, params[:board][:username])
+      render :create
     else
       render json: @board.errors.full_messages, status: 422
     end

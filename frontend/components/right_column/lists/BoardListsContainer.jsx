@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { asArrayByOrder, getCurrentBoardById } from '../../../reducers/selectors';
+import { createList } from '../../../actions/board_content_actions';
 import BoardLists from './BoardLists';
 
 const mapStateToProps = ({ lists, cards, boards}, { match }) => {
@@ -17,6 +18,11 @@ const mapStateToProps = ({ lists, cards, boards}, { match }) => {
   })
 }
 
+const mapDispatchToProps = dispatch => ({
+  createList: list =>  createList(list)(dispatch)
+})
+
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(BoardLists)

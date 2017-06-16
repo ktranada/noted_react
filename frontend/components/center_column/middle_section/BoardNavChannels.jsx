@@ -18,10 +18,10 @@ const BoardNavChannels = (props) => {
 
 BoardNavChannels.propTypes = {
   channels: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.required,
-    board_id: PropTypes.number.required,
-    title: PropTypes.string.required,
-    permission: PropTypes.string.required
+    id: PropTypes.number.isRequired,
+    board_id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    permission: PropTypes.string.isRequired
   })),
 }
 

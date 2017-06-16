@@ -1,29 +1,38 @@
 export const requestBoard = boardId => (
   $.ajax({
-    method: "GET",
+    method: 'GET',
     url: `/api/boards/${boardId}`
   })
 )
 
 export const requestBoardMembers = boardId => (
   $.ajax({
-    method: "GET",
+    method: 'GET',
     url: `/api/boards/${boardId}/users`
   })
 );
 
 export const requestChannels = (boardId) => (
   $.ajax({
-    method: "GET",
+    method: 'GET',
     url: `/api/boards/${boardId}/channels`
   })
 );
 
-
-export const createBoard = data => (
+const create = (resource, data) => (
   $.ajax({
     method: 'POST',
-    url: '/api/boards',
-    data
+    url: `/api/${resource}s`,
+    data: {
+      [resource]: data  
+    }
   })
+)
+
+export const createBoard = data => (
+  create('board', data)
+)
+
+export const createList = data => (
+  create('list', data)
 )
