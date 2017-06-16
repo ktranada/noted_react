@@ -8,7 +8,7 @@ import {
 } from '../actions/board_toggler_actions';
 
 const initialState = {
-  byId: null,
+  byId: {},
   order: [],
   errors: []
 };

@@ -1,15 +1,15 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import BoardNav from './BoardNav';
-import { getCurrentBoardById, asArrayByBoardOrder, isLoadingByType } from '../../reducers/selectors';
+import { getCurrentBoardById, asArrayByOrder, isLoadingByType } from '../../reducers/selectors';
 import { requestChannels, requestBoardMembers } from '../../actions/board_nav_actions';
 import { toggleModal } from '../../actions/modal_actions';
 
 const mapStateToProps = ({ boards, channels, members, loading }, { match }) => {
   const currentBoard = getCurrentBoardById(match.params.boardId, boards) || {}
   return ({
-    channels: asArrayByBoardOrder(channels, currentBoard.channels),
-    members: asArrayByBoardOrder(members, currentBoard.members),
+    channels: asArrayByOrder(channels, currentBoard.channels),
+    members: asArrayByOrder(members, currentBoard.members),
     isLoading: isLoadingByType(loading, currentBoard.id, "loadingBoard"),
     currentBoard
   });

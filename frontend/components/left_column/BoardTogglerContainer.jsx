@@ -8,7 +8,7 @@ import { toggleModal, ADD_BOARD } from '../../actions/modal_actions';
 
 const mapStateToProps = ({ boards }, {match}) => {
   return ({
-    boards: asArrayByOrder(boards),
+    boards: asArrayByOrder(boards, boards.order),
     currentBoard: getCurrentBoardById(match.params.boardId, boards)
   })
 };
