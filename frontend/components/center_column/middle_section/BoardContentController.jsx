@@ -13,12 +13,28 @@ const BoardContentController = (props) => {
       <li className="board-nav__category"><span><i className="material-icons">&#xE0B7;</i>CHAT</span>
         <BoardNavChannels channels={channels} />
       </li>
-      <li className="board-nav__category members"><span><i className="material-icons">&#xE7FB;</i>MEMBERS</span>
-        <BoardMembers members={members} />
-      </li>
+
+      { members.length > 0 &&
+        <li className="board-nav__category members"><span><i className="material-icons">&#xE7FB;</i>MEMBERS</span>
+          <BoardMembers members={members} />
+        </li>
+      }
+
     </ul>
   )
 }
 
+BoardContentController.propTypes = {
+  channels: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.required,
+    board_id: PropTypes.number.required,
+    title: PropTypes.string.required,
+    permission: PropTypes.string.required
+  })),
+  members: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.required,
+    username: PropTypes.string.required
+  }))
+}
 
 export default BoardContentController;

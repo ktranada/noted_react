@@ -4,7 +4,7 @@ import BoardToggler from './BoardToggler';
 import { asArrayByOrder } from '../../reducers/selectors';
 
 import { setCurrentBoardId } from '../../actions/board_toggler_actions';
-import { toggleModal, ADD_BOARD_MODAL } from '../../actions/modal_actions';
+import { toggleModal, ADD_BOARD } from '../../actions/modal_actions';
 
 const mapStateToProps = ({ boards }) => {
   return ({
@@ -13,7 +13,7 @@ const mapStateToProps = ({ boards }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  toggleModal: () => dispatch(toggleModal(ADD_BOARD_MODAL))
+  toggleModal: () => dispatch(toggleModal(ADD_BOARD))
 })
 
 export default connect(

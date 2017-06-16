@@ -7,6 +7,8 @@ import BoardContentController from './middle_section/BoardContentController';
 class BoardNav extends React.Component {
   constructor(props) {
     super(props);
+
+    this.handleInviteButton = this.handleInviteButton.bind(this);
   }
   componentWillMount() {
     if (!this.props.currentBoard) {
@@ -27,12 +29,30 @@ class BoardNav extends React.Component {
     }
   }
 
+  handleInviteButton() {
+    this.props.toggleModal("ADD_BOARD");
+  }
+
   render() {
-    console.log('boardnav')
+    let inviteButton = null;
+
+    if (this.props.members.length === 0) {
+      inviteButton = (
+        <div className="initial-invite-display">
+          <button
+            type="button"
+            onClick={this.handleInviteButton}
+            className="button button-green"
+          ><i className="material-icons">&#xE7FB;</i>Invite People</button><i className="material-icons">&#xE14C;</i></div>
+      )
+    }
+
     return (
       <div>
         <BoardConfiguration {...this.props.currentBoard} />
         <hr />
+        { inviteButton }
+        { inviteButton && <hr />}
         <BoardContentController
           members={this.props.members}
           channels={this.props.channels}

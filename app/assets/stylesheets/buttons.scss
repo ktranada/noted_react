@@ -1,4 +1,4 @@
-@import 'colors';
+@import "variables";
 
 button {
   cursor: pointer;
@@ -53,5 +53,12 @@ button {
     opacity: 1;
     -webkit-box-shadow: 0 0 0 1px transparent inset, 0 0 0 0 rgba(34,36,38,.15) inset;
             box-shadow: 0 0 0 1px transparent inset, 0 0 0 0 rgba(34,36,38,.15) inset;
+  }
+
+  .material-icons {
+    font-size: 12px;
+    display: inline-block;
+    float: left;
+    margin-right: 5px;
   }
 }

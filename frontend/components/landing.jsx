@@ -5,8 +5,10 @@ import BoardTogglerContainer from './left_column/BoardTogglerContainer';
 import BoardNavContainer from './center_column/BoardNavContainer';
 import BoardNavDefault from './center_column/BoardNavDefault';
 import AccountConfigurationContainer from './center_column/bottom_section/AccountConfigurationContainer';
-
 import ModalControllerContainer from './modal/ModalControllerContainer';
+
+import BoardContentNavContainer from './right_column/BoardContentNavContainer';
+import BoardContentDefaultContainer from './right_column/BoardContentDefaultContainer';
 
 const Landing = () => {
   return (
@@ -26,8 +28,10 @@ const Landing = () => {
         <AccountConfigurationContainer />
       </section>
 
-      <section className="board-content">
+      <section className="right-column">
         <Switch>
+          <Route path="/boards/:boardId" component={BoardContentNavContainer} />
+          <Route component={BoardContentDefaultContainer} />
         </Switch>
       </section>
 
@@ -35,6 +39,9 @@ const Landing = () => {
     </div>
   )
 }
-
+// <Switch>
+//   <Route
+//     path="/boards/:boardId/messages/:channelId"
+//     component={BoardMessagesContainer} />
 export default Landing;
-// <BoardContentContainer />
+// <BoardContentDefaultContainer />

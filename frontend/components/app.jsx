@@ -7,9 +7,9 @@ import Landing from './landing';
 const App = () => {
   return (
     <div>
-      <AuthRoute path="/login" component={SessionFormContainer} />
-      <AuthRoute path="/signup" component={SessionFormContainer} />
       <Switch>
+        <AuthRoute path="/login" component={SessionFormContainer} />
+        <AuthRoute path="/signup" component={SessionFormContainer} />
         <ProtectedRoute path="/boards" component={Landing} />
         <Redirect to="/boards" />
       </Switch>

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const BoardMembers = props => {
   const members = props.members.map(member =>(
@@ -9,6 +10,13 @@ const BoardMembers = props => {
       {members}
     </ul>
   )
+}
+
+BoardMembers.propTypes = {
+  members: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.required,
+    username: PropTypes.string.required
+  }))
 }
 
 export default BoardMembers;

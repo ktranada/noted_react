@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
 const BoardNavChannels = (props) => {
@@ -15,5 +16,13 @@ const BoardNavChannels = (props) => {
   )
 }
 
+BoardNavChannels.propTypes = {
+  channels: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.required,
+    board_id: PropTypes.number.required,
+    title: PropTypes.string.required,
+    permission: PropTypes.string.required
+  })),
+}
 
 export default BoardNavChannels;

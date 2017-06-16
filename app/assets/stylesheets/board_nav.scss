@@ -1,4 +1,4 @@
-@import "colors";
+@import "variables";
 
 $margin-left-subcategory: 30px;
 .center-column {
@@ -109,6 +109,18 @@ $margin-left-subcategory: 30px;
 .center-column {
   ul {
     list-style: none;
+  }
+
+  .initial-invite-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    i {
+      color: white;
+      &:hover {
+        cursor: pointer;
+      }
+    }
   }
   .board-nav {
 
