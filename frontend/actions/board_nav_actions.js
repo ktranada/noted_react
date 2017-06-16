@@ -1,6 +1,7 @@
 import * as BoardAPI from '../util/board_api';
 
 export const RECEIVE_CHANNELS = "RECEIVE_CHANNELS";
+export const RECEIVE_ERRORS = "RECEIVE_ERRORS";
 export const RECEIVE_BOARD_MEMBERS = "RECEIVE_BOARD_MEMBERS";
 export const SET_CURRENT_VIEW = "SET_CURRENT_VIEW";
 export const START_LOADING_CHANNELS = "START_LOADING_CHANNELS";
@@ -9,7 +10,8 @@ export const START_LOADING_MEMBERS = "START_LOADING_MEMBERS";
 export const requestChannels = boardId => dispatch => {
   // dispatch(startLoadingChannels());
   return BoardAPI.requestChannels(boardId)
-    .then(channels => dispatch(receiveChannels(channels)))
+    .then(channels => dispatch(receiveChannels(channels)),
+          err => dispatch(receiveErrors(err.responseJSON)));
 }
 
 export const requestBoardMembers = boardId => dispatch => {
@@ -40,3 +42,8 @@ export const startLoadingChannels = () => ({
 export const startLoadingMembers = () => ({
   type: START_LOADING_MEMBERS
 });
+
+export const receiveErrors = errors => ({
+  type: RECEIVE_ERRORS,
+  errors
+})

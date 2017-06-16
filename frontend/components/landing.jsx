@@ -39,6 +39,8 @@ const Landing = () => {
     </div>
   )
 }
+// <Route path="/boards/:boardId/lists" component={BoardListsContainer} />
+
 // <Switch>
 //   <Route
 //     path="/boards/:boardId/messages/:channelId"

@@ -9,7 +9,7 @@ const AccountConfiguration = (props) => {
         {email[0].toUpperCase()}
       </div>
       <span className="account-configuration__email">{email}</span>
-      <i className="material-icons">&#xE8B8;</i>
+      <i role="button" className="material-icons">&#xE8B8;</i>
     </div>
   )
 };

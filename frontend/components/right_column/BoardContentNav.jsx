@@ -23,7 +23,7 @@ class BoardContentNav extends React.Component {
             <p><b>View the board</b> to start creating lists and organizing thoughts.</p>
             <Link to={`/boards/${match.params.boardId}/lists`}>
               <button type="button" className="button button-bluegrey-light">
-                <i className="material-icons">&#xE3EC;</i> View Board
+                <i aria-hidden className="material-icons">&#xE3EC;</i> View Board
               </button>
             </Link>
           </div>
@@ -34,7 +34,7 @@ class BoardContentNav extends React.Component {
               type="button"
               className="button button-bluegrey-light"
               onClick={this.toggleInviteModal}>
-                <i className="material-icons">&#xE7FB;</i> Invite People
+                <i aria-hidden className="material-icons">&#xE7FB;</i> Invite People
             </button>
           </div>
         </div>
@@ -42,11 +42,6 @@ class BoardContentNav extends React.Component {
 
     )
   }
-}
-
-BoardContentNav.propTypes = {
-  toggleInviteModal: PropTypes.func.required,
-  match: PropTypes.func.required
 }
 
 export default BoardContentNav;

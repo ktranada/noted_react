@@ -7,7 +7,7 @@ const BoardTogglerTab = props => {
   if (isButton) {
     return (
       <li className="board-toggle__button">
-        <div onClick={handleClick}>
+        <div role="button" onClick={handleClick}>
           <i className="material-icons">&#xE145;</i>
         </div>
       </li>
@@ -16,7 +16,7 @@ const BoardTogglerTab = props => {
 
   return (
     <li className={`board-toggle__tab ${isCurrentBoard ? "active" : ""}`}>
-      <div onClick={handleClick}>
+      <div role="button" onClick={handleClick}>
         {title[0].toUpperCase()}
       </div>
     </li>

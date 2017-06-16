@@ -1,8 +1,8 @@
 import React from 'react';
-import { Route, Switch, NavLink } from 'react-router-dom';
-// import Spinner from '../misc/spinner';
+import PropTypes from 'prop-types';
 import BoardConfiguration from './top_section/BoardConfiguration';
 import BoardContentController from './middle_section/BoardContentController';
+import BoardNavDefault from './BoardNavDefault';
 
 class BoardNav extends React.Component {
   constructor(props) {
@@ -15,17 +15,12 @@ class BoardNav extends React.Component {
       this.props.history.push('/boards');
       return;
     }
-    this.props.requestChannels(this.props.currentBoard.id);
   }
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.currentBoard) {
       this.props.history.push('/boards');
       return;
-    }
-
-    if (nextProps.currentBoard.id !== this.props.currentBoard.id) {
-      this.props.requestChannels(nextProps.currentBoard.id);
     }
   }
 
@@ -34,33 +29,51 @@ class BoardNav extends React.Component {
   }
 
   render() {
-    let inviteButton = null;
+    if (this.props.isLoading) {
+      return <BoardNavDefault isLoading={true}/>;
+    }
 
-    if (this.props.members.length === 0) {
+    let inviteButton = null;
+    const { currentBoard, members, channels } = this.props;
+
+    if (currentBoard.isLoaded && members.length === 0) {
       inviteButton = (
         <div className="initial-invite-display">
           <button
             type="button"
             onClick={this.handleInviteButton}
-            className="button button-green"
-          ><i className="material-icons">&#xE7FB;</i>Invite People</button><i className="material-icons">&#xE14C;</i></div>
+            className="button button-green">
+            <i  aria-hidden className="material-icons">&#xE7FB;</i>Invite People
+          </button>
+          <i aria-hidden className="material-icons">&#xE14C;</i>
+        </div>
       )
     }
 
     return (
       <div>
-        <BoardConfiguration {...this.props.currentBoard} />
+        <BoardConfiguration {...currentBoard} />
         <hr />
         { inviteButton }
         { inviteButton && <hr />}
         <BoardContentController
-          members={this.props.members}
-          channels={this.props.channels}
-          {...this.props.currentBoard}/>
+          boardId={currentBoard.id}
+          members={members}
+          channels={channels}/>
       </div>
     )
   }
 }
-// <Spinner />
+
+BoardNav.propTypes = {
+  channels: PropTypes.arrayOf(PropTypes.object),
+  members: PropTypes.arrayOf(PropTypes.object),
+  isLoading: PropTypes.bool,
+  currentBoard: PropTypes.object,
+
+  requestChannels: PropTypes.func,
+  requestBoardMembers: PropTypes.func,
+  toggleModal: PropTypes.func
+}
 
 export default BoardNav;

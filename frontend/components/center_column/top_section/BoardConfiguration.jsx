@@ -5,7 +5,7 @@ const BoardConfiguration = (props) => {
   return (
     <div className="board-configuration">
       <span>{title}</span>
-      <i className="material-icons">&#xE5D4;</i>
+      <i role="button" className="material-icons">&#xE5D4;</i>
     </div>
   )
 }

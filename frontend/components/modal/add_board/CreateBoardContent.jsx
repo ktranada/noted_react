@@ -50,7 +50,7 @@ class CreateBoardContent extends React.Component {
 
         <footer>
           <div onClick={this.props.handleBackClick}>
-            <i className="material-icons">&#xE5C4;</i>BACK
+            <i aria-hidden className="material-icons">&#xE5C4;</i>BACK
             </div>
           <button type="submit" className="button button-green">Create</button>
         </footer>

@@ -5,21 +5,19 @@ import BoardNavChannels from './BoardNavChannels';
 import BoardMembers from './BoardMembers';
 
 const BoardContentController = (props) => {
-  const { channels, members } = props;
-
+  const { channels, members, boardId } = props;
   return (
     <ul className="board-nav">
-      <li className="board-nav__category"><NavLink to="/lists"><i className="material-icons">&#xE3EC;</i>VIEW BOARD</NavLink></li>
-      <li className="board-nav__category"><span><i className="material-icons">&#xE0B7;</i>CHAT</span>
+      <li className="board-nav__category"><NavLink to={`/boards/${boardId}/lists`}><i aria-hidden className="material-icons">&#xE3EC;</i>VIEW BOARD</NavLink></li>
+      <li className="board-nav__category"><span><i aria-hidden className="material-icons">&#xE0B7;</i>CHAT</span>
         <BoardNavChannels channels={channels} />
       </li>
 
       { members.length > 0 &&
-        <li className="board-nav__category members"><span><i className="material-icons">&#xE7FB;</i>MEMBERS</span>
+        <li className="board-nav__category members"><span><i aria-hidden className="material-icons">&#xE7FB;</i>MEMBERS</span>
           <BoardMembers members={members} />
         </li>
       }
-
     </ul>
   )
 }
@@ -33,6 +31,7 @@ BoardContentController.propTypes = {
   })),
   members: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.required,
+    user_id: PropTypes.number.required,
     username: PropTypes.string.required
   }))
 }

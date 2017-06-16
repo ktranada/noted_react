@@ -1,4 +1,5 @@
 import React from 'react';
+import Spinner from '../misc/spinner';
 
 const BoardNavDefault = (props) => (
   <div className="board-actions-default">
@@ -19,6 +20,7 @@ const BoardNavDefault = (props) => (
           </ul>
         </li>
       </ul>
+      { props.isLoading && <Spinner /> }
     </div>
   </div>
 )

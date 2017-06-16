@@ -1,5 +1,6 @@
 import React from 'react';
 import BoardTogglerTab  from './BoardTogglerTab';
+import { getCurrentBoardById } from '../../reducers/selectors';
 
 class BoardToggler extends React.Component {
   constructor(props) {
@@ -8,6 +9,25 @@ class BoardToggler extends React.Component {
     this.toggleModal = this.toggleModal.bind(this);
   }
 
+  componentWillMount() {
+    this.requestBoard(this.props.currentBoard);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.currentBoard && nextProps.currentBoard.id !== this.props.currentBoard.id) {
+      console.log('inside');
+      this.requestBoard(nextProps.currentBoard);
+    }
+  }
+
+  requestBoard(board) {
+    if (board && !board.isLoaded && !board.isLoading) {
+      console.log('requesting');
+      this.props.requestBoard(board.id);
+    }
+  }
+
+
   handleClick(board) {
     return (e) => {
       e.preventDefault();
@@ -15,7 +35,7 @@ class BoardToggler extends React.Component {
         return;
       }
 
-      this.props.history.push(`/boards/${board.id}`);
+      this.props.history.push(`/boards/${board.id}/lists`);
     }
   }
 

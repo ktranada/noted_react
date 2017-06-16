@@ -1,4 +1,14 @@
 class Api::BoardsController < ApplicationController
+  def show
+    @board = Board
+      .where(id: params[:id])
+      .includes(:board_memberships, :channels, lists: [:cards])[0] ||
+      Board.new
+
+    render :show
+  end
+
+
   def create
     @board = Board.new(user_id: current_user.id, title: params[:title])
     if @board.save
@@ -16,6 +26,5 @@ class Api::BoardsController < ApplicationController
 
   def board_params
     params.require(:board).permit(:title)
-
   end
 end

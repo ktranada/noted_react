@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 const BoardNavChannels = (props) => {
   const channels = props.channels.map(channel => (
       <li key={channel.id}>
-        <NavLink to={`/boards/${channel.board_id}/messages/${channel.id}`}># {channel.title}</NavLink>
+        <NavLink to={`/boards/${channel.board_id}/channel/${channel.id}`}># {channel.title}</NavLink>
       </li>
     ));
   return (
