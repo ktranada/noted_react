@@ -34,3 +34,11 @@ export const isLoadingByType = (loadingState, boardId, type) => {
     let board = loadingState.byBoardId[boardId];
     return Boolean(board) ? board[type] : true;
 }
+
+export const getObjectById = (id, entity) => {
+  if (isUndefined(entity) || isUndefined(id)) {
+    return {}
+  }
+
+  return entity.byId[id] || id;
+}

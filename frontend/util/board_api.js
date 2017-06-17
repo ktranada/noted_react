@@ -29,6 +29,17 @@ const create = (resource, data) => (
   })
 )
 
+const edit = (resource, id, data) => (
+  $.ajax({
+    method: 'PUT',
+    url: `/api/${resource}s/${id}`,
+    data: {
+      [resource]: data
+    }
+  })
+)
+
+
 export const createBoard = data => (
   create('board', data)
 )
@@ -39,4 +50,8 @@ export const createList = data => (
 
 export const createCard = data => (
   create('card', data)
+)
+
+export const editCard = data => (
+  edit('card', data.id, data)
 )

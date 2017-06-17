@@ -11,7 +11,7 @@ import BoardContentNavContainer from './right_column/BoardContentNavContainer';
 import BoardContentDefaultContainer from './right_column/BoardContentDefaultContainer';
 
 import ListIndexContainer from './right_column/lists/ListIndexContainer';
-
+import ViewCardModalContainer from './modal/view_card/ViewCardModalContainer';
 const Landing = () => {
   return (
     <div className="landing-container">
@@ -32,21 +32,17 @@ const Landing = () => {
 
       <section className="right-column">
         <Switch>
+          <Route path="/boards/:boardId/card/:cardId" component={ListIndexContainer} />
           <Route path="/boards/:boardId/lists" component={ListIndexContainer} />
           <Route path="/boards/:boardId" component={BoardContentNavContainer} />
           <Route component={BoardContentDefaultContainer} />
         </Switch>
       </section>
 
+      <Route path="/boards/:boardId/card/:cardId" component={ViewCardModalContainer}/>
       <ModalControllerContainer />
     </div>
   )
 }
-// <Route path="/boards/:boardId/lists" component={BoardListsContainer} />
 
-// <Switch>
-//   <Route
-//     path="/boards/:boardId/messages/:channelId"
-//     component={BoardMessagesContainer} />
 export default Landing;
-// <BoardContentDefaultContainer />

@@ -4,7 +4,7 @@ json.set! :byId do
       json.id card.id
       json.title card.title
       json.ord card.ord
-      json.description card.description
+      json.description card.description || ''
     end
   end
 end

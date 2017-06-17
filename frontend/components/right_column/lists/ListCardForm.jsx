@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextareaAutosize from 'react-textarea-autosize';
 
-class ListAddForm extends React.Component {
+class ListCardForm extends React.Component {
   constructor(props) {
     super(props);
 
@@ -46,9 +46,9 @@ class ListAddForm extends React.Component {
       return
     }
 
-    this.props.createList({
+    this.props.createItem({
       title: this.state.title
-    }).then(list => this.setState({
+    }).then(() => this.setState({
       isAdding: false,
       title: '',
       isBlank: false
@@ -57,6 +57,8 @@ class ListAddForm extends React.Component {
 
   render() {
     let element = null;
+
+    let isList = this.props.type === 'list';
 
     if (this.state.isAdding) {
       element = (
@@ -78,11 +80,18 @@ class ListAddForm extends React.Component {
         </form>
       )
     } else {
-      element = (
+      element = isList ? (
         <div role="button" onClick={this.handleClick('add')}>
           <i className="material-icons">&#xE145;</i>
           <span>Add a list</span>
         </div>
+      ) : (
+        <button
+          type="button"
+          onClick={this.handleClick('add')}
+          className="button button-bluegrey-light">
+          <i className="material-icons">&#xE145;</i>
+        </button>
       )
     }
 
@@ -94,8 +103,9 @@ class ListAddForm extends React.Component {
   }
 }
 
-ListAddForm.propTypes = {
-  createList: PropTypes.func.isRequired
+ListCardForm.propTypes = {
+  createItem: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired
 }
 
-export default ListAddForm;
+export default ListCardForm;

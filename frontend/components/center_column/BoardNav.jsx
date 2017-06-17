@@ -57,6 +57,7 @@ class BoardNav extends React.Component {
         { inviteButton }
         { inviteButton && <hr />}
         <BoardContentController
+          isViewingCard={this.props.location.pathname.includes('card')}
           boardId={currentBoard.id}
           members={members}
           channels={channels}/>

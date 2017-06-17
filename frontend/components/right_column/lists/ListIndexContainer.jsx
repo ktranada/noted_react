@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import { asArrayByOrder, getCurrentBoardById } from '../../../reducers/selectors';
+import { asArrayByOrder, getCurrentBoardById, isLoadingByType } from '../../../reducers/selectors';
 import { createList } from '../../../actions/board_content_actions';
 import ListIndex from './ListIndex';
 
-const mapStateToProps = ({ lists, cards, boards}, { match }) => {
+const mapStateToProps = ({ lists, boards }, { match }) => {
   const currentBoard = getCurrentBoardById(match.params.boardId, boards);
   const boardLists = asArrayByOrder(lists, currentBoard.lists)
   return ({

@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import ModalController from './ModalController';
 import { toggleModal } from '../../actions/modal_actions';
 
@@ -10,7 +11,7 @@ const mapDispatchToProps = (dispatch) => ({
   hideModal: () => dispatch(toggleModal(null))
 });
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(ModalController)
+)(ModalController));

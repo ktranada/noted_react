@@ -1,7 +1,6 @@
-import merge from 'lodash/merge';
 import { RECEIVE_BOARD } from '../actions/board_toggler_actions';
-import { ADD_LIST } from '../actions/board_content_actions';
-import { byIdObject } from './util';
+import { ADD_LIST, ADD_CARD } from '../actions/board_content_actions';
+import { updateObject, byIdObject, updateAssociationList } from './util';
 
 const initialState = {
   byId: {}
@@ -10,9 +9,11 @@ const initialState = {
 const listsReducer = (state = initialState, action) => {
   switch (action.type) {
     case RECEIVE_BOARD:
-      return merge({}, state, action.board.lists);
+      return updateObject(state, action.board.lists);
     case ADD_LIST:
-      return merge({}, state, byIdObject(action.list.id, action.list))
+      return updateObject(state, byIdObject(action.list.id, action.list));
+    case ADD_CARD:
+      return updateAssociationList(state, action.card.list_id, 'cards', action.card.id);
     default:
       return state;
   }

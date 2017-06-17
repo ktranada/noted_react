@@ -1,6 +1,6 @@
 import React  from 'react';
 import PropTypes from 'prop-types';
-import ListAddForm from './ListAddForm';
+import ListCardForm from './ListCardForm';
 import ListContainer from './ListContainer';
 
 class ListIndex extends React.Component {
@@ -20,14 +20,18 @@ class ListIndex extends React.Component {
 
   render() {
     const lists = this.props.lists.map(list => (
-      <ListContainer key={list.id} list={list} />
+      <ListContainer
+        key={list.id}
+        history={this.props.history}
+        list={list} />
     ));
 
     return (
       <div className="board-wrapper">
         <div className="list-index">
           { lists }
-          <ListAddForm createList={this.createList}/>
+
+          <ListCardForm type="list" createItem={this.createList}/>
         </div>
       </div>
     )

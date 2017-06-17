@@ -1,5 +1,5 @@
 import merge from 'lodash/merge';
-import { byIdObject, updateObject } from './util';
+import { byIdObject, updateObject, updateAssociationList } from './util';
 import {
   SET_CURRENT_BOARD_ID,
   ADD_BOARD,
@@ -64,11 +64,12 @@ function addBoard(state, action) {
 }
 
 function addList(state, action) {
-  let boardId = action.list.board_id;
-  let newState = byIdObject(boardId, {
-      lists: [...state.byId[boardId].lists, action.list.id]
-    });
-  return updateObject(state, newState);
+  return updateAssociationList(
+    state,
+    action.list.board_id,
+    'lists',
+    action.list.id
+  );
 }
 
 

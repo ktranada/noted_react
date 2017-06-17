@@ -8,7 +8,7 @@ const BoardContentController = (props) => {
   const { channels, members, boardId } = props;
   return (
     <ul className="board-nav">
-      <li className="board-nav__category"><NavLink to={`/boards/${boardId}/lists`}><i aria-hidden className="material-icons">&#xE3EC;</i>VIEW BOARD</NavLink></li>
+      <li className="board-nav__category"><NavLink className={props.isViewingCard ? 'active' : ''} to={`/boards/${boardId}/lists`}><i aria-hidden className="material-icons">&#xE3EC;</i>VIEW BOARD</NavLink></li>
       <li className="board-nav__category"><span><i aria-hidden className="material-icons">&#xE0B7;</i>CHAT</span>
         <BoardNavChannels channels={channels} />
       </li>
