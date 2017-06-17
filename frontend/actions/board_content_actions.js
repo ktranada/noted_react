@@ -12,7 +12,20 @@ export const createList = list => dispatch => (
     })
 );
 
+export const createCard = card => dispatch => (
+  BoardAPI.createCard(card)
+    .then(card => {
+      dispatch(addCard(card));
+      return card;
+    })
+)
+
 export const addList = list => ({
   type: ADD_LIST,
   list
 });
+
+export const addCard = card => ({
+  type: ADD_CARD,
+  card
+})

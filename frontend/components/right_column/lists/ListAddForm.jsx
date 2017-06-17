@@ -62,7 +62,7 @@ class ListAddForm extends React.Component {
       element = (
         <form
           onSubmit={this.handleSubmit}
-          className="board-lists-add__form">
+          className="list-index-add__form">
           <TextareaAutosize
             onChange={this.handleChange}
             value={this.state.title}
@@ -87,7 +87,7 @@ class ListAddForm extends React.Component {
     }
 
     return (
-      <div className={`board-lists__add-button ${this.state.isAdding ? 'open' : ''}`}>
+      <div className={`list-index__add-button ${this.state.isAdding ? 'open' : ''}`}>
         { element }
       </div>
     )

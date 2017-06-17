@@ -24,7 +24,7 @@ const create = (resource, data) => (
     method: 'POST',
     url: `/api/${resource}s`,
     data: {
-      [resource]: data  
+      [resource]: data
     }
   })
 )
@@ -35,4 +35,8 @@ export const createBoard = data => (
 
 export const createList = data => (
   create('list', data)
+)
+
+export const createCard = data => (
+  create('card', data)
 )

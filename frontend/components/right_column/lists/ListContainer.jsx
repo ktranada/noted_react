@@ -1,0 +1,24 @@
+import { connect } from 'react-redux';
+import { createCard } from '../../../actions/board_content_actions';
+import { asArrayByOrder, getCurrentBoardById } from '../../../reducers/selectors';
+import { viewCard } from '../../../actions/modal_actions';
+
+import List from './List';
+
+const mapStateToProps = ({ cards }, {list}) => {
+  const listCards = asArrayByOrder(cards, list.cards);
+  return({
+    cards: listCards
+  })
+}
+
+const mapDispatchToProps = dispatch => ({
+  createCard: card => createCard(card)(dispatch),
+  viewCard: cardId => dispatch(viewCard(cardId))
+})
+
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(List)

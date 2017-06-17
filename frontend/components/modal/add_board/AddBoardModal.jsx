@@ -9,7 +9,7 @@ class AddBoardModal extends React.Component {
     super(props);
 
     this.state = {
-      type: ''
+      type: '',
     }
 
     this.addBoard = this.addBoard.bind(this);
