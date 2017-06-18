@@ -5,6 +5,7 @@ json.set! :byId do
       json.title card.title
       json.ord card.ord
       json.description card.description || ''
+      json.comments card.comments.pluck(:id)
     end
   end
 end

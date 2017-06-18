@@ -2,7 +2,7 @@ class Api::BoardsController < ApplicationController
   def show
     @board = Board
       .where(id: params[:id])
-      .includes(:board_memberships, :channels, lists: [:cards])[0] ||
+      .includes(:board_memberships, :channels, lists: [cards: [:comments]])[0] ||
       Board.new
 
     render :show

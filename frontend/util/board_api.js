@@ -44,6 +44,10 @@ export const createBoard = data => (
   create('board', data)
 )
 
+export const createComment = data => (
+  create('comment', data)
+)
+
 export const createList = data => (
   create('list', data)
 )

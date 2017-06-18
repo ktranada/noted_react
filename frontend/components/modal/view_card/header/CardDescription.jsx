@@ -58,11 +58,15 @@ class CardDescription extends React.Component {
 }
 
 CardDescription.propTypes = {
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   isFocused: PropTypes.bool.isRequired,
-  updateField: PropTypes.func.isRequired,
+  focusTextarea: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
   updateField: PropTypes.func.isRequired
+}
+
+CardDescription.defaultProps = {
+  value: ''
 }
 
 

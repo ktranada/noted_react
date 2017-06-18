@@ -4,7 +4,7 @@ class CreateCards < ActiveRecord::Migration[5.0]
       t.integer :list_id, null: false
       t.string :title, null: false
       t.integer :ord, null: false, default: 0
-      t.text :description
+      t.text :description, default: ''
 
       t.timestamps
     end

@@ -7,6 +7,8 @@ json.set! :info do
 
 end
 
+
+
 json.set! :members do
   json.partial! 'api/users/users', memberships: @board.board_memberships
 end
@@ -19,6 +21,12 @@ json.set! :lists do
   json.partial! 'api/lists/lists', lists: @board.lists
 end
 
+cards = @board.lists.map(&:cards).flatten
+
 json.set! :cards do
-  json.partial! 'api/cards/cards', cards: @board.lists.map(&:cards).flatten
+  json.partial! 'api/cards/cards', cards: cards
+end
+
+json.set! :comments do
+  json.partial! 'api/comments/comments', comments: cards.map(&:comments).flatten
 end
