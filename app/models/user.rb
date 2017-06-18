@@ -1,3 +1,4 @@
+
 # == Schema Information
 #
 # Table name: users
@@ -20,7 +21,7 @@ class User < ActiveRecord::Base
   validates :password_digest, presence: {  message: "Password cannot be blank" }
   validates :password, length: { minimum: 6 }, allow_nil: true
 
-  has_many :boards, dependent: :destroy#-> { order: "ord ASC"}
+  has_many :boards, dependent: :destroy
   has_many :board_memberships, dependent: :destroy, inverse_of: :user
 
   has_many :subscriptions, dependent: :destroy

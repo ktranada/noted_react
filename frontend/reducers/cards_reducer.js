@@ -1,7 +1,7 @@
 import merge from 'lodash/merge';
-import { ADD_CARD, ADD_COMMENT, EDIT_CARD_INFO } from '../actions/board_actions';
+import { ADD_CARD, ADD_COMMENT, EDIT_CARD_INFO, REMOVE_CARD } from '../actions/board_actions';
 import { RECEIVE_BOARD } from '../actions/nav_actions';
-import { updateObject, byIdObject, updateAssociationList } from './util';
+import { updateObject, byIdObject, updateAssociationList, deleteObjectById } from './util';
 
 const initialState = {
   byId: {}
@@ -21,7 +21,10 @@ const cardsReducer = (state = initialState, action) => {
         state,
         action.comment.card_id,
         'comments',
-        action.comment.id)
+        action.comment.id, {prepend: true})
+
+    case REMOVE_CARD:
+        return deleteObjectById(state, action.card.id);
     default:
       return state;
   }

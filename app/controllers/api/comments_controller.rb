@@ -1,6 +1,7 @@
 class Api::CommentsController < ApplicationController
   def create
     @comment = Comment.new(comment_params)
+    @comment.user_id = current_user.id
     if @comment.save
       render :create
     else
@@ -11,6 +12,6 @@ class Api::CommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).require(:list_id, :title, :ord, :description)
+    params.require(:comment).permit(:card_id, :description)
   end
 end

@@ -31,7 +31,6 @@ SubNavActions.propTypes = {
   })),
   members: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
-    user_id: PropTypes.number.isRequired,
     username: PropTypes.string.isRequired
   }))
 }

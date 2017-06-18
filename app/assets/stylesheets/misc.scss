@@ -4,6 +4,19 @@
   }
 }
 
+div.divider {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  hr {
+    flex-grow: 1;
+    border-width: 1px;
+  }
+  div {
+    margin: 0 30px;
+  }
+}
+
 //====================
 // Spinner
 //====================

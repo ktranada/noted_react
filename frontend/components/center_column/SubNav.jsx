@@ -35,7 +35,6 @@ class SubNav extends React.Component {
 
     let inviteButton = null;
     const { currentBoard, members, channels } = this.props;
-
     if (currentBoard.isLoaded && members.length === 0) {
       inviteButton = (
         <div className="initial-invite-display">

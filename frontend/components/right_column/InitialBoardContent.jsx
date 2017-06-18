@@ -9,6 +9,20 @@ class InitialBoardContent extends React.Component {
     this.toggleInviteModal = this.toggleInviteModal.bind(this);
   }
 
+  componentWillMount() {
+    if (!this.props.match.isExact){
+      this.props.history.replace(`/boards/${this.props.match.params.boardId}`);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.match.isExact){
+      this.props.history.replace(`/boards/${this.props.match.params.boardId}`);
+    }
+  }
+
+
+
   toggleInviteModal() {
     this.props.toggleInviteModal();
   }

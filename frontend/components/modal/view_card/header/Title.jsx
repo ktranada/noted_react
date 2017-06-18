@@ -3,6 +3,8 @@ import TextareaAutosize from 'react-textarea-autosize';
 import PropTypes from 'prop-types';
 
 const Title = props => {
+  const focus = props.isFocused || props.initialFocus ? 'focused' : ''
+  const className = `${focus} ${props.isValid ? '' : 'error'}`;
   return (
     <TextareaAutosize
       autoFocus={props.initialFocus}
@@ -10,7 +12,7 @@ const Title = props => {
       onBlur={props.updateField}
       onChange={props.handleChange}
       value={props.value}
-      className={props.isFocused || props.initialFocus ? 'focused' : ''}/>
+      className={className}/>
   )
 }
 Title.propTypes = {

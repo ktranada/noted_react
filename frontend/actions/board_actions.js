@@ -5,6 +5,7 @@ export const ADD_CARD = 'ADD_CARD';
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const ADD_MESSAGE = 'ADD_MESSAGE';
 export const EDIT_CARD_INFO = 'EDIT_CARD_INFO';
+export const REMOVE_CARD = 'REMOVE_CARD';
 
 export const createList = list => dispatch => (
   BoardAPI.createList(list)
@@ -27,6 +28,13 @@ export const createComment = comment => dispatch => (
     .then(comment => {
       dispatch(addComment(comment));
       return comment;
+    })
+)
+
+export const deleteCard = cardId => dispatch => (
+  BoardAPI.deleteCard(cardId)
+    .then((card) => {
+      return dispatch(removeCard(card));
     })
 )
 
@@ -55,5 +63,10 @@ export const addComment = comment => ({
 
 export const editCardInfo = card => ({
   type: EDIT_CARD_INFO,
+  card
+})
+
+export const removeCard = card => ({
+  type: REMOVE_CARD,
   card
 })

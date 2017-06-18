@@ -37,8 +37,8 @@ export const isLoadingByType = (loadingState, boardId, type) => {
 
 export const getObjectById = (id, entity) => {
   if (isUndefined(entity) || isUndefined(id)) {
-    return {}
+    return null;
   }
 
-  return entity.byId[id] || id;
+  return entity.byId[id];
 }

@@ -15,7 +15,7 @@ class Card < ActiveRecord::Base
   validates :list, :title, :ord, presence: true
 
   belongs_to :list
-  has_many :comments, dependent: :destroy
+  has_many :comments, -> { order "created_at DESC" }, dependent: :destroy
   has_many :card_assignments, dependent: :destroy
   has_many :assignees, through: :card_assignments, source: :user
 

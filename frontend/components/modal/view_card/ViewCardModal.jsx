@@ -1,19 +1,22 @@
 import React from 'react';
-import ModalWrapperContainer from '../ModalWrapperContainer';
+import ModalOverlayContainer from '../ModalOverlayContainer';
 import Header from './header/Header';
 import Body from './body/Body';
+import { getObjectById } from '../../../reducers/selectors';
 
 class ViewCardModal extends React.Component {
   constructor(props) {
     super(props);
 
-    this.createComment = this.createComment.bind(this);
     this.editCard = this.editCard.bind(this);
     this.handleBackgroundClick = this.handleBackgroundClick.bind(this);
+
   }
 
-  createComment(data) {
-
+  componentWillReceiveProps(nextProps) {
+      if (typeof nextProps.card === 'undefined') {
+        this.props.history.replace(`/boards/${this.props.match.params.boardId}/lists`)
+      }
   }
 
   editCard(data) {
@@ -31,13 +34,15 @@ class ViewCardModal extends React.Component {
 
     const { card } = this.props;
     return(
-      <ModalWrapperContainer
+      <ModalOverlayContainer
         onBackgroundClick={this.handleBackgroundClick}>
-        <div className="view-card__modal">
-          <Header card={card} editCard={this.editCard} />
-          <Body card={card} />
+        <div className="view-card__modal-wrapper">
+          <div className="view-card__modal">
+            <Header card={card} editCard={this.editCard} />
+            <Body card={card} />
+          </div>
         </div>
-      </ModalWrapperContainer>
+      </ModalOverlayContainer>
     )
   }
 }

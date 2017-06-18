@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import boardsReducer from './boards_reducer';
 import cardsReducer from './cards_reducer';
 import channelsReducer from './channels_reducer';
+import commentsReducer from './comments_reducer';
 import membersReducer from './members_reducer';
 import modalsReducer from './modals_reducer';
 import listsReducer from './lists_reducer';
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   boards: boardsReducer,
   lists: listsReducer,
   cards: cardsReducer,
+  comments: commentsReducer,
   members: membersReducer,
   channels: channelsReducer,
   currentModal: modalsReducer,

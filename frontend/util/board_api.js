@@ -39,6 +39,12 @@ const edit = (resource, id, data) => (
   })
 )
 
+const destroy = (resource, id) => (
+  $.ajax({
+    method: 'DELETE',
+    url: `/api/${resource}s/${id}`
+  })
+)
 
 export const createBoard = data => (
   create('board', data)
@@ -58,4 +64,8 @@ export const createCard = data => (
 
 export const editCard = data => (
   edit('card', data.id, data)
+)
+
+export const deleteCard = id => (
+  destroy('card', id)
 )

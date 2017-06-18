@@ -15,4 +15,8 @@ class Comment < ActiveRecord::Base
 
   belongs_to :author, class_name: "User", foreign_key: "user_id"
   belongs_to :card
+
+  def formatted_creation_date
+    created_at.strftime("%b %d %Y, %l:%M %p")
+  end
 end

@@ -18,6 +18,10 @@ class Nav extends React.Component {
       console.log('inside');
       this.requestBoard(nextProps.currentBoard);
     }
+    const nextBoardId = nextProps.match.params.boardId;
+    if (nextProps.match.path !== '/boards' && !Boolean(Number.parseInt(nextBoardId))) {
+      this.props.history.replace('/boards');
+    }
   }
 
   requestBoard(board) {
@@ -44,7 +48,6 @@ class Nav extends React.Component {
   }
 
   render() {
-    console.log("boardtoggler")
     let { boards, match } = this.props;
     const matchBoardId = Number.parseInt(match.params.boardId);
     const boardsList = boards.map((board) => {

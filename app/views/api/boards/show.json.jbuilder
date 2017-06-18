@@ -1,7 +1,7 @@
 json.id @board.id
 
 json.set! :info do
-  json.members @board.board_memberships.pluck(:id)
+  json.members @board.board_memberships.map(&:user).pluck(:id)
   json.channels @board.channels.pluck(:id)
   json.lists @board.lists.pluck(:id)
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-class ModalWrapper extends React.Component {
+class ModalOverlay extends React.Component {
   constructor(props) {
     super(props);
 
@@ -20,7 +20,7 @@ class ModalWrapper extends React.Component {
   render() {
     return (
       <div
-        className="modal-wrapper"
+        className="modal-overlay"
         onClick={this.handleBackgroundClick}>
         { this.props.children }
       </div>
@@ -28,4 +28,4 @@ class ModalWrapper extends React.Component {
   }
 }
 
-export default ModalWrapper;
+export default ModalOverlay;

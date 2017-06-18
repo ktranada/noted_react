@@ -1,6 +1,6 @@
 @import 'variables';
 
-.modal-wrapper {
+.modal-overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -12,14 +12,16 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  // -webkit-box-align: center;
+  //     -ms-flex-align: center;
+  //         align-items: center;
+  overflow-y: auto;
   background: rgba(0,0,0,.8);
   z-index: 100;
 
   > div {
     padding: 20px;
+    margin-top: 10rem;
   }
 }
 

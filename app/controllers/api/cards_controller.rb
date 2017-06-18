@@ -17,6 +17,16 @@ class Api::CardsController < ApplicationController
     end
   end
 
+  def destroy
+    begin
+      card = Card.find(params[:id])
+      card.destroy
+      render json: { id: card.id, list_id: card.list_id }
+    rescue
+      render json: "Card does not exist", status: 422
+    end
+  end
+
   private
 
   def card_params

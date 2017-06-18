@@ -11,11 +11,13 @@ const Header = props => {
       <i className="material-icons">&#xE02F;</i>
       <CardEditableField
         type="title"
-        title={card.title}
+        value={card.title}
+        isRequired={true}
         editCard={editCard} />
       <CardEditableField
         type="description"
-        description={card.description}
+        value={card.description}
+        isRequired={false}
         editCard={editCard} />
       <hr />
     </div>

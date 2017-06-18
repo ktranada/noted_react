@@ -21,6 +21,6 @@ names = %w{danny vicky julie}
 
 names.each do |name|
   user = User.create(email: "#{name}@gmail.com", password: "123pass")
-  CardAssignment.create(user_id: user.id, card_id: card_one.id)
+  BoardMembership.create!(board_id: board.id, user_id: user.id, username: name)
   card_one.comments.create!(user_id: user.id, description: "Neither")
 end

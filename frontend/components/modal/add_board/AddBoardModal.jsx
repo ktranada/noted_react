@@ -1,5 +1,5 @@
 import React from 'react';
-import ModalWrapperContainer from '../ModalWrapperContainer';
+import ModalOverlayContainer from '../ModalOverlayContainer';
 import InitialContent from './InitialContent';
 import CreateBoardContent from './CreateBoardContent';
 
@@ -36,7 +36,7 @@ class AddBoardModal extends React.Component {
   render() {
     const { type } = this.state;
     return (
-      <ModalWrapperContainer>
+      <ModalOverlayContainer>
         { type === 'create'
             ? <CreateBoardContent
                 handleBackClick={this.handleBoardSelection('')}
@@ -44,7 +44,7 @@ class AddBoardModal extends React.Component {
             : (type === 'join')
               ? null
               : <InitialContent handleBoardSelection={this.handleBoardSelection}/>}
-      </ModalWrapperContainer>
+      </ModalOverlayContainer>
     )
   }
 }

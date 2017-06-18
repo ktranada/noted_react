@@ -2,6 +2,7 @@ import 'babel-polyfill';
 
 import React from "react";
 import ReactDOM from "react-dom";
+import merge from 'lodash/merge';
 import configureStore from './store/store';
 import Root from './components/root';
 import {logout} from './actions/session_actions';
@@ -27,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   window.logout = logout;
   window.store = store;
+  window.merge = merge;
 
   // if (process.env.NODE_ENV !== 'production') {
   //   const {whyDidYouUpdate} = require('why-did-you-update')

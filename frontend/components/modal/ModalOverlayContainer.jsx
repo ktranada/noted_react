@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import ModalWrapper from './ModalWrapper';
+import ModalOverlay from './ModalOverlay';
 import { toggleModal } from '../../actions/modal_actions';
 
 const mapDispatchToProps = (dispatch) => ({
@@ -9,4 +9,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
   null,
   mapDispatchToProps
-)(ModalWrapper)
+)(ModalOverlay)

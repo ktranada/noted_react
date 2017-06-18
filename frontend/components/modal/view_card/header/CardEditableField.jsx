@@ -13,41 +13,54 @@ class CardEditableField extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      [this.props.type]: this.props[this.props.type],
-      isFocused: false
-    }
-
-
     this.focusTextarea = this.focusTextarea.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.updateField = this.updateField.bind(this);
+    this.isValidEdit = this.isValidEdit.bind(this);
+
+    this.state = {
+      [this.props.type]: this.props.value,
+      isValid: this.props.isRequired ? Boolean(this.props.value) : true,
+      isFocused: false
+    }
   }
 
   focusTextarea(e) {
     this.setState({ isFocused: true})
   }
 
+  isValidEdit() {
+    return this.props.isRequired ? Boolean(this.state[this.props.type]) : true;
+  }
+
   handleChange(e) {
     this.setState({
       [this.props.type]: e.currentTarget.value,
-      isFocused: true
+      isFocused: true,
+      isValid: true
     })
   }
 
   updateField(e) {
+    if (!this.isValidEdit()) {
+      this.setState({
+        isValid: false
+      })
+      return;
+    }
+
     this.setState({
       isFocused: false
     });
 
-    const { type } = this.props;
+    const { type, value } = this.props;
 
-    if (this.props[type] === this.state[type]) {
+    if (value === this.state[type]) {
       return;
     }
 
     this.props.editCard({
-      [type]: this.state[type]
+      [type]: this.state[type].trim()
     });
   }
 
@@ -62,13 +75,15 @@ class CardEditableField extends React.Component {
         updateField={this.updateField}
         handleChange={this.handleChange}
         value={this.state[this.props.type]}
-        isFocused={this.state.isFocused}/>
+        isFocused={this.state.isFocused}
+        isValid={this.state.isValid}/>
     )
   }
 }
 
 CardEditableField.propTypes = {
   type: PropTypes.string.isRequired,
+  isRequired: PropTypes.bool.isRequired,
   editCard: PropTypes.func.isRequired
 }
 

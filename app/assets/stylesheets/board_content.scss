@@ -253,13 +253,30 @@
 }
 
 
-.modal-wrapper {
+.modal-overlay {
+  .view-card__modal-wrapper {
+    margin-top: 5rem;
+    padding: 0;
+  }
   .view-card__modal {
     min-height: 600px;
     background: $primary-grey-dark;
     min-width: 700px;
     border-radius: 2px;
+    padding: 20px;
     padding-left: 40px;
+    margin-bottom: 5rem;
+
+
+    .card__header, .card__body {
+      > .material-icons {
+        position: absolute;
+        left: -25px;
+        font-size: 20px;
+        top: 8px;
+        color: $bluegrey-medium;
+      }
+    }
     .card__header {
       width:475px;
       hr {
@@ -280,13 +297,10 @@
         &.focused {
           background: #fafafa;
         }
-      }
 
-      > .material-icons {
-        position: absolute;
-        left: -25px;
-        font-size: 20px;
-        top: 8px;
+        &:error {
+          border: 1px solid $primary-red;
+        }
       }
 
       .card-header__description {
@@ -294,7 +308,7 @@
         margin-left: 4px;
         margin-top: 10px;
         align-items: center;
-        
+
         > .material-icons {
           font-size: 20px;
           margin-right: 10px;
@@ -306,6 +320,67 @@
             cursor: pointer;
           }
         }
+      }
+    }
+
+    .card__body {
+      position: relative;
+      padding-left: 5px;
+      > .material-icons {
+        top: 2px;
+      }
+
+      display: flex;
+
+      .card-actions {
+        flex-basis: 150px;
+        padding: 0 15px;
+        .actions__header {
+          color: $bluegrey-medium;
+          display: flex;
+          align-items: flex-start;
+          margin-bottom: 7px;
+          .material-icons {
+            font-size: 20px;
+            margin-right: 10px;
+            margin-top: 2px;
+          }
+        }
+      }
+
+      .card__comments {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        margin-right: 15px;
+        h4 {
+          color: $bluegrey-medium;
+        }
+        .card__comment {
+          margin-bottom: 10px;
+        }
+        .card__comment-form {
+          position: relative;
+          margin-top: 10px;
+          margin-bottom: 40px;
+          > button {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            padding: 2px;
+            background: transparent;
+            > .material-icons {
+              color: $bluegrey-dark;
+              font-size: 15px;
+            }
+          }
+        }
+
+        .comment__info {
+          margin-top: 10px;
+        }
+
+
       }
     }
   }

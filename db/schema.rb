@@ -42,12 +42,12 @@ ActiveRecord::Schema.define(version: 20170604233802) do
   end
 
   create_table "cards", force: :cascade do |t|
-    t.integer  "list_id",                 null: false
-    t.string   "title",                   null: false
-    t.integer  "ord",         default: 0, null: false
-    t.text     "description"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.integer  "list_id",                  null: false
+    t.string   "title",                    null: false
+    t.integer  "ord",         default: 0,  null: false
+    t.text     "description", default: ""
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.index ["list_id"], name: "index_cards_on_list_id", using: :btree
   end
 
