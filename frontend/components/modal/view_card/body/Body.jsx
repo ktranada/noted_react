@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CardBody = props => {
+const Body = props => {
   return (
     <div className="card__body">
     </div>
@@ -8,4 +8,4 @@ const CardBody = props => {
 }
 // <CardCommentsContainer card={props.card} />
 
-export default CardBody;
+export default Body;

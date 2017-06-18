@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { createCard } from '../../../actions/board_content_actions';
+import { createCard } from '../../../actions/board_actions';
 import { asArrayByOrder, getCurrentBoardById } from '../../../reducers/selectors';
 import { toggleModal, VIEW_CARD } from '../../../actions/modal_actions';
 

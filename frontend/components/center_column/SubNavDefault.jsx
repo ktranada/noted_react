@@ -1,10 +1,10 @@
 import React from 'react';
 import Spinner from '../misc/spinner';
 
-const BoardNavDefault = (props) => (
-  <div className="board-actions-default">
+const SubNavDefault = (props) => (
+  <div className="sub-nav-default">
     <span>VIEW BOARD</span>
-    <div className="board-actions-default__chat">
+    <div className="sub-nav-default__chat">
       <span>CHAT</span>
       <ul >
         <li>CHANNELS
@@ -24,4 +24,4 @@ const BoardNavDefault = (props) => (
     </div>
   </div>
 )
-export default BoardNavDefault;
+export default SubNavDefault;

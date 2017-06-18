@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import BoardNav from './BoardNav';
+import SubNav from './SubNav';
 import { getCurrentBoardById, asArrayByOrder, isLoadingByType } from '../../reducers/selectors';
-import { requestChannels, requestBoardMembers } from '../../actions/board_nav_actions';
+import { requestChannels, requestBoardMembers } from '../../actions/sub_nav_actions';
 import { toggleModal } from '../../actions/modal_actions';
 
 const mapStateToProps = ({ boards, channels, members, loading }, { match }) => {
@@ -25,4 +25,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(BoardNav);
+)(SubNav);

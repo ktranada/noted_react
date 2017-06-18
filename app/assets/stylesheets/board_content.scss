@@ -12,7 +12,7 @@
 }
 
 
-.board-content-default {
+.new-user-actions {
   height: 100%;
   width: 100%;
   display: -webkit-box;
@@ -24,7 +24,7 @@
   text-align: center;
   min-width: 100%;
 
-  .board-content-default__action {
+  .new-user-actions__action {
     height: 100px;
     background: $primary-grey-light;
     height: 120px;
@@ -53,7 +53,7 @@
 }
 
 .board-content-nav {
-  .board-content-default__action {
+  .new-user-actions__action {
     height: 300px;
     p {
       margin-bottom: 30px;

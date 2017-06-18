@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BoardConfiguration from './top_section/BoardConfiguration';
-import BoardContentController from './middle_section/BoardContentController';
-import BoardNavDefault from './BoardNavDefault';
+import SubNavActions from './middle_section/SubNavActions';
+import SubNavDefault from './SubNavDefault';
 
-class BoardNav extends React.Component {
+class SubNav extends React.Component {
   constructor(props) {
     super(props);
 
@@ -30,7 +30,7 @@ class BoardNav extends React.Component {
 
   render() {
     if (this.props.isLoading) {
-      return <BoardNavDefault isLoading={true}/>;
+      return <SubNavDefault isLoading={true}/>;
     }
 
     let inviteButton = null;
@@ -56,7 +56,7 @@ class BoardNav extends React.Component {
         <hr />
         { inviteButton }
         { inviteButton && <hr />}
-        <BoardContentController
+        <SubNavActions
           isViewingCard={this.props.location.pathname.includes('card')}
           boardId={currentBoard.id}
           members={members}
@@ -66,7 +66,7 @@ class BoardNav extends React.Component {
   }
 }
 
-BoardNav.propTypes = {
+SubNav.propTypes = {
   channels: PropTypes.arrayOf(PropTypes.object),
   members: PropTypes.arrayOf(PropTypes.object),
   isLoading: PropTypes.bool,
@@ -77,4 +77,11 @@ BoardNav.propTypes = {
   toggleModal: PropTypes.func
 }
 
-export default BoardNav;
+SubNav.defaultProps = {
+  channels: [],
+  members: [],
+  isLoading: true,
+  currentBoard: {}
+}
+
+export default SubNav;

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class BoardContentDefault extends React.Component {
+class NewUserActions extends React.Component {
   constructor(props) {
     super(props);
 
@@ -18,8 +18,8 @@ class BoardContentDefault extends React.Component {
     }
 
     return(
-      <div className="board-content-default">
-        <div className="board-content-default__action">
+      <div className="new-user-actions">
+        <div className="new-user-actions__action">
           <p>Ready to start improving your workflow? Add a board and start organizing your tasks and thoughts.</p>
 
           <button
@@ -32,4 +32,4 @@ class BoardContentDefault extends React.Component {
   }
 }
 
-export default BoardContentDefault;
+export default NewUserActions;

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const BoardTogglerTab = props => {
+const NavTab = props => {
   const {title, handleClick, isCurrentBoard, isButton } = props;
 
   if (isButton) {
     return (
-      <li className="board-toggle__button">
+      <li className="nav__button">
         <div role="button" onClick={handleClick}>
           <i className="material-icons">&#xE145;</i>
         </div>
@@ -15,7 +15,7 @@ const BoardTogglerTab = props => {
   }
 
   return (
-    <li className={`board-toggle__tab ${isCurrentBoard ? "active" : ""}`}>
+    <li className={`nav__tab ${isCurrentBoard ? "active" : ""}`}>
       <div role="button" onClick={handleClick}>
         {title[0].toUpperCase()}
       </div>
@@ -23,4 +23,4 @@ const BoardTogglerTab = props => {
   )
 }
 
-export default BoardTogglerTab;
+export default NavTab;

@@ -1,6 +1,6 @@
 import merge from 'lodash/merge';
-import { RECEIVE_CHANNELS } from '../actions/board_nav_actions';
-import { RECEIVE_BOARD } from '../actions/board_toggler_actions';
+import { RECEIVE_CHANNELS } from '../actions/sub_nav_actions';
+import { RECEIVE_BOARD } from '../actions/nav_actions';
 
 const initialState = {
   byId: {},

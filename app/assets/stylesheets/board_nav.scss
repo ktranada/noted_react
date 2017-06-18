@@ -83,7 +83,7 @@ $margin-left-subcategory: 30px;
 }
 
 
-.center-column .board-actions-default {
+.center-column .sub-nav-default {
   pointer-events: none;
   span {
     font-size: 11px;
@@ -92,7 +92,7 @@ $margin-left-subcategory: 30px;
     letter-spacing: 1px;
   }
 
-  .board-actions-default__chat {
+  .sub-nav-default__chat {
     margin-top: 10px;
     ul {
       list-style: none;
@@ -146,7 +146,7 @@ $margin-left-subcategory: 30px;
       }
     }
   }
-  .board-nav {
+  .sub-nav {
 
     &:hover {
       cursor: default;
@@ -176,7 +176,7 @@ $margin-left-subcategory: 30px;
         }
       }
     }
-    > .board-nav__category {
+    > .sub-nav__category {
       color: white;
       font-weight: bold;
       font-size: 12px;
@@ -209,7 +209,7 @@ $margin-left-subcategory: 30px;
       }
 
 
-      > .board-nav__sub-category {
+      > .sub-nav__sub-category {
         margin-left: $margin-left-subcategory;
         margin-top: 10px;
 

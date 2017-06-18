@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { asArrayByOrder, getCurrentBoardById, isLoadingByType } from '../../../reducers/selectors';
-import { createList } from '../../../actions/board_content_actions';
+import { createList } from '../../../actions/board_actions';
 import ListIndex from './ListIndex';
 
 const mapStateToProps = ({ lists, boards }, { match }) => {

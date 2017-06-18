@@ -4,7 +4,7 @@ import CardEditableField from './CardEditableField';
 
 
 
-const CardHeader = props => {
+const Header = props => {
   const { card, editCard } = props;
   return (
     <div className="card__header relative">
@@ -23,9 +23,9 @@ const CardHeader = props => {
 }
 
 
-CardHeader.propTypes = {
+Header.propTypes = {
   card: PropTypes.object.isRequired,
   editCard: PropTypes.func.isRequired
 }
 
-export default CardHeader;
+export default Header;

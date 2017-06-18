@@ -1,7 +1,7 @@
 import React from 'react';
 import ModalWrapperContainer from '../ModalWrapperContainer';
-import CardHeader from './header/CardHeader';
-import CardBody from './body/CardBody';
+import Header from './header/Header';
+import Body from './body/Body';
 
 class ViewCardModal extends React.Component {
   constructor(props) {
@@ -34,8 +34,8 @@ class ViewCardModal extends React.Component {
       <ModalWrapperContainer
         onBackgroundClick={this.handleBackgroundClick}>
         <div className="view-card__modal">
-          <CardHeader card={card} editCard={this.editCard} />
-          <CardBody card={card} />
+          <Header card={card} editCard={this.editCard} />
+          <Body card={card} />
         </div>
       </ModalWrapperContainer>
     )

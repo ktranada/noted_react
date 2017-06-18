@@ -1,5 +1,5 @@
 import * as SessionAPI from '../util/session_api'
-import { setCurrentBoardId, receiveBoards } from './board_toggler_actions';
+import { setCurrentBoardId, receiveBoards } from './nav_actions';
 
 export const RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
 export const RECEIVE_ERRORS = "RECEIVE_ERRORS"

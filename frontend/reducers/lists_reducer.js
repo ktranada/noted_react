@@ -1,5 +1,5 @@
-import { RECEIVE_BOARD } from '../actions/board_toggler_actions';
-import { ADD_LIST, ADD_CARD } from '../actions/board_content_actions';
+import { RECEIVE_BOARD } from '../actions/nav_actions';
+import { ADD_LIST, ADD_CARD } from '../actions/board_actions';
 import { updateObject, byIdObject, updateAssociationList } from './util';
 
 const initialState = {

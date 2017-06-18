@@ -1,8 +1,8 @@
 import React from 'react';
-import BoardTogglerTab  from './BoardTogglerTab';
+import NavTab  from './NavTab';
 import { getCurrentBoardById } from '../../reducers/selectors';
 
-class BoardToggler extends React.Component {
+class Nav extends React.Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
@@ -49,7 +49,7 @@ class BoardToggler extends React.Component {
     const matchBoardId = Number.parseInt(match.params.boardId);
     const boardsList = boards.map((board) => {
       let isCurrentBoard = matchBoardId === board.id;
-      return (<BoardTogglerTab
+      return (<NavTab
         isCurrentBoard={isCurrentBoard}
         handleClick={this.handleClick(board)}
         key={board.id}
@@ -58,7 +58,7 @@ class BoardToggler extends React.Component {
 
     let boardFormButton = null;
     if (boardsList.length < 3) {
-      boardFormButton = <BoardTogglerTab
+      boardFormButton = <NavTab
         handleClick={this.toggleModal}
         isButton={true}
         key={-1}
@@ -66,7 +66,7 @@ class BoardToggler extends React.Component {
     }
 
     return (
-      <ul className="board-toggle">
+      <ul className="nav">
         {boardsList}
         {boardFormButton}
       </ul>
@@ -74,4 +74,4 @@ class BoardToggler extends React.Component {
   }
 }
 
-export default BoardToggler;
+export default Nav;

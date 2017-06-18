@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import BoardContentDefault from './BoardContentDefault';
+import NewUserActions from './NewUserActions';
 import { toggleModal, ADD_BOARD } from '../../actions/modal_actions';
-import { createBoard } from '../../actions/board_toggler_actions';
+import { createBoard } from '../../actions/nav_actions';
 
 const mapStateToProps = ({ boards }) => ({
   boardCount: boards.order.length
@@ -16,4 +16,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(BoardContentDefault)
+)(NewUserActions)

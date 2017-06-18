@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { getObjectById, isLoadingByType } from '../../../reducers/selectors';
-import { editCard } from '../../../actions/board_content_actions';
+import { editCard } from '../../../actions/board_actions';
 import ViewCardModal from './ViewCardModal';
 
 const mapStateToProps = ({ cards, loading }, {match}) => ({

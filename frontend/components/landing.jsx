@@ -1,14 +1,14 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { ProtectedRoute } from '../util/route_util';
-import BoardTogglerContainer from './left_column/BoardTogglerContainer';
-import BoardNavContainer from './center_column/BoardNavContainer';
-import BoardNavDefault from './center_column/BoardNavDefault';
+import NavContainer from './left_column/NavContainer';
+import SubNavContainer from './center_column/SubNavContainer';
+import SubNavDefault from './center_column/SubNavDefault';
 import AccountConfigurationContainer from './center_column/bottom_section/AccountConfigurationContainer';
 import ModalControllerContainer from './modal/ModalControllerContainer';
 
-import BoardContentNavContainer from './right_column/BoardContentNavContainer';
-import BoardContentDefaultContainer from './right_column/BoardContentDefaultContainer';
+import InitialBoardContentContainer from './right_column/InitialBoardContentContainer';
+import NewUserActionsContainer from './right_column/NewUserActionsContainer';
 
 import ListIndexContainer from './right_column/lists/ListIndexContainer';
 import ViewCardModalContainer from './modal/view_card/ViewCardModalContainer';
@@ -17,15 +17,15 @@ const Landing = () => {
     <div className="landing-container">
       <section className="left-column">
         <Switch>
-          <Route path="/boards/:boardId" component={BoardTogglerContainer}/>
-          <Route component={BoardTogglerContainer}/>
+          <Route path="/boards/:boardId" component={NavContainer}/>
+          <Route component={NavContainer}/>
         </Switch>
       </section>
 
       <section className="center-column">
         <Switch>
-          <Route path="/boards/:boardId" component={BoardNavContainer} />
-          <Route component={BoardNavDefault} />
+          <Route path="/boards/:boardId" component={SubNavContainer} />
+          <Route component={SubNavDefault} />
         </Switch>
         <AccountConfigurationContainer />
       </section>
@@ -34,8 +34,8 @@ const Landing = () => {
         <Switch>
           <Route path="/boards/:boardId/card/:cardId" component={ListIndexContainer} />
           <Route path="/boards/:boardId/lists" component={ListIndexContainer} />
-          <Route path="/boards/:boardId" component={BoardContentNavContainer} />
-          <Route component={BoardContentDefaultContainer} />
+          <Route path="/boards/:boardId" component={InitialBoardContentContainer} />
+          <Route component={NewUserActionsContainer} />
         </Switch>
       </section>
 

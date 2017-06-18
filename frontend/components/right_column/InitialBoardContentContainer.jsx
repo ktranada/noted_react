@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { toggleModal, INVITE_PEOPLE } from '../../actions/modal_actions';
-import BoardContentNav from './BoardContentNav';
+import InitialBoardContent from './InitialBoardContent';
 const mapDispatchToProps = dispatch => ({
   toggleInviteModal: () => dispatch(toggleModal(INVITE_PEOPLE))
 });
@@ -8,4 +8,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   null,
   mapDispatchToProps
-)(BoardContentNav)
+)(InitialBoardContent)

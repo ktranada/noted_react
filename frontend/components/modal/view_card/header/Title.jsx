@@ -2,7 +2,7 @@ import React from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import PropTypes from 'prop-types';
 
-const CardTitle = props => {
+const Title = props => {
   return (
     <TextareaAutosize
       autoFocus={props.initialFocus}
@@ -13,7 +13,7 @@ const CardTitle = props => {
       className={props.isFocused || props.initialFocus ? 'focused' : ''}/>
   )
 }
-CardTitle.propTypes = {
+Title.propTypes = {
   value: PropTypes.string.isRequired,
   isFocused: PropTypes.bool.isRequired,
   updateField: PropTypes.func.isRequired,
@@ -22,4 +22,4 @@ CardTitle.propTypes = {
 }
 
 
-export default CardTitle;
+export default Title;

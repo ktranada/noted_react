@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-class BoardContentNav extends React.Component {
+class InitialBoardContent extends React.Component {
   constructor(props) {
     super(props);
 
@@ -17,9 +17,9 @@ class BoardContentNav extends React.Component {
     const { match } = this.props;
     window.props = this.props;
     return (
-      <div className="board-content-default board-content-nav">
-        <div className="board-content-default__action">
-          <div className="board-content-default__view-board">
+      <div className="new-user-actions board-content-nav">
+        <div className="new-user-actions__action">
+          <div className="new-user-actions__view-board">
             <p><b>View the board</b> to start creating lists and organizing thoughts.</p>
             <Link to={`/boards/${match.params.boardId}/lists`}>
               <button type="button" className="button button-bluegrey-light">
@@ -28,7 +28,7 @@ class BoardContentNav extends React.Component {
             </Link>
           </div>
           <hr />
-          <div className="board-content-default__view-board">
+          <div className="new-user-actions__view-board">
             <p><b>Invite people</b> to start creating lists and organizing thoughts.</p>
             <button
               type="button"
@@ -44,4 +44,4 @@ class BoardContentNav extends React.Component {
   }
 }
 
-export default BoardContentNav;
+export default InitialBoardContent;

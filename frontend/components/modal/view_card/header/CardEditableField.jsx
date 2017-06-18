@@ -1,12 +1,12 @@
 import React from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import PropTypes from 'prop-types';
-import CardTitle from './CardTitle';
-import CardDescription from './CardDescription';
+import Title from './Title';
+import Description from './Description';
 
 const EDITABLE_COMPONENTS = {
-  'title': CardTitle,
-  'description': CardDescription
+  'title': Title,
+  'description': Description
 }
 
 class CardEditableField extends React.Component {

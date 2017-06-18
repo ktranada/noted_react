@@ -1,9 +1,9 @@
 import React from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import PropTypes from 'prop-types';
-import CardTitle from './CardTitle';
+import Title from './Title';
 
-class CardDescription extends React.Component {
+class Description extends React.Component {
   constructor(props) {
     super(props);
 
@@ -29,7 +29,7 @@ class CardDescription extends React.Component {
 
     if (this.state.hasDescription) {
       description = (
-        <CardTitle
+        <Title
           initialFocus={this.props.value.length === 0}
           focusTextarea={this.props.focusTextarea}
           updateField={this.handleDescription}
@@ -57,7 +57,7 @@ class CardDescription extends React.Component {
   }
 }
 
-CardDescription.propTypes = {
+Description.propTypes = {
   value: PropTypes.string,
   isFocused: PropTypes.bool.isRequired,
   focusTextarea: PropTypes.func.isRequired,
@@ -65,9 +65,9 @@ CardDescription.propTypes = {
   updateField: PropTypes.func.isRequired
 }
 
-CardDescription.defaultProps = {
+Description.defaultProps = {
   value: ''
 }
 
 
-export default CardDescription;
+export default Description;

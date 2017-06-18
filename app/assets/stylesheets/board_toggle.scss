@@ -1,5 +1,5 @@
 @import "variables";
-.board-toggle {
+.nav {
     width: 64px;
     height: 100%;
     background: $bluegrey-dark;
@@ -16,7 +16,7 @@
       }
     }
 
-    .board-toggle__tab {
+    .nav__tab {
       margin-bottom: 25px;
       position: relative;
 
@@ -41,7 +41,7 @@
       }
     }
 
-    .board-toggle__button {
+    .nav__button {
       div {
         border: 1px #979797 dashed;
         i {

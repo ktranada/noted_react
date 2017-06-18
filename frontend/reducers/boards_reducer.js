@@ -6,11 +6,11 @@ import {
   RECEIVE_BOARDS,
   RECEIVE_BOARD,
   START_LOADING_BOARD
-} from '../actions/board_toggler_actions';
+} from '../actions/nav_actions';
 
 import {
   ADD_LIST
-} from '../actions/board_content_actions';
+} from '../actions/board_actions';
 
 const initialState = {
   byId: {},

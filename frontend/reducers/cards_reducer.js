@@ -1,6 +1,6 @@
 import merge from 'lodash/merge';
-import { ADD_CARD, ADD_COMMENT, EDIT_CARD_INFO } from '../actions/board_content_actions';
-import { RECEIVE_BOARD } from '../actions/board_toggler_actions';
+import { ADD_CARD, ADD_COMMENT, EDIT_CARD_INFO } from '../actions/board_actions';
+import { RECEIVE_BOARD } from '../actions/nav_actions';
 import { updateObject, byIdObject, updateAssociationList } from './util';
 
 const initialState = {
