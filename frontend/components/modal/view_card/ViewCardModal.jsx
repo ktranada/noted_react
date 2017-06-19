@@ -15,7 +15,7 @@ class ViewCardModal extends React.Component {
 
   componentWillReceiveProps(nextProps) {
       if (typeof nextProps.card === 'undefined') {
-        this.props.history.replace(`/boards/${this.props.match.params.boardId}/lists`)
+        this.props.history.replace(`/boards/${this.props.boardId}/lists`)
       }
   }
 
@@ -25,8 +25,7 @@ class ViewCardModal extends React.Component {
   }
 
   handleBackgroundClick() {
-    const { params } = this.props.match;
-    this.props.history.push(`/boards/${params.boardId}/lists`);
+    this.props.history.push(`/boards/${this.props.boardId}/lists`);
   }
 
   render() {
@@ -39,7 +38,7 @@ class ViewCardModal extends React.Component {
         <div className="view-card__modal-wrapper">
           <div className="view-card__modal">
             <Header card={card} editCard={this.editCard} />
-            <Body card={card} />
+            <Body boardId={this.props.boardId} card={card} />
           </div>
         </div>
       </ModalOverlayContainer>

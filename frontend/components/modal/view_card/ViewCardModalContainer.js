@@ -6,6 +6,7 @@ import ViewCardModal from './ViewCardModal';
 const mapStateToProps = ({ cards, loading }, {match}) => ({
   card: getObjectById(match.params.cardId, cards),
   isLoading: isLoadingByType(loading, match.params.boardId, 'loadingBoard'),
+  boardId: match.params.boardId,
   cards
 })
 

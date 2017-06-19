@@ -7,7 +7,9 @@ const Body = props => {
   return (
     <div className="card__body">
       <i className="material-icons">&#xE24C;</i>
-      <CommentIndexContainer card={props.card} />
+      <CommentIndexContainer
+        boardId={props.boardId}
+        card={props.card} />
       <CardActionsContainer cardId={props.card.id}/>
     </div>
   )

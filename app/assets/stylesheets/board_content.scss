@@ -378,9 +378,11 @@
 
         .comment__info {
           margin-top: 10px;
+          border: 1px solid rgba(0,0,0,.1);
+          padding: 7px;
+          border-radius: 2px;
+          margin-bottom: 15px;
         }
-
-
       }
     }
   }

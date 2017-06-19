@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const Members = props => {
   const members = props.members.map(member =>(
-    <li key={member.id}>{member.username}</li>
+    <li key={member.id}>{member.usernamesByBoardId[props.boardId]}</li>
   ));
   return (
     <ul>
@@ -15,7 +15,8 @@ const Members = props => {
 Members.propTypes = {
   members: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
-    username: PropTypes.string.isRequired
+
+    usernamesByBoardId: PropTypes.object
   }))
 }
 

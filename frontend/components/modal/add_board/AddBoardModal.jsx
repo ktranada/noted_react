@@ -37,13 +37,15 @@ class AddBoardModal extends React.Component {
     const { type } = this.state;
     return (
       <ModalOverlayContainer>
-        { type === 'create'
-            ? <CreateBoardContent
-                handleBackClick={this.handleBoardSelection('')}
-                createBoard={this.addBoard} />
-            : (type === 'join')
-              ? null
-              : <InitialContent handleBoardSelection={this.handleBoardSelection}/>}
+        <div className="add-board-modal__wrapper">
+          { type === 'create'
+              ? <CreateBoardContent
+                  handleBackClick={this.handleBoardSelection('')}
+                  createBoard={this.addBoard} />
+              : (type === 'join')
+                ? null
+                : <InitialContent handleBoardSelection={this.handleBoardSelection}/>}
+        </div>
       </ModalOverlayContainer>
     )
   }

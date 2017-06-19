@@ -37,7 +37,7 @@ export const updateAssociationList = (state, associationId, association, newObje
   let newState = byIdObject(associationId, {
     [association]: list
   });
-  return updateObjectWithUpdatedAssociations(state, newState);
+  return remove ? updateObjectWithUpdatedAssociations(state, newState) : updateObject(state, newState);
 }
 
 export const deleteObjectById = (state, id) => {

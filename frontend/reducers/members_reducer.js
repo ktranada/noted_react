@@ -7,6 +7,17 @@ const initialState = {
   byId: {}
 }
 
+// {
+//   byId: {
+//     1: {
+//       id: 1
+//       usernamesByBoardId: {
+//         1: "giraffage"
+//       }
+//     }
+//   }
+// }
+
 const membersReducer = (state = initialState, action) => {
   Object.freeze(state);
   switch (action.type) {

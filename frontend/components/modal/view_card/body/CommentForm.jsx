@@ -32,6 +32,11 @@ class CommentForm extends React.Component {
       card_id: this.props.cardId,
       description: this.state.description
     });
+
+    this.setState({
+      description: '',
+      isValid: true
+    })
   }
 
   render() {

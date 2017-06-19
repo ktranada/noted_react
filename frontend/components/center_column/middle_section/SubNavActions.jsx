@@ -15,7 +15,7 @@ const SubNavActions = (props) => {
 
       { members.length > 0 &&
         <li className="sub-nav__category members"><span><i aria-hidden className="material-icons">&#xE7FB;</i>MEMBERS</span>
-          <Members members={members} />
+          <Members boardId={boardId} members={members} />
         </li>
       }
     </ul>
@@ -31,7 +31,7 @@ SubNavActions.propTypes = {
   })),
   members: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
-    username: PropTypes.string.isRequired
+    usernamesByBoardId: PropTypes.object.isRequired
   }))
 }
 

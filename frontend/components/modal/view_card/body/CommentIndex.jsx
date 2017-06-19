@@ -18,6 +18,7 @@ class CommentIndex extends React.Component {
     const comments = this.props.comments.map(comment => (
       <CommentIndexItemContainer
         key={comment.id}
+        boardId={this.props.boardId}
         comment={comment} />
     ))
     return(

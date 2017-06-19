@@ -10,7 +10,7 @@ end
 
 
 json.set! :members do
-  json.partial! 'api/users/users', memberships: @board.board_memberships
+  json.partial! 'api/users/users', board: @board, memberships: @board.board_memberships
 end
 
 json.set! :channels do
