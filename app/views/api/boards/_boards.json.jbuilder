@@ -8,6 +8,7 @@ json.set! :byId do
       json.channels []
       json.members []
       json.lists []
+      json.invites []
       json.owner board.is_owned_by?(current_user)
     end
     order << board.id

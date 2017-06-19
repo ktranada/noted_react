@@ -10,12 +10,15 @@ class Nav extends React.Component {
   }
 
   componentWillMount() {
-    this.requestBoard(this.props.currentBoard);
+    if (!this.props.isLanding && this.props.currentBoard) {
+      this.requestBoard(this.props.currentBoard);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.currentBoard && nextProps.currentBoard.id !== this.props.currentBoard.id) {
-      console.log('inside');
+    if (nextProps.currentBoard &&
+        (!Boolean(this.props.currentBoard) ||
+         nextProps.currentBoard.id !== this.props.currentBoard.id)) {
       this.requestBoard(nextProps.currentBoard);
     }
     const nextBoardId = nextProps.match.params.boardId;

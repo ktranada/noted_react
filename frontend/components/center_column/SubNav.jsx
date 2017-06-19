@@ -8,24 +8,13 @@ class SubNav extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleInviteButton = this.handleInviteButton.bind(this);
-  }
-  componentWillMount() {
-    if (!this.props.currentBoard) {
-      this.props.history.push('/boards');
-      return;
-    }
+    this.toggleModal = this.toggleModal.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.currentBoard) {
-      this.props.history.push('/boards');
-      return;
+  toggleModal(type) {
+    return (e) => {
+      this.props.toggleModal(type);
     }
-  }
-
-  handleInviteButton() {
-    this.props.toggleModal("ADD_BOARD");
   }
 
   render() {
@@ -40,7 +29,7 @@ class SubNav extends React.Component {
         <div className="initial-invite-display">
           <button
             type="button"
-            onClick={this.handleInviteButton}
+            onClick={this.toggleModal('INVITE_PEOPLE')}
             className="button button-green">
             <i  aria-hidden className="material-icons">&#xE7FB;</i>Invite People
           </button>
@@ -53,7 +42,9 @@ class SubNav extends React.Component {
       <div>
         {
           currentBoard.owner &&
-          <BoardConfiguration board={currentBoard}/> 
+          <BoardConfiguration
+            toggleModal={this.toggleModal}
+            board={currentBoard}/>
         }
         <hr />
         { inviteButton }
@@ -74,8 +65,6 @@ SubNav.propTypes = {
   isLoading: PropTypes.bool,
   currentBoard: PropTypes.object,
 
-  requestChannels: PropTypes.func,
-  requestBoardMembers: PropTypes.func,
   toggleModal: PropTypes.func
 }
 

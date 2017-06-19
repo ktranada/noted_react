@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { INVITE_PEOPLE } from '../../../actions/modal_actions';
 
 class BoardConfiguration extends React.Component {
   constructor(props) {
@@ -12,6 +12,7 @@ class BoardConfiguration extends React.Component {
     }
 
     this.toggleDropdown = this.toggleDropdown.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
   }
 
   toggleDropdown() {
@@ -20,9 +21,18 @@ class BoardConfiguration extends React.Component {
     });
   }
 
+  toggleModal(type) {
+    return (e) => {
+      this.setState({
+        showDropdown: false
+      });
+      this.props.toggleModal(type);
+    }
+  }
+
   render() {
     const { board} = this.props;
-
+//this.state.showDropdown ? 'open' : ''
     return (
       <div className="board-configuration">
         <span>{board.title}</span>
@@ -31,8 +41,8 @@ class BoardConfiguration extends React.Component {
           className="material-icons"
           onClick={this.toggleDropdown}>&#xE5D4;</i>
         <div
-          className={`board-configuration__dropdown ${this.state.showDropdown ? 'open' : ''}`}>
-          <div role="button">
+          className={`board-configuration__dropdown ${'open'}`}>
+          <div role="button" onClick={this.toggleModal(INVITE_PEOPLE)}>
             <i className="material-icons">&#xE7FE;</i>
             Invite People
           </div>
@@ -48,7 +58,8 @@ class BoardConfiguration extends React.Component {
 }
 
 BoardConfiguration.proptypes = {
-  board: PropTypes.object.required
+  board: PropTypes.object.isRequired,
+  toggleModal: PropTypes.func.isRequired
 }
 
 export default BoardConfiguration;

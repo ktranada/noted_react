@@ -16,7 +16,7 @@ class Channel < ActiveRecord::Base
   validates :board, :title, :permission, presence: true
   belongs_to :board
 
-  has_many :subscriptions, inverse_of: :channels, dependent: :destroy
+  has_many :subscriptions, inverse_of: :channel, dependent: :destroy
   has_many :participants, through: :subscriptions, source: :user
   has_many :messages, dependent: :destroy
 

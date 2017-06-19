@@ -1,15 +1,15 @@
 import merge from 'lodash/merge';
 import { byIdObject, updateObject, updateAssociationList } from './util';
 import {
-  SET_CURRENT_BOARD_ID,
+  START_LOADING_BOARD,
   ADD_BOARD,
   RECEIVE_BOARDS,
   RECEIVE_BOARD,
-  START_LOADING_BOARD
 } from '../actions/nav_actions';
 
 import {
-  ADD_LIST
+  ADD_LIST,
+  ADD_INVITE
 } from '../actions/board_actions';
 
 const initialState = {
@@ -41,13 +41,15 @@ function startLoadingBoard(state, action) {
 
 function receiveBoard(state, action) {
   const { board } = action;
-  const { members, channels, lists } = board.info;
+  const { members, channels, lists, invites } = board.info;
   const newState = byIdObject(board.id, {
     isLoaded: true,
     isLoading: false,
     members,
     channels,
-    lists
+    lists,
+    invites
+
   })
   return updateObject(state, newState)
 }
@@ -61,6 +63,15 @@ function addBoard(state, action) {
     errors: []
   };
   return updateObject(state, newState);
+}
+
+function addInvite(state, action) {
+  return updateAssociationList(
+    state,
+    action.invite.board_id,
+    'invites',
+    action.invite.id
+  );
 }
 
 function addList(state, action) {
@@ -78,6 +89,7 @@ const boardsReducer = (state = initialState, action) => {
     case START_LOADING_BOARD: return startLoadingBoard(state, action);
     case ADD_BOARD: return addBoard(state, action);
     case ADD_LIST: return addList(state, action);
+    case ADD_INVITE: return addInvite(state, action);
     case RECEIVE_BOARD: return receiveBoard(state, action);
     case RECEIVE_BOARDS:
       return merge({}, state, {

@@ -146,3 +146,69 @@
     }
   }
 }
+
+.modal-overlay {
+  .invite-modal__wrapper {
+    .invite-modal__content {
+      padding: 40px 65px;
+      background: #EEEEEE;
+      border-radius: 2px;
+      margin-bottom: 5rem;
+      h2 {
+        margin-bottom: 40px;
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 40px;
+        text-align: center;
+        margin-top: 20px;
+        letter-spacing: 0.6px;
+      }
+
+      .invite__row {
+        margin-bottom: 20px;
+        position: relative;
+        label {
+          display: flex;
+          flex-direction: column;
+          font-size: 10px;
+          font-weight: bold;
+          color: gray;
+          letter-spacing: .5px;
+          input {
+            margin-top: 6px;
+            padding-bottom: 2px;
+            border-bottom: 1px solid gray,
+          }
+        }
+
+        i.material-icons{
+          position: absolute;
+          right: -24px;
+          top: 25px;
+          font-weight: bold;
+          color: #D50000;
+          font-size: 18px;
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+
+      .invite__add {
+        display: flex;
+        align-items: center;
+        color: $bluegrey-light;
+        font-weight: bold;
+        .material-icons {
+          font-size: 18px;
+          margin-right: 5px;
+          font-weight: bold;
+        }
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

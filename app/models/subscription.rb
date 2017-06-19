@@ -10,6 +10,6 @@
 #
 
 class Subscription < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, inverse_of: :subscriptions
   belongs_to :channel, inverse_of: :subscriptions
 end

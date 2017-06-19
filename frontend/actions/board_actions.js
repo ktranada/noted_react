@@ -4,6 +4,8 @@ export const ADD_LIST = 'ADD_LIST';
 export const ADD_CARD = 'ADD_CARD';
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const ADD_MESSAGE = 'ADD_MESSAGE';
+export const ADD_INVITES = 'ADD_INVITES';
+export const ADD_INVITE = 'ADD_INVITE';
 export const EDIT_CARD_INFO = 'EDIT_CARD_INFO';
 export const REMOVE_CARD = 'REMOVE_CARD';
 
@@ -31,6 +33,22 @@ export const createComment = comment => dispatch => (
     })
 )
 
+export const createInvite = boardId => dispatch => (
+  BoardAPI.createInvite(boardId)
+    .then(invite => {
+      dispatch(addInvite(invite));
+      return invite;
+    })
+)
+
+export const createInvites = invites => dispatch => (
+  BoardAPI.createInvites(invites)
+    .then(invites => {
+      dispatch(addInvites(invites));
+      return invites;
+    })
+)
+
 export const deleteCard = cardId => dispatch => (
   BoardAPI.deleteCard(cardId)
     .then((card) => {
@@ -45,6 +63,15 @@ export const editCard = card => dispatch => (
       return card;
     })
 )
+
+export const addInvites = invites => ({
+  type: ADD_INVITES,
+  invites
+})
+export const addInvite = invite => ({
+  type: ADD_INVITE,
+  invite
+})
 
 export const addList = list => ({
   type: ADD_LIST,

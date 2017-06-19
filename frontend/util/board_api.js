@@ -5,12 +5,12 @@ export const requestBoard = boardId => (
   })
 )
 
-export const requestBoardMembers = boardId => (
-  $.ajax({
-    method: 'GET',
-    url: `/api/boards/${boardId}/users`
-  })
-);
+// export const requestBoardMembers = boardId => (
+//   $.ajax({
+//     method: 'GET',
+//     url: `/api/boards/${boardId}/users`
+//   })
+// );
 
 export const requestChannels = (boardId) => (
   $.ajax({
@@ -68,4 +68,12 @@ export const editCard = data => (
 
 export const deleteCard = id => (
   destroy('card', id)
+)
+
+export const createInvites = data => (
+  create('invite', data)
+)
+
+export const createInvite = data => (
+  create('invite', data)
 )

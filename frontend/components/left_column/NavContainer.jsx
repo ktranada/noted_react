@@ -3,13 +3,12 @@ import { withRouter } from 'react-router-dom';
 import Nav from './Nav';
 import { asArrayByOrder, getCurrentBoardById } from '../../reducers/selectors';
 
-import { requestBoard } from '../../actions/nav_actions';
+import { requestBoard, setCurrentBoardId } from '../../actions/nav_actions';
 import { toggleModal, ADD_BOARD } from '../../actions/modal_actions';
 
-const mapStateToProps = ({ boards }, {match}) => {
+const mapStateToProps = ({ boards }, {currentBoard}) => {
   return ({
     boards: asArrayByOrder(boards, boards.order),
-    currentBoard: getCurrentBoardById(match.params.boardId, boards)
   })
 };
 

@@ -1,6 +1,6 @@
 import { TOGGLE_MODAL } from '../actions/modal_actions';
 
-const initialState = null
+const initialState = null;
 
 const modalsReducer = (state = initialState, action) => {
   switch(action.type) {

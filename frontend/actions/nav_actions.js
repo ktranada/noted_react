@@ -25,6 +25,7 @@ export const requestBoard = boardId => dispatch => {
   dispatch(startLoadingBoard(boardId));
   return BoardsAPI.requestBoard(boardId)
     .then(board => {
+      // dispatch(setCurrentBoardId(board.id));
       dispatch(receiveBoard(board));
       return board;
     })
@@ -52,7 +53,7 @@ export const addBoard = (board) => ({
   board
 });
 
-export const setCurrentBoardId = currentBoardId => ({
+export const setCurrentBoardId = id => ({
   type: SET_CURRENT_BOARD_ID,
-  currentBoardId
-})
+  id
+});

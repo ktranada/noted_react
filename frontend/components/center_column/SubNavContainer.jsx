@@ -2,11 +2,15 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import SubNav from './SubNav';
 import { getCurrentBoardById, asArrayByOrder, isLoadingByType } from '../../reducers/selectors';
-import { requestChannels, requestBoardMembers } from '../../actions/sub_nav_actions';
+import { requestChannels } from '../../actions/sub_nav_actions';
 import { toggleModal } from '../../actions/modal_actions';
 
 const mapStateToProps = ({ boards, channels, members, loading }, { match }) => {
-  const currentBoard = getCurrentBoardById(match.params.boardId, boards) || {}
+  const currentBoard = getCurrentBoardById(match.params.boardId, boards);
+  if (!Boolean(currentBoard)) return ({
+    currentBoard: null
+  });
+
   return ({
     channels: asArrayByOrder(channels, currentBoard.channels),
     members: asArrayByOrder(members, currentBoard.members),
@@ -16,9 +20,7 @@ const mapStateToProps = ({ boards, channels, members, loading }, { match }) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  requestChannels: boardId => requestChannels(boardId)(dispatch),
-  requestBoardMembers: boardId => requestBoardMembers(boardId)(dispatch),
-  toggleModal: modal => dispatch(toggleModal(modal))
+  toggleModal: (type) => dispatch(toggleModal(type)),
 })
 
 

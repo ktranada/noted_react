@@ -22,9 +22,9 @@ export const asArrayByOrder = (entity, order) => {
 
 export const getCurrentBoardById = (id, boards) => {
   if (isUndefined(boards) || boards.length === 0) {
-    return {};
+    return null;
   }
-  return boards.byId[id] || {};
+  return boards.byId[id];
 }
 
 export const isLoadingByType = (loadingState, boardId, type) => {

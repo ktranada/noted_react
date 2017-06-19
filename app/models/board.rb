@@ -17,12 +17,12 @@ class Board < ActiveRecord::Base
   has_many :invites, dependent: :destroy
   has_many :board_memberships, dependent: :destroy, inverse_of: :board
   has_many :members, through: :board_memberships, source: :user
-  has_many :lists
+  has_many :lists, dependent: :destroy
 
-  has_many :channels
+  has_many :channels, dependent: :destroy
 
   before_create :set_ord
-  after_commit :create_general_channel, on: :create
+  after_commit :create_initial_invite, on: :create
 
   def has_member?(user)
     self.members.include?(user)
@@ -40,6 +40,10 @@ class Board < ActiveRecord::Base
 
   def create_general_channel
     channel = Channel.create(board_id: id, title: "General", permission: :public)
+  end
+
+  def create_initial_invite
+    Invite.create!(user_id: owner.id, board_id: id, recipient_email: '')
   end
 
   def set_ord
