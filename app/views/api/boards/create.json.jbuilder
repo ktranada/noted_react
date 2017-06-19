@@ -4,3 +4,4 @@ json.isLoading false
 json.channels []
 json.members []
 json.lists []
+json.owner true

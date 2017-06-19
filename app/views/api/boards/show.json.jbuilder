@@ -7,8 +7,6 @@ json.set! :info do
 
 end
 
-
-
 json.set! :members do
   json.partial! 'api/users/users', board: @board, memberships: @board.board_memberships
 end

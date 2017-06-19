@@ -51,7 +51,10 @@ class SubNav extends React.Component {
 
     return (
       <div>
-        <BoardConfiguration {...currentBoard} />
+        {
+          currentBoard.owner &&
+          <BoardConfiguration board={currentBoard}/> 
+        }
         <hr />
         { inviteButton }
         { inviteButton && <hr />}

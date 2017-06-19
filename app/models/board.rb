@@ -31,6 +31,10 @@ class Board < ActiveRecord::Base
     self.board_memberships.create!(user_id: user_id, username: username)
   end
 
+  def is_owned_by?(user)
+    self.owner == user
+  end
+
   private
 
   def create_general_channel
@@ -40,5 +44,4 @@ class Board < ActiveRecord::Base
   def set_ord
     self.ord = Board.where(user_id: self.user_id).count
   end
-
 end
