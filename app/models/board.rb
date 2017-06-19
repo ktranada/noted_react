@@ -14,6 +14,7 @@ class Board < ActiveRecord::Base
   validates :owner, :title, presence: true, allow_nil: false
 
   belongs_to :owner, class_name: "User", foreign_key: "user_id"
+  has_many :invites, dependent: :destroy
   has_many :board_memberships, dependent: :destroy, inverse_of: :board
   has_many :members, through: :board_memberships, source: :user
   has_many :lists

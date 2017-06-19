@@ -6,7 +6,7 @@
 #  list_id     :integer          not null
 #  title       :string           not null
 #  ord         :integer          default("0"), not null
-#  description :text
+#  description :text             default("")
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
