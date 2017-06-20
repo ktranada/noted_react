@@ -9,7 +9,8 @@ import {
 
 import {
   ADD_LIST,
-  ADD_INVITE
+  ADD_INVITES,
+  REMOVE_INVITE
 } from '../actions/board_actions';
 
 const initialState = {
@@ -27,6 +28,7 @@ const initialState = {
 //     channels: [],
 //     lists: [],
 //     cards: [],
+//     invites: [],
 //     ord: 0,
 //     title: 'React'
 //   }
@@ -65,12 +67,12 @@ function addBoard(state, action) {
   return updateObject(state, newState);
 }
 
-function addInvite(state, action) {
+function addInvites(state, action) {
   return updateAssociationList(
     state,
-    action.invite.board_id,
+    action.invites.board_id,
     'invites',
-    action.invite.id
+    action.invites.ids
   );
 }
 
@@ -83,13 +85,19 @@ function addList(state, action) {
   );
 }
 
+const removeInvite = (state, action) => {
+  return updateAssociationList(
+    state,
+    action.invite.board_id,
+    'invites',
+    action.invite.id,
+    { remove: true});
+}
+
 
 const boardsReducer = (state = initialState, action) => {
   switch (action.type) {
     case START_LOADING_BOARD: return startLoadingBoard(state, action);
-    case ADD_BOARD: return addBoard(state, action);
-    case ADD_LIST: return addList(state, action);
-    case ADD_INVITE: return addInvite(state, action);
     case RECEIVE_BOARD: return receiveBoard(state, action);
     case RECEIVE_BOARDS:
       return merge({}, state, {
@@ -97,10 +105,10 @@ const boardsReducer = (state = initialState, action) => {
         order: action.boards.order,
         errors: []
       });
-    // case RECEIVE_ERRORS:
-    //   return merge({}, state, {
-    //     errors: action.errors
-    //   })
+    case ADD_BOARD: return addBoard(state, action);
+    case ADD_LIST: return addList(state, action);
+    case ADD_INVITES: return addInvites(state, action);
+    case REMOVE_INVITE: return removeInvite(state, action);
 
     default:
       return state;

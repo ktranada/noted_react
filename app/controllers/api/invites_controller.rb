@@ -2,17 +2,39 @@ class Api::InvitesController < ApplicationController
   skip_before_action :require_login!, only: [:create, :update]
 
   def create
-    @invite = Invite.new(invite_create_params)
-    @invite.user_id = current_user.id
+    json = JSON.parse(params[:invites])
+    @board_id = json["board_id"]
+    data = json["invites"]
 
-    if @invite.save
-      render :create
-    else
-      render json: @invite.errors.full_messages, status: 422
+    @invites = []
+    @errors = []
+
+    data.each do |info|
+      invite = Invite.new(
+        board_id: @board_id,
+        user_id: current_user.id,
+        status: :sent,
+        recipient_email: info["recipient_email"])
+
+      if invite.save
+        @invites << invite
+      else
+        @errors << {
+          email: invite.recipient_email,
+          error: invite.errors[:invite][0]
+        }
+      end
     end
   end
 
   def destroy
+    begin
+      invite = Invite.find(params[:id])
+      invite.destroy
+      render json: { id: invite.id, board_id: invite.board_id }
+    rescue
+      render json: "Invite does not exist", status: 422
+    end
   end
 
   def update
@@ -37,6 +59,7 @@ class Api::InvitesController < ApplicationController
     else
       render json: @user.errors.full_messages, status: 422
     end
+
   end
 
   private
@@ -46,6 +69,6 @@ class Api::InvitesController < ApplicationController
   end
 
   def invite_update_params
-    params.require(:invite).permit(:status)
+    params.require(:invite).permit(:recipient_email, :status)
   end
 end

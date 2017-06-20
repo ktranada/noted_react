@@ -3,6 +3,7 @@ import ModalOverlayContainer from '../ModalOverlayContainer';
 import Header from './header/Header';
 import Body from './body/Body';
 import { getObjectById } from '../../../reducers/selectors';
+import Spinner from '../../misc/spinner';
 
 class ViewCardModal extends React.Component {
   constructor(props) {
@@ -10,13 +11,12 @@ class ViewCardModal extends React.Component {
 
     this.editCard = this.editCard.bind(this);
     this.handleBackgroundClick = this.handleBackgroundClick.bind(this);
-
   }
 
   componentWillReceiveProps(nextProps) {
-      if (typeof nextProps.card === 'undefined') {
-        this.props.history.replace(`/boards/${this.props.boardId}/lists`)
-      }
+    if (!nextProps.isLoading && (typeof nextProps.card === 'undefined')) {
+      this.props.history.replace(`/boards/${this.props.boardId}/lists`)
+    }
   }
 
   editCard(data) {
@@ -29,16 +29,22 @@ class ViewCardModal extends React.Component {
   }
 
   render() {
-    if (this.props.isLoading) return null;
-
-    const { card } = this.props;
+    const { card, isLoading } = this.props;
     return(
       <ModalOverlayContainer
         onBackgroundClick={this.handleBackgroundClick}>
         <div className="view-card__modal-wrapper">
           <div className="view-card__modal">
-            <Header card={card} editCard={this.editCard} />
-            <Body boardId={this.props.boardId} card={card} />
+            {
+              isLoading ?
+              <Spinner /> :
+                (
+                  <div>
+                    <Header card={card} editCard={this.editCard} />
+                    <Body boardId={this.props.boardId} card={card} />
+                  </div>
+                )
+            }
           </div>
         </div>
       </ModalOverlayContainer>

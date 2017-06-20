@@ -2,9 +2,13 @@ const isUndefined = obj => (
   typeof obj === 'undefined'
 )
 
-export const asArray = (obj) => (
-  Object.keys(obj).map(key => obj[key])
-)
+export const asArray = (obj) => {
+  if (isUndefined(obj)) {
+    return [];
+  }
+  return Object.keys(obj).map(key => obj[key])  
+}
+
 
 export const mapOrderToObjects = (obj, order) => {
   if (isUndefined(order) || isUndefined(obj)) return [];
@@ -41,4 +45,10 @@ export const getObjectById = (id, entity) => {
   }
 
   return entity.byId[id];
+}
+
+export const getInvitesByStatus = (invitesArray, status) => {
+  if (isUndefined(invitesArray)) return null;
+
+  return invitesArray.filter(invite => invite.status === status);
 }

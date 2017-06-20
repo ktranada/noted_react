@@ -3,12 +3,15 @@ import { getObjectById, isLoadingByType } from '../../../reducers/selectors';
 import { editCard } from '../../../actions/board_actions';
 import ViewCardModal from './ViewCardModal';
 
-const mapStateToProps = ({ cards, loading }, {match}) => ({
-  card: getObjectById(match.params.cardId, cards),
-  isLoading: isLoadingByType(loading, match.params.boardId, 'loadingBoard'),
-  boardId: match.params.boardId,
-  cards
-})
+const mapStateToProps = ({ cards, loading }, {match, currentBoard}) => {
+  return ({
+    card: getObjectById(match.params.cardId, cards),
+    isLoading: isLoadingByType(loading, currentBoard.id, 'loadingBoard'),
+    boardId: currentBoard.id,
+    cards
+  })
+
+}
 
 const mapDispatchToProps = (dispatch) => ({
   editCard: (card) => editCard(card)(dispatch)

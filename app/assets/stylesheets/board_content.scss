@@ -74,7 +74,13 @@
             flex-direction: column;
     height: 100%;
     position: relative;
-
+    > svg.spinner {
+      position: absolute;
+      top: calc(50% - 76px);
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+    }
     .list-index {
       height: 100%;
       position: absolute;
@@ -117,6 +123,10 @@
             margin-bottom: 10px;
 
             li {
+              a {
+                text-decoration: none;
+                color: black;
+              }
               .list__card {
                 padding: 10px;
                 background: #fafafa;
@@ -124,6 +134,7 @@
                 margin-bottom: 5px;
                 text-overflow: ellipsis;
                 overflow: hidden;
+
               }
             }
           }
@@ -267,6 +278,13 @@
     padding-left: 40px;
     margin-bottom: 5rem;
 
+    > svg.spinner {
+      position: absolute;
+      top: calc(50% - 76px);
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);      
+    }
 
     .card__header, .card__body {
       > .material-icons {

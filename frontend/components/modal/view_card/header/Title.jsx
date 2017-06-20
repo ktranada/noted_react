@@ -17,6 +17,7 @@ const Title = props => {
 }
 Title.propTypes = {
   value: PropTypes.string.isRequired,
+  isValid: PropTypes.bool.isRequired,
   isFocused: PropTypes.bool.isRequired,
   updateField: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,

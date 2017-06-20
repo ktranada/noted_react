@@ -21,11 +21,15 @@ import React from 'react';
 
 const InviteRow = props => {
   const isInitialRow = props.inviteCount === 1;
+  const isValid = typeof props.isValid === 'undefined' ? true : props.isValid; // Could be undefined from the beginning
+
   return (
     <div className="invite__row">
-      <label>EMAIL ADDRESS
+      <label
+        data-error={isValid ? "" : "This isn't a valid email address"}
+        className={isValid ? "" : "error"}>EMAIL ADDRESS
         <input
-          type="text"
+          type="email"
           className="invite__input"
           value={props.email}
           onChange={props.handleChange}/>

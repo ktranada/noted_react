@@ -28,6 +28,7 @@ const ProtectedRedirect = ({ exact, to, path, isLoggedIn }) => (
   )} />
 )
 
+
 const mapStateToProps = ({session}) => ({
   isLoggedIn: Boolean(session.currentUser)
 });

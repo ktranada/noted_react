@@ -1,20 +1,21 @@
 import { connect } from 'react-redux';
 import InvitePeopleModal from './InvitePeopleModal';
-import { createInvites, createInvite } from '../../../actions/board_actions';
-import { asArrayByOrder, getCurrentBoardById } from '../../../reducers/selectors';
+import { createInvites, destroyInvite } from '../../../actions/board_actions';
+import { asArrayByOrder, getInvitesByStatus } from '../../../reducers/selectors';
 
-const mapStateToProps = ({invites, boards, currentBoardId}) => {
-  const board = getCurrentBoardById(currentBoardId, boards);
+const mapStateToProps = ({invites, boards}, {currentBoard}) => {
+  const invitesArray = asArrayByOrder(invites, currentBoard.invites);
+  const remainingInviteCount = 10 - currentBoard.members.length - invitesArray.filter(({status}) => status === 'not_sent' || status === 'sent').length;
+
   return ({
-    invitesArray: asArrayByOrder(invites, board.invites),
-    invites
+    remainingInviteCount,
   });
 }
 
-const mapDispatchToProps = (dispatch, { currentBoardId }) => {
+const mapDispatchToProps = (dispatch, { currentBoard }) => {
   return ({
     createInvites: invites => createInvites(invites)(dispatch),
-    createInvite: currentBoardId => createInvite(currentBoardId)(dispatch)
+    destroyInvite: (inviteId) => destroyInvite(inviteId)(dispatch)
   })
 };
 

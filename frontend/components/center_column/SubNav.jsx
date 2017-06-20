@@ -12,9 +12,7 @@ class SubNav extends React.Component {
   }
 
   toggleModal(type) {
-    return (e) => {
-      this.props.toggleModal(type);
-    }
+    this.props.toggleModal(type);
   }
 
   render() {

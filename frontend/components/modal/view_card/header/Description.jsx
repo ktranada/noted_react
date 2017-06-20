@@ -34,6 +34,7 @@ class Description extends React.Component {
           focusTextarea={this.props.focusTextarea}
           updateField={this.handleDescription}
           handleChange={this.props.handleChange}
+          isValid={this.props.isValid}
           value={this.props.value}
           isFocused={this.props.isFocused} />
       )

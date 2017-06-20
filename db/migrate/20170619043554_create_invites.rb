@@ -12,7 +12,7 @@ class CreateInvites < ActiveRecord::Migration[5.0]
 
     add_index :invites, :user_id
     add_index :invites, :board_id
-    add_index :invites, [:board_id, :recipient_email], unique: true
+    add_index :invites, [:board_id, :recipient_email]
     add_index :invites, :recipient_email
   end
 end

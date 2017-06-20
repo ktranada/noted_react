@@ -32,11 +32,18 @@ class Boards extends React.Component {
         </section>
         <section className="right-column">
           <Switch>
-            <Route path="/boards/:boardId/card/:cardId" component={ListIndexContainer} />
-            <Route path="/boards/:boardId/lists" component={ListIndexContainer} />
+            <Route path="/boards/:boardId/card/:cardId" render={props => (
+                <ListIndexContainer currentBoard={this.props.currentBoard} />
+              )} />
+            <Route path="/boards/:boardId/lists" render={props => (
+                <ListIndexContainer currentBoard={this.props.currentBoard} />
+              )} />
             <Route path="/boards/:boardId" component={InitialBoardContentContainer} />
           </Switch>
         </section>
+        <Route path="/boards/:boardId/card/:cardId" render={props => (
+            <ViewCardModalContainer {...props} currentBoard={this.props.currentBoard} />
+          )} />
         <ModalControllerContainer {...props}/>
       </div>
     )

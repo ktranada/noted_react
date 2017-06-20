@@ -1,6 +1,8 @@
 import React from 'react';
 import ModalOverlayContainer from '../ModalOverlayContainer';
-import InviteRow from './InviteRow';
+import InviteForm from './InviteForm';
+import InviteResults from './InviteResults';
+import { asArray } from '../../../reducers/selectors';
 
 class InvitePeopleModal extends React.Component {
   constructor(props) {
@@ -10,59 +12,95 @@ class InvitePeopleModal extends React.Component {
     this.addInviteRow = this.addInviteRow.bind(this);
     this.removeInviteRow = this.removeInviteRow.bind(this);
     this.handleChange = this.handleChange.bind(this);
-
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
-      invites: this.props.invites.byId
+      invites: [{
+        key: 0,
+        recipient_email: '',
+        isValid: true
+      }],
+      serializedCount: 0,
+      results: null
     }
   }
 
   addInviteRow() {
-    this.props.createInvite();
+    const nextCount = this.state.serializedCount + 1;
+    this.setState({
+      invites: [...this.state.invites, {
+        key: nextCount,
+        recipient_email: '',
+        isValid: true
+      }],
+      serializedCount: nextCount
+    });
   }
 
-  removeInviteRow(id) {
+  removeInviteRow(key) {
     return () => {
-
+      this.setState({
+        invites: [...this.state.invites].filter(invite => invite.key !== key ),
+      })
     }
   }
 
-  handleChange(id) {
+  handleChange(pos) {
     return (e) => {
-      this.setState({
-        invites: {
-          [this.state.invites[id]]: {
-            email: e.currentTarget.value
-          }
-        }
-      });
+      let invites = [...this.state.invites];
+      invites[pos].recipient_email = e.currentTarget.value;
+      this.setState({ invites })
     }
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+
+    let hasErrors = false;
+    const invites = [...this.state.invites]
+      .map(invite => {
+        if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(invite.recipient_email)) {
+          hasErrors = true;
+          invite['isValid'] = false;
+        } else {
+          invite['isValid'] = true;
+        }
+        return invite;
+      });
+
+    if (hasErrors) {
+      this.setState({ invites });
+    } else {
+      const that = this;
+      this.props.createInvites({ board_id: this.props.currentBoard.id, invites })
+        .then(invites => {
+            let results = {
+              errors: invites.errors,
+              success: asArray(invites.byId),
+              count: invites.count
+            }
+            that.setState({ results });
+          })
+        }
   }
 
   render() {
-    const inviteCount = this.props.invites.length;
     return (
       <ModalOverlayContainer>
         <div className="invite-modal__wrapper">
-          <div className="invite-modal__content">
-            <h2>Invite Board Members</h2>
-            {
-              this.props.invitesArray.map(({id, email}) => (
-                <InviteRow
-                  key={id}
-                  value={email}
-                  inviteCount={inviteCount}
-                  handleRemove={this.removeInviteRow(id)}
-                  handleChange={this.handleChange(id)}/>
-              ))
-            }
-            <div
-              role="button"
-              className="invite__add"
-              onClick={this.addInviteRow}>
-              <i className="material-icons">&#xE148;</i>
-              Add Another
-            </div>
-          </div>
+          {
+            this.state.results === null ?
+            (<InviteForm
+              invites={this.state.invites}
+              remainingInviteCount={this.props.remainingInviteCount}
+              addInviteRow={this.addInviteRow}
+              removeInviteRow={this.removeInviteRow}
+              handleRemove={this.handleRemove}
+              handleChange={this.handleChange}
+              handleSubmit={this.handleSubmit}/>) :
+            (<InviteResults
+              hideModal={this.props.hideModal}
+              results={this.state.results}/>)
+          }
         </div>
       </ModalOverlayContainer>
     )

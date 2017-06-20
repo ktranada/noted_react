@@ -28,11 +28,12 @@ export const updateAssociationList = (state, associationId, association, newObje
     return state;
   }
 
+  const addition = newObjectId instanceof Array ? newObjectId : [newObjectId]
   const { prepend = false, remove = false } = options;
   const list = remove ? [...entity[association]].filter(id => id !== newObjectId) :
     prepend ?
-      [newObjectId, ...entity[association]] :
-      [...entity[association], newObjectId];
+      [...addition, ...entity[association]] :
+      [...entity[association], ...addition];
 
   let newState = byIdObject(associationId, {
     [association]: list

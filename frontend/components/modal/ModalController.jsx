@@ -8,7 +8,9 @@ const ModalController = (props) => {
     case ADD_BOARD:
       return <AddBoardModalContainer hideModal={props.hideModal}/>
     case INVITE_PEOPLE:
-      return <InvitePeopleModalContainer />
+      return <InvitePeopleModalContainer
+        hideModal={props.hideModal}
+        currentBoard={props.currentBoard}/>
     default:
       return null;
   }

@@ -1,5 +1,10 @@
 @import 'variables';
 
+@mixin box-shadow {
+  -webkit-box-shadow: 0 2px 4px 0 rgba(34, 36, 38, 0.12), 0 2px 10px 0 rgba(34, 36, 38, 0.15) !important;
+          box-shadow: 0 2px 4px 0 rgba(34, 36, 38, 0.12), 0 2px 10px 0 rgba(34, 36, 38, 0.15) !important;
+}
+
 .modal-overlay {
   position: absolute;
   top: 0;
@@ -40,6 +45,8 @@
   padding: 20px;
   text-align: center;
   background: $primary-offwhite;
+  @include box-shadow;
+  border-radius: 2px;;
 
   p {
     font-size: 12px;
@@ -150,15 +157,16 @@
 .modal-overlay {
   .invite-modal__wrapper {
     .invite-modal__content {
+      @include box-shadow;
       padding: 40px 65px;
       background: #EEEEEE;
       border-radius: 2px;
       margin-bottom: 5rem;
       h2 {
-        margin-bottom: 40px;
+        margin-bottom: 50px;
         text-align: center;
         margin-top: 20px;
-        margin-bottom: 40px;
+        margin-bottom: 50px;
         text-align: center;
         margin-top: 20px;
         letter-spacing: 0.6px;
@@ -168,8 +176,13 @@
         margin-bottom: 20px;
         position: relative;
         label {
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
-          flex-direction: column;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+              -ms-flex-direction: column;
+                  flex-direction: column;
           font-size: 10px;
           font-weight: bold;
           color: gray;
@@ -178,6 +191,15 @@
             margin-top: 6px;
             padding-bottom: 2px;
             border-bottom: 1px solid gray,
+          }
+
+          &::after {
+            content:attr(data-error);
+            color: #D50000;
+            right: 0;
+            font-size: 11px;
+            letter-spacing: .3px;
+            font-weight: 500;
           }
         }
 
@@ -195,8 +217,12 @@
       }
 
       .invite__add {
+        display: -webkit-box;
+        display: -ms-flexbox;
         display: flex;
-        align-items: center;
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
         color: $bluegrey-light;
         font-weight: bold;
         .material-icons {
@@ -207,6 +233,72 @@
 
         &:hover {
           cursor: pointer;
+        }
+      }
+
+      button {
+        width: 100%;
+        text-align: center;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+            -ms-flex-pack: center;
+                justify-content: center;
+        padding: 7px;
+        font-size: 15px;
+        font-weight: 500;
+        margin-top: 30px;
+
+        > i.material-icons {
+          font-size: 18px;
+          margin-top: 0px;
+        }
+      }
+
+      &.results {
+        .results__container {
+          > div {
+            margin-bottom: 40px;
+          }
+
+          .results__header, .results__row {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            > span {
+              -webkit-box-flex: 1;
+                  -ms-flex-positive: 1;
+                      flex-grow: 1;
+              -ms-flex-preferred-size: 50%;
+                  flex-basis: 50%;
+            }
+          }
+
+          .results__header {
+            padding: 10px 0;
+            border-bottom: 1px solid gray;
+            margin-bottom: 10px;
+            font-weight: bold;
+          }
+
+          .results__success {
+            .results__header {
+              border-bottom-color: $primary-green;
+            }
+          }
+
+          .results__errors {
+            .results__header {
+              border-bottom-color: $primary-red;
+            }
+          }
+        }
+
+        .results__actions {
+          button {
+            width: auto;
+          }
         }
       }
     }

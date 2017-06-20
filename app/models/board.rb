@@ -22,7 +22,7 @@ class Board < ActiveRecord::Base
   has_many :channels, dependent: :destroy
 
   before_create :set_ord
-  after_commit :create_initial_invite, on: :create
+  after_commit :create_general_channel, :create_initial_invite, on: :create
 
   def has_member?(user)
     self.members.include?(user)
@@ -43,7 +43,11 @@ class Board < ActiveRecord::Base
   end
 
   def create_initial_invite
-    Invite.create!(user_id: owner.id, board_id: id, recipient_email: '')
+    Invite.create(
+      user_id: owner.id,
+      board_id: id,
+      recipient_email: owner.email,
+      status: :accepted)
   end
 
   def set_ord

@@ -20,12 +20,12 @@ class List extends React.Component {
 
   viewCard(id) {
     return () => {
-      this.props.history.push(`/boards/${this.props.list.board_id}/card/${id}`);
+      // this.props.history.push(`/boards/${this.props.boardId}/card/${id}`);
     }
   }
 
   render() {
-    const { list, cards} = this.props;
+    const { list, cards, boardId} = this.props;
 
     return (
       <div className="list-index__item-wrapper">
@@ -36,8 +36,9 @@ class List extends React.Component {
             {
               cards.map(card => (
                 <Card
-                  viewCard={this.viewCard(card.id)}
+                  boardId={boardId}
                   key={card.id}
+                  id={card.id}
                   title={card.title} />)
               )
             }

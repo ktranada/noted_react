@@ -29,7 +29,7 @@ const create = (resource, data) => (
   })
 )
 
-const edit = (resource, id, data) => (
+const update = (resource, id, data) => (
   $.ajax({
     method: 'PUT',
     url: `/api/${resource}s/${id}`,
@@ -63,7 +63,7 @@ export const createCard = data => (
 )
 
 export const editCard = data => (
-  edit('card', data.id, data)
+  update('card', data.id, data)
 )
 
 export const deleteCard = id => (
@@ -71,9 +71,19 @@ export const deleteCard = id => (
 )
 
 export const createInvites = data => (
-  create('invite', data)
+  $.ajax({
+    method: 'POST',
+    url: '/api/invites',
+    data: {
+      'invites': data
+    }
+  })
 )
 
 export const createInvite = data => (
   create('invite', data)
+)
+
+export const destroyInvite = data => (
+  destroy('invite', data)
 )

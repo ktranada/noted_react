@@ -32,7 +32,6 @@ class BoardConfiguration extends React.Component {
 
   render() {
     const { board} = this.props;
-//this.state.showDropdown ? 'open' : ''
     return (
       <div className="board-configuration">
         <span>{board.title}</span>
@@ -41,7 +40,7 @@ class BoardConfiguration extends React.Component {
           className="material-icons"
           onClick={this.toggleDropdown}>&#xE5D4;</i>
         <div
-          className={`board-configuration__dropdown ${'open'}`}>
+          className={`board-configuration__dropdown ${this.state.showDropdown ? 'open' : ''}`}>
           <div role="button" onClick={this.toggleModal(INVITE_PEOPLE)}>
             <i className="material-icons">&#xE7FE;</i>
             Invite People

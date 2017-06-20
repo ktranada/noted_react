@@ -4,10 +4,13 @@ export const ADD_LIST = 'ADD_LIST';
 export const ADD_CARD = 'ADD_CARD';
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const ADD_MESSAGE = 'ADD_MESSAGE';
-export const ADD_INVITES = 'ADD_INVITES';
+export const EDIT_INVITES = 'EDIT_INVITES';
 export const ADD_INVITE = 'ADD_INVITE';
+export const ADD_INVITES = 'ADD_INVITES';
 export const EDIT_CARD_INFO = 'EDIT_CARD_INFO';
+export const RECEIVE_INVITE_ERRORS = 'RECEIVE_INVITE_ERRORS';
 export const REMOVE_CARD = 'REMOVE_CARD';
+export const REMOVE_INVITE = 'REMOVE_INVITE';
 
 export const createList = list => dispatch => (
   BoardAPI.createList(list)
@@ -42,11 +45,18 @@ export const createInvite = boardId => dispatch => (
 )
 
 export const createInvites = invites => dispatch => (
-  BoardAPI.createInvites(invites)
+  BoardAPI.createInvites(JSON.stringify(invites))
     .then(invites => {
-      dispatch(addInvites(invites));
+      if (invites.byId) {
+        dispatch(addInvites(invites));
+      }
       return invites;
     })
+)
+
+export const destroyInvite = inviteId => dispatch => (
+  BoardAPI.destroyInvite(inviteId)
+    .then((invite) => dispatch(removeInvite(invite)))
 )
 
 export const deleteCard = cardId => dispatch => (
@@ -72,6 +82,16 @@ export const addInvite = invite => ({
   type: ADD_INVITE,
   invite
 })
+
+export const receiveInviteErrors = errors => ({
+  type: RECEIVE_INVITE_ERRORS,
+  errors
+})
+
+export const removeInvite = invite => ({
+  type: REMOVE_INVITE,
+  invite
+});
 
 export const addList = list => ({
   type: ADD_LIST,

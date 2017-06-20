@@ -3,11 +3,11 @@ import { asArrayByOrder, getCurrentBoardById, isLoadingByType } from '../../../r
 import { createList } from '../../../actions/board_actions';
 import ListIndex from './ListIndex';
 
-const mapStateToProps = ({ lists, boards }, { match }) => {
-  const currentBoard = getCurrentBoardById(match.params.boardId, boards);
+const mapStateToProps = ({ lists, boards, loading}, { currentBoard }) => {
   const boardLists = asArrayByOrder(lists, currentBoard.lists)
   return ({
-    lists: boardLists
+    lists: boardLists,
+    isLoading: isLoadingByType(loading, currentBoard.id, 'loadingBoard')
   })
 }
 

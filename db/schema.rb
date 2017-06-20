@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(version: 20170619043554) do
     t.integer  "status",          default: 0
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
-    t.index ["board_id", "recipient_email"], name: "index_invites_on_board_id_and_recipient_email", unique: true, using: :btree
+    t.index ["board_id", "recipient_email"], name: "index_invites_on_board_id_and_recipient_email", using: :btree
     t.index ["board_id"], name: "index_invites_on_board_id", using: :btree
     t.index ["recipient_email"], name: "index_invites_on_recipient_email", using: :btree
     t.index ["user_id"], name: "index_invites_on_user_id", using: :btree
