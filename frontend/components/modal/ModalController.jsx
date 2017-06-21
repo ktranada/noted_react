@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 import { ADD_BOARD, INVITE_PEOPLE, BOARD_SETTINGS } from '../../actions/modal_actions';
 import AddBoardModalContainer from './add_board/AddBoardModalContainer';
 import InvitePeopleModalContainer from './invite_people/InvitePeopleModalContainer';
-import BoardSettingsModalContainer from './configuration/BoardSettingsModalContainer';
+import BoardSettingsModalContainer from './configuration/board/BoardSettingsModalContainer';
 
 const ModalController = (props) => {
   let Modal = null;

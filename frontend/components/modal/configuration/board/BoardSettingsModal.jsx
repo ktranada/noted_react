@@ -1,9 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ModalOverlayContainer from '../ModalOverlayContainer';
-import ConfigurationNav from './ConfigurationNav';
+import ModalOverlayContainer from '../../ModalOverlayContainer';
+import ConfigurationNav from '../ConfigurationNav';
+import ConfigurationContent from '../ConfigurationContent';
+import BoardSettingsOverview from './BoardSettingsOverview';
 
 const TABS = ['Overview', 'Members', 'Invites'];
+const TAB_CONTENT_COMPONENTS = {
+  'Overview': BoardSettingsOverview
+}
 
 class BoardSettingsModal extends React.Component {
   constructor(props) {
@@ -38,12 +43,21 @@ class BoardSettingsModal extends React.Component {
     this.props.deleteBoard()
   }
 
-  render() {
+  contentComponent() {
+    switch (this.state.currentTab) {
+      case 'Overview':
+        return <BoardSettingsOverview
+          title={this.props.currentBoard.title}
+          editBoard={this.props.editBoard}/>
+      default:
+        return null;
+    }
+  }
 
+  render() {
     const deleteBoardButton = (
         <span onClick={this.promptDelete} role="button">Delete Board</span>
       );
-
     return (
       <ModalOverlayContainer modalType="configuration">
         <div className="board-settings__container">
@@ -53,17 +67,18 @@ class BoardSettingsModal extends React.Component {
             header={this.props.currentBoard.title}
             handleTabChange={this.handleTabChange}
             bottomAction={deleteBoardButton}/>
-
+          <ConfigurationContent header={this.state.currentTab}>
+            { this.contentComponent() }
+          </ConfigurationContent>
         </div>
       </ModalOverlayContainer>
     )
   }
 }
-//
-// BoardSettingsModal.propTypes = {
-//   Component: PropTypes.func.isRequired,
-//   type: PropTypes.string.isRequired
-// }
+
+BoardSettingsModal.propTypes = {
+  currentBoard: PropTypes.object.isRequired
+}
 
 
 export default BoardSettingsModal;

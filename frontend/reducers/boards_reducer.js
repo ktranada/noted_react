@@ -10,7 +10,8 @@ import {
 import {
   ADD_LIST,
   ADD_INVITES,
-  REMOVE_INVITE
+  REMOVE_INVITE,
+  UPDATE_BOARD
 } from '../actions/board_actions';
 
 const initialState = {
@@ -85,6 +86,10 @@ function addList(state, action) {
   );
 }
 
+const updateBoard = (state, {board}) => {
+  return updateObject(state, byIdObject(board.id, { title: board.title}));
+}
+
 const removeInvite = (state, action) => {
   return updateAssociationList(
     state,
@@ -108,6 +113,7 @@ const boardsReducer = (state = initialState, action) => {
     case ADD_BOARD: return addBoard(state, action);
     case ADD_LIST: return addList(state, action);
     case ADD_INVITES: return addInvites(state, action);
+    case UPDATE_BOARD: return updateBoard(state, action);
     case REMOVE_INVITE: return removeInvite(state, action);
 
     default:

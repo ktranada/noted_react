@@ -1,8 +1,10 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  rescue_from ActiveRecord::RecordNotFound do
+    render json: ["Record not found"], status: :not_found
+  end
 
   before_action :require_login!
-
   helper_method :current_user, :logged_in?
 
   def current_user

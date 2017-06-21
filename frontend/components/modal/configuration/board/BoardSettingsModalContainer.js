@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import { updateObject } from '../../../reducers/util';
-import { editBoard, deleteBoard } from '../../../actions/board_actions';
+import { updateObject } from '../../../../reducers/util';
+import { editBoard, deleteBoard } from '../../../../actions/board_actions';
 import BoardSettingsModal from './BoardSettingsModal';
 
 const mapDispatchToProps = (dispatch, { currentBoard }) => {
