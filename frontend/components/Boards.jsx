@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
+import { RouteWithProps } from '../util/route_util';
 import NavContainer from './left_column/NavContainer';
 import SubNavContainer from './center_column/SubNavContainer';
 import AccountConfigurationContainer from './center_column/bottom_section/AccountConfigurationContainer';
@@ -32,23 +33,39 @@ class Boards extends React.Component {
         </section>
         <section className="right-column">
           <Switch>
-            <Route path="/boards/:boardId/card/:cardId" render={props => (
-                <ListIndexContainer currentBoard={this.props.currentBoard} />
-              )} />
-            <Route path="/boards/:boardId/lists" render={props => (
-                <ListIndexContainer currentBoard={this.props.currentBoard} />
-              )} />
+            <RouteWithProps
+              path="/boards/:boardId/card/:cardId"
+              component={ListIndexContainer}
+              currentBoard={props.currentBoard} />
+
+            <RouteWithProps
+              path="/boards/:boardId/lists"
+              component={ListIndexContainer}
+              currentBoard={props.currentBoard} />
+
             <Route path="/boards/:boardId" component={InitialBoardContentContainer} />
+
           </Switch>
         </section>
-        <Route path="/boards/:boardId/card/:cardId" render={props => (
-            <ViewCardModalContainer {...props} currentBoard={this.props.currentBoard} />
-          )} />
-        <ModalControllerContainer {...props}/>
+
+        <RouteWithProps
+          path="/boards/:boardId/card/:cardId"
+          component={ViewCardModalContainer}
+          currentBoard={this.props.currentBoard} />
+
+      <ModalControllerContainer {...props}/>
       </div>
     )
   }
 }
+
+// <Route path="/boards/:boardId/card/:cardId" render={props => (
+//     <ListIndexContainer currentBoard={this.props.currentBoard} />
+//   )} />
+// <Route path="/boards/:boardId/lists" render={props => (
+//     <ListIndexContainer currentBoard={this.props.currentBoard} />
+//   )} />
+// <Route path="/boards/:boardId" component={InitialBoardContentContainer} />
 
 Boards.propTypes = {
   currentBoard: PropTypes.object

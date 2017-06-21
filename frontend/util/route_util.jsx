@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect, withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import SessionFormContainer from '../components/session/session_form_container';
 
@@ -27,6 +28,22 @@ const ProtectedRedirect = ({ exact, to, path, isLoggedIn }) => (
         (<Redirect to="/login" />)
   )} />
 )
+
+export const RouteWithProps = (props) => {
+  const { component: Component, path } = props;
+  return (
+    <Route path={path} render={routeProps => (
+      <Component {...props} {...routeProps} />
+    )} />
+  )
+}
+
+RouteWithProps.propTypes = {
+  path: PropTypes.string,
+  component: PropTypes.func.isRequired
+}
+
+
 
 
 const mapStateToProps = ({session}) => ({
