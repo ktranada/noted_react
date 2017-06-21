@@ -85,23 +85,20 @@ class InvitePeopleModal extends React.Component {
 
   render() {
     return (
-      <ModalOverlayContainer>
-        <div className="invite-modal__wrapper">
-          {
-            this.state.results === null ?
-            (<InviteForm
-              invites={this.state.invites}
-              remainingInviteCount={this.props.remainingInviteCount}
-              addInviteRow={this.addInviteRow}
-              removeInviteRow={this.removeInviteRow}
-              handleRemove={this.handleRemove}
-              handleChange={this.handleChange}
-              handleSubmit={this.handleSubmit}/>) :
-            (<InviteResults
-              hideModal={this.props.hideModal}
-              results={this.state.results}/>)
-          }
-        </div>
+      <ModalOverlayContainer modalType="invite">
+        {
+          this.state.results === null ?
+          (<InviteForm
+            invites={this.state.invites}
+            remainingInviteCount={this.props.remainingInviteCount}
+            addInviteRow={this.addInviteRow}
+            removeInviteRow={this.removeInviteRow}
+            handleChange={this.handleChange}
+            handleSubmit={this.handleSubmit}/>) :
+          (<InviteResults
+            hideModal={this.props.hideModal}
+            results={this.state.results}/>)
+        }
       </ModalOverlayContainer>
     )
   }

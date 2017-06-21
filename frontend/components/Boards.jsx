@@ -59,14 +59,6 @@ class Boards extends React.Component {
   }
 }
 
-// <Route path="/boards/:boardId/card/:cardId" render={props => (
-//     <ListIndexContainer currentBoard={this.props.currentBoard} />
-//   )} />
-// <Route path="/boards/:boardId/lists" render={props => (
-//     <ListIndexContainer currentBoard={this.props.currentBoard} />
-//   )} />
-// <Route path="/boards/:boardId" component={InitialBoardContentContainer} />
-
 Boards.propTypes = {
   currentBoard: PropTypes.object
 }

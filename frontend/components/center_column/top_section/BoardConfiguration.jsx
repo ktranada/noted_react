@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { INVITE_PEOPLE } from '../../../actions/modal_actions';
+import { INVITE_PEOPLE, BOARD_SETTINGS } from '../../../actions/modal_actions';
 
 class BoardConfiguration extends React.Component {
   constructor(props) {
@@ -46,7 +46,7 @@ class BoardConfiguration extends React.Component {
             Invite People
           </div>
           <hr />
-          <div role="button">
+          <div role="button" onClick={this.toggleModal(BOARD_SETTINGS)}>
             <i className="material-icons">&#xE8B8;</i>
             Settings
           </div>

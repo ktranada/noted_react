@@ -265,11 +265,11 @@
 
 
 .modal-overlay {
-  .view-card__modal-wrapper {
+  .view-card-modal__wrapper {
     margin-top: 5rem;
     padding: 0;
   }
-  .view-card__modal {
+  .view-card-modal__content {
     min-height: 600px;
     background: $primary-grey-dark;
     min-width: 700px;
@@ -283,7 +283,7 @@
       top: calc(50% - 76px);
       left: 50%;
       -webkit-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%);      
+      transform: translate(-50%, -50%);
     }
 
     .card__header, .card__body {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class ModalOverlay extends React.Component {
   constructor(props) {
@@ -22,10 +23,17 @@ class ModalOverlay extends React.Component {
       <div
         className="modal-overlay"
         onClick={this.handleBackgroundClick}>
-        { this.props.children }
+        <div className={`${this.props.modalType}-modal__wrapper`}>
+          { this.props.children }
+        </div>
       </div>
     )
   }
+}
+
+ModalOverlay.propTypes = {
+  modalType: PropTypes.string.isRequired,
+  handleBackgroundClick: PropTypes.func
 }
 
 export default ModalOverlay;

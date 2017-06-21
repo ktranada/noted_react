@@ -32,20 +32,19 @@ class ViewCardModal extends React.Component {
     const { card, isLoading } = this.props;
     return(
       <ModalOverlayContainer
-        onBackgroundClick={this.handleBackgroundClick}>
-        <div className="view-card__modal-wrapper">
-          <div className="view-card__modal">
-            {
-              isLoading ?
-              <Spinner /> :
-                (
-                  <div>
-                    <Header card={card} editCard={this.editCard} />
-                    <Body boardId={this.props.boardId} card={card} />
-                  </div>
-                )
-            }
-          </div>
+        onBackgroundClick={this.handleBackgroundClick}
+        modalType="view-card">
+        <div className="view-card-modal__content">
+          {
+            isLoading ?
+            <Spinner /> :
+              (
+                <div>
+                  <Header card={card} editCard={this.editCard} />
+                  <Body boardId={this.props.boardId} card={card} />
+                </div>
+              )
+          }
         </div>
       </ModalOverlayContainer>
     )

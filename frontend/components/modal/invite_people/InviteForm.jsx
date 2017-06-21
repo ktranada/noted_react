@@ -57,7 +57,6 @@ InviteForm.propTypes = {
   invites: PropTypes.array,
   remainingInviteCount: PropTypes.number.isRequired,
   addInviteRow: PropTypes.func.isRequired,
-  handleRemove: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   removeInviteRow: PropTypes.func.isRequired

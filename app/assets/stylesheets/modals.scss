@@ -304,3 +304,81 @@
     }
   }
 }
+
+
+/*==============================*/
+/* Configuration*/
+/*==============================*/
+@mixin config-navlink-hover($background) {
+  z-index: -1;
+  content: " ";
+  position: absolute;
+  height: 30px;
+  width: calc(100% + 50px);
+  left: -25px;
+  top: -5px;
+  background: $background;
+}
+.configuration-modal__wrapper {
+  .configuration__nav, .configuration__content {
+    padding: 25px;
+  }
+  .configuration__nav {
+    background: $bluegrey-dark;
+    color: $primary-grey;
+    font-weight: 100;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    width: 200px;
+    height: 400px;
+    position: relative;
+    .nav__header {
+      margin-bottom: 25px;
+      font-weight: bold;
+    }
+    ul {
+      list-style: none;
+      li {
+        position: relative;
+        margin: 15px 0;
+        height: 20px;
+        z-index: 5;
+        &:first-of-type {
+          margin-top: 0;
+        }
+
+        &:not(.active):hover {
+          cursor: pointer;
+          &::after {
+            @include config-navlink-hover(rgba(235, 235, 235, .08));
+
+          }
+        }
+        &.active {
+          cursor: default;
+          &::after {
+            border-left: 1px solid white;
+            @include config-navlink-hover($bluegrey-medium);
+          }
+        }
+      }
+    }
+
+    .nav__action {
+      padding-top: 20px;
+      position: absolute;
+      bottom: 25px;
+      width: calc(100% - 50px);
+      border-top: 1px solid $primary-grey-dark;
+      span {
+        color: $primary-red;
+        cursor: pointer;
+      }
+    }
+  }
+}
