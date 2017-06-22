@@ -25,7 +25,7 @@ const InviteResults = props => {
       <div className="results__actions">
         <button
           onClick={props.hideModal}
-          className="button button-green">
+          className="button button-green results-button">
           Done
         </button>
       </div>

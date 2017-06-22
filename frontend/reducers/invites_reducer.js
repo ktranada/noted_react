@@ -15,7 +15,7 @@ const initialState = {
 const invitesReducer = (state = initialState, action) => {
   switch (action.type) {
     case RECEIVE_BOARD: return updateObject(state, action.board.invites);
-    case ADD_INVITES: return updateObject(state, { byId: action.invites });
+    case ADD_INVITES: return updateObject(state, { byId: action.invites.byId });
     case ADD_INVITE: return updateObject(state, byIdObject(action.invite.id, action.invite));
     case REMOVE_INVITE: return deleteObjectById(state, action.invite.id);
     case REMOVE_MEMBER: return deleteObjectById(state, action.membership.invite_id);

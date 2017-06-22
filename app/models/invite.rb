@@ -26,7 +26,7 @@ class Invite < ActiveRecord::Base
   has_one :board_membership
 
   def create_code
-    self.code ||= SecureRandom.base64()
+    self.code ||= SecureRandom.urlsafe_base64
   end
 
   private

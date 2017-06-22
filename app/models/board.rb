@@ -22,7 +22,7 @@ class Board < ActiveRecord::Base
   has_many :channels, dependent: :destroy
 
   before_create :set_ord
-  after_commit :create_general_channel, :create_initial_invite, on: :create
+  after_commit :create_general_channel, on: :create
 
   def has_member?(user)
     self.members.include?(user)

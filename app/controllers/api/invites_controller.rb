@@ -13,7 +13,7 @@ class Api::InvitesController < ApplicationController
       invite = Invite.new(
         board_id: @board_id,
         user_id: current_user.id,
-        status: :sent,
+        status: :pending,
         recipient_email: info["recipient_email"])
 
       if invite.save

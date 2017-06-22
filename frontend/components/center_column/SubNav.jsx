@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import BoardConfiguration from './top_section/BoardConfiguration';
+import BoardSettings from './top_section/BoardSettings';
 import SubNavActions from './middle_section/SubNavActions';
 import SubNavDefault from './SubNavDefault';
 
@@ -40,7 +40,7 @@ class SubNav extends React.Component {
       <div>
         {
           currentBoard.owner &&
-          <BoardConfiguration
+          <BoardSettings
             toggleModal={this.toggleModal}
             board={currentBoard}/>
         }

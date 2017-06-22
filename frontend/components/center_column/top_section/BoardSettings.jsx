@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { INVITE_PEOPLE, BOARD_SETTINGS } from '../../../actions/modal_actions';
 
-class BoardConfiguration extends React.Component {
+class BoardSettings extends React.Component {
   constructor(props) {
     super(props);
 
@@ -43,7 +43,7 @@ class BoardConfiguration extends React.Component {
           className={`board-configuration__dropdown ${this.state.showDropdown ? 'open' : ''}`}>
           <div role="button" onClick={this.toggleModal(INVITE_PEOPLE)}>
             <i className="material-icons">&#xE7FE;</i>
-            Invite People
+            Invite Members
           </div>
           <hr />
           <div role="button" onClick={this.toggleModal(BOARD_SETTINGS)}>
@@ -56,9 +56,9 @@ class BoardConfiguration extends React.Component {
   }
 }
 
-BoardConfiguration.proptypes = {
+BoardSettings.proptypes = {
   board: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired
 }
 
-export default BoardConfiguration;
+export default BoardSettings;
