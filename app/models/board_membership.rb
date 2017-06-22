@@ -22,7 +22,7 @@ class BoardMembership < ActiveRecord::Base
   belongs_to :user
   belongs_to :board, inverse_of: :board_memberships
 
-  has_one :invite, dependent: :destroy
+  belongs_to :invite, dependent: :destroy
 
   after_commit :subscribe_to_general_channel, on: :create
 

@@ -3,8 +3,9 @@ import { getObjectById } from '../../../../reducers/selectors';
 import CommentIndexItem from './CommentIndexItem';
 
 const mapStateToProps = ({ members }, { comment }) => {
+  const author = getObjectById(comment.author_id, members)
   return ({
-    author: getObjectById(comment.author_id, members)
+    username: author ? author.usernamesByBoardId[boardId] : "Deactivated User"
   })
 }
 

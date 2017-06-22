@@ -4,7 +4,7 @@ json.set! :info do
   json.members @board.board_memberships.map(&:user).pluck(:id)
   json.channels @board.channels.pluck(:id)
   json.lists @board.lists.pluck(:id)
-  json.invites @board.invites.pluck(:id)
+  json.invites @invites.pluck(:id)
 end
 
 
@@ -31,5 +31,5 @@ json.set! :comments do
 end
 
 json.set! :invites do
-  json.partial! 'api/invites/invites', invites: @board.invites
+  json.partial! 'api/invites/invites', invites: @invites
 end

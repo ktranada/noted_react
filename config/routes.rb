@@ -9,5 +9,6 @@ Rails.application.routes.draw do
     resources :comments, only: [:create, :destroy, :update]
     resources :invites, only: [:create, :destroy]
     resources :boards, only: [:create, :show, :update, :destroy]
+    resources :board_memberships, only: [:destroy]
   end
 end

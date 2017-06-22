@@ -28,8 +28,7 @@ class CommentForm extends React.Component {
       return;
     }
 
-    this.props.addComment({
-      card_id: this.props.cardId,
+    this.props.createComment({
       description: this.state.description
     });
 
@@ -53,8 +52,7 @@ class CommentForm extends React.Component {
 }
 
 CommentForm.propTypes = {
-  cardId: PropTypes.number.isRequired,
-  addComment: PropTypes.func.isRequired
+  createComment: PropTypes.func.isRequired
 }
 
 export default CommentForm;

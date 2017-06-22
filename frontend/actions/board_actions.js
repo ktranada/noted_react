@@ -13,6 +13,7 @@ export const RECEIVE_INVITE_ERRORS = 'RECEIVE_INVITE_ERRORS';
 export const REMOVE_BOARD = 'REMOVE_BOARD';
 export const REMOVE_CARD = 'REMOVE_CARD';
 export const REMOVE_INVITE = 'REMOVE_INVITE';
+export const REMOVE_MEMBER = 'REMOVE_MEMBER';
 
 export const createList = list => dispatch => (
   BoardAPI.createList(list)
@@ -64,7 +65,7 @@ export const editCard = card => dispatch => (
     })
 )
 
-export const deleteBoard = boardId => dispatch => (
+export const destroyBoard = boardId => dispatch => (
   BoardAPI.destroyBoard(boardId)
     .then((board) => {
       return dispatch(removeBoard(board));
@@ -72,12 +73,28 @@ export const deleteBoard = boardId => dispatch => (
 );
 
 
-export const deleteCard = cardId => dispatch => (
-  BoardAPI.deleteCard(cardId)
+export const destroyCard = cardId => dispatch => (
+  BoardAPI.destroyCard(cardId)
     .then((card) => {
       return dispatch(removeCard(card));
     })
 );
+
+export const destroyMembership = membershipId => dispatch => (
+  BoardAPI.destroyMembership(membershipId)
+    .then(membership => {
+      dispatch(removeMember(membership));
+      return membership;
+    })
+)
+
+export const destroyInvite = inviteId => dispatch => (
+  BoardAPI.destroyInvite(inviteId)
+    .then(invite => {
+      dispatch(removeInvite(invite));
+      return invite;
+    })
+)
 
 export const receiveInviteErrors = errors => ({
   type: RECEIVE_INVITE_ERRORS,
@@ -87,11 +104,6 @@ export const receiveInviteErrors = errors => ({
 export const addInvites = invites => ({
   type: ADD_INVITES,
   invites
-});
-
-export const addInvite = invite => ({
-  type: ADD_INVITE,
-  invite
 });
 
 export const addList = list => ({
@@ -124,7 +136,6 @@ export const removeBoard = board => ({
   board
 });
 
-
 export const removeCard = card => ({
   type: REMOVE_CARD,
   card
@@ -134,3 +145,8 @@ export const removeInvite = invite => ({
   type: REMOVE_INVITE,
   invite
 });
+
+export const removeMember = membership => ({
+  type: REMOVE_MEMBER,
+  membership
+})

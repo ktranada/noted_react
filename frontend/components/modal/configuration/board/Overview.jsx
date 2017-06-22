@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class BoardSettingsOverview extends React.Component {
+class Overview extends React.Component {
   constructor(props) {
     super(props);
 
@@ -57,9 +57,9 @@ class BoardSettingsOverview extends React.Component {
   }
 }
 
-BoardSettingsOverview.propTypes = {
+Overview.propTypes = {
   title: PropTypes.string.isRequired,
   editBoard: PropTypes.func.isRequired
 }
 
-export default BoardSettingsOverview;
+export default Overview;

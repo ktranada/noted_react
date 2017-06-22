@@ -1,32 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CommentForm from './CommentForm';
-import CommentIndexItemContainer from './CommentIndexItemContainer';
+import CommentIndexItem from './CommentIndexItem';
+import { getObjectById } from '../../../../reducers/selectors';
 
 class CommentIndex extends React.Component {
   constructor(props) {
     super(props);
 
-    this.addComment = this.addComment.bind(this);
+    this.createComment = this.createComment.bind(this);
   }
 
-  addComment(data) {
+  createComment(data) {
     this.props.createComment(data);
   }
 
   render() {
-    const comments = this.props.comments.map(comment => (
-      <CommentIndexItemContainer
-        key={comment.id}
-        boardId={this.props.boardId}
-        comment={comment} />
-    ))
+    const { members, boardId } = this.props;
+    const comments = this.props.comments.map(comment => {
+      const author = getObjectById(comment.author_id, members);
+      const username = author ? author.usernamesByBoardId[boardId] : "Deactivated User";
+
+      return(
+        <CommentIndexItem
+          key={comment.id}
+          username={username}
+          comment={comment}/>
+      )
+    });
     return(
       <div className="card__comments">
         <h4>Add a comment</h4>
         <CommentForm
-          cardId={this.props.cardId}
-          addComment={this.addComment}/>
+          createComment={this.createComment}/>
         { comments }
       </div>
     )
@@ -34,12 +40,14 @@ class CommentIndex extends React.Component {
 }
 
 CommentIndex.propTypes = {
-  comments: PropTypes.arrayOf(PropTypes.object),
+  boardId: PropTypes.number.isRequired,
+  card: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    comments: PropTypes.array.isRequired
+  }),
+  members: PropTypes.object.isRequired,
+  comments: PropTypes.arrayOf(PropTypes.object).isRequired,
   createComment: PropTypes.func.isRequired
-}
-
-CommentIndex.defaultProps = {
-  comments: []
 }
 
 export default CommentIndex;

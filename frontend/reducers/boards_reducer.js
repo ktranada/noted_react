@@ -11,6 +11,7 @@ import {
   ADD_LIST,
   ADD_INVITES,
   REMOVE_INVITE,
+  REMOVE_MEMBER,
   UPDATE_BOARD
 } from '../actions/board_actions';
 
@@ -99,6 +100,23 @@ const removeInvite = (state, action) => {
     { remove: true});
 }
 
+const removeMember = (state, action) => {
+  const { membership } = action;
+  const newState = updateAssociationList(
+    state,
+    membership.board_id,
+    'members',
+    membership.user_id,
+    { remove: true });
+
+    return updateAssociationList(
+      newState,
+      membership.board_id,
+      'invites',
+      membership.invite_id,
+      { remove: true });
+}
+
 
 const boardsReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -115,7 +133,7 @@ const boardsReducer = (state = initialState, action) => {
     case ADD_INVITES: return addInvites(state, action);
     case UPDATE_BOARD: return updateBoard(state, action);
     case REMOVE_INVITE: return removeInvite(state, action);
-
+    case REMOVE_MEMBER: return removeMember(state, action);
     default:
       return state;
   }

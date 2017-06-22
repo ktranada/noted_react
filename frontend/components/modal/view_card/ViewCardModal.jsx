@@ -29,7 +29,7 @@ class ViewCardModal extends React.Component {
   }
 
   render() {
-    const { card, isLoading } = this.props;
+    const { card, isLoading, currentBoard } = this.props;
     return(
       <ModalOverlayContainer
         onBackgroundClick={this.handleBackgroundClick}
@@ -41,7 +41,10 @@ class ViewCardModal extends React.Component {
               (
                 <div>
                   <Header card={card} editCard={this.editCard} />
-                  <Body boardId={this.props.boardId} card={card} />
+                  <Body
+                    currentBoard={currentBoard}
+                    boardId={this.props.boardId}
+                    card={card} />
                 </div>
               )
           }

@@ -325,7 +325,7 @@
     display: -ms-flexbox;
     display: flex;
   }
-  .configuration__nav, .configuration__content {
+  .configuration__nav, .configuration-content {
     padding: 25px;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -336,7 +336,7 @@
             flex-direction: column;
   }
 
-  .nav__header, .content__header {
+  .nav__header, .configuration-content__header {
     margin-bottom: 25px;
     font-weight: bold;
     color: $primary-grey;
@@ -391,11 +391,11 @@
     }
   }
 
-  .configuration__content {
+  .configuration-content {
     width: 400px;
     background: $bluegrey-light;
     position: relative;
-    .content__body {
+    .configuration-content__body {
       margin-bottom: 25px;
     }
   }
@@ -403,7 +403,7 @@
 
   /* Board Settings*/
   .board-settings__container {
-    .configuration__content {
+    .configuration-content {
       .content__board-overview {
         display: -webkit-box;
         display: -ms-flexbox;
@@ -480,7 +480,88 @@
           margin-right: 0;
           font-size: 14px;
           font-weight: normal;
-          letter-spacing: .6px;          
+          letter-spacing: .6px;
+        }
+      }
+
+      .board-settings__members {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+         > :nth-child(n+4) {
+          margin-top: 10px;
+        }
+        .board-settings__member {
+          margin-right: 10px;
+
+          .board-settings__member-icon {
+            height: 90px;
+            width: 90px;
+            background: $bluegrey-dark;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+                -ms-flex-direction: column;
+                    flex-direction: column;
+            -webkit-box-pack: center;
+                -ms-flex-pack: center;
+                    justify-content: center;
+            -webkit-box-align: center;
+                -ms-flex-align: center;
+                    align-items: center;
+            span {
+              color: white;
+              margin-top: 5px;
+              font-size: 11px;
+              text-overflow: ellipsis;
+              width: 60px;
+              overflow-x: hidden;
+              text-align: center;
+              pointer-events: none;
+            }
+            div {
+              height: 45px;
+              width: 45px;
+              background: $bluegrey-medium;
+              border-radius: 50%;
+              position: relative;
+              &::after {
+                content: attr(data-username);
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                -webkit-transform: translate(-50%, -50%);
+                        transform: translate(-50%, -50%);
+                font-size: 18px;
+                color: white;
+                text-transform: uppercase;
+              }
+            }
+          }
+
+          > button {
+            margin: 0;
+            width: 100%;
+            border-radius: 0;
+            background: $bluegrey-medium;
+            color: $primary-red;
+            letter-spacing: .5px;
+            opacity: 1;
+            width: 90px;
+          }
+          > p {
+            pointer-events: none;
+            padding: 5px;
+            text-align: center;
+            letter-spacing: .3px;
+            background: $bluegrey-medium;
+            color: white;
+            font-size: 12px;
+          }
         }
       }
     }

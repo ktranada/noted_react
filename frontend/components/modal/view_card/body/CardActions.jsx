@@ -5,11 +5,11 @@ class CardActions extends React.Component {
   constructor(props) {
     super(props);
 
-    this.deleteCard = this.deleteCard.bind(this);
+    this.destroyCard = this.destroyCard.bind(this);
   }
 
-  deleteCard() {
-    this.props.deleteCard();
+  destroyCard() {
+    this.props.destroyCard();
     const { params } = this.props.match;
     this.props.history.push(`/boards/${params.boardId}/lists`);
   }
@@ -23,7 +23,7 @@ class CardActions extends React.Component {
         </div>
         <button
           className="button button-red"
-          onClick={this.deleteCard}>
+          onClick={this.destroyCard}>
           <i className="material-icons">&#xE872;</i>
           Delete
         </button>
@@ -34,7 +34,7 @@ class CardActions extends React.Component {
 
 
 CardActions.propTypes = {
-  deleteCard: PropTypes.func.isRequired
+  destroyCard: PropTypes.func.isRequired
 }
 
 export default CardActions;

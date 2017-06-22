@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { deleteCard } from '../../../../actions/board_actions';
+import { destroyCard } from '../../../../actions/board_actions';
 import CardActions from './CardActions';
 
 const mapDispatchToProps = (dispatch, { cardId }) => ({
-  deleteCard: () => deleteCard(cardId)(dispatch)
+  destroyCard: () => destroyCard(cardId)(dispatch)
 })
 
 export default withRouter(connect(

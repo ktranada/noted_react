@@ -5,6 +5,7 @@ class Api::BoardsController < ApplicationController
       .includes(:board_memberships, :invites, :channels, lists: [cards: [:comments]])[0] ||
       Board.new
 
+    @invites = @board.invites.select {|invite| invite.status != :declined }
     render :show
   end
 

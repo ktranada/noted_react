@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import ModalOverlayContainer from '../../ModalOverlayContainer';
 import ConfigurationNav from '../ConfigurationNav';
 import ConfigurationContent from '../ConfigurationContent';
-import BoardSettingsOverview from './BoardSettingsOverview';
+import Overview from './Overview';
+import MemberIndexContainer from './members/MemberIndexContainer';
+import InviteIndexContainer from './invites/InviteIndexContainer';
 
 const TABS = ['Overview', 'Members', 'Invites'];
-const TAB_CONTENT_COMPONENTS = {
-  'Overview': BoardSettingsOverview
-}
 
 class BoardSettingsModal extends React.Component {
   constructor(props) {
@@ -40,15 +39,24 @@ class BoardSettingsModal extends React.Component {
   }
 
   deleteBoard() {
-    this.props.deleteBoard()
+    this.props.destroyBoard()
   }
 
   contentComponent() {
+    const { currentUserId, currentBoard } = this.props;
     switch (this.state.currentTab) {
       case 'Overview':
-        return <BoardSettingsOverview
-          title={this.props.currentBoard.title}
+        return <Overview
+          title={currentBoard.title}
           editBoard={this.props.editBoard}/>
+      case 'Members':
+        return <MemberIndexContainer
+          boardId={currentBoard.id}
+          currentUserId={currentUserId}
+          currentBoard={currentBoard} />
+        case 'Invites':
+          return <InviteIndexContainer
+            currentBoard={currentBoard} />
       default:
         return null;
     }

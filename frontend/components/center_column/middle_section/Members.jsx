@@ -15,7 +15,6 @@ const Members = props => {
 Members.propTypes = {
   members: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
-
     usernamesByBoardId: PropTypes.object
   }))
 }

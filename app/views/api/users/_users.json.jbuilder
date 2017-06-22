@@ -5,6 +5,10 @@ json.set! :byId do
       json.set! :usernamesByBoardId do
         json.set! board.id, mbs.username
       end
+
+      json.set! :membershipsByBoardId do
+        json.set! board.id, mbs.id
+      end
     end
   end
 end

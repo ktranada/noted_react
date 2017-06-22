@@ -3,13 +3,19 @@ import CommentIndex  from './CommentIndex';
 import { asArrayByOrder } from '../../../../reducers/selectors';
 import { createComment } from '../../../../actions/board_actions';
 
-const mapStateToProps = ({ comments }, { card }) => ({
-  comments: asArrayByOrder(comments, card.comments),
-  cardId: card.id
-});
+const mapStateToProps = ({ comments, members }, { card, currentBoard }) => {
+  return ({
+    comments: asArrayByOrder(comments, card.comments),
+    members
+  })
+}
 
-const mapDispatchToProps = dispatch => ({
-  createComment: comment => createComment(comment)(dispatch)
+const mapDispatchToProps = (dispatch, { card }) => ({
+  createComment: comment => {
+    comment['card_id'] = card.id;
+    createComment(comment)(dispatch);
+  }
+
 });
 
 export default connect(

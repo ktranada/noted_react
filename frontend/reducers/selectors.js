@@ -6,7 +6,7 @@ export const asArray = (obj) => {
   if (isUndefined(obj)) {
     return [];
   }
-  return Object.keys(obj).map(key => obj[key])  
+  return Object.keys(obj).map(key => obj[key])
 }
 
 

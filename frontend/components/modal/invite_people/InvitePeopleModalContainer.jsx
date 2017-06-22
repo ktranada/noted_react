@@ -5,7 +5,7 @@ import { asArrayByOrder, getInvitesByStatus } from '../../../reducers/selectors'
 
 const mapStateToProps = ({invites, boards}, {currentBoard}) => {
   const invitesArray = asArrayByOrder(invites, currentBoard.invites);
-  const remainingInviteCount = 10 - currentBoard.members.length - invitesArray.filter(({status}) => status === 'not_sent' || status === 'sent').length;
+  const remainingInviteCount = 10 - currentBoard.members.length - invitesArray.filter(({status}) => status === 'pending').length;
 
   return ({
     remainingInviteCount,

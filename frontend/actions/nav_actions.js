@@ -4,7 +4,6 @@ export const FETCH_BOARDS = "FETCH_BOARDS";
 export const RECEIVE_BOARD = "RECEIVE_BOARD";
 export const RECEIVE_BOARDS = "RECEIVE_BOARDS";
 export const ADD_BOARD = "ADD_BOARD";
-export const SET_CURRENT_BOARD_ID = "SET_CURRENT_BOARD_ID";
 export const START_LOADING_BOARD = "START_LOADING_BOARD";
 export const RECEIVE_ERRORS = "RECEIVE_ERRORS";
 
@@ -25,7 +24,6 @@ export const requestBoard = boardId => dispatch => {
   dispatch(startLoadingBoard(boardId));
   return BoardsAPI.requestBoard(boardId)
     .then(board => {
-      // dispatch(setCurrentBoardId(board.id));
       dispatch(receiveBoard(board));
       return board;
     })
@@ -51,9 +49,4 @@ export const startLoadingBoard = (boardId) => ({
 export const addBoard = (board) => ({
   type: ADD_BOARD,
   board
-});
-
-export const setCurrentBoardId = id => ({
-  type: SET_CURRENT_BOARD_ID,
-  id
 });

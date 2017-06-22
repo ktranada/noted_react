@@ -14,7 +14,7 @@
 
 class Invite < ActiveRecord::Base
   MEMBER_LIMIT = 10
-  enum status: [:not_sent, :sent, :accepted, :declined], _suffix: true
+  enum status: [:pending, :accepted, :declined], _suffix: true
 
   validates :board, :board_member, presence: true
   validate :person_has_not_been_invited_before, on: :create
@@ -23,7 +23,7 @@ class Invite < ActiveRecord::Base
 
   belongs_to :board
   belongs_to :board_member, class_name: 'User', foreign_key: 'user_id'
-
+  has_one :board_membership
 
   def create_code
     self.code ||= SecureRandom.base64()
@@ -32,7 +32,7 @@ class Invite < ActiveRecord::Base
   private
 
   def has_remaining_invites
-    invite_count = Invite.where(board_id: self.board_id, status: [:not_sent, :sent]).count
+    invite_count = Invite.where(board_id: self.board_id, status: :pending).count
     if MEMBER_LIMIT - board.members.count - invite_count <= 0
       errors.add(:invites, 'You do not have any remaining invites.')
     end

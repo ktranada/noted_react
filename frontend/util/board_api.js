@@ -85,6 +85,10 @@ export const destroyInvite = data => (
   destroy('invite', data)
 )
 
-export const deleteCard = id => (
+export const destroyCard = id => (
   destroy('card', id)
+)
+
+export const destroyMembership = data => (
+  destroy('board_membership', data)
 )

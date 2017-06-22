@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
 import { updateObject } from '../../../../reducers/util';
-import { editBoard, deleteBoard } from '../../../../actions/board_actions';
+import { editBoard, destroyBoard } from '../../../../actions/board_actions';
 import BoardSettingsModal from './BoardSettingsModal';
 
 const mapDispatchToProps = (dispatch, { currentBoard }) => {
-  const id = currentBoard.id;
+  const boardId = currentBoard.id;
   return({
-    editBoard: board => editBoard(updateObject(board, { id }))(dispatch),
-    deleteBoard: () => deleteBoard(id)(dispatch)
+    editBoard: board => editBoard(updateObject(board, { id: boardId }))(dispatch),
+    destroyBoard: () => destroyBoard(id)(dispatch)
   })
 }
 
