@@ -21,7 +21,7 @@ const ModalController = (props) => {
 
   if (!Modal) return null;
 
-  return <Modal hideModal={props.hideModal} currentBoard={props.currentBoard} />
+  return <Modal {...props} hideModal={props.hideModal} currentBoard={props.currentBoard} />
 }
 
 export default ModalController;

@@ -14,7 +14,7 @@
 
 class Invite < ActiveRecord::Base
   MEMBER_LIMIT = 10
-  enum status: [:pending, :accepted, :declined], _suffix: true
+  enum status: [:pending, :accepted, :declined, :owner], _prefix: true
 
   validates :board, :board_member, presence: true
   validate :person_has_not_been_invited_before, on: :create
@@ -25,11 +25,16 @@ class Invite < ActiveRecord::Base
   belongs_to :board_member, class_name: 'User', foreign_key: 'user_id'
   has_one :board_membership
 
+  def hide_from_client?
+    status_owner? || status_declined?
+  end
+
+  private
+
   def create_code
     self.code ||= SecureRandom.urlsafe_base64
   end
 
-  private
 
   def has_remaining_invites
     invite_count = Invite.where(board_id: self.board_id, status: :pending).count

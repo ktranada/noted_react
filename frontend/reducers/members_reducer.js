@@ -1,8 +1,9 @@
 import merge from 'lodash/merge';
 import { RECEIVE_BOARD_MEMBERS } from '../actions/sub_nav_actions';
 import { RECEIVE_BOARD } from '../actions/nav_actions';
-import { REMOVE_MEMBER } from '../actions/board_actions';
+import { REMOVE_MEMBER, REMOVE_BOARD } from '../actions/board_actions';
 import { updateAssociationList } from './util';
+import { asArrayByOrder } from './selectors';
 
 const initialState = {
   byId: {}
@@ -40,6 +41,27 @@ const removeMember = (state, action) => {
   return newState;
 }
 
+const removeBoard = (state, action) => {
+  const members = state.byId;
+  const boardId = action.board.id;
+  const newState = merge({}, members);
+
+  action.board.members.forEach(memberId => {
+    let member = members[memberId];
+    delete member.membershipsByBoardId[boardId]
+
+    if (Object.keys(member.membershipsByBoardId).length == 0) {
+      // remove member entirely
+      delete newState[memberId]
+    } else {
+      // update member membership list
+      newState[memberId] = member;
+    }
+  })
+
+  return ({ byId: newState });
+}
+
 const membersReducer = (state = initialState, action) => {
   Object.freeze(state);
   switch (action.type) {
@@ -49,6 +71,8 @@ const membersReducer = (state = initialState, action) => {
       return merge({}, initialState, action.members);
     case REMOVE_MEMBER:
       return removeMember(state, action);
+    case REMOVE_BOARD:
+      return removeBoard(state, action);
     default:
       return state;
   }

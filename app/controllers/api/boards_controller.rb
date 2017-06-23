@@ -1,11 +1,10 @@
 class Api::BoardsController < ApplicationController
   def show
     @board = Board
-      .where(id: params[:id])
-      .includes(:board_memberships, :invites, :channels, lists: [cards: [:comments]])[0] ||
-      Board.new
+      .includes(:board_memberships, :members, :invites, :channels, lists: [cards: [:comments]])
+      .find(params[:id])
 
-    @invites = @board.invites.select {|invite| invite.status != :declined }
+    @invites = @board.invites.select {|invite| !invite.hide_from_client? }
     render :show
   end
 
@@ -15,7 +14,7 @@ class Api::BoardsController < ApplicationController
     @board.user_id = current_user.id
 
     if @board.save
-      @board.create_board_membership(current_user.id, params[:board][:username])
+      @board.create_owner_membership(params[:board][:username])
       render :create
     else
       render json: @board.errors.full_messages, status: 422
@@ -34,6 +33,11 @@ class Api::BoardsController < ApplicationController
 
 
   def destroy
+    @board = Board.includes(:channels, :members, :invites, lists: [cards: [:comments]]).find(params[:id])
+
+    @board.destroy
+
+    render :destroy
   end
 
   private

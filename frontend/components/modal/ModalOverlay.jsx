@@ -5,10 +5,10 @@ class ModalOverlay extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleBackgroundClick = this.handleBackgroundClick.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
-  handleBackgroundClick(e) {
+  handleClick(e) {
     if (e.target === e.currentTarget) {
       if (this.props.onBackgroundClick) {
         this.props.onBackgroundClick();
@@ -22,8 +22,11 @@ class ModalOverlay extends React.Component {
     return (
       <div
         className="modal-overlay"
-        onClick={this.handleBackgroundClick}>
+        onClick={this.handleClick}>
         <div className={`${this.props.modalType}-modal__wrapper`}>
+          <i
+            onClick={this.handleClick}
+            className="modal-exit material-icons">&#xE14C;</i>
           { this.props.children }
         </div>
       </div>
@@ -33,7 +36,7 @@ class ModalOverlay extends React.Component {
 
 ModalOverlay.propTypes = {
   modalType: PropTypes.string.isRequired,
-  handleBackgroundClick: PropTypes.func
+  handleClick: PropTypes.func
 }
 
 export default ModalOverlay;

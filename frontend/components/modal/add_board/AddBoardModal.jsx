@@ -37,7 +37,7 @@ class AddBoardModal extends React.Component {
     const { type } = this.state;
     return (
       <ModalOverlayContainer modalType="add-board">
-        { 
+        {
           type === 'create'
             ? <CreateBoardContent
                 handleBackClick={this.handleBoardSelection('')}

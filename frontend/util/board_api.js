@@ -78,7 +78,7 @@ export const updateBoard = data => (
 )
 
 export const destroyBoard = data => (
-  destroy('invite', data)
+  destroy('board', data)
 )
 
 export const destroyInvite = data => (

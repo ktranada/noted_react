@@ -10,10 +10,9 @@
 
 main_user = User.create!(email: "kev@gmail.com", password: "123pass")
 board = Board.create!(title: "React", user_id: main_user.id)
+board.create_owner_membership("Kaytranada")
 board2 = Board.create!(title: "Redux", user_id: main_user.id)
-
-BoardMembership.create!(board_id: board.id, user_id: main_user.id, username: "Kevboard1")
-BoardMembership.create!(board_id: board2.id, user_id: main_user.id, username: "T2")
+board2.create_owner_membership("kfade")
 
 list = board.lists.create!(title: "Components")
 card_one = list.cards.create!(title: "Presentational vs. Container")

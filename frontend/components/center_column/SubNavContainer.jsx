@@ -5,17 +5,11 @@ import { getCurrentBoardById, asArrayByOrder, isLoadingByType } from '../../redu
 import { requestChannels } from '../../actions/sub_nav_actions';
 import { toggleModal } from '../../actions/modal_actions';
 
-const mapStateToProps = ({ boards, channels, members, loading }, { match }) => {
-  const currentBoard = getCurrentBoardById(match.params.boardId, boards);
-  if (!Boolean(currentBoard)) return ({
-    currentBoard: null
-  });
-
+const mapStateToProps = ({ boards, channels, members, loading }, { currentBoard }) => {
   return ({
     channels: asArrayByOrder(channels, currentBoard.channels),
     members: asArrayByOrder(members, currentBoard.members),
-    isLoading: isLoadingByType(loading, currentBoard.id, "loadingBoard"),
-    currentBoard
+    isLoading: isLoadingByType(loading, currentBoard.id, "loadingBoard")
   });
 }
 

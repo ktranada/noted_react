@@ -28,8 +28,9 @@ class Board < ActiveRecord::Base
     self.members.include?(user)
   end
 
-  def create_board_membership(user_id, username)
-    self.board_memberships.create!(user_id: user_id, username: username)
+  def create_owner_membership(username)
+    invite = Invite.create(user_id: user_id, board_id: id, recipient_email: owner.email, status: :owner)
+    BoardMembership.create(board_id: id, user_id: user_id, invite_id: invite.id, username: username)
   end
 
   def is_owned_by?(user)
@@ -39,15 +40,7 @@ class Board < ActiveRecord::Base
   private
 
   def create_general_channel
-    channel = Channel.create(board_id: id, title: "General", permission: :public)
-  end
-
-  def create_initial_invite
-    Invite.create(
-      user_id: owner.id,
-      board_id: id,
-      recipient_email: owner.email,
-      status: :accepted)
+    Channel.create(board_id: id, title: "General", permission: :public)
   end
 
   def set_ord

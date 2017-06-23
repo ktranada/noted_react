@@ -1,7 +1,7 @@
 import merge from 'lodash/merge';
 import { byIdObject, updateObject, updateAssociationList } from './util';
 import {
-  START_LOADING_BOARD,
+  // START_LOADING_BOARD,
   ADD_BOARD,
   RECEIVE_BOARDS,
   RECEIVE_BOARD,
@@ -12,7 +12,8 @@ import {
   ADD_INVITES,
   REMOVE_INVITE,
   REMOVE_MEMBER,
-  UPDATE_BOARD
+  UPDATE_BOARD,
+  REMOVE_BOARD
 } from '../actions/board_actions';
 
 const initialState = {
@@ -117,10 +118,23 @@ const removeMember = (state, action) => {
       { remove: true });
 }
 
+const removeBoard = (state, action) => {
+  const newState = merge({}, state);
+  const byId = newState.byId;
+  const order = newState.order;
+
+  if (byId[action.board.id]) {
+    delete byId[action.board.id]
+    newState.order = newState.order.filter(id => id != action.board.id);
+  }
+
+  return newState;
+}
+
 
 const boardsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case START_LOADING_BOARD: return startLoadingBoard(state, action);
+    // case START_LOADING_BOARD: return startLoadingBoard(state, action);
     case RECEIVE_BOARD: return receiveBoard(state, action);
     case RECEIVE_BOARDS:
       return merge({}, state, {
@@ -134,6 +148,7 @@ const boardsReducer = (state = initialState, action) => {
     case UPDATE_BOARD: return updateBoard(state, action);
     case REMOVE_INVITE: return removeInvite(state, action);
     case REMOVE_MEMBER: return removeMember(state, action);
+    case REMOVE_BOARD: return removeBoard(state, action);
     default:
       return state;
   }

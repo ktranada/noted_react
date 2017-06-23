@@ -51,3 +51,13 @@ export const deleteObjectById = (state, id) => {
     byId: entities
   });
 }
+
+export const removeObjectsByBoard = (state, objectIds) => {
+  const newState = merge({}, state.byId);
+
+  objectIds.forEach(id => {
+    delete newState[id]
+  });
+
+  return ({ byId: newState })
+}

@@ -29,7 +29,6 @@ class Nav extends React.Component {
 
   requestBoard(board) {
     if (board && !board.isLoaded && !board.isLoading) {
-      console.log('requesting');
       this.props.requestBoard(board.id);
     }
   }
@@ -51,6 +50,7 @@ class Nav extends React.Component {
   }
 
   render() {
+    console.log('rendering');
     let { boards, match } = this.props;
     const matchBoardId = Number.parseInt(match.params.boardId);
     const boardsList = boards.map((board) => {

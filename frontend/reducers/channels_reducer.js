@@ -1,6 +1,7 @@
 import merge from 'lodash/merge';
-import { RECEIVE_CHANNELS } from '../actions/sub_nav_actions';
 import { RECEIVE_BOARD } from '../actions/nav_actions';
+import { REMOVE_BOARD } from '../actions/board_actions';
+import { updateObject, removeObjectsByBoard } from './util';
 
 const initialState = {
   byId: {},
@@ -9,9 +10,9 @@ const initialState = {
 const channelsReducer = (state = initialState, action) => {
   switch (action.type) {
     case RECEIVE_BOARD:
-      return merge({}, state, action.board.channels);
-    case RECEIVE_CHANNELS:
-      return merge({}, initialState, action.channels);
+      return updateObject(state, action.board.channels);
+    case REMOVE_BOARD:
+      return removeObjectsByBoard(state, action.board.channels);
     default:
       return state;
   }

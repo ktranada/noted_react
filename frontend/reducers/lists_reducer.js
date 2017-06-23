@@ -1,6 +1,6 @@
 import { RECEIVE_BOARD } from '../actions/nav_actions';
-import { ADD_LIST, ADD_CARD, REMOVE_CARD } from '../actions/board_actions';
-import { updateObject, byIdObject, updateAssociationList } from './util';
+import { ADD_LIST, ADD_CARD, REMOVE_CARD,REMOVE_BOARD } from '../actions/board_actions';
+import { updateObject, byIdObject, updateAssociationList, removeObjectsByBoard } from './util';
 
 const initialState = {
   byId: {}
@@ -14,15 +14,10 @@ const listsReducer = (state = initialState, action) => {
       return updateObject(state, byIdObject(action.list.id, action.list));
     case ADD_CARD:
       return updateAssociationList(state, action.card.list_id, 'cards', action.card.id);
-
     case REMOVE_CARD:
-      let result = updateAssociationList(
-        state,
-        action.card.list_id,
-        'cards',
-        action.card.id,
-        { remove: true });
-        return result;
+      return updateAssociationList( state, action.card.list_id, 'cards', action.card.id, { remove: true });
+    case REMOVE_BOARD:
+      return removeObjectsByBoard(state, action.board.lists);
     default:
       return state;
   }

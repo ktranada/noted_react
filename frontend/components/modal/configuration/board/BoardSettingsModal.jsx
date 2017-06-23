@@ -19,7 +19,7 @@ class BoardSettingsModal extends React.Component {
     }
 
     this.handleTabChange = this.handleTabChange.bind(this);
-    this.deleteBoard = this.deleteBoard.bind(this);
+    this.handleDeleteButtonClick = this.handleDeleteButtonClick.bind(this);
     this.promptDelete = this.promptDelete.bind(this);
   }
 
@@ -38,8 +38,10 @@ class BoardSettingsModal extends React.Component {
     })
   }
 
-  deleteBoard() {
-    this.props.destroyBoard()
+  handleDeleteButtonClick() {
+    this.props.hideModal();
+    this.props.history.push('/boards');
+    this.props.destroyBoard();
   }
 
   contentComponent() {
@@ -64,7 +66,7 @@ class BoardSettingsModal extends React.Component {
 
   render() {
     const deleteBoardButton = (
-        <span onClick={this.promptDelete} role="button">Delete Board</span>
+        <span onClick={this.handleDeleteButtonClick} role="button">Delete Board</span>
       );
     return (
       <ModalOverlayContainer modalType="configuration">

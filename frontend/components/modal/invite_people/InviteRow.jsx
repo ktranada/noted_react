@@ -1,24 +1,5 @@
 import React from 'react';
 
-// class InviteRow extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //
-  //   this.state = {
-  //     email: ''
-  //   }
-  //
-  //   this.handleChange = this.handleChange.bind(this);
-  // }
-  //
-  // handleChange(e) {
-  //   this.setState({
-  //     email: e.currentTarget.value
-  //   })
-  // }
-
-  // render() {
-
 const InviteRow = props => {
   const isInitialRow = props.inviteCount === 1;
   const isValid = typeof props.isValid === 'undefined' ? true : props.isValid; // Could be undefined from the beginning

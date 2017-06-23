@@ -10,7 +10,7 @@ import InitialBoardContentContainer from './right_column/InitialBoardContentCont
 import ListIndexContainer from './right_column/lists/ListIndexContainer';
 import ViewCardModalContainer from './modal/view_card/ViewCardModalContainer';
 
-class Boards extends React.Component {
+class Boards extends React.PureComponent {
   constructor(props) {
     super(props);
   }
@@ -21,7 +21,17 @@ class Boards extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (!Boolean(nextProps.currentBoard)) {
+      this.props.history.push('/boards');
+    }
+  }
+
   render() {
+    if (!Boolean(this.props.currentBoard)) {
+      return null;
+    }
+
     const props = this.props;
     return (
       <div className="landing-container">

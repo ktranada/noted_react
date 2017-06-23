@@ -1,7 +1,7 @@
 import merge from 'lodash/merge';
-import { ADD_CARD, ADD_COMMENT, UPDATE_CARD, REMOVE_CARD } from '../actions/board_actions';
+import { ADD_CARD, ADD_COMMENT, UPDATE_CARD, REMOVE_CARD, REMOVE_BOARD } from '../actions/board_actions';
 import { RECEIVE_BOARD } from '../actions/nav_actions';
-import { updateObject, byIdObject, updateAssociationList, deleteObjectById } from './util';
+import { updateObject, byIdObject, updateAssociationList, deleteObjectById, removeObjectsByBoard } from './util';
 
 const initialState = {
   byId: {}
@@ -25,6 +25,8 @@ const cardsReducer = (state = initialState, action) => {
 
     case REMOVE_CARD:
         return deleteObjectById(state, action.card.id);
+    case REMOVE_BOARD:
+      return removeObjectsByBoard(state, action.board.cards);
     default:
       return state;
   }

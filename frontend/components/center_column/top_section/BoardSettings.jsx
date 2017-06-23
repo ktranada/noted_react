@@ -6,13 +6,19 @@ class BoardSettings extends React.Component {
   constructor(props) {
     super(props);
 
-
     this.state = {
       showDropdown: false
     }
+    this.dropdownRef = null;
 
     this.toggleDropdown = this.toggleDropdown.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.showDropdown) {
+      this.dropdownRef.focus();
+    }
   }
 
   toggleDropdown() {
@@ -26,7 +32,8 @@ class BoardSettings extends React.Component {
       this.setState({
         showDropdown: false
       });
-      this.props.toggleModal(type);
+      this.dropdownRef.blur();
+      this.props.toggleModal(type)();
     }
   }
 
@@ -40,8 +47,12 @@ class BoardSettings extends React.Component {
           className="material-icons"
           onClick={this.toggleDropdown}>&#xE5D4;</i>
         <div
+          onBlur={this.toggleDropdown}
+          tabIndex={-1}
+          ref={el => {this.dropdownRef = el; }}
           className={`board-configuration__dropdown ${this.state.showDropdown ? 'open' : ''}`}>
-          <div role="button" onClick={this.toggleModal(INVITE_PEOPLE)}>
+          <div role="button"
+            onClick={this.toggleModal(INVITE_PEOPLE)}>
             <i className="material-icons">&#xE7FE;</i>
             Invite Members
           </div>

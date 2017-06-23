@@ -68,7 +68,8 @@ export const editCard = card => dispatch => (
 export const destroyBoard = boardId => dispatch => (
   BoardAPI.destroyBoard(boardId)
     .then((board) => {
-      return dispatch(removeBoard(board));
+      dispatch(removeBoard(board));
+      return board;
     })
 );
 

@@ -11,6 +11,19 @@ class ListIndex extends React.Component {
     this.createList = this.createList.bind(this);
   }
 
+  componentWillMount() {
+    const { match, history } = this.props;
+    if (!match.isExact) {
+      this.props.history.replace(match.url);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.match.isExact) {
+      this.props.history.push(this.props.match.url);
+    }
+  }
+
   createList(data) {
     const list = Object.assign({}, data, {
       ord: this.props.lists.length,
