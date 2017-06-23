@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import { RouteWithProps } from '../util/route_util';
 import NavContainer from './left_column/NavContainer';
 import SubNavContainer from './center_column/SubNavContainer';
-import AccountConfigurationContainer from './center_column/bottom_section/AccountConfigurationContainer';
+import AccountInfo from './center_column/bottom_section/AccountInfo';
 import ModalControllerContainer from './modal/ModalControllerContainer';
 import InitialBoardContentContainer from './right_column/InitialBoardContentContainer';
 import ListIndexContainer from './right_column/lists/ListIndexContainer';
@@ -13,6 +13,7 @@ import ViewCardModalContainer from './modal/view_card/ViewCardModalContainer';
 class Boards extends React.PureComponent {
   constructor(props) {
     super(props);
+    this.toggleModal = this.toggleModal.bind(this);
   }
 
   componentWillMount() {
@@ -27,33 +28,52 @@ class Boards extends React.PureComponent {
     }
   }
 
+  toggleModal(type) {
+    return () => {
+      this.props.toggleModal(type);
+    }
+  }
+
   render() {
     if (!Boolean(this.props.currentBoard)) {
       return null;
     }
 
-    const props = this.props;
+    const { isLoading, currentUser, currentBoard } = this.props;
+
     return (
       <div className="landing-container">
         <section className="left-column">
-          <NavContainer {...props}/>
+          <NavContainer
+            {...this.props}
+            toggleModal={this.toggleModal}/>
         </section>
+
         <section className="center-column">
-          <SubNavContainer {...props} />
+          <SubNavContainer {...this.props} />
+          <AccountInfo
+            currentUser={currentUser}
+            toggleModal={this.toggleModal}/>
         </section>
+
         <section className="right-column">
           <Switch>
             <RouteWithProps
               path="/boards/:boardId/card/:cardId"
               component={ListIndexContainer}
-              currentBoard={props.currentBoard} />
+              currentBoard={currentBoard} />
 
             <RouteWithProps
               path="/boards/:boardId/lists"
               component={ListIndexContainer}
-              currentBoard={props.currentBoard} />
+              currentBoard={currentBoard} />
 
-            <Route path="/boards/:boardId" component={InitialBoardContentContainer} />
+            <RouteWithProps
+              path="/boards/:boardId"
+              isLoading={isLoading}
+              currentBoard={currentBoard}
+              component={InitialBoardContentContainer}
+              toggleModal={this.toggleModal}/>
 
           </Switch>
         </section>
@@ -61,9 +81,9 @@ class Boards extends React.PureComponent {
         <RouteWithProps
           path="/boards/:boardId/card/:cardId"
           component={ViewCardModalContainer}
-          currentBoard={this.props.currentBoard} />
+          currentBoard={currentBoard} />
 
-      <ModalControllerContainer {...props}/>
+        <ModalControllerContainer {...this.props}/>
       </div>
     )
   }

@@ -1,12 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import NavTab  from './NavTab';
 import { getCurrentBoardById } from '../../reducers/selectors';
+import { ADD_BOARD } from '../../actions/modal_actions';
 
 class Nav extends React.Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
-    this.toggleModal = this.toggleModal.bind(this);
   }
 
   componentWillMount() {
@@ -21,8 +22,10 @@ class Nav extends React.Component {
          nextProps.currentBoard.id !== this.props.currentBoard.id)) {
       this.requestBoard(nextProps.currentBoard);
     }
+
     const nextBoardId = nextProps.match.params.boardId;
     if (nextProps.match.path !== '/boards' && !Boolean(Number.parseInt(nextBoardId))) {
+      console.log('redirecting to boards')
       this.props.history.replace('/boards');
     }
   }
@@ -45,10 +48,6 @@ class Nav extends React.Component {
     }
   }
 
-  toggleModal() {
-    this.props.toggleModal()
-  }
-
   render() {
     console.log('rendering');
     let { boards, match } = this.props;
@@ -65,9 +64,9 @@ class Nav extends React.Component {
     let boardFormButton = null;
     if (boardsList.length < 3) {
       boardFormButton = <NavTab
-        handleClick={this.toggleModal}
+        handleClick={this.props.toggleModal(ADD_BOARD)}
         isButton={true}
-        key={-1}
+        key="form-button"
         />
     }
 
@@ -78,6 +77,15 @@ class Nav extends React.Component {
       </ul>
     );
   }
+}
+
+Nav.propTypes = {
+  boards: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequred
+  })).isRequired,
+  toggleModal: PropTypes.func.isRequired,
+  requestBoard: PropTypes.func.isRequired
 }
 
 export default Nav;

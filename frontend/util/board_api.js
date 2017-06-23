@@ -77,6 +77,10 @@ export const updateBoard = data => (
   update('board', data.id, data)
 )
 
+export const updateMembership = data => (
+  update('board_membership', data.id, data)
+)
+
 export const destroyBoard = data => (
   destroy('board', data)
 )

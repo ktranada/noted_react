@@ -6,7 +6,7 @@ class Overview extends React.Component {
     super(props);
 
     this.state = {
-      title: this.props.title,
+      input: this.props.value,
       isValid: true
     }
 
@@ -16,7 +16,7 @@ class Overview extends React.Component {
 
   handleChange(e) {
     this.setState({
-      title: e.currentTarget.value,
+      input: e.currentTarget.value,
       isValid: true
     })
   }
@@ -24,14 +24,17 @@ class Overview extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    if (!this.state.title.trim()) {
+    if (!this.state.input.trim()) {
       this.setState({
         isValid: false
       });
       return;
     }
 
-    this.props.editBoard({ title: this.state.title})
+    this.props.updateField({
+      id: this.props.id,
+      [this.props.field]: this.state.input
+    })
   }
 
   render() {
@@ -39,16 +42,12 @@ class Overview extends React.Component {
       <form
         className="content__board-overview"
         onSubmit={this.handleSubmit}>
-        <div className="board-overview__logo">
-          <div data-title={this.state.title[0]}></div>
-          <span>Upload Image</span>
-        </div>
         <div className="board-overview__title">
-          <label>BOARD NAME
+          <label>{this.props.label}
             <input
               className={this.state.isValid ? '' : 'error'}
               onChange={this.handleChange}
-              value={this.state.title}/>
+              value={this.state.input}/>
           </label>
         </div>
         <button type="submit" className="button button-green">Save</button>
@@ -58,8 +57,11 @@ class Overview extends React.Component {
 }
 
 Overview.propTypes = {
-  title: PropTypes.string.isRequired,
-  editBoard: PropTypes.func.isRequired
+  id: PropTypes.number.isRequired,
+  value: PropTypes.string.isRequired,
+  field: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  updateField: PropTypes.func.isRequired
 }
 
 export default Overview;

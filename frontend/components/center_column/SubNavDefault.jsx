@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Spinner from '../misc/spinner';
 
 const SubNavDefault = (props) => (
@@ -24,4 +25,8 @@ const SubNavDefault = (props) => (
     </div>
   </div>
 )
+
+SubNavDefault.proptypes = {
+  isLoading: PropTypes.bool.isRequired
+}
 export default SubNavDefault;

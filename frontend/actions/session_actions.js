@@ -2,17 +2,9 @@ import * as SessionAPI from '../util/session_api'
 import { receiveBoards } from './nav_actions';
 
 export const RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
-export const RECEIVE_ERRORS = "RECEIVE_ERRORS"
+export const RECEIVE_USER_ERRORS = "RECEIVE_USER_ERRORS"
 
-export const receiveCurrentUser = currentUser => ({
-  type: RECEIVE_CURRENT_USER,
-  currentUser
-});
 
-export const receiveErrors = errors => ({
-  type: RECEIVE_ERRORS,
-  errors
-});
 
 const parseSignInResponse = (promise, dispatch) => {
   promise.then(response => {
@@ -30,7 +22,27 @@ export const signup = user => dispatch => {
 export const login = user => (dispatch) => {
   return parseSignInResponse(SessionAPI.login(user), dispatch)
 }
-export const logout = () => dispatch => {
-  return SessionAPI.logout()
+export const logout = () => dispatch => (
+  SessionAPI.logout()
     .then(() => dispatch(receiveCurrentUser(null)))
-}
+)
+
+export const updateUser = user => dispatch => (
+  SessionAPI.updateUser(user).then(
+      (user) => {
+        dispatch(receiveCurrentUser(user));
+        return user;
+      },
+      errors => dispatch(receiveErrors(errors)))
+);
+
+
+export const receiveCurrentUser = currentUser => ({
+  type: RECEIVE_CURRENT_USER,
+  currentUser
+});
+
+export const receiveErrors = errors => ({
+  type: RECEIVE_USER_ERRORS,
+  errors
+});

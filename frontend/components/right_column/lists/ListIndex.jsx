@@ -33,17 +33,17 @@ class ListIndex extends React.Component {
   }
 
   render() {
-    const lists = this.props.lists.map(list => (
-      <ListContainer
-        key={list.id}
-        boardId={this.props.currentBoard.id}
-        list={list} />
-    ));
-
     let content = null;
     if (this.props.isLoading) {
       content = <Spinner />
     } else {
+      const lists = this.props.lists.map(list => (
+        <ListContainer
+          key={list.id}
+          boardId={this.props.currentBoard.id}
+          list={list} />
+      ));
+            
       content = (
         <div className="list-index">
           { lists }

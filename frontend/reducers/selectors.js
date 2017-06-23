@@ -52,3 +52,12 @@ export const getInvitesByStatus = (invitesArray, status) => {
 
   return invitesArray.filter(invite => invite.status === status);
 }
+
+export const remainingInviteCount = (invites, currentBoard) => {
+  if (isUndefined(invites) || isUndefined(currentBoard)) {
+    return 0;
+  }
+
+  const invitesArray = asArrayByOrder(invites, currentBoard.invites);
+  return (10 - currentBoard.members.length - invitesArray.filter(({status}) => status === 'pending').length);
+}

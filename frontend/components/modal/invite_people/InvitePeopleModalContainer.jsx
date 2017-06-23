@@ -1,14 +1,11 @@
 import { connect } from 'react-redux';
-import InvitePeopleModal from './InvitePeopleModal';
 import { createInvites, destroyInvite } from '../../../actions/board_actions';
-import { asArrayByOrder, getInvitesByStatus } from '../../../reducers/selectors';
+import { remainingInviteCount } from '../../../reducers/selectors';
+import InvitePeopleModal from './InvitePeopleModal';
 
-const mapStateToProps = ({invites, boards}, {currentBoard}) => {
-  const invitesArray = asArrayByOrder(invites, currentBoard.invites);
-  const remainingInviteCount = 10 - currentBoard.members.length - invitesArray.filter(({status}) => status === 'pending').length;
-
+const mapStateToProps = ({ invites }, { currentBoard }) => {
   return ({
-    remainingInviteCount,
+    remainingInviteCount: remainingInviteCount(invites, currentBoard)
   });
 }
 

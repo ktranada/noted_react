@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
-import { toggleModal, INVITE_PEOPLE } from '../../actions/modal_actions';
+import { remainingInviteCount } from '../../reducers/selectors';
 import InitialBoardContent from './InitialBoardContent';
-const mapDispatchToProps = dispatch => ({
-  toggleInviteModal: () => dispatch(toggleModal(INVITE_PEOPLE))
-});
+
+const mapStateToProps = ({ invites }, { currentBoard }) => ({
+  hasInvites: remainingInviteCount(invites, currentBoard) > 0
+})
 
 export default connect(
-  null,
-  mapDispatchToProps
+  mapStateToProps,
 )(InitialBoardContent)

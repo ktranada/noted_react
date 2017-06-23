@@ -2,9 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Nav from './Nav';
 import { asArrayByOrder, getCurrentBoardById } from '../../reducers/selectors';
-
 import { requestBoard } from '../../actions/nav_actions';
-import { toggleModal, ADD_BOARD } from '../../actions/modal_actions';
 
 const mapStateToProps = ({ boards }, {currentBoard}) => {
   return ({
@@ -13,7 +11,6 @@ const mapStateToProps = ({ boards }, {currentBoard}) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  toggleModal: () => dispatch(toggleModal(ADD_BOARD)),
   requestBoard: boardId => requestBoard(boardId)(dispatch)
 })
 

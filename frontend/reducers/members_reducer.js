@@ -1,8 +1,8 @@
 import merge from 'lodash/merge';
 import { RECEIVE_BOARD_MEMBERS } from '../actions/sub_nav_actions';
 import { RECEIVE_BOARD } from '../actions/nav_actions';
-import { REMOVE_MEMBER, REMOVE_BOARD } from '../actions/board_actions';
-import { updateAssociationList } from './util';
+import { REMOVE_MEMBER, REMOVE_BOARD, UPDATE_USERNAME } from '../actions/board_actions';
+import { updateAssociationList, byIdObject, updateObject } from './util';
 import { asArrayByOrder } from './selectors';
 
 const initialState = {
@@ -23,14 +23,27 @@ const initialState = {
 //   }
 // }
 
+
+const updateUsername = (state, action) => {
+  const { membership } = action;
+  const member = state.byId[membership.user_id];
+  if (typeof member === 'undefined') {
+    return state;
+  }
+
+  member.usernamesByBoardId[membership.board_id] = membership.username;
+  return updateObject(state, byIdObject(membership.user_id, member));
+}
+
 const removeMember = (state, action) => {
   const { membership } = action;
   const member = state.byId[membership.user_id];
-  const newState = merge({}, state)
 
   if (typeof member === 'undefined') {
     return state;
   }
+
+  const newState = merge({}, state)
 
   delete member.membershipsByBoardId[membership.board_id]
 
@@ -69,6 +82,8 @@ const membersReducer = (state = initialState, action) => {
       return merge({}, state, action.board.members);
     case RECEIVE_BOARD_MEMBERS:
       return merge({}, initialState, action.members);
+    case UPDATE_USERNAME:
+      return updateUsername(state, action);
     case REMOVE_MEMBER:
       return removeMember(state, action);
     case REMOVE_BOARD:

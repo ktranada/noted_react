@@ -16,7 +16,7 @@ export const createBoard = board => dispatch => (
 )
 
 export const requestBoard = boardId => dispatch => {
-  dispatch(startLoadingBoard(boardId));
+  // dispatch(startLoadingBoard(boardId));
   return BoardsAPI.requestBoard(boardId)
     .then(board => {
       dispatch(receiveBoard(board));

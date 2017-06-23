@@ -1,35 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class NewUserActions extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.toggleModal = this.toggleModal.bind(this);
+const NewUserActions = props => {
+  if (props.boardCount === 3) {
+    return null
   }
 
-  toggleModal() {
-    this.props.toggleAddBoardModal();
-  }
+  return(
+    <div className="new-user-actions">
+      <div className="new-user-actions__action">
+        <p>Ready to start improving your workflow? Add a board and start organizing your tasks and thoughts.</p>
 
-  render() {
-    if (this.props.boardCount === 3) {
-      return null
-    }
-
-    return(
-      <div className="new-user-actions">
-        <div className="new-user-actions__action">
-          <p>Ready to start improving your workflow? Add a board and start organizing your tasks and thoughts.</p>
-
-          <button
-            type="button"
-            className="button button-green"
-            onClick={this.toggleModal}>Add Board</button>
-        </div>
+        <button
+          type="button"
+          className="button button-green"
+          onClick={props.toggleModal('ADD_BOARD')}>Add Board</button>
       </div>
-    )
-  }
+    </div>
+  )
+}
+
+NewUserActions.propTypes = {
+  boardCount: PropTypes.number.isRequired,
+  toggleModal: PropTypes.func.isRequired
 }
 
 export default NewUserActions;

@@ -33,7 +33,7 @@ class BoardSettings extends React.Component {
         showDropdown: false
       });
       this.dropdownRef.blur();
-      this.props.toggleModal(type)();
+      this.props.toggleModal(type);
     }
   }
 
@@ -47,8 +47,8 @@ class BoardSettings extends React.Component {
           className="material-icons"
           onClick={this.toggleDropdown}>&#xE5D4;</i>
         <div
-          onBlur={this.toggleDropdown}
           tabIndex={-1}
+          onBlur={this.toggleDropdown}
           ref={el => {this.dropdownRef = el; }}
           className={`board-configuration__dropdown ${this.state.showDropdown ? 'open' : ''}`}>
           <div role="button"

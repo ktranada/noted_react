@@ -9,6 +9,7 @@ export const ADD_INVITE = 'ADD_INVITE';
 export const ADD_INVITES = 'ADD_INVITES';
 export const UPDATE_CARD = 'UPDATE_CARD';
 export const UPDATE_BOARD = 'UPDATE_BOARD';
+export const UPDATE_USERNAME = 'UPDATE_USERNAME';
 export const RECEIVE_INVITE_ERRORS = 'RECEIVE_INVITE_ERRORS';
 export const REMOVE_BOARD = 'REMOVE_BOARD';
 export const REMOVE_CARD = 'REMOVE_CARD';
@@ -65,6 +66,14 @@ export const editCard = card => dispatch => (
     })
 )
 
+export const editMembership = membership => dispatch => (
+  BoardAPI.updateMembership(membership)
+    .then(membership => {
+      dispatch(updateUsername(membership));
+      return membership;
+    })
+)
+
 export const destroyBoard = boardId => dispatch => (
   BoardAPI.destroyBoard(boardId)
     .then((board) => {
@@ -96,6 +105,7 @@ export const destroyInvite = inviteId => dispatch => (
       return invite;
     })
 )
+
 
 export const receiveInviteErrors = errors => ({
   type: RECEIVE_INVITE_ERRORS,
@@ -131,6 +141,11 @@ export const updateCard = card => ({
   type: UPDATE_CARD,
   card
 });
+
+export const updateUsername = membership => ({
+  type: UPDATE_USERNAME,
+  membership
+})
 
 export const removeBoard = board => ({
   type: REMOVE_BOARD,
