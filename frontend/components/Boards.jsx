@@ -39,13 +39,15 @@ class Boards extends React.PureComponent {
       return null;
     }
 
-    const { isLoading, currentUser, currentBoard } = this.props;
+    const { isLoading, currentUser, currentBoard, history } = this.props;
 
     return (
       <div className="landing-container">
         <section className="left-column">
           <NavContainer
-            {...this.props}
+            isLanding={false}
+            history={history}
+            currentBoardId={currentBoard.id}
             toggleModal={this.toggleModal}/>
         </section>
 

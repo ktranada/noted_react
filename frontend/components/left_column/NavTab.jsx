@@ -1,24 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const NavTab = props => {
-  const {title, handleClick, isCurrentBoard, isButton } = props;
-
-  if (isButton) {
-    return (
-      <li className="nav__button">
-        <div role="button" onClick={handleClick}>
-          <i className="material-icons">&#xE145;</i>
-        </div>
-      </li>
-    )
-  }
-
+  const {id, title } = props;
   return (
-    <li className={`nav__tab ${isCurrentBoard ? "active" : ""}`}>
-      <div role="button" onClick={handleClick}>
+    <li className="nav__tab">
+      <NavLink to={`/boards/${id}`}>
         {title[0].toUpperCase()}
-      </div>
+      </NavLink>
     </li>
   )
 }

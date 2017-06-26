@@ -6,44 +6,42 @@
     list-style: none;
     padding: 25px 10px;
 
-    div {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      color: white;
-      &:hover {
-        cursor: pointer;
-      }
-    }
-
     .nav__tab {
       margin-bottom: 25px;
       position: relative;
-
-      > div {
+      a {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        text-decoration: none;
+        color: white;
         background: #546E7A;
         text-align: center;
         line-height: 44px;
         text-transform: uppercase;
         font-size: 20px;
-      }
-
-      &.active::before {
-        width: 3px;
-        height: 22px;
-        background: white;
-        left: -7px;
-        top: 12px;
-        border-radius: 5px;
-        content: " ";
         display: inline-block;
-        position: absolute;
+        &.active::before {
+          width: 3px;
+          height: 22px;
+          background: white;
+          left: -7px;
+          top: 12px;
+          border-radius: 5px;
+          content: " ";
+          display: inline-block;
+          position: absolute;
+        }
       }
     }
 
     .nav__button {
       div {
         border: 1px #979797 dashed;
+        border-radius: 50%;
+        cursor: pointer;
+        height: 44px;
+        width: 44px;
         i {
           font-size: 44px;
           color: #979797;

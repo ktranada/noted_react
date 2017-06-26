@@ -7,67 +7,43 @@ import { ADD_BOARD } from '../../actions/modal_actions';
 class Nav extends React.Component {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
   }
 
   componentWillMount() {
-    if (!this.props.isLanding && this.props.currentBoard) {
-      this.requestBoard(this.props.currentBoard);
+    if (!this.props.isLanding) {
+      this.requestBoard(this.props.currentBoardId, this.props);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.currentBoard &&
-        (!Boolean(this.props.currentBoard) ||
-         nextProps.currentBoard.id !== this.props.currentBoard.id)) {
-      this.requestBoard(nextProps.currentBoard);
-    }
-
-    const nextBoardId = nextProps.match.params.boardId;
-    if (nextProps.match.path !== '/boards' && !Boolean(Number.parseInt(nextBoardId))) {
-      console.log('redirecting to boards')
-      this.props.history.replace('/boards');
+    if (nextProps.currentBoardId !== this.props.currentBoardId) {
+      this.requestBoard(nextProps.currentBoardId, nextProps);
     }
   }
 
-  requestBoard(board) {
-    if (board && !board.isLoaded && !board.isLoading) {
-      this.props.requestBoard(board.id);
-    }
-  }
-
-
-  handleClick(board) {
-    return (e) => {
-      e.preventDefault();
-      if (board.id === Number.parseInt(this.props.match.params.boardId)) {
-        return;
-      }
-
-      this.props.history.push(`/boards/${board.id}/lists`);
+  requestBoard(boardId, { boardIsLoaded, boardIsLoading }) {
+    if (!boardIsLoaded && !boardIsLoading) {
+      this.props.requestBoard(boardId);
     }
   }
 
   render() {
-    console.log('rendering');
-    let { boards, match } = this.props;
-    const matchBoardId = Number.parseInt(match.params.boardId);
+    let { boards, currentBoardId } = this.props;
     const boardsList = boards.map((board) => {
-      let isCurrentBoard = matchBoardId === board.id;
       return (<NavTab
-        isCurrentBoard={isCurrentBoard}
-        handleClick={this.handleClick(board)}
         key={board.id}
         {...board } />
     )});
 
     let boardFormButton = null;
     if (boardsList.length < 3) {
-      boardFormButton = <NavTab
-        handleClick={this.props.toggleModal(ADD_BOARD)}
-        isButton={true}
-        key="form-button"
-        />
+      boardFormButton = (
+        <li className="nav__button">
+          <div role="button" onClick={this.props.toggleModal(ADD_BOARD)}>
+            <i className="material-icons">&#xE145;</i>
+          </div>
+        </li>
+      )
     }
 
     return (
@@ -83,9 +59,12 @@ Nav.propTypes = {
   boards: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequred
-  })).isRequired,
+  }).isRequired).isRequired,
+  boardIsLoaded: PropTypes.bool.isRequired,
+  boardIsLoading: PropTypes.bool.isRequired,
   toggleModal: PropTypes.func.isRequired,
-  requestBoard: PropTypes.func.isRequired
+  requestBoard: PropTypes.func.isRequired,
+  isLanding: PropTypes.bool.isRequired
 }
 
 export default Nav;
