@@ -11,7 +11,7 @@ import listsReducer from './lists_reducer';
 import loadingReducer from './loading_reducer';
 import sessionReducer from './session_reducer';
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   session: sessionReducer,
   boards: boardsReducer,
   invites: invitesReducer,
@@ -23,6 +23,14 @@ const rootReducer = combineReducers({
   currentModal: modalsReducer,
   loading: loadingReducer
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === 'RECEIVE_CURRENT_USER' && action.currentUser === null) {
+    state = undefined;
+  }
+
+  return appReducer(state, action);
+}
 
 
 export default rootReducer;

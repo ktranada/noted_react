@@ -7,11 +7,20 @@ class Overview extends React.Component {
 
     this.state = {
       input: this.props.value,
-      isValid: true
+      errors: []
     }
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.label !== this.props.label) {
+      this.setState({
+        input: nextProps.value,
+        errors: []
+      })
+    }
   }
 
   handleChange(e) {
@@ -34,7 +43,10 @@ class Overview extends React.Component {
     this.props.updateField({
       id: this.props.id,
       [this.props.field]: this.state.input
-    })
+    }).then(
+      () => this.setState({ errors: []}),
+      errors => this.setState({ errors })
+    )
   }
 
   render() {
@@ -43,9 +55,9 @@ class Overview extends React.Component {
         className="content__board-overview"
         onSubmit={this.handleSubmit}>
         <div className="board-overview__title">
-          <label>{this.props.label}
+          <label data-error={this.state.errors[0]}>{this.props.label}
             <input
-              className={this.state.isValid ? '' : 'error'}
+              className={this.state.errors.length ? 'error' : ''}
               onChange={this.handleChange}
               value={this.state.input}/>
           </label>

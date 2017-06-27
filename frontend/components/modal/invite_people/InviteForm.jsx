@@ -1,6 +1,7 @@
 import React from 'react';
 import InviteRow from './InviteRow';
 import PropTypes from 'prop-types';
+
 const InviteForm = props => {
   const { invites, remainingInviteCount, addInviteRow, handleRemove,
     handleChange, handleSubmit, removeInviteRow } = props;

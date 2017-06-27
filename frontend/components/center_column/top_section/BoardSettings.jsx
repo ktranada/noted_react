@@ -38,7 +38,7 @@ class BoardSettings extends React.Component {
   }
 
   render() {
-    const { board} = this.props;
+    const { board } = this.props;
     return (
       <div className="board-configuration">
         <span>{board.title}</span>
@@ -50,13 +50,17 @@ class BoardSettings extends React.Component {
           tabIndex={-1}
           onBlur={this.toggleDropdown}
           ref={el => {this.dropdownRef = el; }}
+          style={!board.owner ? ({bottom: '-4rem' }) : ({})}
           className={`board-configuration__dropdown ${this.state.showDropdown ? 'open' : ''}`}>
-          <div role="button"
-            onClick={this.toggleModal(INVITE_PEOPLE)}>
-            <i className="material-icons">&#xE7FE;</i>
-            Invite Members
-          </div>
-          <hr />
+          {
+            board.owner &&
+            <div role="button"
+              onClick={this.toggleModal(INVITE_PEOPLE)}>
+              <i className="material-icons">&#xE7FE;</i>
+              Invite Members
+            </div>
+          }
+          { board.owner && <hr />}
           <div role="button" onClick={this.toggleModal(BOARD_SETTINGS)}>
             <i className="material-icons">&#xE8B8;</i>
             Settings

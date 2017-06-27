@@ -7,7 +7,8 @@ class SessionForm extends React.Component {
     super(props);
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      errors: this.props.errors
     }
     this.changeForm = this.changeForm.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -24,7 +25,8 @@ class SessionForm extends React.Component {
     return () => {
       this.setState({
         email: '',
-        password: ''
+        password: '',
+        errors: []
       })
       this.props.clearErrors();
       this.props.history.push(to);
@@ -41,6 +43,12 @@ class SessionForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault;
+    if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(this.state.email)) {
+      this.setState({
+        errors: 'Email is not valid'
+      });
+      return;
+    }
     const user = merge({}, this.state);
     this.props.processForm(user);
   }

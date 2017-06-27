@@ -1,7 +1,6 @@
 import * as BoardsAPI from '../util/board_api';
 
 export const RECEIVE_BOARD = "RECEIVE_BOARD";
-export const RECEIVE_BOARDS = "RECEIVE_BOARDS";
 export const ADD_BOARD = "ADD_BOARD";
 export const START_LOADING_BOARD = "START_LOADING_BOARD";
 export const RECEIVE_ERRORS = "RECEIVE_ERRORS";

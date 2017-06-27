@@ -1,5 +1,6 @@
 import * as BoardAPI from '../util/board_api';
 
+export const RECEIVE_USERNAME_ERRORS = 'RECEIVE_USERNAME_ERRORS';
 export const ADD_LIST = 'ADD_LIST';
 export const ADD_CARD = 'ADD_CARD';
 export const ADD_COMMENT = 'ADD_COMMENT';
@@ -67,12 +68,13 @@ export const editCard = card => dispatch => (
 )
 
 export const editMembership = membership => dispatch => (
-  BoardAPI.updateMembership(membership)
-    .then(membership => {
+  BoardAPI.updateMembership(membership).then(
+    membership => {
       dispatch(updateUsername(membership));
       return membership;
-    })
-)
+    },
+    errors => errors.responseJSON.username
+))
 
 export const destroyBoard = boardId => dispatch => (
   BoardAPI.destroyBoard(boardId)

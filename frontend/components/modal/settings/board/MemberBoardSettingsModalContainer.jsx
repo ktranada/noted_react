@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { updateObject } from '../../../../reducers/util';
-import { editBoard, editMembership, destroyBoard } from '../../../../actions/board_actions';
-import MemberBoardSettings from './MemberBoardSettings';
+import { editMembership, destroyMembership } from '../../../../actions/board_actions';
+import MemberBoardSettingsModal from './MemberBoardSettingsModal';
 
 const mapStateToProps = ({ session, members }, { currentBoard }) => {
   const currentUser = members.byId[session.currentUser.id];
@@ -13,12 +13,12 @@ const mapStateToProps = ({ session, members }, { currentBoard }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return({
-    editMembership: membership => editMembership(membership)(dispatch),
-    destroyMembership: id => destroyMembership(id)(dispatch)
+    editMembership: membership => dispatch(editMembership(membership)),
+    destroyMembership: id => dispatch(destroyMembership(id))
   })
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(MemberBoardSettings)
+)(MemberBoardSettingsModal)

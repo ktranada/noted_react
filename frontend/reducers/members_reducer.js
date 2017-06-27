@@ -1,12 +1,13 @@
 import merge from 'lodash/merge';
 import { RECEIVE_BOARD_MEMBERS } from '../actions/sub_nav_actions';
 import { RECEIVE_BOARD } from '../actions/nav_actions';
-import { REMOVE_MEMBER, REMOVE_BOARD, UPDATE_USERNAME } from '../actions/board_actions';
+import { REMOVE_MEMBER, REMOVE_BOARD, UPDATE_USERNAME, RECEIVE_USERNAME_ERRORS } from '../actions/board_actions';
 import { updateAssociationList, byIdObject, updateObject } from './util';
 import { asArrayByOrder } from './selectors';
 
 const initialState = {
-  byId: {}
+  byId: {},
+  errors: []
 }
 
 // {

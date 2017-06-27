@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { updateObject } from '../../../../reducers/util';
 import { editBoard, editMembership, destroyBoard } from '../../../../actions/board_actions';
-import OwnerBoardSettings from './OwnerBoardSettings';
+import OwnerBoardSettingsModal from './OwnerBoardSettingsModal';
 
 const mapStateToProps = ({ session, members }) => {
   return ({
@@ -23,4 +23,4 @@ const mapDispatchToProps = (dispatch, { currentBoard }) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(OwnerBoardSettings)
+)(OwnerBoardSettingsModal)

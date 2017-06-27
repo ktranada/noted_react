@@ -15,7 +15,7 @@ class Api::BoardMembershipsController < ApplicationController
     if @membership.update(membership_params)
       render :show
     else
-      render json: @membership.errors.full_messages, status: 422
+      render json: @membership.errors, status: 422
     end
   end
 

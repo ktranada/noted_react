@@ -9,7 +9,7 @@ class ModalOverlay extends React.Component {
   }
 
   handleClick(e) {
-    if (e.target === e.currentTarget) {
+    if (e.target === e.currentTarget || (e.target.classList[0] && e.target.classList[0].endsWith('wrapper'))) {
       if (this.props.onBackgroundClick) {
         this.props.onBackgroundClick();
         return;

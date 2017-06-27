@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import Overview from './Overview';
 import MemberIndexContainer from './members/MemberIndexContainer';
 import InviteIndexContainer from './invites/InviteIndexContainer';
-import BoardSettingsModal from '../BoardSettingsModal';
+import ConfigurationModal from '../ConfigurationModal';
 
 const TABS = ['Profile', 'Overview', 'Members', 'Invites'];
 
-class OwnerBoardSettings extends React.Component {
+class OwnerBoardSettingsModal extends React.Component {
   constructor(props) {
     super(props);
 
@@ -18,11 +18,11 @@ class OwnerBoardSettings extends React.Component {
   }
 
   handleBoardNameChange(data) {
-    this.props.editBoard(data);
+    return this.props.editBoard(data);
   }
 
   handleUsernameChange(data) {
-    this.props.editMembership(data);
+    return this.props.editMembership(data);
   }
 
   handleDeleteButtonClick() {
@@ -67,9 +67,11 @@ class OwnerBoardSettings extends React.Component {
       );
 
     return (
-      <BoardSettingsModal
+      <ConfigurationModal
+        type="board-settings"
         currentBoard={this.props.currentBoard}
         tabs={TABS}
+        header={this.props.currentBoard.title}
         contentComponent={this.contentComponent}
         bottomAction={deleteBoardButton}
         />
@@ -77,7 +79,7 @@ class OwnerBoardSettings extends React.Component {
   }
 }
 
-OwnerBoardSettings.propTypes = {
+OwnerBoardSettingsModal.propTypes = {
   currentBoard: PropTypes.object.isRequired,
   currentUser: PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -87,4 +89,4 @@ OwnerBoardSettings.propTypes = {
 }
 
 
-export default OwnerBoardSettings;
+export default OwnerBoardSettingsModal;

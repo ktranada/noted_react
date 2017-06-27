@@ -7,7 +7,7 @@
 
     window.boards = <%= render(
       "api/boards/boards.json.jbuilder",
-      boards: current_user.boards.includes(:owner)).html_safe %>
+      boards: current_user.board_memberships.includes(:board).map(&:board)).html_safe %>
   <% end %>
 </script>
 

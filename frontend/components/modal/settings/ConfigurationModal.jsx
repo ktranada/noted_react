@@ -4,7 +4,7 @@ import ModalOverlayContainer from '../ModalOverlayContainer';
 import ConfigurationNav from './ConfigurationNav';
 import ConfigurationContent from './ConfigurationContent';
 
-class BoardSettingsModal extends React.Component {
+class ConfigurationModal extends React.Component {
   constructor(props) {
     super(props);
 
@@ -27,11 +27,11 @@ class BoardSettingsModal extends React.Component {
   render() {
     return (
       <ModalOverlayContainer modalType="configuration">
-        <div className="board-settings__container">
+        <div className={`${this.props.type}__container`}>
           <ConfigurationNav
             tabs={this.props.tabs}
             currentTab={this.state.currentTab}
-            header={this.props.currentBoard.title}
+            header={this.props.header}
             handleTabChange={this.handleTabChange}
             bottomAction={this.props.bottomAction}/>
           <ConfigurationContent header={this.state.currentTab}>
@@ -43,12 +43,13 @@ class BoardSettingsModal extends React.Component {
   }
 }
 
-BoardSettingsModal.propTypes = {
-  currentBoard: PropTypes.object.isRequired,
+ConfigurationModal.propTypes = {
   tabs: PropTypes.arrayOf(PropTypes.string).isRequired,
   contentComponent: PropTypes.func.isRequired,
-  bottomAction: PropTypes.element.isRequired
+  bottomAction: PropTypes.element.isRequired,
+  header: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired
 }
 
 
-export default BoardSettingsModal;
+export default ConfigurationModal;

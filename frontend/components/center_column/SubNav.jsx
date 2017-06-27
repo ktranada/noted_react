@@ -28,12 +28,9 @@ const SubNav = props => {
 
   return (
     <div>
-      {
-        currentBoard.owner &&
-        <BoardSettings
-          toggleModal={props.toggleModal}
-          board={currentBoard}/>
-      }
+      <BoardSettings
+        toggleModal={props.toggleModal}
+        board={currentBoard}/>
       <hr />
       { inviteButton }
       { inviteButton && <hr />}

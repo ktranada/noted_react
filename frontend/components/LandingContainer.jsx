@@ -2,7 +2,8 @@ import { connect } from 'react-redux';
 import { toggleModal } from '../actions/modal_actions';
 import Landing from './Landing';
 
-const mapStateToProps = ({ boards }) => ({
+const mapStateToProps = ({ session, boards }) => ({
+  currentUser: session.currentUser,
   boardCount: Object.keys(boards.byId).length
 });
 

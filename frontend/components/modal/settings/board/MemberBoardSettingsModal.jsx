@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Overview from './Overview';
-import BoardSettingsModal from '../BoardSettingsModal';
+import ConfigurationModal from '../ConfigurationModal';
 
 const TABS = ['Profile'];
 
-class MemberBoardSettings extends React.Component {
+class MemberBoardSettingsModal extends React.Component {
   constructor(props) {
     super(props);
 
@@ -45,16 +45,18 @@ class MemberBoardSettings extends React.Component {
       );
 
     return (
-      <BoardSettingsModal
+      <ConfigurationModal
+        type="board-settings"
         currentBoard={this.props.currentBoard}
         tabs={TABS}
+        header={this.props.currentBoard.title}
         contentComponent={this.contentComponent}
         bottomAction={leaveBoardButton} />
     )
   }
 }
 
-MemberBoardSettings.propTypes = {
+MemberBoardSettingsModal.propTypes = {
   currentBoard: PropTypes.object.isRequired,
   membershipId: PropTypes.number.isRequired,
   currentUser: PropTypes.shape({
@@ -65,4 +67,4 @@ MemberBoardSettings.propTypes = {
 }
 
 
-export default MemberBoardSettings;
+export default MemberBoardSettingsModal;

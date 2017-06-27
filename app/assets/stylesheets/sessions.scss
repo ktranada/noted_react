@@ -78,8 +78,11 @@ $input-width: 225px;
     .session-form__link {
       font-size: 12px;
       color: $primary-grey;
+      pointer-events: none;
       > a {
         color: white;
+        pointer-events: all;
+        cursor: pointer;
       }
     }
 

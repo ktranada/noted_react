@@ -1,9 +1,8 @@
 import merge from 'lodash/merge';
 import { byIdObject, updateObject, updateAssociationList } from './util';
+import { RECEIVE_BOARDS } from '../actions/session_actions';
 import {
-  // START_LOADING_BOARD,
   ADD_BOARD,
-  RECEIVE_BOARDS,
   RECEIVE_BOARD,
 } from '../actions/nav_actions';
 
@@ -54,8 +53,8 @@ function receiveBoard(state, action) {
     channels,
     lists,
     invites
-
   })
+  newState['errors'] = [];
   return updateObject(state, newState)
 }
 
@@ -103,19 +102,28 @@ const removeInvite = (state, action) => {
 
 const removeMember = (state, action) => {
   const { membership } = action;
-  const newState = updateAssociationList(
+
+  let newState;
+  if (!state.byId[membership.board_id].owner) {
+    newState = merge({}, state);
+    delete newState.byId[membership.board_id];
+    newState.order = newState.order.filter(id => id !== membership.board_id);
+    return newState;
+  }
+
+  newState = updateAssociationList(
     state,
     membership.board_id,
     'members',
     membership.user_id,
     { remove: true });
 
-    return updateAssociationList(
-      newState,
-      membership.board_id,
-      'invites',
-      membership.invite_id,
-      { remove: true });
+  return updateAssociationList(
+    newState,
+    membership.board_id,
+    'invites',
+    membership.invite_id,
+    { remove: true });
 }
 
 const removeBoard = (state, action) => {
@@ -137,7 +145,7 @@ const boardsReducer = (state = initialState, action) => {
     // case START_LOADING_BOARD: return startLoadingBoard(state, action);
     case RECEIVE_BOARD: return receiveBoard(state, action);
     case RECEIVE_BOARDS:
-      return merge({}, state, {
+      return merge({}, initialState, {
         byId: action.boards.byId,
         order: action.boards.order,
         errors: []

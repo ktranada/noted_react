@@ -8,16 +8,22 @@ export const signup = (user) => {
   });
 }
 
-export const deleteAccount = (user) => {
+export const destroyUser = userId => {
   return $.ajax({
     method: "DELETE",
-    url: "/api/users",
-    data: {
-      user
-    }
+    url: `/api/users/${userId}`,
   });
 }
 
+export const updateUser = data => {
+  return $.ajax({
+    method: "PUT",
+    url: `/api/users/${data.id}`,
+    data: {
+      user: data
+    }
+  });
+}
 
 export const login = (user) => {
   return $.ajax({

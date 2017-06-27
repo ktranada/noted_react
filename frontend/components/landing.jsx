@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { Route, Switch } from 'react-router-dom';
+import AccountInfo from './center_column/bottom_section/AccountInfo';
 import NavContainer from './left_column/NavContainer';
 import SubNavDefault from './center_column/SubNavDefault';
 import ModalControllerContainer from './modal/ModalControllerContainer';
@@ -30,13 +30,16 @@ class Landing extends React.PureComponent {
         </section>
         <section className="center-column">
           <SubNavDefault isLoading={false}  />
+          <AccountInfo
+            currentUser={this.props.currentUser}
+            toggleModal={this.toggleModal}/>
         </section>
         <section className="right-column">
           <NewUserActions
             toggleModal={this.toggleModal}
             boardCount={this.props.boardCount} />
         </section>
-        <ModalControllerContainer />
+        <ModalControllerContainer {...this.props}/>
       </div>
     )
   }
