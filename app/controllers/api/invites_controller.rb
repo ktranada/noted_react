@@ -18,6 +18,7 @@ class Api::InvitesController < ApplicationController
 
       if invite.save
         @invites << invite
+        UserMailer.invite_email(invite).deliver_now
       else
         @errors << {
           email: invite.recipient_email,

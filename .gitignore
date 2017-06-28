@@ -20,3 +20,6 @@ bundle.js
 bundle.js.map
 /docs/.DS_Store
 *.coffee
+
+# Ignore application configuration
+/config/application.yml

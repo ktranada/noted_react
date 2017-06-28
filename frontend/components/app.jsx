@@ -9,6 +9,7 @@ const App = () => {
   return (
     <div>
       <Switch>
+        <AuthRoute path="/invite/:code" component={SessionFormContainer} />
         <AuthRoute path="/login" component={SessionFormContainer} />
         <AuthRoute path="/signup" component={SessionFormContainer} />
         <ProtectedRoute path="/boards">

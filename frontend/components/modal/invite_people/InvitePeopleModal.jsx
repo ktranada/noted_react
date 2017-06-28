@@ -58,7 +58,7 @@ class InvitePeopleModal extends React.Component {
     let hasErrors = false;
     const invites = [...this.state.invites]
       .map(invite => {
-        if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(invite.recipient_email)) {
+        if (!invite.recipient_email.trim()) {
           hasErrors = true;
           invite['isValid'] = false;
         } else {

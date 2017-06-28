@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import merge from 'lodash/merge'
 
 class SessionForm extends React.Component {
   constructor(props) {
@@ -11,6 +10,7 @@ class SessionForm extends React.Component {
       errors: this.props.errors
     }
     this.changeForm = this.changeForm.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -33,7 +33,7 @@ class SessionForm extends React.Component {
     }
   }
 
-  handleUpdate(field) {
+  handleChange(field) {
     return (e) => {
       this.setState({
         [field]: e.currentTarget.value
@@ -49,7 +49,11 @@ class SessionForm extends React.Component {
       });
       return;
     }
-    const user = merge({}, this.state);
+
+    const user = {
+      email: this.state.email,
+      password: this.state.password
+    }
     this.props.processForm(user);
   }
 
@@ -87,14 +91,14 @@ class SessionForm extends React.Component {
             <input
               type="text"
               value={this.state.email}
-              onChange={this.handleUpdate('email')}
+              onChange={this.handleChange('email')}
               placeholder="Email"
               className="session-form__input"/>
 
             <input
               type="password"
               value={this.state.password}
-              onChange={this.handleUpdate('password')}
+              onChange={this.handleChange('password')}
               placeholder="Password"
               className="session-form__input"/>
 
