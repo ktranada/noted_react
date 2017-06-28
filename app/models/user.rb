@@ -14,12 +14,15 @@
 class User < ActiveRecord::Base
   attr_reader :password
 
+  include EmailValidation
+
   default_scope { order(:email)}
   after_initialize :ensure_session_token
 
-  validates :email, :session_token, presence: true, uniqueness: true
+  validates :session_token, presence: true, uniqueness: true
+  validates :email, presence: true, uniqueness: { message: "Email has been taken"}
   validates :password_digest, presence: {  message: "Password cannot be blank" }
-  validates :password, length: { minimum: 6 }, allow_nil: true
+  validates :password, length: { minimum: 6, message: "Password must contain 6 characters" }, allow_nil: true
 
   has_many :boards, dependent: :destroy
   has_many :board_memberships, dependent: :destroy, inverse_of: :user

@@ -1,17 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import merge from 'lodash/merge';
+
+const initialState = {
+  email: '',
+  password: '',
+  errors: {
+    credentials: null,
+    email: null,
+    password: null
+  }
+}
 
 class SessionForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      email: '',
-      password: '',
-      errors: this.props.errors
-    }
+    this.state = initialState;
     this.changeForm = this.changeForm.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.verifyInputPresence = this.verifyInputPresence.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -23,12 +31,7 @@ class SessionForm extends React.Component {
 
   changeForm(to) {
     return () => {
-      this.setState({
-        email: '',
-        password: '',
-        errors: []
-      })
-      this.props.clearErrors();
+      this.setState(initialState);
       this.props.history.push(to);
     }
   }
@@ -41,12 +44,32 @@ class SessionForm extends React.Component {
     }
   }
 
+  verifyInputPresence() {
+    let emailError, passwordError;
+    if (!this.state['email'].trim()) {
+      emailError = 'Email cannot be blank';
+    }
+
+    if (!this.state['password'].trim()) {
+      passwordError = 'Password cannot be blank';
+    }
+
+    if (emailError || passwordError) {
+      this.setState({
+        errors: {
+          email: emailError,
+          password: passwordError
+        }
+      })
+      return false;
+    }
+
+    return true;
+  }
+
   handleSubmit(e) {
     e.preventDefault;
-    if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(this.state.email)) {
-      this.setState({
-        errors: 'Email is not valid'
-      });
+    if (!this.verifyInputPresence()) {
       return;
     }
 
@@ -54,7 +77,18 @@ class SessionForm extends React.Component {
       email: this.state.email,
       password: this.state.password
     }
-    this.props.processForm(user);
+    this.props.processForm(user).then(
+      () => {},
+      err => {
+        this.setState({
+          errors:  {
+            credentials: err.credentials,
+            email: err.email ? err.email[0] : null,
+            password: err.password ? err.password[0] : null
+          }
+        })
+      }
+    )
   }
 
   formContent() {
@@ -82,25 +116,39 @@ class SessionForm extends React.Component {
 
   render() {
     const formContent = this.formContent();
+
+    const { errors } = this.state;
+    const hasEmailErrors = errors.email;
+    const hasPasswordErrors = errors.password;
+
     return (
       <form className="session-form" onSubmit={this.handleSubmit}>
           <div className="session-form__content">
             <img src="https://res.cloudinary.com/mycut/image/upload/v1496273166/logo-min_tmylez.png" />
+            { errors.credentials && <p>{errors.credentials}</p> }
             <h3>{formContent.title}</h3>
-              {this.renderErrors()}
-            <input
-              type="text"
-              value={this.state.email}
-              onChange={this.handleChange('email')}
-              placeholder="Email"
-              className="session-form__input"/>
+            <label
+              data-error={hasEmailErrors ? errors.email : ""}
+              className={hasEmailErrors ? "error" : ""}>
+              <input
+                type="text"
+                value={this.state.email}
+                onChange={this.handleChange('email')}
+                placeholder="Email"
+                className="session-form__input input-inline"/>
 
-            <input
-              type="password"
-              value={this.state.password}
-              onChange={this.handleChange('password')}
-              placeholder="Password"
-              className="session-form__input"/>
+            </label>
+
+            <label
+              data-error={hasPasswordErrors ? errors.password: ""}
+              className={hasPasswordErrors ? "error" : ""}>
+              <input
+                type="password"
+                value={this.state.password}
+                onChange={this.handleChange('password')}
+                placeholder="Password"
+                className="session-form__input input-inline"/>
+            </label>
 
 
             <button type="submit" className="session-form__button">{formContent.button}</button>

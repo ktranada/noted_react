@@ -7,10 +7,10 @@ export const RECEIVE_BOARDS = "RECEIVE_BOARDS"
 export const RECEIVE_USER_UPDATE_ERRORS = 'RECEIVE_USER_UPDATE_ERRORS';
 
 const parseSignInResponse = (promise, dispatch) => {
-  promise.then(response => {
+  return promise.then(response => {
                 dispatch(receiveBoards(response.boards))
                 return response;
-              }, err => dispatch(receiveSessionErrors(err.responseJSON)))
+              }, err => err.responseJSON)
          .then(response => dispatch(receiveCurrentUser(response.info)));
 }
 

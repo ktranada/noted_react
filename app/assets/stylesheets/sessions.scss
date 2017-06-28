@@ -30,6 +30,10 @@ $input-width: 225px;
             align-items: center;
     background: rgba(0,0,0,.6);
     color: white;
+    > p {
+      margin-top: 30px;
+      color: $primary-red;
+    }
     > img {
       width: 125px;
     }
@@ -38,18 +42,11 @@ $input-width: 225px;
       letter-spacing: 3.5px;
       text-transform: uppercase;
     }
-    .session-form__input {
-      font-size: 12px;
-      letter-spacing: 1.4px;
-      font-weight: 300;
-      width: $input-width;
-      margin: 10px 0;
-      height: 40px;
-      padding: 5px 0;
-      border-bottom: .5px solid;
-      border-color: $primary-grey;
-      color: white;
-
+    label {
+      margin-bottom: 10px;
+      .session-form__input {
+        width: $input-width;
+      }
       &:nth-of-type(2) {
         margin-bottom: 40px;
       }
