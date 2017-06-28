@@ -1,14 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import merge from 'lodash/merge';
+import InputInline from '../form_elements/InputInline';
 
 const initialState = {
   email: '',
   password: '',
   errors: {
-    credentials: null,
-    email: null,
-    password: null
+    credentials: '',
+    email: '',
+    password: ''
   }
 }
 
@@ -83,8 +85,8 @@ class SessionForm extends React.Component {
         this.setState({
           errors:  {
             credentials: err.credentials,
-            email: err.email ? err.email[0] : null,
-            password: err.password ? err.password[0] : null
+            email: err.email ? err.email[0] : '',
+            password: err.password ? err.password[0] : ''
           }
         })
       }
@@ -102,24 +104,9 @@ class SessionForm extends React.Component {
     });
   }
 
-  renderErrors() {
-    return(
-      <ul className="session-form__errors">
-        {this.props.errors.map((error, i) => (
-          <li key={`error-${i}`}>
-            {error}
-          </li>
-        ))}
-      </ul>
-    )
-  }
-
   render() {
     const formContent = this.formContent();
-
     const { errors } = this.state;
-    const hasEmailErrors = errors.email;
-    const hasPasswordErrors = errors.password;
 
     return (
       <form className="session-form" onSubmit={this.handleSubmit}>
@@ -127,29 +114,23 @@ class SessionForm extends React.Component {
             <img src="https://res.cloudinary.com/mycut/image/upload/v1496273166/logo-min_tmylez.png" />
             { errors.credentials && <p>{errors.credentials}</p> }
             <h3>{formContent.title}</h3>
-            <label
-              data-error={hasEmailErrors ? errors.email : ""}
-              className={hasEmailErrors ? "error" : ""}>
-              <input
-                type="text"
+            <InputInline
+                type="email"
+                error={errors.email}
+                inputClass="session-form__input"
+                placeHolder="Email"
                 value={this.state.email}
-                onChange={this.handleChange('email')}
-                placeholder="Email"
-                className="session-form__input input-inline"/>
+                handleChange={this.handleChange('email')}
+              />
 
-            </label>
-
-            <label
-              data-error={hasPasswordErrors ? errors.password: ""}
-              className={hasPasswordErrors ? "error" : ""}>
-              <input
-                type="password"
-                value={this.state.password}
-                onChange={this.handleChange('password')}
-                placeholder="Password"
-                className="session-form__input input-inline"/>
-            </label>
-
+            <InputInline
+              type="password"
+              error={errors.password}
+              inputClass="session-form__input"
+              placeHolder="Password"
+              value={this.state.password}
+              handleChange={this.handleChange('password')}
+              />
 
             <button type="submit" className="session-form__button">{formContent.button}</button>
 
