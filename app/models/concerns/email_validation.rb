@@ -12,12 +12,12 @@ module EmailValidation
         user: 'api',
         password: ENV['mailgun_private_api_key'],
         headers: {
-           params: { address: email }
+           params: { address: email.downcase }
       })
 
       if response.code == 200
         json = JSON.parse(response.body)
-        if json['did_you_mean']
+        if json['did_you_mean'] && !json['is_valid']
           errors.add(:email, "Did you mean #{json['did_you_mean']}?")
         elsif !json['is_valid']
           errors.add(:email, "This is not a valid email address")

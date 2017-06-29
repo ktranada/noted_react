@@ -5,7 +5,7 @@
 #  id              :integer          not null, primary key
 #  user_id         :integer          not null
 #  board_id        :integer          not null
-#  recipient_email :string           default("")
+#  email :string           default("")
 #  code            :string           not null
 #  status          :integer          default("0")
 #  created_at      :datetime         not null
@@ -13,21 +13,23 @@
 #
 
 class Invite < ActiveRecord::Base
+  include EmailValidation
+
   MEMBER_LIMIT = 10
   enum status: [:pending, :accepted, :declined, :owner], _prefix: true
 
-  validates :board, :board_member, :recipient_email, presence: true
-  validates :recipient_email, uniqueness: { scope: :board_id, case_sensitive: false }
+  validates :board, :board_member, :email, presence: true
+  validates :email, uniqueness: { scope: :board_id, case_sensitive: false }
   validate :person_has_not_been_invited_before, on: :create
   validate :has_remaining_invites, on: :create
-  before_validation :create_code
+  before_validation :create_code, :update_email
 
   belongs_to :board
   belongs_to :board_member, class_name: 'User', foreign_key: 'user_id'
   has_one :board_membership
 
   def find_or_create_user_account(password)
-    User.find_by_email(recipient_email) || User.create(email: recipient_email, password: password)
+    User.find_by_email(email) || User.new(email: email, password: password)
   end
 
   def has_response?
@@ -39,7 +41,7 @@ class Invite < ActiveRecord::Base
   end
 
   def recipient
-    User.find_by_email(recipient_email)
+    User.find_by_email(email)
   end
 
   private
@@ -57,8 +59,12 @@ class Invite < ActiveRecord::Base
   end
 
   def person_has_not_been_invited_before
-    if Invite.where(board_id: self.board_id, recipient_email: self.recipient_email).count != 0
+    if Invite.where(board_id: self.board_id, email: self.email).count != 0
       errors.add(:invite, 'This person has already been invited to your board.')
     end
+  end
+
+  def update_email
+    self.email = self.email.downcase
   end
 end

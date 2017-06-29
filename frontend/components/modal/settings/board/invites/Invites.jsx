@@ -8,9 +8,9 @@ const Invites = ({ status, canRemove, invites, handleClick }) => {
     <div className={`board-settings__invites-${status}`}>
       <h4>{ status } invitations</h4>
       {
-        invites.map(({id, recipient_email}) => <InviteRow
+        invites.map(({id, email}) => <InviteRow
           key={id}
-          email={recipient_email}
+          email={email}
           canRemove={canRemove}
           handleClick={canRemove ? handleClick(id) : null} />)
       }
@@ -23,7 +23,7 @@ Invites.propTypes = {
   canRemove: PropTypes.bool.isRequired,
   invites: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
-    recipient_email: PropTypes.string.isRequired
+    email: PropTypes.string.isRequired
   })).isRequired,
   handleClick: PropTypes.func
 }

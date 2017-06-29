@@ -13,6 +13,13 @@ class Api::BoardsController < ApplicationController
     @board = Board.new(board_params)
     @board.user_id = current_user.id
 
+    membership = BoardMembership.new(username: params[:board][:username])
+
+    if !membership.valid? && membership.errors[:username].any?
+      render json: { username: membership.errors[:username][0] }, status: 422
+      return;
+    end
+
     if @board.save
       @board.create_owner_membership(params[:board][:username])
       render :create

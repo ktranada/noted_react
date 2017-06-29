@@ -5,7 +5,7 @@ import Channels from './Channels';
 import Members from './Members';
 
 const SubNavActions = (props) => {
-  const { channels, members, boardId } = props;
+  const { channels, members, boardId, currentUserId } = props;
   return (
     <ul className="sub-nav">
       <li className="sub-nav__category"><NavLink className={props.isViewingCard ? 'active' : ''} to={`/boards/${boardId}/lists`}><i aria-hidden className="material-icons">&#xE3EC;</i>VIEW BOARD</NavLink></li>
@@ -15,7 +15,7 @@ const SubNavActions = (props) => {
 
       { members.length > 0 &&
         <li className="sub-nav__category members"><span><i aria-hidden className="material-icons">&#xE7FB;</i>MEMBERS</span>
-          <Members boardId={boardId} members={members} />
+          <Members boardId={boardId} currentUserId={currentUserId} members={members} />
         </li>
       }
     </ul>
@@ -32,7 +32,8 @@ SubNavActions.propTypes = {
   members: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     usernamesByBoardId: PropTypes.object.isRequired
-  }))
+  })),
+  currentUserId: PropTypes.number.isRequired
 }
 
 export default SubNavActions;

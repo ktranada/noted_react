@@ -59,7 +59,7 @@ class InviteIndex extends React.Component {
 InviteIndex.propTypes = {
   invites: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
-    recipient_email: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
   })).isRequired,
   boardMemberCount: PropTypes.number.isRequired
 }

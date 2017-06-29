@@ -8,7 +8,7 @@ class UserMailer < ActionMailer::Base
     @url = "http://#{domain}/#/invite/#{invite.code}"
     @unsubscribe_url = "#{@url}?unsubscribe=true"
 
-    mail(to: @invite.recipient_email,
+    mail(to: @invite.email,
          subject: "#{invite.board_member.email} has invited you to join a board on Noted.")
 
   end

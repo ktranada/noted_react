@@ -6,7 +6,8 @@ class CreateBoardContent extends React.Component {
 
     this.state = {
       title: '',
-      username: ''
+      username: '',
+      error: {}
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -15,16 +16,54 @@ class CreateBoardContent extends React.Component {
   handleChange(field) {
     return (e) => {
       e.preventDefault();
+      const error = Object.assign({}, this.state.error);
+      error[field] = '';
       this.setState({
-        [field]: e.currentTarget.value
+        [field]: e.currentTarget.value,
+        error
       });
     }
   }
 
+  verifyInputPresence() {
+    let titleError, usernameError;
+    if (!this.state['username'].trim()) {
+      usernameError = 'Username cannot be blank';
+    }
+
+    if (!this.state['title'].trim()) {
+      titleError = 'Title cannot be blank';
+    }
+
+    if (usernameError || titleError) {
+      this.setState({
+        error: { username: usernameError, title: titleError }
+      })
+      return false;
+    }
+    return true;
+  }
+
   handleSubmit(e) {
     e.preventDefault();
-    const board = Object.assign({}, this.state);
-    this.props.createBoard(board);
+    const error = {};
+    if (!this.verifyInputPresence()) {
+      return;
+    }
+
+    const board = {
+      title: this.state.title,
+      username: this.state.username
+    }
+    this.props.createBoard(board).then(
+      board => this.props.history.push(`/boards/${board.id}`),
+      error => {
+        console.log(error);
+        this.setState({
+          error: { username: error['username'] || ''  }
+        })
+      }
+    );
   }
 
   render() {
@@ -38,6 +77,7 @@ class CreateBoardContent extends React.Component {
               type="text"
               value={this.state.title}
               onChange={this.handleChange('title')}/>
+            {this.state.error['title'] && <p className="error">{this.state.error['title']}</p>}
           </label>
 
           <label>USERNAME
@@ -45,6 +85,8 @@ class CreateBoardContent extends React.Component {
               type="text"
               value={this.state.username}
               onChange={this.handleChange('username')}/>
+            {this.state.error['username'] && <p className="error">{this.state.error['username']}</p>}
+            <p>Username can only contain lowercase letters and numbers.</p>
           </label>
         </div>
 

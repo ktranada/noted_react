@@ -4,7 +4,7 @@ import InviteForm from './InviteForm';
 import InviteResults from './InviteResults';
 import { asArray } from '../../../reducers/selectors';
 
-class InvitePeopleModal extends React.Component {
+class InviteMembersModal extends React.Component {
   constructor(props) {
     super(props);
 
@@ -16,7 +16,7 @@ class InvitePeopleModal extends React.Component {
     this.state = {
       invites: [{
         key: 0,
-        recipient_email: '',
+        email: '',
         isValid: true
       }],
       serializedCount: 0,
@@ -29,7 +29,7 @@ class InvitePeopleModal extends React.Component {
     this.setState({
       invites: [...this.state.invites, {
         key: nextCount,
-        recipient_email: '',
+        email: '',
         isValid: true
       }],
       serializedCount: nextCount
@@ -47,7 +47,7 @@ class InvitePeopleModal extends React.Component {
   handleChange(pos) {
     return (e) => {
       let invites = [...this.state.invites];
-      invites[pos].recipient_email = e.currentTarget.value;
+      invites[pos].email = e.currentTarget.value;
       this.setState({ invites })
     }
   }
@@ -58,7 +58,7 @@ class InvitePeopleModal extends React.Component {
     let hasErrors = false;
     const invites = [...this.state.invites]
       .map(invite => {
-        if (!invite.recipient_email.trim()) {
+        if (!invite.email.trim()) {
           hasErrors = true;
           invite['isValid'] = false;
         } else {
@@ -103,4 +103,4 @@ class InvitePeopleModal extends React.Component {
     )
   }
 }
-export default InvitePeopleModal;
+export default InviteMembersModal;

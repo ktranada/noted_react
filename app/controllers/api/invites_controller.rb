@@ -5,7 +5,7 @@ class Api::InvitesController < ApplicationController
     @invite = Invite.find_by_code(params[:id])
     if @invite
       if !@invite.status_pending?
-        render json: { status: "responded" }
+        render json: { status: "responded" }, status: 422
         return
       end
       render :show
@@ -27,14 +27,14 @@ class Api::InvitesController < ApplicationController
         board_id: @board_id,
         user_id: current_user.id,
         status: :pending,
-        recipient_email: info["recipient_email"])
+        email: info["email"])
 
       if invite.save
         @invites << invite
         UserMailer.invite_email(invite).deliver_now
       else
         @errors << {
-          email: invite.recipient_email,
+          email: invite.email,
           error: invite.errors[:invite][0]
         }
       end
@@ -51,11 +51,11 @@ class Api::InvitesController < ApplicationController
     invite = Invite.find_by(id: params[:id])
 
     if invite.nil?
-      render json: { revoked: "Invite has been revoked"}
+      render json: { status: "revoked"}, status: 422
       return
     elsif invite.status_accepted?
-      # render json: { accepted: 1 }
-      # return
+      render json: { status: "responded" }, status: 422
+      return
     end
 
     membership = BoardMembership.new(
@@ -63,21 +63,32 @@ class Api::InvitesController < ApplicationController
       invite_id: invite.id,
       username: params[:invite][:username])
 
+    errors = {}
     if !membership.valid? && membership.errors[:username].any?
-      render json: { username: membership.errors[:username][0] }, status: 422
+      errors[:username] = membership.errors[:username][0]
+    end
+
+    @user = invite.find_or_create_user_account(params[:invite][:password])
+    if !@user.valid? && @user.errors[:password].any?
+      errors[:password] = @user.errors[:password][0]
+    end
+
+    if !errors.empty?
+      render json: errors, status: 422
       return
     end
 
-    user = invite.find_or_create_user_account(params[:invite][:password])
-    if user.errors.any?
-      render json: user.errors.messages, status: 422
-      return
-    end
-
-    membership.user_id = user.id
+    @user.save
+    membership.user_id = @user.id
     membership.save
+
     invite.update(status: :accepted)
-    render json: { board_id: invite.board_id }
+
+    if (logged_in?)
+      render "api/users/show"
+    else
+      render json: { board_id: invite.board_id }
+    end
   end
 
   private

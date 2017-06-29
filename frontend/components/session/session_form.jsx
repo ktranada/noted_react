@@ -112,7 +112,7 @@ class SessionForm extends React.Component {
       <form className="session-form" onSubmit={this.handleSubmit}>
           <div className="session-form__content">
             <img src="https://res.cloudinary.com/mycut/image/upload/v1496273166/logo-min_tmylez.png" />
-            { errors.credentials && <p>{errors.credentials}</p> }
+            { errors.credentials && <p className="error__credentials">{errors.credentials}</p> }
             <h3>{formContent.title}</h3>
             <InputInline
                 type="email"

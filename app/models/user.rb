@@ -17,6 +17,7 @@ class User < ActiveRecord::Base
 
   default_scope { order(:email)}
   after_initialize :ensure_session_token
+  before_create :downcase_email
 
   validates :session_token, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: { case_sensitive: false, message: "Email has been taken"}
@@ -36,7 +37,7 @@ class User < ActiveRecord::Base
   end
 
   def self.find_by_credentials(email, password)
-    @user = User.find_by_email(email)
+    @user = User.find_by_email(email.downcase)
     @user.try(:password_is?, password) ? @user : nil
   end
 
@@ -61,6 +62,10 @@ class User < ActiveRecord::Base
   end
 
   private
+
+  def downcase_email
+    self.email = self.email.downcase
+  end
 
   def ensure_session_token
     self.session_token ||=  User.generate_session_token

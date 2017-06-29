@@ -35,6 +35,7 @@ const SubNav = props => {
       { inviteButton }
       { inviteButton && <hr />}
       <SubNavActions
+        currentUserId={props.currentUser.id}
         isViewingCard={props.location.pathname.includes('card')}
         boardId={currentBoard.id}
         members={members}

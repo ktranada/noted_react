@@ -35,14 +35,19 @@ export const getInvite = code => dispatch => (
   SessionAPI.getInvite(code)
     .then(
       invite => invite,
-      error => console.log(error.responseJSON)
+      error => error.responseJSON
     )
 )
 
 export const updateInvite = invite => dispatch => (
   SessionAPI.updateInvite(invite)
     .then(
-      response => response,
+      response => {
+        if (response.boards) {
+          dispatch(receiveBoards(response.boards));
+        }
+        return response;
+      },
       err => err.responseJSON
     )
 )

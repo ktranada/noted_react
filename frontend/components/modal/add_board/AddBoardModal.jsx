@@ -2,6 +2,7 @@ import React from 'react';
 import ModalOverlayContainer from '../ModalOverlayContainer';
 import InitialContent from './InitialContent';
 import CreateBoardContent from './CreateBoardContent';
+import JoinBoardContent from './join/JoinBoardContent';
 
 
 class AddBoardModal extends React.Component {
@@ -12,16 +13,12 @@ class AddBoardModal extends React.Component {
       type: '',
     }
 
-    this.addBoard = this.addBoard.bind(this);
+    this.createBoard = this.createBoard.bind(this);
     this.handleBoardSelection = this.handleBoardSelection.bind(this);
   }
 
-  addBoard(board) {
-    this.props.addBoard(board).then((board) => {
-      this.props.hideModal();
-      this.props.history.push(`/boards/${board.id}`);
-    });
-
+  createBoard(board) {
+    return this.props.createBoard(board)
   }
 
   handleBoardSelection(type) {
@@ -40,10 +37,16 @@ class AddBoardModal extends React.Component {
         {
           type === 'create'
             ? <CreateBoardContent
+                history={this.props.history}
                 handleBackClick={this.handleBoardSelection('')}
-                createBoard={this.addBoard} />
+                createBoard={this.createBoard} />
             : (type === 'join')
-              ? null
+              ? <JoinBoardContent
+                  history={this.props.history}
+                  currentUser={this.props.currentUser}
+                  getInvite={this.props.getInvite}
+                  updateInvite={this.props.updateInvite}
+                  handleBackClick={this.handleBoardSelection('')}/>
               : <InitialContent handleBoardSelection={this.handleBoardSelection}/>
         }
       </ModalOverlayContainer>

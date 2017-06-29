@@ -18,11 +18,11 @@ ActiveRecord::Schema.define(version: 20170619043554) do
   create_table "board_memberships", force: :cascade do |t|
     t.integer  "user_id",    null: false
     t.integer  "board_id",   null: false
-    t.integer  "invite_id"
+    t.integer  "invite_id",  null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "username",   null: false
-    t.index ["board_id", "user_id"], name: "index_board_memberships_on_board_id_and_user_id", unique: true, using: :btree
+    t.index ["board_id", "invite_id"], name: "index_board_memberships_on_board_id_and_invite_id", unique: true, using: :btree
     t.index ["invite_id"], name: "index_board_memberships_on_invite_id", using: :btree
   end
 
@@ -73,16 +73,16 @@ ActiveRecord::Schema.define(version: 20170619043554) do
   end
 
   create_table "invites", force: :cascade do |t|
-    t.integer  "user_id",                      null: false
-    t.integer  "board_id",                     null: false
-    t.string   "recipient_email", default: ""
-    t.string   "code",                         null: false
-    t.integer  "status",          default: 0
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.index ["board_id", "recipient_email"], name: "index_invites_on_board_id_and_recipient_email", using: :btree
+    t.integer  "user_id",                null: false
+    t.integer  "board_id",               null: false
+    t.string   "email",                  null: false
+    t.string   "code",                   null: false
+    t.integer  "status",     default: 0
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.index ["board_id", "email"], name: "index_invites_on_board_id_and_email", unique: true, using: :btree
     t.index ["board_id"], name: "index_invites_on_board_id", using: :btree
-    t.index ["recipient_email"], name: "index_invites_on_recipient_email", using: :btree
+    t.index ["email"], name: "index_invites_on_email", using: :btree
     t.index ["user_id"], name: "index_invites_on_user_id", using: :btree
   end
 

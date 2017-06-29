@@ -8,9 +8,9 @@ const InviteResultSuccess = props => (
     </div>
     <div className="results__body">
       {
-        props.success.map(({recipient_email}, idx) => (
+        props.success.map(({email}, idx) => (
           <div key={idx} className="results__row">
-            <span>{recipient_email}</span>
+            <span>{email}</span>
           </div>
         ))
       }

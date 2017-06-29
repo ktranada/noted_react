@@ -23,9 +23,11 @@ class InitialBoardContent extends React.Component {
       return <Spinner />;
     }
 
+    const canInviteMembers = currentBoard.owner && hasInvites;
+    const nonAdminDisplayStyle = { height: 135 }
     return (
       <div className="new-user-actions board-content-nav">
-        <div className="new-user-actions__action">
+        <div className="new-user-actions__action" style={canInviteMembers ? {} : nonAdminDisplayStyle}>
           <div className="new-user-actions__view-board">
             <p><b>View the board</b> to start creating lists and organizing thoughts.</p>
             <Link to={`/boards/${currentBoard.id}/lists`}>
@@ -34,9 +36,9 @@ class InitialBoardContent extends React.Component {
               </button>
             </Link>
           </div>
-          { hasInvites && <hr /> }
+          {canInviteMembers && <hr />}
           {
-            hasInvites &&
+            canInviteMembers &&
             <div className="new-user-actions__view-board">
               <p><b>Invite people</b> to start creating lists and organizing thoughts.</p>
               <button
