@@ -7,11 +7,12 @@ export const RECEIVE_ERRORS = "RECEIVE_ERRORS";
 
 
 export const createBoard = board => dispatch => (
-  BoardsAPI.createBoard(board)
-    .then(board => {
+  BoardsAPI.createBoard(board).then(
+    board => {
       dispatch(addBoard(board));
       return board;
-    })
+    },
+    error => error.responseJSON)
 )
 
 export const requestBoard = boardId => dispatch => {

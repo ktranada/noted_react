@@ -14,11 +14,11 @@ const InviteForm = props => {
       <h2>Invite Board Members</h2>
       {
          canInvite &&
-         invites.map(({key, recipient_email, isValid}, pos) => (
+         invites.map(({key, email, isValid}, pos) => (
           <InviteRow
             key={key}
             isValid={isValid}
-            value={recipient_email}
+            value={email}
             inviteCount={inviteCount}
             handleRemove={removeInviteRow(key)}
             handleChange={handleChange(pos)}/>

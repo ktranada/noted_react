@@ -1,5 +1,6 @@
 import * as SessionAPI from '../util/session_api';
 import { toggleModal } from './modal_actions';
+import { addInvites } from './board_actions';
 
 export const RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
 export const RECEIVE_USER_SESSION_ERRORS = "RECEIVE_USER_SESSION_ERRORS"
@@ -7,10 +8,10 @@ export const RECEIVE_BOARDS = "RECEIVE_BOARDS"
 export const RECEIVE_USER_UPDATE_ERRORS = 'RECEIVE_USER_UPDATE_ERRORS';
 
 const parseSignInResponse = (promise, dispatch) => {
-  promise.then(response => {
+  return promise.then(response => {
                 dispatch(receiveBoards(response.boards))
                 return response;
-              }, err => dispatch(receiveSessionErrors(err.responseJSON)))
+              }, err => err.responseJSON)
          .then(response => dispatch(receiveCurrentUser(response.info)));
 }
 
@@ -28,6 +29,27 @@ export const logout = () => dispatch => (
       dispatch(toggleModal(null));
       dispatch(receiveCurrentUser(null));
     })
+)
+
+export const getInvite = code => dispatch => (
+  SessionAPI.getInvite(code)
+    .then(
+      invite => invite,
+      error => error.responseJSON
+    )
+)
+
+export const updateInvite = invite => dispatch => (
+  SessionAPI.updateInvite(invite)
+    .then(
+      response => {
+        if (response.boards) {
+          dispatch(receiveBoards(response.boards));
+        }
+        return response;
+      },
+      err => err.responseJSON
+    )
 )
 
 export const updateUser = user => dispatch => (

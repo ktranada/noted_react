@@ -32,7 +32,7 @@ class Board < ActiveRecord::Base
   end
 
   def create_owner_membership(username)
-    invite = Invite.create(user_id: user_id, board_id: id, recipient_email: owner.email, status: :owner)
+    invite = Invite.create(user_id: user_id, board_id: id, email: owner.email, status: :owner)
     BoardMembership.create(board_id: id, user_id: user_id, invite_id: invite.id, username: username)
   end
 

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { createInvites, destroyInvite } from '../../../actions/board_actions';
 import { remainingInviteCount } from '../../../reducers/selectors';
-import InvitePeopleModal from './InvitePeopleModal';
+import InviteMembersModal from './InviteMembersModal';
 
 const mapStateToProps = ({ invites }, { currentBoard }) => {
   return ({
@@ -19,4 +19,4 @@ const mapDispatchToProps = (dispatch, { currentBoard }) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(InvitePeopleModal);
+)(InviteMembersModal);

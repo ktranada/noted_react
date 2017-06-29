@@ -18,7 +18,7 @@ const mapStateToProps = ({ boards }, { currentBoardId, isLanding }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  requestBoard: boardId => requestBoard(boardId)(dispatch)
+  requestBoard: boardId => dispatch(requestBoard(boardId))
 })
 
 export default connect(

@@ -1,5 +1,18 @@
 class Api::InvitesController < ApplicationController
-  skip_before_action :require_login!, only: [:create, :update]
+  skip_before_action :require_login!, only: [:show, :create, :update]
+
+  def show
+    @invite = Invite.find_by_code(params[:id])
+    if @invite
+      if !@invite.status_pending?
+        render json: { status: "responded" }, status: 422
+        return
+      end
+      render :show
+    else
+      render json: { status: "revoked" }, status: 422
+    end
+  end
 
   def create
     json = JSON.parse(params[:invites])
@@ -14,13 +27,14 @@ class Api::InvitesController < ApplicationController
         board_id: @board_id,
         user_id: current_user.id,
         status: :pending,
-        recipient_email: info["recipient_email"])
+        email: info["email"])
 
       if invite.save
         @invites << invite
+        UserMailer.invite_email(invite).deliver_now
       else
         @errors << {
-          email: invite.recipient_email,
+          email: invite.email,
           error: invite.errors[:invite][0]
         }
       end
@@ -28,38 +42,53 @@ class Api::InvitesController < ApplicationController
   end
 
   def destroy
-    begin
-      invite = Invite.find(params[:id])
-      invite.destroy
-      render json: { id: invite.id, board_id: invite.board_id }
-    rescue
-      render json: "Invite does not exist", status: 422
-    end
+    invite = Invite.find(params[:id])
+    invite.destroy
+    render json: { id: invite.id, board_id: invite.board_id }
   end
 
   def update
-    @invite = Invite.find_by_code(params[:code])
+    invite = Invite.find_by(id: params[:id])
 
-    if BoardMembership.where(board_id: @invite.board_id, username: params[:username]).length > 1
-      render json: ["This username is not available. Please pick another one."], status: 422
+    if invite.nil?
+      render json: { status: "revoked"}, status: 422
+      return
+    elsif invite.status_accepted?
+      render json: { status: "responded" }, status: 422
       return
     end
 
-    @user = User.new(user_params)
-    if @user.save
-      @membership = BoardMembership.new(
-        board_id: @invite.board_id,
-        user_id: @user.id,
-        username: params[:username])
+    membership = BoardMembership.new(
+      board_id: invite.board_id,
+      invite_id: invite.id,
+      username: params[:invite][:username])
 
-      if @membership.save
-        login(@user)
-        render 'api/users/show'
-      end
-    else
-      render json: @user.errors.full_messages, status: 422
+    errors = {}
+    if !membership.valid? && membership.errors[:username].any?
+      errors[:username] = membership.errors[:username][0]
     end
 
+    @user = invite.find_or_create_user_account(params[:invite][:password])
+    if !@user.valid? && @user.errors[:password].any?
+      errors[:password] = @user.errors[:password][0]
+    end
+
+    if !errors.empty?
+      render json: errors, status: 422
+      return
+    end
+
+    @user.save
+    membership.user_id = @user.id
+    membership.save
+
+    invite.update(status: :accepted)
+
+    if (logged_in?)
+      render "api/users/show"
+    else
+      render json: { board_id: invite.board_id }
+    end
   end
 
   private
@@ -69,6 +98,6 @@ class Api::InvitesController < ApplicationController
   end
 
   def invite_update_params
-    params.require(:invite).permit(:recipient_email, :status)
+    params.require(:invite).permit(:username, :status)
   end
 end

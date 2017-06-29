@@ -18,6 +18,7 @@ gem 'bcrypt'
 gem 'figaro'
 gem 'cloudinary'
 gem 'pusher'
+gem 'mailgun-ruby', '~>1.1.6'
 
 
 group :development, :test do
