@@ -8,6 +8,13 @@ export const signup = (user) => {
   });
 }
 
+export const getInvite = code => (
+  $.ajax({
+    method: 'GET',
+    url: `/api/invites/${code}`
+  })
+)
+
 export const destroyUser = userId => {
   return $.ajax({
     method: "DELETE",
@@ -41,3 +48,13 @@ export const logout = () => {
     url: "/api/session"
   });
 }
+
+export const updateInvite = invite => (
+  $.ajax({
+    method: 'PUT',
+    url: `/api/invites/${invite.id}`,
+    data: {
+      invite
+    }
+  })
+)

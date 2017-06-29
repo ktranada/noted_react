@@ -16,7 +16,8 @@ class Invite < ActiveRecord::Base
   MEMBER_LIMIT = 10
   enum status: [:pending, :accepted, :declined, :owner], _prefix: true
 
-  validates :board, :board_member, presence: true
+  validates :board, :board_member, :recipient_email, presence: true
+  validates :recipient_email, uniqueness: { scope: :board_id, case_sensitive: false }
   validate :person_has_not_been_invited_before, on: :create
   validate :has_remaining_invites, on: :create
   before_validation :create_code
@@ -25,8 +26,20 @@ class Invite < ActiveRecord::Base
   belongs_to :board_member, class_name: 'User', foreign_key: 'user_id'
   has_one :board_membership
 
+  def find_or_create_user_account(password)
+    User.find_by_email(recipient_email) || User.create(email: recipient_email, password: password)
+  end
+
+  def has_response?
+    hide_from_client? || status_accepted?
+  end
+
   def hide_from_client?
     status_owner? || status_declined?
+  end
+
+  def recipient
+    User.find_by_email(recipient_email)
   end
 
   private

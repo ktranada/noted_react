@@ -3,7 +3,7 @@ class CreateInvites < ActiveRecord::Migration[5.0]
     create_table :invites do |t|
       t.integer :user_id, null: false
       t.integer :board_id, null: false
-      t.string :recipient_email, default: ''
+      t.string :recipient_email, null: false
       t.string :code, null: false
       t.integer :status, default: 0
 

@@ -1,13 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { signup, login, receiveSessionErrors } from '../../actions/session_actions';
+import { signup, login } from '../../actions/session_actions';
 import SessionForm from './session_form';
 
 const mapStateToProps = ({session, boards}) => ({
   isLoggedIn: Boolean(session.currentUser),
   currentBoard: boards.currentBoard
-  // errors: session.errors
 });
 
 const mapDispatchToProps = (dispatch, { location }) => {

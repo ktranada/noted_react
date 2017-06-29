@@ -1,5 +1,6 @@
 import * as SessionAPI from '../util/session_api';
 import { toggleModal } from './modal_actions';
+import { addInvites } from './board_actions';
 
 export const RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
 export const RECEIVE_USER_SESSION_ERRORS = "RECEIVE_USER_SESSION_ERRORS"
@@ -28,6 +29,22 @@ export const logout = () => dispatch => (
       dispatch(toggleModal(null));
       dispatch(receiveCurrentUser(null));
     })
+)
+
+export const getInvite = code => dispatch => (
+  SessionAPI.getInvite(code)
+    .then(
+      invite => invite,
+      error => console.log(error.responseJSON)
+    )
+)
+
+export const updateInvite = invite => dispatch => (
+  SessionAPI.updateInvite(invite)
+    .then(
+      response => response,
+      err => err.responseJSON
+    )
 )
 
 export const updateUser = user => dispatch => (

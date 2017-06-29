@@ -2,7 +2,7 @@ import React  from 'react';
 import PropTypes from 'prop-types';
 import ListCardForm from './ListCardForm';
 import ListContainer from './ListContainer';
-import Spinner from '../../misc/spinner';
+import Spinner from '../../misc/Spinner';
 
 class ListIndex extends React.Component {
   constructor(props) {

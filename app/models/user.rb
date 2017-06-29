@@ -13,14 +13,13 @@
 
 class User < ActiveRecord::Base
   attr_reader :password
-
   include EmailValidation
 
   default_scope { order(:email)}
   after_initialize :ensure_session_token
 
   validates :session_token, presence: true, uniqueness: true
-  validates :email, presence: true, uniqueness: { message: "Email has been taken"}
+  validates :email, presence: true, uniqueness: { case_sensitive: false, message: "Email has been taken"}
   validates :password_digest, presence: {  message: "Password cannot be blank" }
   validates :password, length: { minimum: 6, message: "Password must contain 6 characters" }, allow_nil: true
 

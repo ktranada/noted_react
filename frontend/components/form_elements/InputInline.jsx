@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const InputInline = props => {
-  const { type, error, labelClass, inputClass,
-    value, handleChange, placeHolder } = props;
+  const { type, error, labelClass, inputClass, value,
+    handleChange, placeHolder, hasCustomErrors } = props;
+
   return (
     <label
-      data-error={error}
+      data-error={hasCustomErrors ?  "" : error}
       className={`${Boolean(error) ? "error" : ""} ${labelClass}`}>
       <input
         type={type}
@@ -14,12 +15,14 @@ const InputInline = props => {
         onChange={handleChange}
         placeholder={placeHolder}
         className={`input-inline ${inputClass}`}/>
+      { props.children }
     </label>
   )
 }
 
 InputInline.propTypes = {
   type: PropTypes.string.isRequired,
+  hasCustomErrors: PropTypes.bool,
   error: PropTypes.string,
   labelClass: PropTypes.string,
   inputClass: PropTypes.string,
@@ -32,6 +35,7 @@ InputInline.propTypes = {
 }
 
 InputInline.defaultProps = {
+  hasCustomErrors: false,
   error: '',
   labelClass: '',
   inputClass: '',

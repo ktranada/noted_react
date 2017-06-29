@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     resources :lists, only: [:create, :destroy]
     resources :cards, only: [:create, :destroy, :update]
     resources :comments, only: [:create, :destroy, :update]
-    resources :invites, only: [:create, :destroy]
+    resources :invites, only: [ :show, :create, :update, :destroy]
     resources :boards, only: [:create, :show, :update, :destroy]
     resources :board_memberships, only: [:destroy, :update]
   end
