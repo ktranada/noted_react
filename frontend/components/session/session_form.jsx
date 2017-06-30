@@ -2,7 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import merge from 'lodash/merge';
-import InputInline from '../form_elements/InputInline';
+import InlineInput from '../form_elements/InlineInput';
+import SubmitButton from '../form_elements/SubmitButton';
 
 const initialState = {
   email: '',
@@ -11,7 +12,8 @@ const initialState = {
     credentials: '',
     email: '',
     password: ''
-  }
+  },
+  isSubmitting: false
 }
 
 class SessionForm extends React.Component {
@@ -40,8 +42,11 @@ class SessionForm extends React.Component {
 
   handleChange(field) {
     return (e) => {
+      const errors = Object.assign({}, this.state.errors);
+      errors[field] = ''
       this.setState({
-        [field]: e.currentTarget.value
+        [field]: e.currentTarget.value,
+        errors
       });
     }
   }
@@ -71,7 +76,7 @@ class SessionForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault;
-    if (!this.verifyInputPresence()) {
+    if (this.state.isSubmitting || !this.verifyInputPresence()) {
       return;
     }
 
@@ -83,6 +88,7 @@ class SessionForm extends React.Component {
       () => {},
       err => {
         this.setState({
+          isSubmitting: false,
           errors:  {
             credentials: err.credentials,
             email: err.email ? err.email[0] : '',
@@ -91,6 +97,8 @@ class SessionForm extends React.Component {
         })
       }
     )
+
+    this.setState({ isSubmitting: true });
   }
 
   formContent() {
@@ -114,7 +122,7 @@ class SessionForm extends React.Component {
             <img src="https://res.cloudinary.com/mycut/image/upload/v1496273166/logo-min_tmylez.png" />
             { errors.credentials && <p className="error__credentials">{errors.credentials}</p> }
             <h3>{formContent.title}</h3>
-            <InputInline
+            <InlineInput
                 type="email"
                 error={errors.email}
                 inputClass="session-form__input"
@@ -123,7 +131,7 @@ class SessionForm extends React.Component {
                 handleChange={this.handleChange('email')}
               />
 
-            <InputInline
+            <InlineInput
               type="password"
               error={errors.password}
               inputClass="session-form__input"
@@ -132,7 +140,7 @@ class SessionForm extends React.Component {
               handleChange={this.handleChange('password')}
               />
 
-            <button type="submit" className="session-form__button">{formContent.button}</button>
+            <SubmitButton disabled={this.state.isSubmitting} buttonText={formContent.button} buttonClass="session-form__button"/>
 
             <hr />
             <span className="session-form__link">{formContent.bottomText} &nbsp; <a onClick={this.changeForm(formContent.bottomActionTo)}>{formContent.bottomActionText}</a></span>
