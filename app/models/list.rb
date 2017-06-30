@@ -17,4 +17,11 @@ class List  < ActiveRecord::Base
   has_many :cards, dependent: :destroy
 
   default_scope { order(:ord) }
+
+  before_create :set_ord
+
+  def set_ord
+    ord = board.lists.length
+  end
+
 end

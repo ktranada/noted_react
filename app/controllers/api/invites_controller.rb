@@ -35,7 +35,11 @@ class Api::InvitesController < ApplicationController
       else
         @errors << {
           email: invite.email,
-          error: invite.errors[:invite][0]
+          errors: {
+            invites: invite.errors[:invites][0],
+            invite: invite.errors[:invite][0],
+            email: invite.errors[:email][0]
+          }
         }
       end
     end

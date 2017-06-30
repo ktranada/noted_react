@@ -4,7 +4,7 @@ class Api::ListsController < ApplicationController
     @list = List.new(list_params)
 
     if @list.save
-      render :show
+      render :create
     else
       render json: @list.errors.full_messages, status: 422
     end

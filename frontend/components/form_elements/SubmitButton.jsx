@@ -2,25 +2,31 @@ import React from 'react';
 import Spinner from '../misc/Spinner';
 import PropTypes from 'prop-types';
 
-const SubmitButton = ({ disabled, buttonText, buttonColorClass, buttonClass }) => (
+const SubmitButton = ({ disabled, buttonText, buttonColorClass, buttonClass, style }) => (
   <button
     type="submit"
     className={`form__submit-button ${buttonClass} button ${buttonColorClass}`}
-    disabled={disabled}>
+    disabled={disabled}
+    style={style}>
     {disabled ? <Spinner /> : buttonText}
   </button>
 )
 
 SubmitButton.propTypes = {
   disabled: PropTypes.bool.isRequired,
-  buttonText: PropTypes.string.isRequired,
+  buttonText: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element
+  ]).isRequired,
   buttonClass: PropTypes.string,
-  buttonColorClass: PropTypes.string
+  buttonColorClass: PropTypes.string,
+  style: PropTypes.object
 }
 
 SubmitButton.defaultProps = {
   buttonClass: '',
-  buttonColorClass: ''
+  buttonColorClass: '',
+  style: {}
 }
 
 export default SubmitButton;

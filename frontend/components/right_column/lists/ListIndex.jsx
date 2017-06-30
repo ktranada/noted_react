@@ -26,7 +26,6 @@ class ListIndex extends React.Component {
 
   createList(data) {
     const list = Object.assign({}, data, {
-      ord: this.props.lists.length,
       board_id: this.props.match.params.boardId
     })
     return this.props.createList(list);
@@ -43,7 +42,7 @@ class ListIndex extends React.Component {
           boardId={this.props.currentBoard.id}
           list={list} />
       ));
-            
+
       content = (
         <div className="list-index">
           { lists }

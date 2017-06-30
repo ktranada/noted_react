@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import InlineInput from '../../form_elements/InlineInput';
 import InviteStatus from './InviteStatus';
 import Spinner from '../../misc/Spinner';
+import FormValidator from '../../../util/form_validator';
 
 class InviteResponseForm extends React.Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class InviteResponseForm extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUpdateErrors = this.handleUpdateErrors.bind(this);
+    this.formValidator = new FormValidator(['username', this.props.userExists ? '' : 'password']);
   }
 
   componentWillMount() {
@@ -30,6 +32,9 @@ class InviteResponseForm extends React.Component {
           // Logout unless current user is recipient of invite
           this.props.logoutCurrentUser();
         }
+
+        const newFields = ['username', invite.user_exists ? '' : 'password'];
+        this.formValidator.updateFields(newFields);
 
         this.setState({
           userExists: invite.user_exists,
@@ -58,28 +63,14 @@ class InviteResponseForm extends React.Component {
     }
   }
 
-  verifyInputPresence() {
-    let usernameError, passwordError;
-    if (!this.state['username'].trim()) {
-      usernameError = 'Username cannot be blank';
-    }
-
-    if (!this.state.userExists && !this.state['password'].trim()) {
-      passwordError = 'Password cannot be blank';
-    }
-
-    if (usernameError || passwordError) {
-      this.setState({
-        errors: { username: usernameError, password: passwordError }
-      })
-      return false;
-    }
-    return true;
-  }
-
   handleSubmit(e) {
     e.preventDefault;
-    if (this.isSubmitting || !this.verifyInputPresence()) {
+    if (this.isSubmitting) {
+      return;
+    }
+
+    if (!this.formValidator.verifyInputPresence(this.state)) {
+      this.formValidator.notifyComponent(this);
       return;
     }
 

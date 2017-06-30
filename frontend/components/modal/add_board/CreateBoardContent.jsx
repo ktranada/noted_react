@@ -1,6 +1,7 @@
 import React from 'react';
 import SubmitButton from '../../form_elements/SubmitButton';
 import InlineInput from '../../form_elements/InlineInput';
+import FormValidator from '../../../util/form_validator';
 
 class CreateBoardContent extends React.Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class CreateBoardContent extends React.Component {
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.formValidator = new FormValidator(['title', 'username']);
   }
 
   handleChange(field) {
@@ -28,31 +30,17 @@ class CreateBoardContent extends React.Component {
     }
   }
 
-  verifyInputPresence() {
-    let titleError, usernameError;
-    if (!this.state['username'].trim()) {
-      usernameError = 'Username cannot be blank';
-    }
-
-    if (!this.state['title'].trim()) {
-      titleError = 'Title cannot be blank';
-    }
-
-    if (usernameError || titleError) {
-      this.setState({
-        errors: { username: usernameError, title: titleError }
-      })
-      return false;
-    }
-    return true;
-  }
-
   handleSubmit(e) {
     e.preventDefault();
-
-    if (this.state.isSubmitting || !this.verifyInputPresence()) {
+    if (this.state.isSubmitting) {
       return;
     }
+
+    if (!this.formValidator.verifyInputPresence(this.state)) {
+      this.formValidator.notifyComponent(this);
+      return;
+    }
+    
     const board = {
       title: this.state.title,
       username: this.state.username

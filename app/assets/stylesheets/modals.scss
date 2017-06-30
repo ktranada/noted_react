@@ -17,9 +17,6 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  /* -webkit-box-align: center;*/
-  /*     -ms-flex-align: center;*/
-  /*         align-items: center;*/
   overflow-y: auto;
   background: rgba(0,0,0,.8);
   z-index: 100;
@@ -350,7 +347,7 @@
 
         .results__actions {
           button {
-            width: auto;
+            // width: auto;
           }
         }
       }
