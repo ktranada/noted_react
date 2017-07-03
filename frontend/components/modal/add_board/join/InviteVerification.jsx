@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import JoinBoardStep from './JoinBoardStep';
+import Input from './Input';
 import Footer from './Footer';
 import InviteVerificationErrors from './InviteVerificationErrors';
 
@@ -46,12 +46,12 @@ class InviteVerification extends React.Component {
     return (
       <div>
         <div className="board-form-join__inputs">
-          <JoinBoardStep
+          <Input
             label="Invite Code"
             value={this.state.code}
             handleChange={this.handleChange}>
             <InviteVerificationErrors error={this.state.error} />
-          </JoinBoardStep>
+          </Input>
         </div>
         <Footer
           buttonText="Continue"

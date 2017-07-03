@@ -17,4 +17,10 @@ const Card = props => {
   )
 }
 
+Card.propTypes = {
+  id: PropTypes.number.isRequired,
+  boardId: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired
+}
+
 export default Card;

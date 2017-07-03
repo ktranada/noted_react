@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 import { asArrayByOrder, getCurrentBoardById, isLoadingByType } from '../../../reducers/selectors';
-import { createList } from '../../../actions/board_actions';
-import ListIndex from './ListIndex';
+import { createList, createCard } from '../../../actions/board_actions';
+import BoardContent from './BoardContent';
+
 
 const mapStateToProps = ({ lists, boards, loading}, { currentBoard }) => {
   const boardLists = asArrayByOrder(lists, currentBoard.lists)
@@ -12,10 +13,11 @@ const mapStateToProps = ({ lists, boards, loading}, { currentBoard }) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  createList: list =>  createList(list)(dispatch),
+  createList: list =>  dispatch(createList(list)),
+  createCard: card => dispatch(createCard(card))
 })
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ListIndex)
+)(BoardContent)
