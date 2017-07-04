@@ -4,6 +4,7 @@ class Api::BoardsController < ApplicationController
       .includes(:board_memberships, :members, :invites, :channels, lists: [cards: [:comments]])
       .find(params[:id])
 
+    @lists = @board.lists.ordered
     @invites = @board.invites.select {|invite| !invite.hide_from_client? }
     render :show
   end

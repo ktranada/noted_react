@@ -6,29 +6,35 @@ import ListContainer from './ListContainer';
 import Spinner from '../../misc/Spinner';
 
 const ListIndex = props =>  {
-  const lists = props.lists.map(list => (
+  const lists = props.lists.map((list, position) => (
     <ListContainer
-      addCard={props.addCard(list.id)}
       key={list.id}
-      list={list} />
+      id={list.id}
+      position={position}
+      list={list}
+      cardCallbacks={props.cardCallbacks}
+      listCallbacks={props.listCallbacks} />
   ));
 
   return (
-    <div className="list-index">
+    <div id="list-index__scroller" className="list-index">
       {lists}
-      {
-        !props.isLoading &&
-        <ListCardForm type="list" addItem={props.addList}/>
-      }
+      <ListCardForm type="list" addItem={props.listCallbacks.addList}/>
     </div>
   )
 }
 
 ListIndex.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
   lists: PropTypes.array.isRequired,
-  addList: PropTypes.func.isRequired,
-  addCard: PropTypes.func.isRequired
+  listCallbacks: PropTypes.shape({
+    addList: PropTypes.func.isRequired,
+    addCard: PropTypes.func.isRequired,
+    moveList: PropTypes.func.isRequired,
+    updateListOrder: PropTypes.func.isRequired
+  }).isRequired,
+  cardCallbacks: PropTypes.shape({
+    moveCard: PropTypes.func.isRequired,
+  }).isRequired
 }
 
 export default ListIndex;

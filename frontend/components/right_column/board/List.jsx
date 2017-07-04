@@ -1,51 +1,76 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DragSource } from 'react-dnd';
+import { DragSource, DropTarget } from 'react-dnd';
 
-import Card from './Card';
+import Cards from './Cards';
 import ListCardForm from './ListCardForm';
 
-// const listSource = {
-//   beginDrag({ list }) {
-//     return { id: list.id, ord: list.ord }
-//   }
-// }
-//
-// function collect(connect, monitor) {
-//   return {
-//     connectDragSource: connect.dragSource(),
-//     isDragging: monitor.isDragging()
-//   }
-// }
+const listTarget = {
+  drop(props, monitor, component) {
+    const { position } = monitor.getItem();
+    const { position: nextPosition } = props;
+    if (position !== nextPosition) {
+      props.listCallbacks.updateListOrder();
+    }
+  },
+  hover(props, monitor) {
+    const { id } = monitor.getItem();
+    const { id: nextListId } = props;
+    if (id !== nextListId) {
+      props.listCallbacks.moveList(id, props.position);
+    }
+  }
+}
 
-const List = ({ list, cards, addCard}) => {
-  return (
-    <div className="list-index__item-wrapper">
-      <div className="list-index__item">
-        <header>{list.title}</header>
-        <hr />
-        <ul className="list__cards">
-          {
-            cards.map(card => (
-              <Card
-                boardId={list.board_id}
-                key={card.id}
-                id={card.id}
-                title={card.title} />)
-            )
-          }
-        </ul>
+const listSource = {
+  beginDrag({ list, position }) {
+    return ({ id: list.id, position })
+  },
+}
 
-        <ListCardForm type="card" addItem={addCard} />
+function collect(connect, monitor) {
+  return {
+    connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging()
+  }
+}
+
+const List = props => {
+  const { list, cards, connectDragSource, connectDropTarget, isDragging} = props;
+  return connectDragSource(connectDropTarget(
+      <div className="list-index__item-wrapper">
+        <div className={`list-index__item ${isDragging ? "placeholder" : ""}`}>
+          <header>{list.title}</header>
+          <hr />
+            <Cards
+              list={list}
+              cards={cards}
+              cardCallbacks={props.cardCallbacks}/>
+          <ListCardForm type="card" addItem={props.listCallbacks.addCard(list.id)} />
+        </div>
       </div>
-    </div>
-  )
+    ));
 }
 
 List.propTypes = {
   list: PropTypes.object.isRequired,
   cards: PropTypes.arrayOf(PropTypes.object).isRequired,
-  addCard: PropTypes.func.isRequired
+  listCallbacks: PropTypes.shape({
+    addCard: PropTypes.func.isRequired,
+    moveList: PropTypes.func.isRequired,
+    updateListOrder: PropTypes.func.isRequired
+  }).isRequired,
+  cardCallbacks: PropTypes.shape({
+    moveCard: PropTypes.func.isRequired,
+  }).isRequired
 }
 
-export default List;
+export default DragSource(
+  'list', listSource, (connect, monitor) => ({
+    connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging()
+  }))(DropTarget(
+    'list', listTarget, connect => ({
+      connectDropTarget: connect.dropTarget()
+    })
+  )(List));

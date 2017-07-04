@@ -4,7 +4,6 @@ json.set! :byId do
       json.id list.id
       json.board_id list.board_id
       json.title list.title
-      json.ord list.ord
       json.cards list.cards.pluck(:id)
     end
   end

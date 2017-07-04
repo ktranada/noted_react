@@ -11,17 +11,18 @@
 #
 
 class List  < ActiveRecord::Base
-  validates :title, :ord, :board, presence: true
+  validates :title, :position, :board, presence: true
 
   belongs_to :board
-  has_many :cards, dependent: :destroy
+  acts_as_list scope: :board, top_of_list: 0
 
-  default_scope { order(:ord) }
+  has_many :cards, -> { order(position: :asc) }, dependent: :destroy
 
-  before_create :set_ord
+  scope :ordered, -> { order(:position) }
 
-  def set_ord
-    ord = board.lists.length
+  # before_create :set_position
+
+  def set_position
+    self.position = board.lists.length
   end
-
 end

@@ -3,7 +3,7 @@ json.id @board.id
 json.set! :info do
   json.members @board.board_memberships.map(&:user).pluck(:id)
   json.channels @board.channels.pluck(:id)
-  json.lists @board.lists.pluck(:id)
+  json.lists @lists.pluck(:id)
   json.invites @invites.pluck(:id)
 end
 
@@ -17,10 +17,10 @@ json.set! :channels do
 end
 
 json.set! :lists do
-  json.partial! 'api/lists/lists', lists: @board.lists
+  json.partial! 'api/lists/lists', lists: @lists.ordered
 end
 
-cards = @board.lists.map(&:cards).flatten
+cards = @lists.map(&:cards).flatten
 
 json.set! :cards do
   json.partial! 'api/cards/cards', cards: cards

@@ -59,6 +59,18 @@ export const updateCard = data => (
   update('card', data.id, data)
 )
 
+export const updateLists = (board_id, lists, type="attributes") => (
+  $.ajax({
+    method: 'PUT',
+    url: '/api/lists',
+    data: {
+      lists,
+      board_id,
+      type,
+    }
+  })
+)
+
 export const createInvites = data => (
   $.ajax({
     method: 'POST',

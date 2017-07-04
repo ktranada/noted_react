@@ -14,6 +14,7 @@ import {
   UPDATE_BOARD,
   REMOVE_BOARD
 } from '../actions/board_actions';
+import { MOVE_LIST, UPDATE_LIST_ORDER } from '../actions/list_actions';
 
 const initialState = {
   byId: {},
@@ -87,11 +88,37 @@ function addList(state, action) {
   );
 }
 
-const updateBoard = (state, {board}) => {
+function moveList(state, action) {
+  let board = state.byId[action.boardId];
+  if (board) {
+    const { lastPos, nextPos } = action;
+    const updatedListOrder = [...board.lists];
+    const listId = updatedListOrder.splice(lastPos, 1)[0];
+
+    updatedListOrder.splice(nextPos, 0, listId);
+    board.lists = updatedListOrder;
+    return updateObject(state, byIdObject(action.boardId, board));
+  } else {
+    return state;
+  }
+}
+
+function updateListOrder(state, action) {
+  const { lists, board_id } = action.lists;
+  let board = state.byId[board_id];
+  if (board && lists) {
+    const newState = merge({}, board);
+    newState.lists = lists;
+    return byIdObject(board_id, newState);
+  }
+  return state;
+}
+
+function updateBoard(state, { board }) {
   return updateObject(state, byIdObject(board.id, { title: board.title}));
 }
 
-const removeInvite = (state, action) => {
+function removeInvite(state, action) {
   return updateAssociationList(
     state,
     action.invite.board_id,
@@ -100,7 +127,7 @@ const removeInvite = (state, action) => {
     { remove: true});
 }
 
-const removeMember = (state, action) => {
+function removeMember(state, action) {
   const { membership } = action;
 
   let newState;
@@ -126,7 +153,7 @@ const removeMember = (state, action) => {
     { remove: true });
 }
 
-const removeBoard = (state, action) => {
+function removeBoard(state, action) {
   const newState = merge({}, state);
   const byId = newState.byId;
   const order = newState.order;
@@ -153,6 +180,8 @@ const boardsReducer = (state = initialState, action) => {
     case ADD_BOARD: return addBoard(state, action);
     case ADD_LIST: return addList(state, action);
     case ADD_INVITES: return addInvites(state, action);
+    case MOVE_LIST: return moveList(state, action);
+    case UPDATE_LIST_ORDER: return updateListOrder(state, action);
     case UPDATE_BOARD: return updateBoard(state, action);
     case REMOVE_INVITE: return removeInvite(state, action);
     case REMOVE_MEMBER: return removeMember(state, action);

@@ -19,6 +19,7 @@ gem 'figaro'
 gem 'cloudinary'
 gem 'pusher'
 gem 'mailgun-ruby', '~>1.1.6'
+gem 'acts_as_list'
 
 
 group :development, :test do

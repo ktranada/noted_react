@@ -13,18 +13,18 @@
 class Board < ActiveRecord::Base
   validates :owner, :title, presence: true, allow_nil: false
 
-  default_scope { order(:ord)}
+  default_scope { order(:position)}
 
   belongs_to :owner, class_name: "User", foreign_key: "user_id"
   has_many :invites, dependent: :destroy
   has_many :board_memberships, dependent: :destroy, inverse_of: :board
   has_many :members, through: :board_memberships, source: :user
   scope :members, -> { order(:email)}
-  has_many :lists, dependent: :destroy
 
+  has_many :lists, dependent: :destroy
   has_many :channels, dependent: :destroy
 
-  before_create :set_ord
+  before_create :set_position
   after_commit :create_general_channel, on: :create
 
   def has_member?(user)
@@ -46,7 +46,7 @@ class Board < ActiveRecord::Base
     Channel.create(board_id: id, title: "General", permission: :public)
   end
 
-  def set_ord
-    self.ord = Board.where(user_id: self.user_id).count
+  def set_position
+    self.position = Board.where(user_id: self.user_id).count
   end
 end
