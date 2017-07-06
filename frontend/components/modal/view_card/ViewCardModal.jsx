@@ -3,7 +3,7 @@ import ModalOverlayContainer from '../ModalOverlayContainer';
 import Header from './header/Header';
 import Body from './body/Body';
 import { getObjectById } from '../../../reducers/selectors';
-import Spinner from '../../misc/Spinner';
+import Spinner from '../../util/Spinner';
 
 class ViewCardModal extends React.Component {
   constructor(props) {

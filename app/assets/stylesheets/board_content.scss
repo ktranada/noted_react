@@ -1,5 +1,5 @@
 @import "variables";
-
+@import "misc";
 .right-column {
   height: 100%;
   overflow-x: scroll;
@@ -115,6 +115,7 @@
           display: flex;
           flex-direction: column;
           max-height: 100%;
+          cursor: pointer;
           &.placeholder::after {
             position: absolute;
             content: " ";
@@ -140,8 +141,14 @@
 
           .list__cards {
             list-style: none;
-            margin-bottom: 10px;
-            overflow-y: auto;
+            overflow-y: scroll;
+            @include scrollbar-vertical;
+
+            &.vertical-overlow {
+              li {
+                margin-right: 5px!important;
+              }
+            }
 
 
             .placeholder__card, .placeholder__card:hover {
@@ -161,6 +168,13 @@
             }
             li {
               position: relative;
+              &:not(:last-of-type) {
+                margin-bottom: 5px;
+              }
+
+              &:last-of-type {
+                margin-bottom: 10px;
+              }
               a {
                 outline: none;
                 text-decoration: none;
@@ -173,7 +187,6 @@
                 padding: 10px;
                 background: #fafafa;
                 border-radius: 2px;
-                margin-bottom: 5px;
                 text-overflow: ellipsis;
                 overflow: hidden;
 

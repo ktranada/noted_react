@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import Spinner from '../misc/Spinner';
+import Spinner from '../util/Spinner';
 
 class InitialBoardContent extends React.Component {
   componentWillMount() {

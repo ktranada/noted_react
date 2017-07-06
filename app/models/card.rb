@@ -5,14 +5,14 @@
 #  id          :integer          not null, primary key
 #  list_id     :integer          not null
 #  title       :string           not null
-#  ord         :integer          default("0"), not null
+#  position    :integer
 #  description :text             default("")
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
 
 class Card < ActiveRecord::Base
-  validates :list, :title, :position, presence: true
+  validates :list, :title, presence: true
 
   belongs_to :list
   acts_as_list scope: :list, top_of_list: 0
@@ -23,7 +23,18 @@ class Card < ActiveRecord::Base
 
   delegate :board, to: :list
 
-  # before_create :set_position
+  def move(updates)
+    if list_id == updates[:list_id]
+      if position != updates[:position]
+        self.remove_from_list
+        self.insert_at(updates[:position])
+      end
+    else
+      self.remove_from_list
+      self.update(list_id: updates[:list_id])
+      self.insert_at(updates[:position].to_i)
+    end
+  end
 
   def assign_to_member(user)
     if list.board.has_member?(user)
@@ -31,11 +42,5 @@ class Card < ActiveRecord::Base
     else
       render json: ["User is not part of this board"], status: 401
     end
-  end
-
-  private
-
-  def set_position
-    self.position = List.where(id: list_id)[0].cards.count
   end
 end

@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 20170619043554) do
   create_table "cards", force: :cascade do |t|
     t.integer  "list_id",                  null: false
     t.string   "title",                    null: false
-    t.integer  "position",    default: 0,  null: false
+    t.integer  "position"
     t.text     "description", default: ""
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
@@ -87,11 +87,11 @@ ActiveRecord::Schema.define(version: 20170619043554) do
   end
 
   create_table "lists", force: :cascade do |t|
-    t.string   "title",                  null: false
-    t.integer  "position",   default: 0, null: false
-    t.integer  "board_id",               null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "title",      null: false
+    t.integer  "position"
+    t.integer  "board_id",   null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["board_id"], name: "index_lists_on_board_id", using: :btree
   end
 

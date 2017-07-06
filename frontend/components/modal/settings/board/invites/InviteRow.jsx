@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ProfileImage from '../../../../misc/ProfileImage';
+import ProfileImage from '../../../../util/ProfileImage';
 
 const InviteRow = ({email, canRemove, handleClick}) => {
   return (

@@ -1,69 +1,60 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { findDOMNode } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { DragSource, DropTarget } from 'react-dnd';
 
+const propTypes = {
+  id: PropTypes.number,
+  title: PropTypes.string,
+  listId: PropTypes.number.isRequired,
+  boardId: PropTypes.number,
+  height: PropTypes.number.isRequired,
+  position: PropTypes.number.isRequired,
+  cardCallbacks: PropTypes.shape({
+    setHoveredListId: PropTypes.func.isRequired,
+    moveCard: PropTypes.func.isRequired
+  }),
+  isPlaceholder: PropTypes.bool
+}
+
+const defaultProps = {
+  id: -1,
+  title: "",
+  boardId: -1,
+  isPlaceholder: false
+}
+
 const dragSpecs = {
   beginDrag(props, monitor, component) {
-    const { id, title } = props.card;
-    const { clientWidth, clientHeight } = findDOMNode(component);
-    props.setPlaceholderIndex(props.position, clientHeight, { beginDrag: true });
+    const { id, title, listId, position } = props;
+    props.cardCallbacks.setHoveredListId(listId);
     return {
       id,
+      listId,
       title,
-      clientWidth,
-      clientHeight,
-      position: props.position,
-      listId: props.listId
+      position,
+      clientHeight: component.cardItem.clientHeight
     }
   },
 
-  endDrag(props, monitor) {
-    let { placeholderIndex: nextPos } = props;
-    const { id, listId: prevListId, position: prevPos } = monitor.getItem();
-    const { direction, listId: nextListId } = monitor.getDropResult();
+  endDrag(props, monitor, component) {
+    const dropResult = monitor.getDropResult();
+    if (dropResult === null || !dropResult.id) return;
 
-    if (direction === 'up') {
-      // To simulate backwards traversal, we subtracted 1 from the original position
-      nextPos += 1;
-    }
+    props.cardCallbacks.updateCardPosition(dropResult);
+  },
 
-    if (prevListId === nextListId) {
-      props.cardCallbacks.moveCard(id, prevListId, nextListId, nextPos);
-    }
-    props.setPlaceholderIndex(null, 0);
+  isDragging(props, monitor) {
+    return props.id == monitor.getItem().id;
   }
 }
 
 const dropSpecs = {
-  drop(props, monitor) {
-    console.log('inside');
-    const { position: nextPos, listId: nextListId } = props;
-    if (listId === nextListId) {
-      props.cardCallbacks.moveCard(id, listId, nextListId, nextPos);
-    }
-
-  },
-
   hover(props, monitor, component) {
-    const { id, listIdposition: pos, clientHeight } = monitor.getItem();
+    const { id } = monitor.getItem();
     const { position: nextPos, listId: nextListId } = props;
-
-    if (props.card && id !== props.card.id) {
-      console.log(`hovering- id: ${props.card.id}, pos: ${nextPos}`)
-      if (nextPos === props.placeholderIndex) {
-        // Going up the list of cards
-        props.setPlaceholderIndex(nextPos - 1, clientHeight, { direction: 'up' });
-      } else {
-        // Going down the list of cards
-        if (props.beginningDrag) {
-          props.updateState('beginningDrag', false);
-        } else {
-          props.setPlaceholderIndex(nextPos, clientHeight);
-        }
-      }
-
+    if (id !== props.id) {
+      props.cardCallbacks.moveCard(id, nextListId, nextPos);
     }
   }
 }
@@ -71,56 +62,51 @@ const dropSpecs = {
 function dropCollect(connect, monitor) {
   return {
     connectDropTarget: connect.dropTarget(),
-    isOver: monitor.isOver()
+    isOver: monitor.isOver(),
   }
 }
 
 function dragCollect(connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
-    isDragging: monitor.isDragging(),
+    monitorItem: monitor.getItem()
   }
 }
 
-class Card extends React.Component {
+class Card extends React.PureComponent {
   render() {
-    const draggingStyle= { display: 'none' };
-    const hoverStyle = { opacity: .5 };
-    const { title, id } = this.props.card;
-    const { boardId, isDragging, isOver, connectDragSource,
-      connectDropTarget, position, placeholderIndex } = this.props;
-
+    const {
+      boardId,
+      id,
+      title,
+      isOver,
+      connectDragSource,
+      connectDropTarget,
+      isPlaceholder,
+      height
+    } = this.props;
     return connectDropTarget(connectDragSource(
-      <li>
+      <li ref={el => this.cardItem = el }>
         <Link to={`/boards/${boardId}/card/${id}`}>
-          <div
-            style={isDragging ? draggingStyle : isOver ? hoverStyle : null}
-            role="button"
-            className="list__card cursor-pointer">
-            <span>{id}</span>
-          </div>
+          {
+            isOver || isPlaceholder
+              ? <div className="placeholder__card" style={{ height }} />
+              : (
+                  <div
+                    role="button"
+                    className="list__card cursor-pointer">
+                    <span>{id}</span>
+                  </div>
+                )
+          }
         </Link>
       </li>
     ));
   }
 }
 
-Card.propTypes = {
-  card: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired
-  }).isRequired,
-  listId: PropTypes.number.isRequired,
-  boardId: PropTypes.number.isRequired,
-  position: PropTypes.number.isRequired,
-  cardCallbacks: PropTypes.shape({
-    moveCard: PropTypes.func.isRequired
-  }).isRequired,
-  beginningDrag: PropTypes.bool.isRequired,
-  placeholderIndex: PropTypes.number,
-  setPlaceholderIndex: PropTypes.func.isRequired,
-  updateState: PropTypes.func.isRequired
-}
+Card.propTypes = propTypes;
+Card.defaultProps = defaultProps;
 
 export default DropTarget(
   'card', dropSpecs, dropCollect)(DragSource(

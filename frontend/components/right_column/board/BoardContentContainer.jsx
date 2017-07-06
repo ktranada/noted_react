@@ -1,14 +1,13 @@
 import { connect } from 'react-redux';
-import { asArrayByOrder, getCurrentBoardById, isLoadingByType } from '../../../reducers/selectors';
+import { asArrayByOrder, isLoadingByType } from '../../../reducers/selectors';
 import { createList, createCard } from '../../../actions/board_actions';
-import { moveList, moveCard, updateListOrder } from '../../../actions/list_actions';
+import { moveList, moveCard, updateListOrder, updateCardPosition } from '../../../actions/list_actions';
 import BoardContent from './BoardContent';
 
 
 const mapStateToProps = ({ lists, boards, loading}, { currentBoard }) => {
-  const boardLists = asArrayByOrder(lists, currentBoard.lists)
   return ({
-    lists: boardLists,
+    lists: asArrayByOrder(lists, currentBoard.lists),
     isLoading: isLoadingByType(loading, currentBoard.id, 'loadingBoard')
   })
 }
@@ -20,7 +19,8 @@ const mapDispatchToProps = (dispatch, { currentBoard }) => ({
   moveCard: (cardId, lastListId, lastCardPos, nextListId, nextCardPos) =>  {
     return dispatch(moveCard(cardId, lastListId, lastCardPos, nextListId, nextCardPos));
   },
-  updateListOrder: lists => dispatch(updateListOrder(currentBoard.id, lists))
+  updateListOrder: lists => dispatch(updateListOrder(currentBoard.id, lists)),
+  updateCardPosition: card => dispatch(updateCardPosition(card))
 })
 
 export default connect(

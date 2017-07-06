@@ -1,5 +1,5 @@
 import React from 'react';
-import Spinner from '../misc/Spinner';
+import Spinner from '../util/Spinner';
 import PropTypes from 'prop-types';
 
 const SubmitButton = ({ disabled, buttonText, buttonColorClass, buttonClass, style }) => (

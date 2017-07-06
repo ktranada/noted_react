@@ -23,8 +23,8 @@ const cardsReducer = (state = initialState, action) => {
         action.comment.card_id,
         'comments',
         action.comment.id, {prepend: true});
-    case MOVE_CARD:
-      return updateObject(state, byIdObject(action.cardId, { list_id: action.nextListId }))
+    // case MOVE_CARD:
+    //   return updateObject(state, byIdObject(action.cardId, { list_id: action.nextListId }))
 
     case REMOVE_CARD:
         return deleteObjectById(state, action.card.id);

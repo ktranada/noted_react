@@ -2,14 +2,14 @@
 #
 # Table name: invites
 #
-#  id              :integer          not null, primary key
-#  user_id         :integer          not null
-#  board_id        :integer          not null
-#  email :string           default("")
-#  code            :string           not null
-#  status          :integer          default("0")
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id         :integer          not null, primary key
+#  user_id    :integer          not null
+#  board_id   :integer          not null
+#  email      :string           not null
+#  code       :string           not null
+#  status     :integer          default("0")
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 
 class Invite < ActiveRecord::Base

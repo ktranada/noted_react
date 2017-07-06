@@ -5,20 +5,38 @@ import HTML5Backend  from 'react-dnd-html5-backend';
 
 import ListIndex from './ListIndex';
 import ListContainer from './ListContainer';
-import Spinner from '../../misc/Spinner';
+import Spinner from '../../util/Spinner';
 
+import Scroller from '../../util/Scroller';
 import { throttle } from '../../../actions/util';
 
+const propTypes = {
+  currentBoard: PropTypes.object.isRequired,
+  lists: PropTypes.array.isRequired,
+  createCard: PropTypes.func.isRequired,
+  createList: PropTypes.func.isRequired,
+  moveList: PropTypes.func.isRequired
+}
 
 class BoardContent extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      prevHoveredListId: null,
+      isDraggingCardAcross: false
+    }
+
+    this.scroller = new Scroller();
+
     this.addList = this.addList.bind(this);
     this.addCard = this.addCard.bind(this);
-    this.moveCard = throttle(this.moveCard.bind(this), 1000); //throttle(this.moveList.bind(this), 1000);
-    this.moveList = this.moveList.bind(this); //throttle(this.moveList.bind(this), 1000);
+    this.moveCard = throttle(this.moveCard.bind(this), 500);
+    this.moveList = this.moveList.bind(this);
     this.updateListOrder = this.updateListOrder.bind(this);
+    this.updateCardPosition = this.updateCardPosition.bind(this);
+    this.setHoveredListId = throttle(this.setHoveredListId.bind(this), 1000);
+    window.scroller = this.scroller;
   }
 
   componentWillMount() {
@@ -32,6 +50,23 @@ class BoardContent extends React.Component {
     if (!nextProps.match.isExact) {
       this.props.history.push(this.props.match.url);
     }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (!this.scroller.element) {
+      this.scroller.element = document.getElementById('list-index__scroller')
+    }
+  }
+
+  componentWillUnmount() {
+    this.scroller.stopScrolling();
+  }
+
+  setHoveredListId(listId) {
+    // We want to retain the previous and next list over multiple drags
+    this.setState({
+      prevHoveredListId: listId,
+    })
   }
 
   addList(data) {
@@ -48,16 +83,20 @@ class BoardContent extends React.Component {
     }
   }
 
-  moveCard(cardId, lastListId, nextListId, nextCardPos) {
-    const { list: previousList } = this.findList(lastListId)
-    const lastCardPos = previousList.cards.indexOf(cardId);
-
-    if (lastCardPos === -1) return;
-
-    this.props.moveCard(cardId, lastListId, lastCardPos, nextListId, nextCardPos);
+  moveCard(cardId, nextListId, nextPos) {
+    const { list: previousList } = this.findList(this.state.prevHoveredListId)
+    const prevPos = previousList.cards.indexOf(cardId);
+    if (prevPos === -1) {
+      return;
+    }
+    this.props.moveCard(cardId, this.state.prevHoveredListId, prevPos, nextListId, nextPos);
+    this.setHoveredListId(nextListId);
   }
 
   moveList(listId, nextPos) {
+    if (nextPos === undefined) {
+      return;
+    }
     const { lastPos } = this.findList(listId);
     this.props.moveList(listId, lastPos, nextPos);
   }
@@ -83,9 +122,12 @@ class BoardContent extends React.Component {
     this.props.updateListOrder(lists);
   }
 
-
+  updateCardPosition(card) {
+    this.props.updateCardPosition(card);
+  }
 
   render() {
+    const cardDragTracker = Object.assign({}, this.state);
     return (
       <div className="board-wrapper">
         {
@@ -94,8 +136,13 @@ class BoardContent extends React.Component {
             : (
               <ListIndex
                 lists={this.props.lists}
+                scroller={this.scroller}
+                prevHoveredListId={this.state.prevHoveredListId}
+                cardDragTracker={cardDragTracker}
                 cardCallbacks={{
-                  moveCard: this.moveCard
+                  setHoveredListId: this.setHoveredListId,
+                  moveCard: this.moveCard,
+                  updateCardPosition: this.updateCardPosition
                 }}
                 listCallbacks={{
                   addCard: this.addCard,
@@ -110,12 +157,6 @@ class BoardContent extends React.Component {
   }
 }
 
-BoardContent.propTypes = {
-  currentBoard: PropTypes.object.isRequired,
-  lists: PropTypes.array.isRequired,
-  createCard: PropTypes.func.isRequired,
-  createList: PropTypes.func.isRequired,
-  moveList: PropTypes.func.isRequired
-}
+BoardContent.propTypes = propTypes;
 
 export default DragDropContext(HTML5Backend)(BoardContent);

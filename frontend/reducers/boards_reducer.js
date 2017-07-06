@@ -97,7 +97,7 @@ function moveList(state, action) {
 
     updatedListOrder.splice(nextPos, 0, listId);
     board.lists = updatedListOrder;
-    return updateObject(state, byIdObject(action.boardId, board));
+    return updateObject(state, byIdObject(action.boardId, { lists: updatedListOrder }));
   } else {
     return state;
   }
@@ -181,7 +181,6 @@ const boardsReducer = (state = initialState, action) => {
     case ADD_LIST: return addList(state, action);
     case ADD_INVITES: return addInvites(state, action);
     case MOVE_LIST: return moveList(state, action);
-    case UPDATE_LIST_ORDER: return updateListOrder(state, action);
     case UPDATE_BOARD: return updateBoard(state, action);
     case REMOVE_INVITE: return removeInvite(state, action);
     case REMOVE_MEMBER: return removeMember(state, action);

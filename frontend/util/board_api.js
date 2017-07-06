@@ -55,6 +55,21 @@ export const createCard = data => (
   create('card', data)
 )
 
+
+export const createInvites = data => (
+  $.ajax({
+    method: 'POST',
+    url: '/api/invites',
+    data: {
+      'invites': data
+    }
+  })
+)
+
+export const createInvite = data => (
+  create('invite', data)
+)
+
 export const updateCard = data => (
   update('card', data.id, data)
 )
@@ -71,19 +86,6 @@ export const updateLists = (board_id, lists, type="attributes") => (
   })
 )
 
-export const createInvites = data => (
-  $.ajax({
-    method: 'POST',
-    url: '/api/invites',
-    data: {
-      'invites': data
-    }
-  })
-)
-
-export const createInvite = data => (
-  create('invite', data)
-)
 
 export const updateBoard = data => (
   update('board', data.id, data)

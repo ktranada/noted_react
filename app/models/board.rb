@@ -7,7 +7,7 @@
 #  title      :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  ord        :integer          default("0"), not null
+#  position   :integer          default("0"), not null
 #
 
 class Board < ActiveRecord::Base
@@ -21,7 +21,7 @@ class Board < ActiveRecord::Base
   has_many :members, through: :board_memberships, source: :user
   scope :members, -> { order(:email)}
 
-  has_many :lists, dependent: :destroy
+  has_many :lists, -> {order(:position) }, dependent: :destroy
   has_many :channels, dependent: :destroy
 
   before_create :set_position

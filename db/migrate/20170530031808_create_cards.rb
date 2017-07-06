@@ -3,7 +3,7 @@ class CreateCards < ActiveRecord::Migration[5.0]
     create_table :cards do |t|
       t.integer :list_id, null: false
       t.string :title, null: false
-      t.integer :position, null: false, default: 0
+      t.integer :position
       t.text :description, default: ''
 
       t.timestamps

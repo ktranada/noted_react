@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import InlineInput from '../../form_elements/InlineInput';
 import InviteStatus from './InviteStatus';
-import Spinner from '../../misc/Spinner';
+import Spinner from '../../util/Spinner';
 import FormValidator from '../../../util/form_validator';
 
 class InviteResponseForm extends React.Component {

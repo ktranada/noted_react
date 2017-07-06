@@ -10,10 +10,15 @@ class Api::CardsController < ApplicationController
 
   def update
     @card = Card.find(params[:id])
-    if @card.update(card_params)
+    if params[:type] == 'position'
+      @card.move(card_params)
       render :create
     else
-      render json: @card.errors.full_messages, status: 422
+      if @card.update(card_params)
+        render :create
+      else
+        render json: @card.errors.full_messages, status: 422
+      end
     end
   end
 
