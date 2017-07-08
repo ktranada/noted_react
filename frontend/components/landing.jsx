@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
-import AccountInfo from './center_column/bottom_section/AccountInfo';
+import AccountSettings from './center_column/bottom_section/AccountSettings';
 import NavContainer from './left_column/NavContainer';
 import SubNavDefault from './center_column/SubNavDefault';
 import ModalControllerContainer from './modal/ModalControllerContainer';
@@ -30,7 +30,7 @@ class Landing extends React.PureComponent {
         </section>
         <section className="center-column">
           <SubNavDefault isLoading={false}  />
-          <AccountInfo
+          <AccountSettings
             currentUser={this.props.currentUser}
             toggleModal={this.toggleModal}/>
         </section>

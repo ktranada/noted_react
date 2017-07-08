@@ -8,27 +8,32 @@ input {
 }
 label {
   position: relative;
+  letter-spacing: .6px;
   > .input-inline {
     font-size: 12px;
-    letter-spacing: 1.4px;
-    font-weight: 300;
-    margin: 10px 0;
+    letter-spacing: .8px;
+    font-weight: 400;
+    // margin: 10px 0;
+    margin-bottom: 5px;
     height: 40px;
     padding: 5px 0;
     border-bottom: .5px solid;
     border-color: $primary-grey;
     color: white;
+
+    &.dark {
+      color: black;
+    }
   }
 
   &.error {
     &::after {
       content: attr(data-error);
-      content: attr(data-error);
       position: absolute;
       left: 0;
-      bottom: -12px;
+      bottom: -15px;
       font-size: 11px;
-      color: #d50000;      
+      color: #d50000;
     }
     > .input-inline {
       border-color: $primary-red;

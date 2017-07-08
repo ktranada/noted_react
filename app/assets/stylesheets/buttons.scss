@@ -65,4 +65,10 @@ button {
     float: left;
     margin-right: 5px;
   }
+
+  &.form__submit-button {
+    .spinner {
+      height: 100%;
+    }
+  }
 }

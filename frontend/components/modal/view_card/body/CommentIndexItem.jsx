@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Divider from '../../../misc/Divider';
+import Divider from '../../../util/Divider';
 
 const CommentIndexItem = ({comment, username}) => {
   return (

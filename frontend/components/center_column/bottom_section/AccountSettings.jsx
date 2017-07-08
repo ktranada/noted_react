@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const AccountInfo = (props) => {
+const AccountSettings = (props) => {
   const { email } = props.currentUser;
 
   return (
@@ -18,7 +18,7 @@ const AccountInfo = (props) => {
   )
 };
 
-AccountInfo.propTypes = {
+AccountSettings.propTypes = {
   currentUser: PropTypes.shape({
     id: PropTypes.number.isRequired,
     email: PropTypes.string.isRequired
@@ -26,4 +26,4 @@ AccountInfo.propTypes = {
   toggleModal: PropTypes.func.isRequired
 }
 
-export default AccountInfo;
+export default AccountSettings;

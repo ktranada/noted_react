@@ -10,10 +10,15 @@ class Api::CardsController < ApplicationController
 
   def update
     @card = Card.find(params[:id])
-    if @card.update(card_params)
+    if params[:type] == 'position'
+      @card.move(card_params)
       render :create
     else
-      render json: @card.errors.full_messages, status: 422
+      if @card.update(card_params)
+        render :create
+      else
+        render json: @card.errors.full_messages, status: 422
+      end
     end
   end
 
@@ -26,6 +31,6 @@ class Api::CardsController < ApplicationController
   private
 
   def card_params
-    params.require(:card).permit(:list_id, :title, :ord, :description)
+    params.require(:card).permit(:list_id, :title, :position, :description)
   end
 end

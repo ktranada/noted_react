@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import JoinBoardStep from './JoinBoardStep';
+import Input from './Input';
 import InviteVerificationErrors from './InviteVerificationErrors';
 import Footer from './Footer';
 
@@ -50,13 +50,13 @@ class UsernameVerification extends React.Component {
     return (
       <div>
         <div className="board-form-join__inputs">
-          <JoinBoardStep
+          <Input
             label="USERNAME"
             value={this.state.username}
             handleChange={this.handleChange}>
             <InviteVerificationErrors error={this.state.error}/>
             <p>Username can only contain lowercase letters and numbers.</p>
-          </JoinBoardStep>
+          </Input>
         </div>
         <Footer
           buttonType="submit"

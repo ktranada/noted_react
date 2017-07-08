@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import BoardSettings from './top_section/BoardSettings';
 import SubNavActions from './middle_section/SubNavActions';
 import SubNavDefault from './SubNavDefault';
-import AccountInfo from './bottom_section/AccountInfo';
+import AccountSettings from './bottom_section/AccountSettings';
 
 const SubNav = props => {
   if (props.isLoading) {

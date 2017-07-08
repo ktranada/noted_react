@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Spinner from '../misc/Spinner';
+import Spinner from '../util/Spinner';
 
 const SubNavDefault = (props) => (
   <div className="sub-nav-default">

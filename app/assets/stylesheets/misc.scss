@@ -61,3 +61,27 @@ $duration: 1.4s;
    transform:rotate(450deg);
  }
 }
+
+//====================
+// Scrollbar
+//====================
+
+
+@mixin scrollbar-vertical {
+  &::-webkit-scrollbar-track
+  {
+  	// -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  	background-color: #eeeeee;
+  }
+
+  &::-webkit-scrollbar
+  {
+  	width: 6px;
+  	background-color: #49636F;
+  }
+
+  &::-webkit-scrollbar-thumb
+  {
+  	background-color: #49636F;
+  }
+}

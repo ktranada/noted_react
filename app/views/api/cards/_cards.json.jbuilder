@@ -1,9 +1,7 @@
 json.set! :byId do
   cards.each do |card|
     json.set! card.id do
-      json.id card.id
-      json.title card.title
-      json.ord card.ord
+      json.extract! card, :id, :title, :position, :list_id
       json.description card.description || ''
       json.comments card.comments.pluck(:id)
     end

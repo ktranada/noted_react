@@ -9,10 +9,10 @@ const InviteResultErrors = props => (
     </div>
     <div className="results__body">
       {
-        props.errors.map(({email, error}, idx) => (
+        props.errors.map(({email, errors}, idx) => (
           <div key={idx} className="results__row">
             <span>{email}</span>
-            <span>{error}</span>
+            <span>{errors.email || errors.invite}</span>
           </div>
         ))
       }

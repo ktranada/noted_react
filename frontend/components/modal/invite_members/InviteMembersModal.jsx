@@ -19,6 +19,7 @@ class InviteMembersModal extends React.Component {
         email: '',
         isValid: true
       }],
+      isSubmitting: false,
       serializedCount: 0,
       results: null
     }
@@ -78,9 +79,10 @@ class InviteMembersModal extends React.Component {
               success: asArray(invites.byId),
               count: invites.count
             }
-            that.setState({ results });
+            that.setState({ results, isSubmitting: false });
           })
-        }
+        this.setState({ isSubmitting: true });
+      }
   }
 
   render() {
@@ -89,6 +91,7 @@ class InviteMembersModal extends React.Component {
         {
           this.state.results === null ?
           (<InviteForm
+            isSubmitting={this.state.isSubmitting}
             invites={this.state.invites}
             remainingInviteCount={this.props.remainingInviteCount}
             addInviteRow={this.addInviteRow}

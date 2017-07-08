@@ -46,7 +46,7 @@ class ListCardForm extends React.Component {
       return
     }
 
-    this.props.createItem({
+    this.props.addItem({
       title: this.state.title
     }).then(() => this.setState({
       isAdding: false,
@@ -104,7 +104,7 @@ class ListCardForm extends React.Component {
 }
 
 ListCardForm.propTypes = {
-  createItem: PropTypes.func.isRequired,
+  addItem: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired
 }
 

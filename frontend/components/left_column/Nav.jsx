@@ -27,6 +27,10 @@ class Nav extends React.Component {
     }
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return true
+  }
+
   render() {
     let { boards, currentBoardId } = this.props;
     const boardsList = boards.map((board) => {

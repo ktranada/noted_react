@@ -2,16 +2,19 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import merge from 'lodash/merge';
-import InputInline from '../form_elements/InputInline';
+import InlineInput from '../form_elements/InlineInput';
+import SubmitButton from '../form_elements/SubmitButton';
+import FormValidator from '../../util/form_validator';
 
 const initialState = {
   email: '',
   password: '',
   errors: {
-    credentials: '',
     email: '',
     password: ''
-  }
+  },
+  invalidCredentials: false,
+  isSubmitting: false
 }
 
 class SessionForm extends React.Component {
@@ -21,7 +24,7 @@ class SessionForm extends React.Component {
     this.changeForm = this.changeForm.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.verifyInputPresence = this.verifyInputPresence.bind(this);
+    this.formValidator = new FormValidator(['email', 'password'])
   }
 
   componentWillReceiveProps(nextProps) {
@@ -40,40 +43,28 @@ class SessionForm extends React.Component {
 
   handleChange(field) {
     return (e) => {
+      const errors = Object.assign({}, this.state.errors);
+      errors[field] = ''
       this.setState({
-        [field]: e.currentTarget.value
+        [field]: e.currentTarget.value,
+        invalidCredentials: false,
+        errors
       });
     }
   }
 
-  verifyInputPresence() {
-    let emailError, passwordError;
-    if (!this.state['email'].trim()) {
-      emailError = 'Email cannot be blank';
-    }
-
-    if (!this.state['password'].trim()) {
-      passwordError = 'Password cannot be blank';
-    }
-
-    if (emailError || passwordError) {
-      this.setState({
-        errors: {
-          email: emailError,
-          password: passwordError
-        }
-      })
-      return false;
-    }
-
-    return true;
-  }
-
   handleSubmit(e) {
     e.preventDefault;
-    if (!this.verifyInputPresence()) {
+    if (this.state.isSubmitting) {
       return;
     }
+
+    if (!this.formValidator.verifyInputPresence(this.state)) {
+      this.formValidator.notifyComponent(this);
+      return;
+    }
+
+    this.setState({ isSubmitting: true });
 
     const user = {
       email: this.state.email,
@@ -83,14 +74,16 @@ class SessionForm extends React.Component {
       () => {},
       err => {
         this.setState({
+          isSubmitting: false,
           errors:  {
-            credentials: err.credentials,
             email: err.email ? err.email[0] : '',
             password: err.password ? err.password[0] : ''
-          }
+          },
+          invalidCredentials: err.credentials
         })
       }
     )
+
   }
 
   formContent() {
@@ -112,9 +105,9 @@ class SessionForm extends React.Component {
       <form className="session-form" onSubmit={this.handleSubmit}>
           <div className="session-form__content">
             <img src="https://res.cloudinary.com/mycut/image/upload/v1496273166/logo-min_tmylez.png" />
-            { errors.credentials && <p className="error__credentials">{errors.credentials}</p> }
+            { this.state.invalidCredentials && <p className="error__credentials">{this.state.invalidCredentials}</p> }
             <h3>{formContent.title}</h3>
-            <InputInline
+            <InlineInput
                 type="email"
                 error={errors.email}
                 inputClass="session-form__input"
@@ -123,7 +116,7 @@ class SessionForm extends React.Component {
                 handleChange={this.handleChange('email')}
               />
 
-            <InputInline
+            <InlineInput
               type="password"
               error={errors.password}
               inputClass="session-form__input"
@@ -132,7 +125,7 @@ class SessionForm extends React.Component {
               handleChange={this.handleChange('password')}
               />
 
-            <button type="submit" className="session-form__button">{formContent.button}</button>
+            <SubmitButton disabled={this.state.isSubmitting} buttonText={formContent.button} buttonClass="session-form__button"/>
 
             <hr />
             <span className="session-form__link">{formContent.bottomText} &nbsp; <a onClick={this.changeForm(formContent.bottomActionTo)}>{formContent.bottomActionText}</a></span>

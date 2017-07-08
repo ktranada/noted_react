@@ -4,10 +4,10 @@ import { Route, Switch } from 'react-router-dom';
 import { RouteWithProps } from '../util/route_util';
 import NavContainer from './left_column/NavContainer';
 import SubNavContainer from './center_column/SubNavContainer';
-import AccountInfo from './center_column/bottom_section/AccountInfo';
+import AccountSettings from './center_column/bottom_section/AccountSettings';
 import ModalControllerContainer from './modal/ModalControllerContainer';
 import InitialBoardContentContainer from './right_column/InitialBoardContentContainer';
-import ListIndexContainer from './right_column/lists/ListIndexContainer';
+import BoardContentContainer from './right_column/board/BoardContentContainer';
 import ViewCardModalContainer from './modal/view_card/ViewCardModalContainer';
 
 class Boards extends React.PureComponent {
@@ -53,7 +53,7 @@ class Boards extends React.PureComponent {
 
         <section className="center-column">
           <SubNavContainer {...this.props} />
-          <AccountInfo
+          <AccountSettings
             currentUser={currentUser}
             toggleModal={this.toggleModal}/>
         </section>
@@ -62,12 +62,12 @@ class Boards extends React.PureComponent {
           <Switch>
             <RouteWithProps
               path="/boards/:boardId/card/:cardId"
-              component={ListIndexContainer}
+              component={BoardContentContainer}
               currentBoard={currentBoard} />
 
             <RouteWithProps
               path="/boards/:boardId/lists"
-              component={ListIndexContainer}
+              component={BoardContentContainer}
               currentBoard={currentBoard} />
 
             <RouteWithProps

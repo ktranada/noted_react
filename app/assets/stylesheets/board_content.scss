@@ -1,5 +1,5 @@
 @import "variables";
-
+@import "misc";
 .right-column {
   height: 100%;
   overflow-x: scroll;
@@ -62,7 +62,6 @@
 }
 
 .right-column {
-
   .board-wrapper {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -89,11 +88,14 @@
       right: 0;
       bottom: 0;
       overflow-x: auto;
-      overflow-y: hidden;
+      overflow-y: scroll;
       padding: 25px 20px;
       white-space: nowrap;
+      > .list-index__add-button {
+        min-width: 160px;
+      }
 
-      > div {
+      > div{
         width: 250px;
         margin-right: 10px;
         border-radius: 2px;
@@ -108,7 +110,26 @@
           border-radius: 2px;
           padding: 10px;
           background: $primary-grey-light;
-
+          position: relative;
+          margin-bottom: 20px;
+          display: flex;
+          flex-direction: column;
+          max-height: 100%;
+          cursor: pointer;
+          &.placeholder::after {
+            position: absolute;
+            content: " ";
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: $primary-grey-dark;
+          }
+          header {
+            text-overflow: ellipsis;
+            overflow-x: hidden;
+            flex: 0 0 auto;
+          }
 
           > hr {
             width: calc(100% + 20px);
@@ -120,18 +141,52 @@
 
           .list__cards {
             list-style: none;
-            margin-bottom: 10px;
+            overflow-y: scroll;
+            @include scrollbar-vertical;
 
+            &.vertical-overlow {
+              li {
+                margin-right: 5px!important;
+              }
+            }
+
+
+            .placeholder__card, .placeholder__card:hover {
+              border-radius: 2px;
+              background: $primary-grey-dark;
+              margin-bottom: 5px;
+              // &:after {
+              //   position: absolute;
+              //   top: 0;
+              //   left: 0;
+              //   right: 0;
+              //   bottom: 0;
+              //   content: "";
+              //   border-radius: 2px;
+              //   background: $primary-grey-dark;
+              // }
+            }
             li {
+              position: relative;
+              &:not(:last-of-type) {
+                margin-bottom: 5px;
+              }
+
+              &:last-of-type {
+                margin-bottom: 10px;
+              }
               a {
+                outline: none;
                 text-decoration: none;
                 color: black;
               }
               .list__card {
+                &:focus {
+                  outline: 0;
+                }
                 padding: 10px;
                 background: #fafafa;
                 border-radius: 2px;
-                margin-bottom: 5px;
                 text-overflow: ellipsis;
                 overflow: hidden;
 
@@ -142,7 +197,7 @@
           .list-index__add-button {
             width: 100%;
             padding: 0;
-
+            min-height: 30px;
             &.open {
 
               i.material-icons {
@@ -164,6 +219,7 @@
 
             &.button-bluegrey-light {
               margin-right: 0;
+              height: 30px;
             }
             > i.material-icons {
               float: none;
@@ -259,149 +315,6 @@
       // &::-webkit-scrollbar-track-piece {
       //   background: red;
       // }
-    }
-  }
-}
-
-
-.modal-overlay {
-  .view-card-modal__wrapper {
-    margin-top: 5rem;
-    padding: 0;
-  }
-  .view-card-modal__content {
-    min-height: 600px;
-    background: $primary-grey-dark;
-    min-width: 700px;
-    border-radius: 2px;
-    padding: 20px;
-    padding-left: 40px;
-    margin-bottom: 5rem;
-
-    > svg.spinner {
-      position: absolute;
-      top: calc(50% - 76px);
-      left: 50%;
-      -webkit-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%);
-    }
-
-    .card__header, .card__body {
-      > .material-icons {
-        position: absolute;
-        left: -25px;
-        font-size: 20px;
-        top: 8px;
-        color: $bluegrey-medium;
-      }
-    }
-    .card__header {
-      width:475px;
-      hr {
-        margin: 25px 0;
-        margin-left: 5px;
-        border-top-width: 1px;
-      }
-      textarea {
-        background: transparent;
-        font-size: 14px;
-        font-weight: bold;
-        border-radius: 2px;
-
-        &:not(.focused):hover {
-          border: 1px solid rgba(0,0,0,.1);
-        }
-
-        &.focused {
-          background: #fafafa;
-        }
-
-        &:error {
-          border: 1px solid $primary-red;
-        }
-      }
-
-      .card-header__description {
-        display: flex;
-        margin-left: 4px;
-        margin-top: 10px;
-        align-items: center;
-
-        > .material-icons {
-          font-size: 20px;
-          margin-right: 10px;
-        }
-        >div {
-          width: 100%;
-          padding: 5px 0;
-          &:hover {
-            cursor: pointer;
-          }
-        }
-      }
-    }
-
-    .card__body {
-      position: relative;
-      padding-left: 5px;
-      > .material-icons {
-        top: 2px;
-      }
-
-      display: flex;
-
-      .card-actions {
-        flex-basis: 150px;
-        padding: 0 15px;
-        .actions__header {
-          color: $bluegrey-medium;
-          display: flex;
-          align-items: flex-start;
-          margin-bottom: 7px;
-          .material-icons {
-            font-size: 20px;
-            margin-right: 10px;
-            margin-top: 2px;
-          }
-        }
-      }
-
-      .card__comments {
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-        margin-right: 15px;
-        h4 {
-          color: $bluegrey-medium;
-        }
-        .card__comment {
-          margin-bottom: 10px;
-        }
-        .card__comment-form {
-          position: relative;
-          margin-top: 10px;
-          margin-bottom: 40px;
-          > button {
-            position: absolute;
-            bottom: 10px;
-            right: 15px;
-            padding: 2px;
-            background: transparent;
-            > .material-icons {
-              color: $bluegrey-dark;
-              font-size: 15px;
-            }
-          }
-        }
-
-        .comment__info {
-          margin-top: 10px;
-          border: 1px solid rgba(0,0,0,.1);
-          padding: 7px;
-          border-radius: 2px;
-          margin-bottom: 15px;
-        }
-      }
     }
   }
 }

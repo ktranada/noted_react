@@ -6,7 +6,7 @@ else
   json.set! :byId do
     boards.each do |board|
       json.set! board.id do
-        json.extract! board, :id, :title, :ord
+        json.extract! board, :id, :title, :position
         json.isLoaded false
         json.isLoading false
         json.channels []
