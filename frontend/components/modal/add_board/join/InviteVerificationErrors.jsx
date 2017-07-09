@@ -1,11 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const propTypes = {
+  error: PropTypes.string.isRequired
+}
+
 const errorRow = error => (
   <p className="error">{error}</p>
 )
 
-const InviteVerificationError = ({ error }) => {
+function InviteVerificationError({ error }) {
   if (!error) return null;
 
   switch(error) {
@@ -23,8 +27,6 @@ const InviteVerificationError = ({ error }) => {
   }
 }
 
-InviteVerificationError.propTypes ={
-  error: PropTypes.string.isRequired
-}
+InviteVerificationError.propTypes = propTypes;
 
 export default InviteVerificationError;

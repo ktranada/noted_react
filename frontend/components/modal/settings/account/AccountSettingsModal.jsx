@@ -5,6 +5,16 @@ import Overview from '../board/Overview';
 
 const TABS = ['Profile'];
 
+const propTypes = {
+  updateUser: PropTypes.func.isRequired,
+  destroyUser: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
+  currentUser: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    email: PropTypes.string.isRequired
+  })
+}
+
 class AccountSettingsModal extends React.Component {
   constructor(props) {
     super(props);
@@ -16,7 +26,9 @@ class AccountSettingsModal extends React.Component {
   }
 
   handleEmailChange(data) {
-    return this.props.updateUser(data);
+    if (data.email !== this.props.currentUser.email) {
+      return this.props.updateUser(data);
+    }
   }
 
   handleDeleteButtonClick() {
@@ -63,12 +75,7 @@ class AccountSettingsModal extends React.Component {
   }
 }
 
-AccountSettingsModal.propTypes = {
-  currentUser: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    email: PropTypes.string.isRequired
-  })
-}
+AccountSettingsModal.propTypes = propTypes;
 
 
 export default AccountSettingsModal;

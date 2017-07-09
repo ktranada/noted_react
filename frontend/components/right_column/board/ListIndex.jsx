@@ -10,6 +10,7 @@ const SUBNAV_WIDTH = 250;
 const FULL_NAV_WIDTH = NAV_WIDTH + SUBNAV_WIDTH;
 
 const propTypes = {
+  prevHoveredListId: PropTypes.number.isRequired,
   lists: PropTypes.array.isRequired,
   listCallbacks: PropTypes.shape({
     addList: PropTypes.func.isRequired,
@@ -74,6 +75,7 @@ function ListIndex(props) {
       id={list.id}
       position={position}
       list={list}
+      prevHoveredListId={props.prevHoveredListId}
       cardCallbacks={props.cardCallbacks}
       listCallbacks={props.listCallbacks}
     />

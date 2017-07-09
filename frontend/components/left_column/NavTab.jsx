@@ -1,7 +1,13 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-const NavTab = props => {
+const propTypes = {
+  id: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired
+}
+
+function NavTab(props){
   const {id, title } = props;
   return (
     <li className="nav__tab">
@@ -11,5 +17,7 @@ const NavTab = props => {
     </li>
   )
 }
+
+NavTab.propTypes = propTypes;
 
 export default NavTab;

@@ -1,9 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import Overview from './Overview';
 import MemberIndexContainer from './members/MemberIndexContainer';
 import InviteIndexContainer from './invites/InviteIndexContainer';
 import ConfigurationModal from '../ConfigurationModal';
+
+const propTypes = {
+  currentBoard: PropTypes.object.isRequired,
+  currentUser: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    usernamesByBoardId: PropTypes.object.isRequired,
+    membershipsByBoardId: PropTypes.object.isRequired
+  })
+}
 
 const TABS = ['Profile', 'Overview', 'Members', 'Invites'];
 
@@ -79,14 +89,6 @@ class OwnerBoardSettingsModal extends React.Component {
   }
 }
 
-OwnerBoardSettingsModal.propTypes = {
-  currentBoard: PropTypes.object.isRequired,
-  currentUser: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    usernamesByBoardId: PropTypes.object.isRequired,
-    membershipsByBoardId: PropTypes.object.isRequired
-  })
-}
-
+OwnerBoardSettingsModal.propTypes = propTypes;
 
 export default OwnerBoardSettingsModal;

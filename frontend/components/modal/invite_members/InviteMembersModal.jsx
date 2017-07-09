@@ -1,18 +1,20 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import ModalOverlayContainer from '../ModalOverlayContainer';
 import InviteForm from './InviteForm';
 import InviteResults from './InviteResults';
 import { asArray } from '../../../reducers/selectors';
 
+const propTypes = {
+  createInvites: PropTypes.func.isRequired,
+  remainingInviteCount: PropTypes.number.isRequired
+}
+
 class InviteMembersModal extends React.Component {
   constructor(props) {
     super(props);
 
-
-    this.addInviteRow = this.addInviteRow.bind(this);
-    this.removeInviteRow = this.removeInviteRow.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
       invites: [{
         key: 0,
@@ -23,6 +25,11 @@ class InviteMembersModal extends React.Component {
       serializedCount: 0,
       results: null
     }
+
+    this.addInviteRow = this.addInviteRow.bind(this);
+    this.removeInviteRow = this.removeInviteRow.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   addInviteRow() {
@@ -106,4 +113,7 @@ class InviteMembersModal extends React.Component {
     )
   }
 }
+
+InviteMembersModal.propTypes = propTypes;
+
 export default InviteMembersModal;

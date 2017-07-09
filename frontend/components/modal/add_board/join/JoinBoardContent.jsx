@@ -1,7 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import InviteVerification from './InviteVerification';
 import UsernameVerification from './UsernameVerification';
-import PropTypes from 'prop-types';
+
+const propTypes = {
+  history: PropTypes.object.isRequired,
+  currentUser: PropTypes.object.isRequired,
+  getInvite: PropTypes.func.isRequired,
+  updateInvite: PropTypes.func.isRequired,
+  handleBackClick: PropTypes.func.isRequired
+}
+
+// TODO: Make invite verification and user verification pure components, keep state in this component
 class JoinBoardContent extends React.Component {
   constructor(props) {
     super(props);
@@ -48,13 +59,7 @@ class JoinBoardContent extends React.Component {
     )
   }
 }
-JoinBoardContent.propTypes = {
-  history: PropTypes.object.isRequired,
-  currentUser: PropTypes.object.isRequired,
-  getInvite: PropTypes.func.isRequired,
-  updateInvite: PropTypes.func.isRequired,
-  handleBackClick: PropTypes.func.isRequired
-}
+JoinBoardContent.propTypes = propTypes;
 
 
 export default JoinBoardContent;

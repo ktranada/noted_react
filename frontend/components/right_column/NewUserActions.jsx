@@ -1,7 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const NewUserActions = props => {
+const propTypes = {
+  boardCount: PropTypes.number.isRequired,
+  toggleModal: PropTypes.func.isRequired
+}
+
+function NewUserActions(props) {
   if (props.boardCount === 3) {
     return null
   }
@@ -20,9 +25,6 @@ const NewUserActions = props => {
   )
 }
 
-NewUserActions.propTypes = {
-  boardCount: PropTypes.number.isRequired,
-  toggleModal: PropTypes.func.isRequired
-}
+NewUserActions.propTypes = propTypes;
 
 export default NewUserActions;

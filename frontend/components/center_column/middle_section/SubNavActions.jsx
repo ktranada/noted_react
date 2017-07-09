@@ -4,7 +4,21 @@ import { NavLink } from 'react-router-dom';
 import Channels from './Channels';
 import Members from './Members';
 
-const SubNavActions = (props) => {
+const propTypes = {
+  channels: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    board_id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    permission: PropTypes.string.isRequired
+  })),
+  members: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    usernamesByBoardId: PropTypes.object.isRequired
+  })),
+  currentUserId: PropTypes.number.isRequired
+}
+
+function SubNavActions(props) {
   const { channels, members, boardId, currentUserId } = props;
   return (
     <ul className="sub-nav">
@@ -22,18 +36,6 @@ const SubNavActions = (props) => {
   )
 }
 
-SubNavActions.propTypes = {
-  channels: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    board_id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    permission: PropTypes.string.isRequired
-  })),
-  members: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    usernamesByBoardId: PropTypes.object.isRequired
-  })),
-  currentUserId: PropTypes.number.isRequired
-}
+SubNavActions.propTypes = propTypes;
 
 export default SubNavActions;

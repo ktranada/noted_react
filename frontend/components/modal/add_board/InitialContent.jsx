@@ -1,6 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const InitialContent = (props) => {
+const propTypes = {
+  handleBoardSelection: PropTypes.func.isRequired
+}
+
+function InitialContent(props) {
   return (
     <div className="board-form-initial">
       <div className="board-form-initial__create">
@@ -21,5 +26,7 @@ const InitialContent = (props) => {
     </div>
   )
 }
+
+InitialContent.propTypes = propTypes;
 
 export default InitialContent;

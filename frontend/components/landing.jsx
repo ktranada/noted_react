@@ -1,11 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
+
 import AccountSettings from './center_column/bottom_section/AccountSettings';
 import NavContainer from './left_column/NavContainer';
 import SubNavDefault from './center_column/SubNavDefault';
 import ModalControllerContainer from './modal/ModalControllerContainer';
 import NewUserActions from './right_column/NewUserActions';
+
+const propTypes = {
+  toggleModal: PropTypes.func.isRequired
+}
+
 
 class Landing extends React.PureComponent {
   constructor(props) {
@@ -45,8 +51,5 @@ class Landing extends React.PureComponent {
   }
 }
 
-Landing.propTypes = {
-  toggleModal: PropTypes.func.isRequired
-}
-
+Landing.propTypes = propTypes;
 export default Landing;

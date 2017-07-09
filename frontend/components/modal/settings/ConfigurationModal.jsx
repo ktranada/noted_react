@@ -1,8 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import ModalOverlayContainer from '../ModalOverlayContainer';
 import ConfigurationNav from './ConfigurationNav';
 import ConfigurationContent from './ConfigurationContent';
+
+const propTypes = {
+  tabs: PropTypes.arrayOf(PropTypes.string).isRequired,
+  contentComponent: PropTypes.func.isRequired,
+  bottomAction: PropTypes.element.isRequired,
+  header: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired
+}
 
 class ConfigurationModal extends React.Component {
   constructor(props) {
@@ -43,13 +52,5 @@ class ConfigurationModal extends React.Component {
   }
 }
 
-ConfigurationModal.propTypes = {
-  tabs: PropTypes.arrayOf(PropTypes.string).isRequired,
-  contentComponent: PropTypes.func.isRequired,
-  bottomAction: PropTypes.element.isRequired,
-  header: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired
-}
-
-
+ConfigurationModal.propTypes = propTypes;
 export default ConfigurationModal;

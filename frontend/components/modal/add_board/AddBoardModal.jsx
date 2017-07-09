@@ -1,8 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import ModalOverlayContainer from '../ModalOverlayContainer';
 import InitialContent from './InitialContent';
 import CreateBoardContent from './CreateBoardContent';
 import JoinBoardContent from './join/JoinBoardContent';
+
+const propTypes = {
+  currentUser: PropTypes.object.isRequired,
+  createBoard: PropTypes.func.isRequired,
+  getInvite: PropTypes.func.isRequired,
+  updateInvite: PropTypes.func.isRequired
+}
 
 
 class AddBoardModal extends React.Component {
@@ -53,5 +62,7 @@ class AddBoardModal extends React.Component {
     )
   }
 }
+
+AddBoardModal.propTypes = propTypes;
 
 export default AddBoardModal;

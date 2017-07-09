@@ -23,7 +23,7 @@ class BoardContent extends React.Component {
     super(props);
 
     this.state = {
-      prevHoveredListId: null,
+      prevHoveredListId: -1,
       isDraggingCardAcross: false
     }
 
@@ -31,11 +31,11 @@ class BoardContent extends React.Component {
 
     this.addList = this.addList.bind(this);
     this.addCard = this.addCard.bind(this);
-    this.moveCard = throttle(this.moveCard.bind(this), 500);
+    this.moveCard = this.moveCard.bind(this);
     this.moveList = this.moveList.bind(this);
     this.updateListOrder = this.updateListOrder.bind(this);
     this.updateCardPosition = this.updateCardPosition.bind(this);
-    this.setHoveredListId = throttle(this.setHoveredListId.bind(this), 1000);
+    this.setHoveredListId = this.setHoveredListId.bind(this);
     window.scroller = this.scroller;
   }
 
@@ -63,10 +63,12 @@ class BoardContent extends React.Component {
   }
 
   setHoveredListId(listId) {
-    // We want to retain the previous and next list over multiple drags
-    this.setState({
-      prevHoveredListId: listId,
-    })
+    if (this.state.prevHoveredListId !== listId) {
+      // We want to retain the previous and next list over multiple drags
+      this.setState({
+        prevHoveredListId: listId,
+      })
+    }
   }
 
   addList(data) {

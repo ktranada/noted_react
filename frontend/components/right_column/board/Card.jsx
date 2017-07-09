@@ -51,10 +51,34 @@ const dragSpecs = {
 
 const dropSpecs = {
   hover(props, monitor, component) {
-    const { id } = monitor.getItem();
+    const { id, clientHeight } = monitor.getItem();
     const { position: nextPos, listId: nextListId } = props;
     if (id !== props.id) {
-      props.cardCallbacks.moveCard(id, nextListId, nextPos);
+      const cardRef = component.getDecoratedComponentInstance().cardItem;
+      const { height, bottom, top }  = cardRef.getBoundingClientRect();
+
+      let shouldMove = false;
+      if (height > 60) {
+        const centerPos = Math.floor(clientHeight / 2)
+        const { y: currentOffset } = monitor.getClientOffset();
+        const { y: rootOffset} = monitor.getInitialSourceClientOffset();
+        const { y: initialClientOffset} = monitor.getInitialClientOffset();
+
+        const threshold = Math.floor(height / 3);
+
+        // Center of the drag source
+        const y = monitor.getClientOffset().y + (centerPos - (monitor.getInitialClientOffset().y - monitor.getInitialSourceClientOffset().y));
+
+        shouldMove = (
+          y <= top / 2
+            ? bottom - threshold < y && y < bottom
+            :  top < y && y < top + threshold
+        )
+      }
+
+      if (height <= 60 || shouldMove) {
+        props.cardCallbacks.moveCard(id, nextListId, nextPos);
+      }
     }
   }
 }
@@ -69,33 +93,44 @@ function dropCollect(connect, monitor) {
 function dragCollect(connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
-    monitorItem: monitor.getItem()
+    monitorItem: monitor.getItem(),
+    isDragging: monitor.isDragging()
   }
 }
 
 class Card extends React.PureComponent {
+
+  constructor(props) {
+    super(props);
+
+    this.cardItem = null;
+  }
+
   render() {
     const {
       boardId,
       id,
       title,
-      isOver,
       connectDragSource,
       connectDropTarget,
-      isPlaceholder,
-      height
+      height,
+      isDragging,
+      monitorItem,
+      isOver
     } = this.props;
+
     return connectDropTarget(connectDragSource(
       <li ref={el => this.cardItem = el }>
-        <Link to={`/boards/${boardId}/card/${id}`}>
+        <Link
+          to={`/boards/${boardId}/card/${id}`}>
           {
-            isOver || isPlaceholder
+            isDragging && monitorItem && monitorItem.id === id
               ? <div className="placeholder__card" style={{ height }} />
               : (
                   <div
                     role="button"
                     className="list__card cursor-pointer">
-                    <span>{id}</span>
+                    <span>{title}</span>
                   </div>
                 )
           }

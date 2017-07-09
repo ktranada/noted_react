@@ -1,7 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const ConfigurationContent = (props) =>  {
+const propTypes = {
+  header: PropTypes.string.isRequired,
+  children: PropTypes.element
+}
+
+
+function ConfigurationContent(props) {
   return (
     <div className="configuration-content">
       <span className="configuration-content__header">{props.header}</span>
@@ -12,8 +18,5 @@ const ConfigurationContent = (props) =>  {
   )
 }
 
-ConfigurationContent.propTypes = {
-  header: PropTypes.string.isRequired,
-}
-
+ConfigurationContent.propTypes = propTypes;
 export default ConfigurationContent;

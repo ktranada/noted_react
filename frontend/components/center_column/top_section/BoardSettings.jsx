@@ -1,6 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { INVITE_PEOPLE, BOARD_SETTINGS } from '../../../actions/modal_actions';
+
+const propTypes = {
+  board: PropTypes.object.isRequired,
+  toggleModal: PropTypes.func.isRequired
+}
 
 class BoardSettings extends React.Component {
   constructor(props) {
@@ -71,9 +77,6 @@ class BoardSettings extends React.Component {
   }
 }
 
-BoardSettings.proptypes = {
-  board: PropTypes.object.isRequired,
-  toggleModal: PropTypes.func.isRequired
-}
+BoardSettings.proptypes = propTypes;
 
 export default BoardSettings;

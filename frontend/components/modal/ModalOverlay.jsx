@@ -1,6 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const propTypes = {
+  modalType: PropTypes.string.isRequired,
+  handleClick: PropTypes.func,
+  onBackgroundClick: PropTypes.func,
+  hideModal: PropTypes.func.isRequired
+}
+
 class ModalOverlay extends React.Component {
   constructor(props) {
     super(props);
@@ -34,9 +41,6 @@ class ModalOverlay extends React.Component {
   }
 }
 
-ModalOverlay.propTypes = {
-  modalType: PropTypes.string.isRequired,
-  handleClick: PropTypes.func
-}
+ModalOverlay.propTypes = propTypes;
 
 export default ModalOverlay;

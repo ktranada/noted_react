@@ -1,11 +1,31 @@
 import React from 'react';
-import InviteRow from './InviteRow';
 import PropTypes from 'prop-types';
+
+import InviteRow from './InviteRow';
 import SubmitButton from '../../form_elements/SubmitButton';
 
-const InviteForm = props => {
-  const { invites, remainingInviteCount, addInviteRow, handleRemove,
-    handleChange, handleSubmit, removeInviteRow, isSubmitting } = props;
+const propTypes = {
+  isSubmitting: PropTypes.bool.isRequired,
+  invites: PropTypes.array,
+  remainingInviteCount: PropTypes.number.isRequired,
+  addInviteRow: PropTypes.func.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  removeInviteRow: PropTypes.func.isRequired
+ }
+ 
+function InviteForm(props) {
+  const {
+    invites,
+    remainingInviteCount,
+    addInviteRow,
+    handleRemove,
+    handleChange,
+    handleSubmit,
+    removeInviteRow,
+    isSubmitting
+  } = props;
+
   const inviteCount = invites.length;
   const canInvite = remainingInviteCount > 0;
   return(
@@ -58,14 +78,6 @@ const InviteForm = props => {
   )
 }
 
-InviteForm.propTypes = {
-  isSubmitting: PropTypes.bool.isRequired,
-  invites: PropTypes.array,
-  remainingInviteCount: PropTypes.number.isRequired,
-  addInviteRow: PropTypes.func.isRequired,
-  handleChange: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  removeInviteRow: PropTypes.func.isRequired
- }
+InviteForm.propTypes = propTypes;
 
 export default InviteForm;

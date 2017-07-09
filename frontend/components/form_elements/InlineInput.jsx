@@ -1,27 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const InlineInput = props => {
-  const { type, error, labelClass, inputClass, value,
-    handleChange, placeHolder, hasCustomErrors } = props;
-
-  return (
-    <label
-      data-error={hasCustomErrors ?  "" : error}
-      className={`form__inline-input ${Boolean(error) ? "error" : ""} ${labelClass}`}>
-      {props.label}
-      <input
-        type={type}
-        value={value}
-        onChange={handleChange}
-        placeholder={placeHolder}
-        className={`input-inline ${inputClass} ${props.darkText ? "dark" : ""}`}/>
-      { props.children }
-    </label>
-  )
-}
-
-InlineInput.propTypes = {
+const propTypes = {
   type: PropTypes.string,
   hasCustomErrors: PropTypes.bool,
   error: PropTypes.string,
@@ -37,7 +17,7 @@ InlineInput.propTypes = {
   handleChange: PropTypes.func.isRequired,
 }
 
-InlineInput.defaultProps = {
+const defaultProps = {
   hasCustomErrors: false,
   error: '',
   label: '',
@@ -47,5 +27,25 @@ InlineInput.defaultProps = {
   darkText: false,
   type: 'text'
 }
+
+function InlineInput(props) {
+  return (
+    <label
+      data-error={props.hasCustomErrors ?  "" : props.error}
+      className={`form__inline-input ${Boolean(props.error) ? "error" : ""} ${props.labelClass}`}>
+      {props.label}
+      <input
+        type={props.type}
+        value={props.value}
+        onChange={props.handleChange}
+        placeholder={props.placeHolder}
+        className={`input-inline ${props.inputClass} ${props.darkText ? "dark" : ""}`}/>
+      { props.children }
+    </label>
+  )
+}
+
+InlineInput.propTypes = propTypes;
+InlineInput.defaultProps = defaultProps;
 
 export default InlineInput;

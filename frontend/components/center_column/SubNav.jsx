@@ -1,11 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import BoardSettings from './top_section/BoardSettings';
 import SubNavActions from './middle_section/SubNavActions';
 import SubNavDefault from './SubNavDefault';
 import AccountSettings from './bottom_section/AccountSettings';
 
-const SubNav = props => {
+const propTypes = {
+  channels: PropTypes.arrayOf(PropTypes.object).isRequired,
+  members: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  currentBoard: PropTypes.object.isRequired,
+  toggleModal: PropTypes.func.isRequired
+}
+
+function SubNav(props) {
   if (props.isLoading) {
     return <SubNavDefault isLoading={true}/>;
   }
@@ -44,12 +53,6 @@ const SubNav = props => {
   )
 }
 
-SubNav.propTypes = {
-  channels: PropTypes.arrayOf(PropTypes.object).isRequired,
-  members: PropTypes.arrayOf(PropTypes.object).isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  currentBoard: PropTypes.object.isRequired,
-  toggleModal: PropTypes.func.isRequired
-}
+SubNav.propTypes = propTypes;
 
 export default SubNav;

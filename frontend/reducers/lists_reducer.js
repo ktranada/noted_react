@@ -29,29 +29,6 @@ function moveCard(state, action) {
   }
 
   return state;
-  // const lastList = state.byId[lastListId] && merge({}, state.byId[lastListId]);
-  // const nextList = state.byId[nextListId] && merge({}, state.byId[nextListId]);
-  // if ((lastListId === nextListId) && (lastCardPos != nextCardPos) && lastList) {
-  //   const updatedListCards = [...lastList.cards];
-  //   const cardId = updatedListCards.splice(lastCardPos, 1)[0];
-  //   updatedListCards.splice(nextCardPos, 0, cardId);
-  //   lastList.cards = updatedListCards;
-  //
-  //
-  //   return updateObject(state, byIdObject(lastListId, lastList));
-  // } else if (lastListId !== nextListId && nextList && lastList) {
-  //   const lastListCards = [...lastList.cards]
-  //   const cardId = lastListCards.splice(lastCardPos, 1)[0];
-  //   lastList.cards = lastListCards;
-  //
-  //   const nextListCards = [...nextList.cards];
-  //   nextListCards.splice(nextCardPos, 0, cardId);
-  //
-  //   const newState = updateObjectWithUpdatedAssociations(state, byIdObject(lastListId, lastList));
-  //   newState.byId[nextListId].cards = nextListCards;
-  //   return newState;
-  // }
-  // return state;
 }
 
 const listsReducer = (state = initialState, action) => {

@@ -1,6 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const InviteRow = props => {
+const propTypes = {
+  inviteCount: PropTypes.number.isRequired,
+  email: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  handleRemove: PropTypes.func.isRequired,
+
+}
+
+
+function InviteRow(props) {
   const isInitialRow = props.inviteCount === 1;
   const isValid = typeof props.isValid === 'undefined' ? true : props.isValid; // Could be undefined from the beginning
 
@@ -24,5 +34,7 @@ const InviteRow = props => {
     </div>
   )
 }
+
+InviteRow.propTypes = propTypes;
 
 export default InviteRow;

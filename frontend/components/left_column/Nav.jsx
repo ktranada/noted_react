@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import NavTab  from './NavTab';
-import { getCurrentBoardById } from '../../reducers/selectors';
+
 import { ADD_BOARD } from '../../actions/modal_actions';
+import NavTab  from './NavTab';
 
 class Nav extends React.Component {
   constructor(props) {
@@ -33,11 +33,7 @@ class Nav extends React.Component {
 
   render() {
     let { boards, currentBoardId } = this.props;
-    const boardsList = boards.map((board) => {
-      return (<NavTab
-        key={board.id}
-        {...board } />
-    )});
+    const boardsList = boards.map((board) => <NavTab key={board.id} {...board } />);
 
     let boardFormButton = null;
     if (boardsList.length < 3) {

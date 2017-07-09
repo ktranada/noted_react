@@ -1,9 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import InviteResultSuccess from './InviteResultSuccess';
 import InviteResultErrors from './InviteResultErrors';
 
-const InviteResults = props => {
+const propTypes = {
+  results: PropTypes.shape({
+    errors: PropTypes.array.isRequired,
+    success: PropTypes.array.isRequired,
+    count: PropTypes.number.isRequired
+  }).isRequired
+}
+
+function InviteResults(props) {
   const { success, errors, count } = props.results;
   const isSuccess = success.length === count;
   const isFailure = !isSuccess && errors.length === count;
@@ -33,12 +42,5 @@ const InviteResults = props => {
   )
 }
 
-InviteResults.propTypes = {
-  results: PropTypes.shape({
-    errors: PropTypes.array.isRequired,
-    success: PropTypes.array.isRequired,
-    count: PropTypes.number.isRequired
-  }).isRequired
-}
-
+InviteResults.propTypes = propTypes;
 export default InviteResults;
