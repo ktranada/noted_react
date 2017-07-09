@@ -28,8 +28,8 @@ function InviteResults(props) {
         }
       </h2>
       <div className="results__container">
-        { !!success.length && <InviteResultSuccess success={success} /> }
-        { !!errors.length && <InviteResultErrors errors={errors} />}
+        {!!success.length && <InviteResultSuccess success={success} />}
+        {!!errors.length && <InviteResultErrors errors={errors} />}
       </div>
       <div className="results__actions">
         <button
@@ -37,6 +37,11 @@ function InviteResults(props) {
           className="button button-green results-button">
           Done
         </button>
+        {
+          props.remainingInviteCount > 0 &&
+          <p data-action="invite" onClick={props.showInviteForm}>Send some more invites</p>
+        }
+        <p data-action="view" onClick={props.showPendingInvitesModal}>View invitations</p>
       </div>
     </div>
   )

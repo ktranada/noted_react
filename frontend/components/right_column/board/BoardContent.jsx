@@ -23,15 +23,14 @@ class BoardContent extends React.Component {
     super(props);
 
     this.state = {
-      prevHoveredListId: -1,
-      isDraggingCardAcross: false
+      prevHoveredListId: -1
     }
 
     this.scroller = new Scroller();
 
     this.addList = this.addList.bind(this);
     this.addCard = this.addCard.bind(this);
-    this.moveCard = this.moveCard.bind(this);
+    this.moveCard = throttle(this.moveCard.bind(this), 200);
     this.moveList = this.moveList.bind(this);
     this.updateListOrder = this.updateListOrder.bind(this);
     this.updateCardPosition = this.updateCardPosition.bind(this);

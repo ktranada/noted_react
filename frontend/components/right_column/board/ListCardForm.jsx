@@ -67,6 +67,7 @@ class ListCardForm extends React.Component {
           className="list-index-add__form">
           <TextareaAutosize
             onChange={this.handleChange}
+            autoFocus
             value={this.state.title}
             className={this.state.isBlank ? 'error' : ''}
             placeholder="Title"/>

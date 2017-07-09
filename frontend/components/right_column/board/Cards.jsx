@@ -22,7 +22,8 @@ class Cards extends React.Component {
       cards,
       connectDropTarget,
       cardCallbacks,
-      isCardOver
+      isCardOver,
+      prevHoveredListId
     } = this.props;
     const cardList = [];
     this.props.cards.forEach((card, position) => {
@@ -33,6 +34,7 @@ class Cards extends React.Component {
             boardId={list.board_id}
             listId={list.id}
             id={card.id}
+            prevHoveredListId={prevHoveredListId}
             position={position}
             title={card.title}
             height={this.props.height}

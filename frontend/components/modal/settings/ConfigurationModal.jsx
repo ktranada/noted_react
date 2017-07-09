@@ -10,7 +10,12 @@ const propTypes = {
   contentComponent: PropTypes.func.isRequired,
   bottomAction: PropTypes.element.isRequired,
   header: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired
+  type: PropTypes.string.isRequired,
+  initialTab: PropTypes.string
+}
+
+const defaultProps = {
+  initialTab: null
 }
 
 class ConfigurationModal extends React.Component {
@@ -18,7 +23,7 @@ class ConfigurationModal extends React.Component {
     super(props);
 
     this.state = {
-      currentTab: this.props.tabs[0],
+      currentTab: this.props.initialTab || this.props.tabs[0],
     }
 
     this.handleTabChange = this.handleTabChange.bind(this);
@@ -53,4 +58,5 @@ class ConfigurationModal extends React.Component {
 }
 
 ConfigurationModal.propTypes = propTypes;
+ConfigurationModal.defaultProps = defaultProps;
 export default ConfigurationModal;

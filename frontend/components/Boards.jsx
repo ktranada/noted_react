@@ -29,9 +29,9 @@ class Boards extends React.PureComponent {
     }
   }
 
-  toggleModal(type) {
+  toggleModal(type, options = {}) {
     return () => {
-      this.props.toggleModal(type);
+      this.props.toggleModal(type, options);
     }
   }
 

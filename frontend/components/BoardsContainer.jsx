@@ -10,7 +10,7 @@ const mapStateToProps = ({session, boards, loading }, { match }) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  toggleModal: (type) => dispatch(toggleModal(type)),
+  toggleModal: (type, options) => dispatch(toggleModal(type, options)),
 })
 
 export default connect(

@@ -42,6 +42,7 @@ const dragSpecs = {
     if (dropResult === null || !dropResult.id) return;
 
     props.cardCallbacks.updateCardPosition(dropResult);
+    props.cardCallbacks.setHoveredListId(-1);
   },
 
   isDragging(props, monitor) {
@@ -51,32 +52,32 @@ const dragSpecs = {
 
 const dropSpecs = {
   hover(props, monitor, component) {
-    const { id, clientHeight } = monitor.getItem();
-    const { position: nextPos, listId: nextListId } = props;
+    const { id, clientHeight, cardItem } = monitor.getItem();
+    const { position: nextPos, listId: nextListId, prevHoveredListId } = props;
     if (id !== props.id) {
       const cardRef = component.getDecoratedComponentInstance().cardItem;
       const { height, bottom, top }  = cardRef.getBoundingClientRect();
 
       let shouldMove = false;
-      if (height > 60) {
+      if (height > 60 && prevHoveredListId === nextListId) {
         const centerPos = Math.floor(clientHeight / 2)
         const { y: currentOffset } = monitor.getClientOffset();
         const { y: rootOffset} = monitor.getInitialSourceClientOffset();
         const { y: initialClientOffset} = monitor.getInitialClientOffset();
 
-        const threshold = Math.floor(height / 3);
+        const threshold = Math.floor(height / 5);
 
         // Center of the drag source
-        const y = monitor.getClientOffset().y + (centerPos - (monitor.getInitialClientOffset().y - monitor.getInitialSourceClientOffset().y));
+        const y = currentOffset + (centerPos - (initialClientOffset - rootOffset));
 
-        shouldMove = (
-          y <= top / 2
-            ? bottom - threshold < y && y < bottom
-            :  top < y && y < top + threshold
-        )
+        shouldMove = rootOffset < top
+          ? bottom - threshold < y && y < bottom
+          : top < y && y < top + threshold
+      } else {
+        shouldMove = true;
       }
 
-      if (height <= 60 || shouldMove) {
+      if (shouldMove) {
         props.cardCallbacks.moveCard(id, nextListId, nextPos);
       }
     }

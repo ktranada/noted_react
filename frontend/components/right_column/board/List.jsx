@@ -96,7 +96,8 @@ class List extends React.Component  {
       isOver,
       type,
       cardCallbacks,
-      listCallbacks
+      listCallbacks,
+      prevHoveredListId
     } = this.props;
 
     const { clientHeight = 0 } = item || {};
@@ -114,6 +115,7 @@ class List extends React.Component  {
                     list={list}
                     cards={cards}
                     height={clientHeight}
+                    prevHoveredListId={prevHoveredListId}
                     isCardOver={isOver && type ==='card'}
                     cardDragTracker={this.props.cardDragTracker}
                     cardCallbacks={this.props.cardCallbacks}

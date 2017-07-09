@@ -10,7 +10,7 @@ import AccountSettingsModalContainer from './settings/account/AccountSettingsMod
 
 function ModalController(props) {
   let Modal = null;
-  switch (props.currentModal) {
+  switch (props.modal) {
     case ADD_BOARD:
       Modal = AddBoardModalContainer;
       break;

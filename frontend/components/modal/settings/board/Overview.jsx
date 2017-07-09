@@ -35,6 +35,7 @@ class Overview extends React.Component {
   handleChange(e) {
     this.setState({
       input: e.currentTarget.value,
+      errors: [],
       isValid: true
     })
   }

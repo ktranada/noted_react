@@ -292,6 +292,7 @@
         font-size: 15px;
         font-weight: 500;
         margin-top: 30px;
+        margin-bottom: 30px;
 
         > i.material-icons {
           font-size: 18px;
@@ -299,7 +300,23 @@
         }
       }
 
+      p[data-action] {
+        margin-top: 10px;
+        font-weight: 600;
+        font-size: 14px;
+        opacity: .8;
+        cursor: pointer;
+        color: rgba(73, 99, 111, 1);
+        &[data-action=invite] {
+          color: rgba(73, 99, 111, 1);
+        }
+        &:hover {
+          opacity: 1;
+        }
+      }
+
       &.results {
+        min-width: 350px;
         .results-button {
           width: 100%;
         }
@@ -348,6 +365,7 @@
         .results__actions {
           button {
             /* width: auto;*/
+            margin-bottom: 30px;
           }
         }
       }

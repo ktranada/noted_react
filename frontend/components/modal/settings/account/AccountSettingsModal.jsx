@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ConfigurationModal from '../ConfigurationModal';
 import Overview from '../board/Overview';
+import { OPTIONS_GOTO_TAB } from '../../../../actions/modal_actions';
 
 const TABS = ['Profile'];
 
@@ -12,7 +13,14 @@ const propTypes = {
   currentUser: PropTypes.shape({
     id: PropTypes.number.isRequired,
     email: PropTypes.string.isRequired
+  }),
+  options: PropTypes.shape({
+    [OPTIONS_GOTO_TAB]: PropTypes.string
   })
+}
+
+const defaultProps = {
+  options: null
 }
 
 class AccountSettingsModal extends React.Component {
@@ -76,6 +84,7 @@ class AccountSettingsModal extends React.Component {
 }
 
 AccountSettingsModal.propTypes = propTypes;
+AccountSettingsModal.defaultProps = defaultProps;
 
 
 export default AccountSettingsModal;

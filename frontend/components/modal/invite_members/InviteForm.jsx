@@ -13,7 +13,7 @@ const propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   removeInviteRow: PropTypes.func.isRequired
  }
- 
+
 function InviteForm(props) {
   const {
     invites,
@@ -23,11 +23,11 @@ function InviteForm(props) {
     handleChange,
     handleSubmit,
     removeInviteRow,
-    isSubmitting
+    isSubmitting,
+    canInvite
   } = props;
 
   const inviteCount = invites.length;
-  const canInvite = remainingInviteCount > 0;
   return(
     <form
       onSubmit={handleSubmit}
@@ -47,7 +47,7 @@ function InviteForm(props) {
       }
 
       {
-        canInvite &&
+        canInvite && remainingInviteCount > 0 &&
         <div
           role="button"
           className="invite__add"
@@ -58,7 +58,7 @@ function InviteForm(props) {
       }
 
       {
-        !canInvite &&
+        !canInvite || remainingInviteCount <= 0 &&
         <div>
           <b>The limit is 10 members per board.</b>
         </div>
@@ -73,7 +73,7 @@ function InviteForm(props) {
           buttonColorClass="button-green"
           />
       }
-
+      <p data-action="view" onClick={props.showPendingInvitesModal}>View invitations</p>
     </form>
   )
 }

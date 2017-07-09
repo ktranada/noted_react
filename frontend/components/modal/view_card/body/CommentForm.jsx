@@ -12,6 +12,7 @@ class CommentForm extends React.Component {
     }
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -44,6 +45,7 @@ class CommentForm extends React.Component {
         <TextareaAutosize
           minRows={5}
           onChange={this.handleChange}
+          onKeyPress={this.handleKeyPress}
           value={this.state.description} />
         <button type="submit"><i className="material-icons">&#xE163;</i></button>
       </form>

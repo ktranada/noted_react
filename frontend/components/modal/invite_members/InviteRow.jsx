@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const propTypes = {
   inviteCount: PropTypes.number.isRequired,
-  email: PropTypes.string.isRequired,
+  email: PropTypes.string,
   handleChange: PropTypes.func.isRequired,
   handleRemove: PropTypes.func.isRequired,
 
