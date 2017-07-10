@@ -19,6 +19,7 @@ class Board < ActiveRecord::Base
   has_many :invites, dependent: :destroy
   has_many :board_memberships, dependent: :destroy, inverse_of: :board
   has_many :members, through: :board_memberships, source: :user
+  has_many :subscriptions, dependent: :destroy
   scope :members, -> { order(:email)}
 
   has_many :lists, -> {order(:position) }, dependent: :destroy

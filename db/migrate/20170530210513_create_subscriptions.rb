@@ -3,6 +3,7 @@ class CreateSubscriptions < ActiveRecord::Migration[5.0]
     create_table :subscriptions do |t|
       t.integer :user_id, null: false
       t.integer :channel_id, null: false
+      t.integer :board_id, null: false
 
       t.timestamps
     end
@@ -10,5 +11,6 @@ class CreateSubscriptions < ActiveRecord::Migration[5.0]
     add_index :subscriptions, [:channel_id, :user_id], unique: true
     add_index :subscriptions, :user_id
     add_index :subscriptions, :channel_id
+    add_index :subscriptions, :board_id
   end
 end

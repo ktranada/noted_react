@@ -3,7 +3,6 @@ class CreateMessages < ActiveRecord::Migration[5.0]
     create_table :messages do |t|
       t.integer :author_id, null: false
       t.integer :channel_id, null: false
-      t.string :socket_id, null: false, default: ""
       t.text :content, null: false
 
       t.timestamps

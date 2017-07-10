@@ -1,7 +1,7 @@
 order = []
 if boards.length == 0
   json.set! :byId, {}
-  json.order [] 
+  json.order []
 else
   json.set! :byId do
     boards.each do |board|
@@ -13,6 +13,7 @@ else
         json.members []
         json.lists []
         json.invites []
+        json.subscriptions []
         json.owner board.is_owned_by?(current_user)
       end
       order << board.id

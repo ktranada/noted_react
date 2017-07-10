@@ -96,12 +96,11 @@ ActiveRecord::Schema.define(version: 20170619043554) do
   end
 
   create_table "messages", force: :cascade do |t|
-    t.integer  "author_id",               null: false
-    t.integer  "channel_id",              null: false
-    t.string   "socket_id",  default: "", null: false
-    t.text     "content",                 null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.integer  "author_id",  null: false
+    t.integer  "channel_id", null: false
+    t.text     "content",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["author_id"], name: "index_messages_on_author_id", using: :btree
     t.index ["channel_id"], name: "index_messages_on_channel_id", using: :btree
   end
@@ -109,8 +108,10 @@ ActiveRecord::Schema.define(version: 20170619043554) do
   create_table "subscriptions", force: :cascade do |t|
     t.integer  "user_id",    null: false
     t.integer  "channel_id", null: false
+    t.integer  "board_id",   null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["board_id"], name: "index_subscriptions_on_board_id", using: :btree
     t.index ["channel_id", "user_id"], name: "index_subscriptions_on_channel_id_and_user_id", unique: true, using: :btree
     t.index ["channel_id"], name: "index_subscriptions_on_channel_id", using: :btree
     t.index ["user_id"], name: "index_subscriptions_on_user_id", using: :btree

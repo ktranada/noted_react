@@ -33,7 +33,8 @@ class BoardMembership < ActiveRecord::Base
     channel = board.channels.where(title: "General")[0]
     Subscription.create(
       user_id: user.id,
-      channel_id: channel.id
+      channel_id: channel.id,
+      board_id: board_id
     )
   end
 
