@@ -27,8 +27,9 @@ const initialState = {
 //     id: 1,
 //     isLoaded: false,
 //     isLoading: false,
-//     members: [],
 //     channels: [],
+//     members: [],
+//     subscriptions: [],
 //     lists: [],
 //     cards: [],
 //     invites: [],
@@ -46,12 +47,13 @@ function startLoadingBoard(state, action) {
 
 function receiveBoard(state, action) {
   const { board } = action;
-  const { members, channels, lists, invites } = board.info;
+  const { subscriptions, members, channels, lists, invites } = board.info;
   const newState = byIdObject(board.id, {
     isLoaded: true,
     isLoading: false,
-    members,
     channels,
+    subscriptions,
+    members,
     lists,
     invites
   })
