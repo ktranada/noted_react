@@ -100,7 +100,6 @@ function dragCollect(connect, monitor) {
 }
 
 class Card extends React.PureComponent {
-
   constructor(props) {
     super(props);
 

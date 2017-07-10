@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { getCurrentBoardById, isLoadingByType } from '../reducers/selectors';
-import Boards from './Boards';
+import Dashboard from './Dashboard';
 import { toggleModal } from '../actions/modal_actions';
 
 const mapStateToProps = ({session, boards, loading }, { match }) => ({
@@ -16,4 +16,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Boards);
+)(Dashboard);

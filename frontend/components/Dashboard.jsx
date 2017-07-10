@@ -9,9 +9,10 @@ import AccountSettings from './center_column/bottom_section/AccountSettings';
 import ModalControllerContainer from './modal/ModalControllerContainer';
 import InitialBoardContentContainer from './right_column/InitialBoardContentContainer';
 import BoardContentContainer from './right_column/board/BoardContentContainer';
+import ChatContainer from './right_column/chat/ChatContainer';
 import ViewCardModalContainer from './modal/view_card/ViewCardModalContainer';
 
-class Boards extends React.PureComponent {
+class Dashboard extends React.PureComponent {
   constructor(props) {
     super(props);
     this.toggleModal = this.toggleModal.bind(this);
@@ -49,14 +50,16 @@ class Boards extends React.PureComponent {
             isLanding={false}
             history={history}
             currentBoardId={currentBoard.id}
-            toggleModal={this.toggleModal}/>
+            toggleModal={this.toggleModal}
+          />
         </section>
 
         <section className="center-column">
           <SubNavContainer {...this.props} />
           <AccountSettings
             currentUser={currentUser}
-            toggleModal={this.toggleModal}/>
+            toggleModal={this.toggleModal}
+          />
         </section>
 
         <section className="right-column">
@@ -64,19 +67,27 @@ class Boards extends React.PureComponent {
             <RouteWithProps
               path="/boards/:boardId/card/:cardId"
               component={BoardContentContainer}
-              currentBoard={currentBoard} />
+              currentBoard={currentBoard}
+            />
 
             <RouteWithProps
               path="/boards/:boardId/lists"
               component={BoardContentContainer}
-              currentBoard={currentBoard} />
+              currentBoard={currentBoard}
+            />
+            <RouteWithProps
+              path="/boards/:boardId/messages/:channelId"
+              component={ChatContainer}
+              isLoading={isLoading}
+            />
 
             <RouteWithProps
               path="/boards/:boardId"
               isLoading={isLoading}
               currentBoard={currentBoard}
               component={InitialBoardContentContainer}
-              toggleModal={this.toggleModal}/>
+              toggleModal={this.toggleModal}
+            />
 
           </Switch>
         </section>
@@ -92,8 +103,8 @@ class Boards extends React.PureComponent {
   }
 }
 
-Boards.propTypes = {
+Dashboard.propTypes = {
   currentBoard: PropTypes.object
 }
 
-export default Boards;
+export default Dashboard;
