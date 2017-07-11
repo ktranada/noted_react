@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ContentEditable from 'react-contenteditable';
-import sanitizeHtml from 'sanitize-html';
+
+const ENTER = 13;
 
 const propTypes = {
   sendMessage: PropTypes.func.isRequired
@@ -20,8 +21,12 @@ class ChatForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleChange(e) {
+    if ((e.shiftKey || e.metaKey) && e.which === ENTER) {
+      this.handleSubmit(e);
+      return;
+    }
     this.setState({
-      content: e.currentTarget.innerText
+      content: e.currentTarget.innerHTML
     });
   }
 
@@ -35,7 +40,9 @@ class ChatForm extends React.Component {
     }
 
     this.props.sendMessage({ content: this.state.content }).then(
-      () => this.setState({ content: '', isValid: true })
+      () => {
+        this.setState({ content: '', isValid: true })
+      }
     );
   }
 
@@ -43,7 +50,9 @@ class ChatForm extends React.Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <ContentEditable
-          value={this.state.content}
+          onKeyDown={this.handleChange}
+          onKeyPress={this.handleChange}
+          html={this.state.content}
           onChange={this.handleChange}
         />
         <i
@@ -57,12 +66,6 @@ class ChatForm extends React.Component {
   }
 }
 
-// <TextareaAutosize
-//   value={this.state.content}
-//   className={this.state.isValid ? '' : 'error'}
-//   placeholder="Jet fuel melts steel beams"
-//   maxRows={6}
-//   onChange={this.handleChange} />
 ChatForm.propTypes = propTypes;
 
 export default ChatForm;

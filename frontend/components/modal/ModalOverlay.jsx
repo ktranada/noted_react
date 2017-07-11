@@ -8,11 +8,29 @@ const propTypes = {
   hideModal: PropTypes.func.isRequired
 }
 
+const ESCAPE_KEY_CODE = 27;
+
 class ModalOverlay extends React.Component {
   constructor(props) {
     super(props);
 
     this.handleClick = this.handleClick.bind(this);
+    this.handleEscapeKeyClick = this.handleEscapeKeyClick.bind(this);
+  }
+  componentWillMount() {
+    document.addEventListener('keyup', this.handleEscapeKeyClick, false);
+
+  }
+
+  componentWillUnmount() {
+
+    document.removeEventListener('keyup', this.handleEscapeKeyClick, false);
+  }
+
+  handleEscapeKeyClick(e) {
+    if (e.which === ESCAPE_KEY_CODE) {
+      this.props.hideModal();
+    }
   }
 
   handleClick(e) {

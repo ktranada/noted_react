@@ -67,27 +67,43 @@ function messagesByDate(messages) {
   return result
 }
 
-function Messages(props) {
-  const data = messagesByDate(props.messages);
+class Messages extends React.Component {
+  componentDidMount() {
+    this.messagesWrapper.scrollTop = this.messagesWrapper.scrollHeight + 15;
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.messages.length !== prevProps.messages.length) {
+      this.messagesWrapper.scrollTop = this.messagesWrapper.scrollHeight + 15;
+    }
+  }
+  render() {
+    const data = messagesByDate(this.props.messages);
 
-  const messages = []
-  data && data.order.forEach(date => {
-    messages.push(
-      <DayMessages
-        key={date}
-        date={date}
-        boardId={props.boardId}
-        dayMessages={data[date]}
-        members={props.members}
-      />
-    );
-  });
+    const messages = []
+    data && data.order.forEach(date => {
+      messages.push(
+        <DayMessages
+          key={date}
+          date={date}
+          boardId={this.props.boardId}
+          dayMessages={data[date]}
+          members={this.props.members}
+        />
+      );
+    });
 
-  return (
-    <div className="messages">
-      {messages}
-    </div>
-  )
+    return (
+      <div
+        ref={el => this.messagesWrapper = el }
+        className="messages__wrapper"
+      >
+        <div className="messages">
+          {messages}
+        </div>
+      </div>
+    )
+  }
+
 }
 
 export default Messages;

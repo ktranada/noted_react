@@ -11,21 +11,13 @@
       -ms-flex-direction: column;
           flex-direction: column;
   padding: 25px 20px;
-
+  padding-bottom: 20px;
+  .messages__wrapper {
+    height: calc(100% - 30px);
+        overflow-y: scroll;
+        margin-bottom: 20px;
+  }
   .messages {
-    -webkit-box-flex: 1;
-        -ms-flex: 1 1;
-            flex: 1 1;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    -webkit-box-pack: end;
-        -ms-flex-pack: end;
-            justify-content: flex-end;
     margin-bottom: 15px;
 
     .day-messages__container {
@@ -37,7 +29,10 @@
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
-        margin-bottom: 15px;
+
+        &:not(:last-of-type) {
+          margin-bottom: 15px;
+        }
 
         .message__user-icon {
           pointer-events: none;

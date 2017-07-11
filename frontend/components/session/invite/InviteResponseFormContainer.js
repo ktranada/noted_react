@@ -4,7 +4,6 @@ import { getInvite, updateInvite, logout } from '../../../actions/session_action
 import { requestBoard } from '../../../actions/nav_actions';
 import { addInvites } from '../../../actions/board_actions';
 import { asArray } from '../../../reducers/selectors';
-import * as qs from 'query-string';
 
 const mapStateToProps = ({ session }, { match }) => {
   return ({

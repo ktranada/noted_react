@@ -9,7 +9,7 @@ import AccountSettings from './center_column/bottom_section/AccountSettings';
 import ModalControllerContainer from './modal/ModalControllerContainer';
 import InitialBoardContentContainer from './right_column/InitialBoardContentContainer';
 import BoardContentContainer from './right_column/board/BoardContentContainer';
-import ChatContainer from './right_column/chat/ChatContainer';
+import ChatRoomContainer from './right_column/chat/ChatRoomContainer';
 import ViewCardModalContainer from './modal/view_card/ViewCardModalContainer';
 
 class Dashboard extends React.PureComponent {
@@ -77,7 +77,7 @@ class Dashboard extends React.PureComponent {
             />
             <RouteWithProps
               path="/boards/:boardId/messages/:channelId"
-              component={ChatContainer}
+              component={ChatRoomContainer}
               currentBoard={currentBoard}
               isLoading={isLoading}
             />

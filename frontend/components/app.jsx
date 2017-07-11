@@ -6,7 +6,7 @@ import InviteResponseFormContainer from './session/invite/InviteResponseFormCont
 import LandingContainer from './LandingContainer';
 import DashboardContainer from './DashboardContainer';
 
-const App = () => {
+function App() {
   return (
     <div>
       <Switch>

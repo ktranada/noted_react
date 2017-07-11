@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 
 import { getObjectById, asArrayByOrder } from '../../../reducers/selectors';
-import { createMessage } from '../../../actions/chat_actions';
-import Chat from './Chat';
+import { createMessage, addMessage } from '../../../actions/chat_actions';
+import ChatRoom from './ChatRoom';
 
 function mapStateToProps({ messages, channels, members}, { currentBoard, match: { params: { channelId } } }) {
   const channel = getObjectById(channelId, channels);
@@ -19,7 +19,8 @@ function mapStateToProps({ messages, channels, members}, { currentBoard, match: 
 
 function mapDispatchToProps(dispatch) {
   return ({
-    sendMessage: message => dispatch(createMessage(message))
+    sendMessage: message => dispatch(createMessage(message)),
+    addMessage: message => dispatch(addMessage(message))
   })
 }
 
@@ -27,4 +28,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Chat)
+)(ChatRoom)

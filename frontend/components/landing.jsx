@@ -12,7 +12,6 @@ const propTypes = {
   toggleModal: PropTypes.func.isRequired
 }
 
-
 class Landing extends React.PureComponent {
   constructor(props) {
     super(props);
