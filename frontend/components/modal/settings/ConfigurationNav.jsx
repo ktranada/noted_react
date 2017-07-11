@@ -19,11 +19,11 @@ function ConfigurationNav({tabs, currentTab, header, handleTabChange, bottomActi
   const navLinks = tabs.map(tab => createNavLink(tab, currentTab, handleTabChange));
   return (
     <nav className="configuration__nav">
-      <span className="nav__header">{header}</span>
+      <span className="navbar__header">{header}</span>
       <ul>
         { navLinks }
       </ul>
-      <div className="nav__action">
+      <div className="navbar__action">
         { bottomAction }
       </div>
     </nav>

@@ -10,7 +10,7 @@ const propTypes = {
 function NavTab(props){
   const {id, title } = props;
   return (
-    <li className="nav__tab">
+    <li className="navbar__tab">
       <NavLink to={`/boards/${id}`}>
         {title[0].toUpperCase()}
       </NavLink>

@@ -70,6 +70,10 @@ export const createInvite = data => (
   create('invite', data)
 )
 
+export const createMessage = data => (
+  create('message', data)
+)
+
 export const updateCard = data => (
   update('card', data.id, data)
 )

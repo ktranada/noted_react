@@ -1,6 +1,6 @@
 @import "variables";
 @import "misc";
-.right-column {
+.board-content {
   height: 100%;
   overflow-x: scroll;
   -webkit-box-flex: 1;
@@ -61,7 +61,7 @@
   }
 }
 
-.right-column {
+.board-content {
   .board-wrapper {
     display: -webkit-box;
     display: -ms-flexbox;

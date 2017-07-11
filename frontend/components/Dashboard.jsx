@@ -45,7 +45,7 @@ class Dashboard extends React.PureComponent {
 
     return (
       <div className="landing-container">
-        <section className="left-column">
+        <section className="nav">
           <NavContainer
             isLanding={false}
             history={history}
@@ -54,7 +54,7 @@ class Dashboard extends React.PureComponent {
           />
         </section>
 
-        <section className="center-column">
+        <section className="sub-nav">
           <SubNavContainer {...this.props} />
           <AccountSettings
             currentUser={currentUser}
@@ -62,7 +62,7 @@ class Dashboard extends React.PureComponent {
           />
         </section>
 
-        <section className="right-column">
+        <section className="board-content">
           <Switch>
             <RouteWithProps
               path="/boards/:boardId/card/:cardId"
@@ -78,6 +78,7 @@ class Dashboard extends React.PureComponent {
             <RouteWithProps
               path="/boards/:boardId/messages/:channelId"
               component={ChatContainer}
+              currentBoard={currentBoard}
               isLoading={isLoading}
             />
 

@@ -28,19 +28,19 @@ class Landing extends React.PureComponent {
   render() {
     return (
       <div className="landing-container">
-        <section className="left-column">
+        <section className="nav">
           <NavContainer
             {...this.props}
             isLanding={true}
             toggleModal={this.toggleModal} />
         </section>
-        <section className="center-column">
+        <section className="sub-nav">
           <SubNavDefault isLoading={false}  />
           <AccountSettings
             currentUser={this.props.currentUser}
             toggleModal={this.toggleModal}/>
         </section>
-        <section className="right-column">
+        <section className="board-content">
           <NewUserActions
             toggleModal={this.toggleModal}
             boardCount={this.props.boardCount} />

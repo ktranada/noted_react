@@ -1,12 +1,12 @@
 @import "variables";
-.nav {
+.navbar {
     width: 64px;
     height: 100%;
     background: $bluegrey-dark;
     list-style: none;
     padding: 25px 10px;
 
-    .nav__tab {
+    .navbar__tab {
       margin-bottom: 25px;
       position: relative;
       a {
@@ -35,7 +35,7 @@
       }
     }
 
-    .nav__button {
+    .navbar__button {
       div {
         border: 1px #979797 dashed;
         border-radius: 50%;

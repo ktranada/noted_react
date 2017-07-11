@@ -18,4 +18,12 @@ class Message < ActiveRecord::Base
   def formatted_creation_date
     created_at.strftime("%b %d %Y, %l:%M %p")
   end
+
+  def create_time
+    created_at.strftime("%l:%M %p")
+  end
+
+  def create_date
+    created_at.strftime("%B #{created_at.day.ordinalize}#{created_at.year != Time.new.year ? ", %Y" : ""}")
+  end
 end

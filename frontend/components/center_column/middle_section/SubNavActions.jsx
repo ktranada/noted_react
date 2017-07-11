@@ -21,7 +21,7 @@ const propTypes = {
 function SubNavActions(props) {
   const { channels, members, boardId, currentUserId } = props;
   return (
-    <ul className="sub-nav">
+    <ul className="sub-nav__actions">
       <li className="sub-nav__category"><NavLink className={props.isViewingCard ? 'active' : ''} to={`/boards/${boardId}/lists`}><i aria-hidden className="material-icons">&#xE3EC;</i>VIEW BOARD</NavLink></li>
       <li className="sub-nav__category"><span><i aria-hidden className="material-icons">&#xE0B7;</i>CHAT</span>
         <Channels channels={channels} />

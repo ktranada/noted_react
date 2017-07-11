@@ -404,7 +404,7 @@
             flex-direction: column;
   }
 
-  .nav__header, .configuration-content__header {
+  .navbar__header, .configuration-content__header {
     margin-bottom: 25px;
     font-weight: bold;
     color: $primary-grey;
@@ -446,7 +446,7 @@
       }
     }
 
-    .nav__action {
+    .navbar__action {
       padding-top: 20px;
       position: absolute;
       bottom: 25px;
@@ -736,7 +736,7 @@
   }
 
   .account-settings__container {
-    .nav__action {
+    .navbar__action {
       padding-top: 0;
       border: none;
       > div {

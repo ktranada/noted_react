@@ -38,7 +38,7 @@ class Nav extends React.Component {
     let boardFormButton = null;
     if (boardsList.length < 3) {
       boardFormButton = (
-        <li className="nav__button">
+        <li className="navbar__button">
           <div role="button" onClick={this.props.toggleModal(ADD_BOARD)}>
             <i className="material-icons">&#xE145;</i>
           </div>
@@ -47,7 +47,7 @@ class Nav extends React.Component {
     }
 
     return (
-      <ul className="nav">
+      <ul className="navbar">
         {boardsList}
         {boardFormButton}
       </ul>
