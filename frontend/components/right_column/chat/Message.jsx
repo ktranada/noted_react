@@ -16,12 +16,25 @@ const propTypes = {
   }).isRequired)
 }
 
+function formatContent(input) {
+  return input.split('<br>').map((item, key) => {
+    if (item === '') {
+      return <span key={key} className="line-break"/>
+    }
+    return <p key={key}>{item}</p>
+  });
+
+}
+
 function Message({ boardId, member, userMessages }) {
   if (!member || !userMessages || userMessages.length === 0) {
     return null;
   }
+
   const username = member.usernamesByBoardId[boardId];
-  const messageBody = userMessages.map(({ id, content }) => <p key={id}>{content}</p>);
+  const messageBody = userMessages.map(({ id, content, time }, index) => {
+    return <div data-time={time} className="user-messages" key={`${id}:${time}`}>{formatContent(content)}</div>;
+  });
 
   return (
     <div className="message__container">

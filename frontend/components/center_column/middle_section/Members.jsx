@@ -12,6 +12,7 @@ const propTypes = {
 function Members(props) {
   const members = props.members.map(member =>(
     <li key={member.id}>
+      <div className={`appearance ${props.appearances[member.id]}`}/>
       {member.usernamesByBoardId[props.boardId]} &nbsp;
       {props.currentUserId === member.id ? "(You)" : ""}
     </li>

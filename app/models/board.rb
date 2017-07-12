@@ -34,7 +34,7 @@ class Board < ActiveRecord::Base
 
   def create_owner_membership(username)
     invite = Invite.create(user_id: user_id, board_id: id, email: owner.email, status: :owner)
-    BoardMembership.create(board_id: id, user_id: user_id, invite_id: invite.id, username: username)
+    BoardMembership.create(board_id: id, user_id: user_id, invite_id: invite.id, username: username, status: :online)
   end
 
   def is_owned_by?(user)

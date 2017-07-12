@@ -15,8 +15,8 @@ Rails.application.routes.draw do
     resources :cards, only: [:create, :destroy, :update]
     resources :comments, only: [:create, :destroy, :update]
     resources :invites, only: [ :show, :create, :update, :destroy]
-    resources :messages, only: [:create]
     resources :boards, only: [:create, :show, :update, :destroy]
     resources :board_memberships, only: [:destroy, :update]
+    resources :subscriptions, only: [:index]
   end
 end

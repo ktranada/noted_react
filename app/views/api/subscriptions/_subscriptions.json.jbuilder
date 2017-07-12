@@ -1,7 +1,7 @@
-json.set! :byId do
-  @subscriptions.each do |sub|
-    json.set! sub.id do
-      json.extract! sub, :id, :board_id, :channel_id
+json.set! :channelsByBoardId do
+  subscriptions do |sub|
+    json.set! board_id do
+      json.array! subscriptions.pluck(:channel_id)
     end
   end
 end

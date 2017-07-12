@@ -73,6 +73,7 @@ const contextTypes = {
 
 class ActionCable extends React.Component {
   componentDidMount() {
+
     let self = this;
     let _props = this.props,
         onReceived = _props.onReceived,
@@ -81,33 +82,43 @@ class ActionCable extends React.Component {
         onDisconnected = _props.onDisconnected,
         onRejected = _props.onRejected;
 
-    this.cable = this.context.cable.subscriptions.create(
-      this.props.channel,
-      {
-        received: function(data) {
-          onReceived && onReceived(data)
-        },
-        initialized() {
-          onInitialized && onInitialized()
-        },
-        connected() {
-          onConnected && onConnected()
-        },
-        disconnect() {
-          onDisconnected && onDisconnected()
-        },
-        rejected() {
-          onRejected && onRejected()
+    const subscription = this.context.cable.subscriptions.subscriptions.find(({channelInfo}) => {
+      return  (channelInfo.room === this.props.channel.room
+               && channelInfo.channel === this.props.channel.channel)
+    });
+
+    if (subscription === undefined) {
+      this.cable = this.context.cable.subscriptions.create(
+        this.props.channel,
+        {
+          received(data) {
+            onReceived && onReceived(data)
+          },
+          initialized() {
+            onInitialized && onInitialized()
+          },
+          connected() {
+            onConnected && onConnected()
+          },
+          disconnect() {
+            onDisconnected && onDisconnected()
+          },
+          rejected() {
+            onRejected && onRejected()
+          },
+          channelInfo: this.props.channel
         }
-      }
-    )
+      )
+    } else {
+      this.cable = subscription;
+    }
   }
 
   componentWillUnmount() {
-    if (this.cable) {
-      this.context.cable.subscriptions.remove(this.cable)
-      this.cable = null
-    }
+    // if (this.cable) {
+    //   this.context.cable.subscriptions.remove(this.cable)
+    //   this.cable = null
+    // }
   }
 
   send(data) {

@@ -5,10 +5,10 @@ export const requestBoard = boardId => (
   })
 )
 
-export const requestChannels = (boardId) => (
+export const requestSubscriptions = () => (
   $.ajax({
     method: 'GET',
-    url: `/api/boards/${boardId}/channels`
+    url: `/api/subscriptions`
   })
 );
 

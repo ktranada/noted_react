@@ -1,6 +1,7 @@
 import * as BoardAPI from '../util/board_api';
 
 export const RECEIVE_USERNAME_ERRORS = 'RECEIVE_USERNAME_ERRORS';
+export const RECEIVE_INVITE_ERRORS = 'RECEIVE_INVITE_ERRORS';
 export const ADD_LIST = 'ADD_LIST';
 export const ADD_CARD = 'ADD_CARD';
 export const ADD_COMMENT = 'ADD_COMMENT';
@@ -11,7 +12,6 @@ export const ADD_INVITES = 'ADD_INVITES';
 export const UPDATE_CARD = 'UPDATE_CARD';
 export const UPDATE_BOARD = 'UPDATE_BOARD';
 export const UPDATE_USERNAME = 'UPDATE_USERNAME';
-export const RECEIVE_INVITE_ERRORS = 'RECEIVE_INVITE_ERRORS';
 export const REMOVE_BOARD = 'REMOVE_BOARD';
 export const REMOVE_CARD = 'REMOVE_CARD';
 export const REMOVE_INVITE = 'REMOVE_INVITE';

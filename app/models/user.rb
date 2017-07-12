@@ -61,6 +61,30 @@ class User < ActiveRecord::Base
     self.session_token
   end
 
+  def update_appearance(status)
+    board_memberships.update_all(status: status)
+
+    board_memberships.each do |membership|
+      ActionCable.server.broadcast("appearance:#{membership.board_id}",
+        board_id: membership.board_id,
+        user_id: self.id,
+        status: status
+      )
+    end
+  end
+
+  def subscriptions_by_board
+    result = {}
+
+    subscriptions.each do |sub|
+      result[sub.board_id] = result[sub.board_id].nil? ?
+        [sub.channel_id] :
+        result[sub.board_id] << sub.channel_id
+    end
+
+    result
+  end
+
   private
 
   def downcase_email

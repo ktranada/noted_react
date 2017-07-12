@@ -10,7 +10,8 @@ const propTypes = {
     channel_id: PropTypes.number.isRequired,
     content: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
-    time: PropTypes.string.isRequired
+    time: PropTypes.string.isRequired,
+    time_offset: PropTypes.number.isRequired
   })),
   members: PropTypes.arrayOf(PropTypes.object).isRequired
 }
@@ -25,35 +26,38 @@ function messagesByDate(messages) {
   const result = {
     order: []
   }
-
-  let count = messages.length;
   let skipCount = 0;
 
-  messages.forEach((message, index) => {
+  for (let i = messages.length - 1, count = messages.length; i >= 0; i--) {
+    const message = messages[i];
+
     if (skipCount > 0) {
       skipCount -= 1;
-      return;
+      continue;
     }
 
     if (message === undefined) {
-      return;
+      continue;
     }
 
     const date = message.date
-    let nextIndex = index + 1;
+    let nextIndex = i - 1;
     let userMessages = [message]
 
-    while (nextIndex <= count) {
+    while (nextIndex >= 0) {
       let nextMessage = messages[nextIndex];
-      if (!nextMessage) {
-        nextIndex += 1;
+      if (!nextMessage && nextIndex !== 0) {
+        nextIndex -= 1;
         skipCount += 1;
         continue;
-      } else if (nextMessage.date !== date || nextMessage.author_id !== message.author_id) {
+      } else if (
+        nextMessage.date !== date
+        || nextMessage.author_id !== message.author_id
+        || nextMessage.time_offset - message.time_offset > 5) {
         break;
       }
       userMessages.push(nextMessage);
-      nextIndex += 1;
+      nextIndex -= 1;
       skipCount += 1;
     }
 
@@ -63,7 +67,7 @@ function messagesByDate(messages) {
       result.order.push(message.date);
       result[message.date] = [userMessages];
     }
-  });
+  }
   return result
 }
 

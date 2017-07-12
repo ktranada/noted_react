@@ -16,12 +16,13 @@ ActiveRecord::Schema.define(version: 20170619043554) do
   enable_extension "plpgsql"
 
   create_table "board_memberships", force: :cascade do |t|
-    t.integer  "user_id",    null: false
-    t.integer  "board_id",   null: false
-    t.integer  "invite_id",  null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string   "username",   null: false
+    t.integer  "user_id",                null: false
+    t.integer  "board_id",               null: false
+    t.integer  "invite_id",              null: false
+    t.integer  "status",     default: 0
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.string   "username",               null: false
     t.index ["board_id", "invite_id"], name: "index_board_memberships_on_board_id_and_invite_id", unique: true, using: :btree
     t.index ["invite_id"], name: "index_board_memberships_on_invite_id", using: :btree
   end

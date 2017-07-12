@@ -1,9 +1,10 @@
 import * as BoardsAPI from '../util/board_api';
 
 export const RECEIVE_BOARD = "RECEIVE_BOARD";
-export const ADD_BOARD = "ADD_BOARD";
-export const START_LOADING_BOARD = "START_LOADING_BOARD";
-export const RECEIVE_ERRORS = "RECEIVE_ERRORS";
+export const ADD_BOARD = 'ADD_BOARD';
+export const START_LOADING_BOARD = 'START_LOADING_BOARD';
+export const RECEIVE_ERRORS = 'RECEIVE_ERRORS';
+export const RECEIVE_SUBSCRIPTIONS = 'RECEIVE_SUBSCRIPTIONS';
 
 
 export const createBoard = board => dispatch => (
@@ -24,9 +25,20 @@ export const requestBoard = boardId => dispatch => {
     })
 }
 
+export const requestSubscriptions = () => dispatch => (
+  BoardsAPI.requestSubscriptions().then(
+    subscriptions => dispatch(receiveSubscriptions(subscriptions))
+  )
+)
+
 export const receiveBoard = board => ({
   type: RECEIVE_BOARD,
   board
+})
+
+export const receiveSubscriptions = subscriptions => ({
+  type: RECEIVE_SUBSCRIPTIONS,
+  subscriptions
 })
 
 export const startLoadingBoard = (boardId) => ({

@@ -1,15 +1,18 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { asArrayByOrder, getCurrentBoardById } from '../../reducers/selectors';
-import { requestBoard } from '../../actions/nav_actions';
+import { requestSubscriptions, requestBoard } from '../../actions/nav_actions';
+import { incrementMessageNotifications } from '../../actions/notification_actions';
 import Nav from './Nav';
 
-const mapStateToProps = ({ boards }, { currentBoardId, isLanding }) => {
-    const currentBoard = getCurrentBoardById(currentBoardId, boards);
-    // Board is a complex data structure and so we want to extract only the
-    // necessary attributes to prevent extra rendering
-    const boardsArray = asArrayByOrder(boards, boards.order)
-      .map(({ id, title }) => ({ id, title }));
+const mapStateToProps = ({ boards, subscriptions }, { currentBoardId, isLanding }) => {
+  const currentBoard = getCurrentBoardById(currentBoardId, boards);
+  const boardsArray = asArrayByOrder(boards, boards.order)
+    .map(({ id, isLoaded, title, hasUnreadMessages }) => {
+      const channels = subscriptions.channelsByBoardId[id] || []
+      return { id, isLoaded, title, channels, hasUnreadMessages, channels }
+    });
+
   return ({
     boards: boardsArray,
     boardIsLoaded: isLanding ? true : currentBoard.isLoaded,
@@ -18,7 +21,9 @@ const mapStateToProps = ({ boards }, { currentBoardId, isLanding }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  requestBoard: boardId => dispatch(requestBoard(boardId))
+  requestBoard: boardId => dispatch(requestBoard(boardId)),
+  incrementMessageNotifications: notification => dispatch(incrementMessageNotifications(notification)),
+  requestSubscriptions: () => dispatch(requestSubscriptions())
 })
 
 export default connect(

@@ -21,7 +21,7 @@ class ChatForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleChange(e) {
-    if ((e.shiftKey || e.metaKey) && e.which === ENTER) {
+    if ((e.metaKey && e.which === ENTER ) || (e.which === ENTER && !e.shiftKey)) {
       this.handleSubmit(e);
       return;
     }
@@ -39,11 +39,10 @@ class ChatForm extends React.Component {
       return;
     }
 
-    this.props.sendMessage({ content: this.state.content }).then(
-      () => {
-        this.setState({ content: '', isValid: true })
-      }
-    );
+    const content = this.state.content.replace(/^(<br>)+/, '').replace(/(<br>)+$/, '')
+    this.props.sendMessage({ content })
+    this.setState({ content: '', isValid: true })
+
   }
 
   render() {

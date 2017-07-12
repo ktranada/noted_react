@@ -71,7 +71,7 @@ class SessionForm extends React.Component {
       password: this.state.password
     }
     this.props.processForm(user).then(
-      () => {},
+      (result) => result,
       err => {
         this.setState({
           isSubmitting: false,

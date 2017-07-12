@@ -11,30 +11,43 @@ class Chat extends React.Component {
 
     this.sendMessage = this.sendMessage.bind(this);
     this.onReceived = this.onReceived.bind(this);
+    this.incrementMessageNotifications = this.incrementMessageNotifications.bind(this);
   }
 
   onReceived(message) {
     this.props.addMessage(message);
+    if (!window.location.hash.includes(this.props.location.pathname)) {
+      this.incrementMessageNotifications(this.props, this.props.channel.unread_messages + 1)
+    }
   }
 
   sendMessage(data) {
     data['channel_id'] = this.props.channel.id
-    return this.props.sendMessage(data);
+    this.refs.chatChannel.perform('create_message', data)
+  }
+
+  incrementMessageNotifications(props, unreadMessages) {
+    this.props.incrementMessageNotifications({
+      board_id: props.currentBoard.id,
+      channel_id: props.channel.id
+    });
   }
 
   render() {
-    if (!this.props.channel) return null;
+    const { channel, messages, members, currentBoard } = this.props;
+    if (!channel) return null;
     return (
       <div className="chat-wrapper">
         <ActionCable
-          ref="ChatChannel"
-          channel={{channel: 'ChatChannel', channel_id: this.props.channel.id}}
+          ref={`chatChannel`}
+          channel={{channel: 'ChatChannel', room: channel.id}}
           onReceived={this.onReceived}
         />
         <Messages
-          boardId={this.props.currentBoard.id}
-          members={this.props.members}
-          messages={this.props.messages}
+          channel={channel}
+          boardId={currentBoard.id}
+          members={members}
+          messages={messages}
         />
         <ChatForm sendMessage={this.sendMessage}/>
       </div>

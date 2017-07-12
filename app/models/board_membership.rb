@@ -12,6 +12,7 @@
 #
 
 class BoardMembership < ActiveRecord::Base
+  enum status: [:offline, :away, :online], _prefix: true
   default_scope { order(:username) }
 
   validates :user_id, :board_id, :username, presence: true

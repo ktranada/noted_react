@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import appearancesReducer from './appearances_reducer';
 import boardsReducer from './boards_reducer';
 import cardsReducer from './cards_reducer';
 import channelsReducer from './channels_reducer';
@@ -21,6 +22,7 @@ const appReducer = combineReducers({
   cards: cardsReducer,
   comments: commentsReducer,
   members: membersReducer,
+  appearances: appearancesReducer,
   channels: channelsReducer,
   subscriptions: subscriptionsReducer,
   messages: messagesReducer,

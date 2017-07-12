@@ -26,4 +26,8 @@ class Message < ActiveRecord::Base
   def create_date
     created_at.strftime("%B #{created_at.day.ordinalize}#{created_at.year != Time.new.year ? ", %Y" : ""}")
   end
+
+  def time_offset
+    created_at.hour * 60 + created_at.min
+  end
 end

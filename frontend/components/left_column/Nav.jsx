@@ -7,12 +7,15 @@ import NavTab  from './NavTab';
 class Nav extends React.Component {
   constructor(props) {
     super(props);
+
+    this.setMessageNotification = this.setMessageNotification.bind(this);
   }
 
   componentWillMount() {
     if (!this.props.isLanding) {
       this.requestBoard(this.props.currentBoardId, this.props);
     }
+    this.props.requestSubscriptions();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -26,14 +29,24 @@ class Nav extends React.Component {
       this.props.requestBoard(boardId);
     }
   }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return true
+  setMessageNotification(board_id, channel_id, isLoaded) {
+    return () => {
+      if (!window.location.hash.includes(`/messages/${channel_id}`)) {
+        this.props.incrementMessageNotifications({ isLoaded,  board_id, channel_id, unread_messages: 1 });
+      }
+    }
   }
+
 
   render() {
     let { boards, currentBoardId } = this.props;
-    const boardsList = boards.map((board) => <NavTab key={board.id} {...board } />);
+    const boardsList = boards.map((board) => (
+      <NavTab
+        key={board.id}
+        {...board }
+        setMessageNotification={this.setMessageNotification}
+      />
+    ));
 
     let boardFormButton = null;
     if (boardsList.length < 3) {
@@ -58,7 +71,8 @@ class Nav extends React.Component {
 Nav.propTypes = {
   boards: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequred
+    title: PropTypes.string.isRequred,
+    hasUnreadMessages: PropTypes.bool.isRequired
   }).isRequired).isRequired,
   boardIsLoaded: PropTypes.bool.isRequired,
   boardIsLoading: PropTypes.bool.isRequired,

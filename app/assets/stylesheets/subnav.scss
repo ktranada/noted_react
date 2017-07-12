@@ -27,7 +27,8 @@ $margin-left-subcategory: 30px;
         span {
           pointer-events: none;
         }
-        > i:hover {
+        > i {
+          margin-right: -10px;
           cursor: pointer;
         }
 
@@ -210,7 +211,6 @@ $margin-left-subcategory: 30px;
       text-decoration: none;
       color: white;
       position: relative;
-      position: relative;
       z-index: 2;
       &:not(.active):hover {
         color: #9E9E9E;
@@ -229,11 +229,30 @@ $margin-left-subcategory: 30px;
           border-left: 2px solid;
         }
       }
+
+
     }
     > .sub-nav__category {
       color: white;
       font-weight: bold;
       font-size: 12px;
+      &.channels {
+        li {
+          position: relative;
+
+          &[data-has-unread='true']::after {
+            content: ' ';//attr(data-unread-count);
+            position: absolute;
+            right: 0;
+            height: 15px;
+            width: 15px;
+            background: palevioletred;
+            text-align: center;
+            border-radius: 50%;
+            color: white;
+          }
+        }
+      }
 
       &.members {
         > ul {
@@ -241,11 +260,31 @@ $margin-left-subcategory: 30px;
           > li {
             margin-top: 5px;
             font-weight: 100;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+                -ms-flex-align: center;
+                    align-items: center;
+
+          }
+        }
+
+        .appearance {
+          height: 10px;
+          width: 10px;
+          background: #263238;
+          border-radius: 50%;
+          margin-right: 5px;
+
+          &.online {
+            background: $primary-green;
           }
         }
       }
       &:not(:first-of-type) {
         margin-top: 15px;
+        position: relative;
       }
 
       .material-icons {
