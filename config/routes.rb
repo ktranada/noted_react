@@ -12,6 +12,10 @@ Rails.application.routes.draw do
         put :update
       end
     end
+
+    resources :channels, only: [:create] do
+      resources :messages, only: [:index]
+    end
     resources :cards, only: [:create, :destroy, :update]
     resources :comments, only: [:create, :destroy, :update]
     resources :invites, only: [ :show, :create, :update, :destroy]

@@ -22,8 +22,8 @@ class Channel < ActiveRecord::Base
 
   def fetch_messages(options)
     limit = options[:limit] || 50
-    offset = options[:offset] || 0
-    messages.limit(limit).offset(offset)
+    page = options[:page] || 0
+    self.messages.limit(limit).offset(page * limit)
   end
 
   def has_subscriber?(user)

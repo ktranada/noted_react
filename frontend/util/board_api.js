@@ -12,6 +12,17 @@ export const requestSubscriptions = () => (
   })
 );
 
+export const requestMessages = (channelId, page) => (
+  $.ajax({
+    method: 'GET',
+    url: `/api/channels/${channelId}/messages`,
+    data: {
+      page
+    }
+  })
+);
+
+
 const create = (resource, data) => (
   $.ajax({
     method: 'POST',

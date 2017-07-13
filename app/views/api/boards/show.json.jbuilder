@@ -16,7 +16,7 @@ messages = []
   channelMessages = channel.messages.order('created_at DESC').limit(25)
   channel_info_by_id[channel.id] = {
     messages: channelMessages.pluck(:id),
-    shown_all_messages: channel.messages.length <= 10
+    has_more: channel.messages.length > 10
   }
   messages << channelMessages
 end

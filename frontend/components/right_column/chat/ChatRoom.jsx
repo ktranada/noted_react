@@ -10,14 +10,23 @@ class Chat extends React.Component {
     super(props);
 
     this.sendMessage = this.sendMessage.bind(this);
-    this.onReceived = this.onReceived.bind(this);
-    this.incrementMessageNotifications = this.incrementMessageNotifications.bind(this);
+    this.onReceivedMessages = this.onReceivedMessages.bind(this);
+    this.loadMessages = this.loadMessages.bind(this);
+
+    this.state = {
+      isFetching: false,
+      currentPage: 0,
+      fetchFailed: false
+    }
   }
 
-  onReceived(message) {
+  onReceivedMessages(message) {
     this.props.addMessage(message);
     if (!window.location.hash.includes(this.props.location.pathname)) {
-      this.incrementMessageNotifications(this.props, this.props.channel.unread_messages + 1)
+      this.props.incrementMessageNotifications({
+        board_id: this.props.currentBoard.id,
+        channel_id: this.props.channel.id
+      });
     }
   }
 
@@ -26,11 +35,19 @@ class Chat extends React.Component {
     this.refs.chatChannel.perform('create_message', data)
   }
 
-  incrementMessageNotifications(props, unreadMessages) {
-    this.props.incrementMessageNotifications({
-      board_id: props.currentBoard.id,
-      channel_id: props.channel.id
-    });
+
+  loadMessages() {
+    if (!this.state.isFetching) {
+      this.setState({ isFetching: true, currentPage: this.state.currentPage + 1});
+
+      return this.props.requestMessages(this.state.currentPage + 1).then(
+        response => {},
+        errors => {}
+      ).then(
+        () => this.setState({ isFetching: false, fetchFailed: false }),
+        () => this.setState({ isFetching: false, fetchFailed: true })
+      );
+    }
   }
 
   render() {
@@ -41,9 +58,12 @@ class Chat extends React.Component {
         <ActionCable
           ref={`chatChannel`}
           channel={{channel: 'ChatChannel', room: channel.id}}
-          onReceived={this.onReceived}
+          onReceived={this.onReceivedMessages}
         />
         <Messages
+          loadMessages={this.loadMessages}
+          currentPage={this.state.currentPage}
+          isFetching={this.state.isFetching}
           channel={channel}
           boardId={currentBoard.id}
           members={members}

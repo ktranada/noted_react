@@ -39,7 +39,10 @@ class ChatForm extends React.Component {
       return;
     }
 
-    const content = this.state.content.replace(/^(<br>)+/, '').replace(/(<br>)+$/, '')
+    const content = this.state.content
+      .replace(/^(<br>)+/, '')
+      .replace(/(<br>)+$/, '')
+      .replace(/(&nbsp;)/g, ' ');
     this.props.sendMessage({ content })
     this.setState({ content: '', isValid: true })
 
