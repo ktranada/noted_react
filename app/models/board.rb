@@ -19,6 +19,7 @@ class Board < ActiveRecord::Base
   has_many :invites, dependent: :destroy
   has_many :board_memberships, dependent: :destroy, inverse_of: :board
   has_many :members, through: :board_memberships, source: :user
+  has_many :subscriptions, dependent: :destroy
   scope :members, -> { order(:email)}
 
   has_many :lists, -> {order(:position) }, dependent: :destroy
@@ -33,7 +34,7 @@ class Board < ActiveRecord::Base
 
   def create_owner_membership(username)
     invite = Invite.create(user_id: user_id, board_id: id, email: owner.email, status: :owner)
-    BoardMembership.create(board_id: id, user_id: user_id, invite_id: invite.id, username: username)
+    BoardMembership.create(board_id: id, user_id: user_id, invite_id: invite.id, username: username, status: :online)
   end
 
   def is_owned_by?(user)

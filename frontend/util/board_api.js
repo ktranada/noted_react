@@ -5,12 +5,23 @@ export const requestBoard = boardId => (
   })
 )
 
-export const requestChannels = (boardId) => (
+export const requestSubscriptions = () => (
   $.ajax({
     method: 'GET',
-    url: `/api/boards/${boardId}/channels`
+    url: `/api/subscriptions`
   })
 );
+
+export const requestMessages = (channelId, page) => (
+  $.ajax({
+    method: 'GET',
+    url: `/api/channels/${channelId}/messages`,
+    data: {
+      page
+    }
+  })
+);
+
 
 const create = (resource, data) => (
   $.ajax({
@@ -68,6 +79,10 @@ export const createInvites = data => (
 
 export const createInvite = data => (
   create('invite', data)
+)
+
+export const createMessage = data => (
+  create('message', data)
 )
 
 export const updateCard = data => (

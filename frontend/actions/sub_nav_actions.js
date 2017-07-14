@@ -6,6 +6,8 @@ export const RECEIVE_BOARD_MEMBERS = "RECEIVE_BOARD_MEMBERS";
 export const SET_CURRENT_VIEW = "SET_CURRENT_VIEW";
 export const START_LOADING_CHANNELS = "START_LOADING_CHANNELS";
 export const START_LOADING_MEMBERS = "START_LOADING_MEMBERS";
+export const UPDATE_APPEARANCE = 'UPDATE_APPEARANCE';
+
 
 export const requestChannels = boardId => dispatch => {
   // dispatch(startLoadingChannels());
@@ -46,4 +48,9 @@ export const startLoadingMembers = () => ({
 export const receiveErrors = errors => ({
   type: RECEIVE_ERRORS,
   errors
+})
+
+export const updateAppearance = appearance => ({
+  type: UPDATE_APPEARANCE,
+  appearance
 })

@@ -4,6 +4,7 @@ class CreateBoardMembership < ActiveRecord::Migration[5.0]
       t.integer  "user_id",    null: false
       t.integer  "board_id",   null: false
       t.integer :invite_id,   null: false
+      t.integer :status, default: 0
 
       t.timestamps
     end

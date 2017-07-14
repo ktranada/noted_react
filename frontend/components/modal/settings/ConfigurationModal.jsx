@@ -1,15 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import ModalOverlayContainer from '../ModalOverlayContainer';
 import ConfigurationNav from './ConfigurationNav';
 import ConfigurationContent from './ConfigurationContent';
+
+const propTypes = {
+  tabs: PropTypes.arrayOf(PropTypes.string).isRequired,
+  contentComponent: PropTypes.func.isRequired,
+  bottomAction: PropTypes.element.isRequired,
+  header: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  initialTab: PropTypes.string
+}
+
+const defaultProps = {
+  initialTab: null
+}
 
 class ConfigurationModal extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      currentTab: this.props.tabs[0],
+      currentTab: this.props.initialTab || this.props.tabs[0],
     }
 
     this.handleTabChange = this.handleTabChange.bind(this);
@@ -43,13 +57,6 @@ class ConfigurationModal extends React.Component {
   }
 }
 
-ConfigurationModal.propTypes = {
-  tabs: PropTypes.arrayOf(PropTypes.string).isRequired,
-  contentComponent: PropTypes.func.isRequired,
-  bottomAction: PropTypes.element.isRequired,
-  header: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired
-}
-
-
+ConfigurationModal.propTypes = propTypes;
+ConfigurationModal.defaultProps = defaultProps;
 export default ConfigurationModal;

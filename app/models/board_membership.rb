@@ -6,12 +6,14 @@
 #  user_id    :integer          not null
 #  board_id   :integer          not null
 #  invite_id  :integer          not null
+#  status     :integer          default("0")
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  username   :string           not null
 #
 
 class BoardMembership < ActiveRecord::Base
+  enum status: [:offline, :away, :online], _prefix: true
   default_scope { order(:username) }
 
   validates :user_id, :board_id, :username, presence: true
@@ -33,7 +35,8 @@ class BoardMembership < ActiveRecord::Base
     channel = board.channels.where(title: "General")[0]
     Subscription.create(
       user_id: user.id,
-      channel_id: channel.id
+      channel_id: channel.id,
+      board_id: board_id
     )
   end
 

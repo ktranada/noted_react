@@ -6,6 +6,7 @@ import Cards from './Cards';
 import ListCardForm from './ListCardForm';
 
 const propTypes = {
+  prevHoveredListId: PropTypes.number.isRequired,
   list: PropTypes.object.isRequired,
   cards: PropTypes.arrayOf(PropTypes.object).isRequired,
   listCallbacks: PropTypes.shape({
@@ -53,9 +54,9 @@ const dropSpecs = {
       return;
      }
 
-     if (monitor.getClientOffset().y > component.listItem.offsetHeight - 50){
+     if (props.id !== props.prevHoveredListId && monitor.getClientOffset().y > component.listItem.offsetHeight - 50){
        // Add card to end of list if the drag source is below it
-       props.cardCallbacks.moveCard(id, props.list.id, props.cards.length)
+       props.cardCallbacks.moveCard(id, props.id, props.cards.length)
      }
   }
 }
@@ -83,6 +84,7 @@ function collect(connect, monitor) {
 }
 
 class List extends React.Component  {
+
   render() {
     const {
       list,
@@ -94,7 +96,8 @@ class List extends React.Component  {
       isOver,
       type,
       cardCallbacks,
-      listCallbacks
+      listCallbacks,
+      prevHoveredListId
     } = this.props;
 
     const { clientHeight = 0 } = item || {};
@@ -112,6 +115,7 @@ class List extends React.Component  {
                     list={list}
                     cards={cards}
                     height={clientHeight}
+                    prevHoveredListId={prevHoveredListId}
                     isCardOver={isOver && type ==='card'}
                     cardDragTracker={this.props.cardDragTracker}
                     cardCallbacks={this.props.cardCallbacks}

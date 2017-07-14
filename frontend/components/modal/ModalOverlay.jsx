@@ -1,11 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const propTypes = {
+  modalType: PropTypes.string.isRequired,
+  handleClick: PropTypes.func,
+  onBackgroundClick: PropTypes.func,
+  hideModal: PropTypes.func.isRequired
+}
+
+const ESCAPE_KEY_CODE = 27;
+
 class ModalOverlay extends React.Component {
   constructor(props) {
     super(props);
 
     this.handleClick = this.handleClick.bind(this);
+    this.handleEscapeKeyClick = this.handleEscapeKeyClick.bind(this);
+  }
+  componentWillMount() {
+    document.addEventListener('keyup', this.handleEscapeKeyClick, false);
+
+  }
+
+  componentWillUnmount() {
+
+    document.removeEventListener('keyup', this.handleEscapeKeyClick, false);
+  }
+
+  handleEscapeKeyClick(e) {
+    if (e.which === ESCAPE_KEY_CODE) {
+      this.props.hideModal();
+    }
   }
 
   handleClick(e) {
@@ -34,9 +59,6 @@ class ModalOverlay extends React.Component {
   }
 }
 
-ModalOverlay.propTypes = {
-  modalType: PropTypes.string.isRequired,
-  handleClick: PropTypes.func
-}
+ModalOverlay.propTypes = propTypes;
 
 export default ModalOverlay;

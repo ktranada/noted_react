@@ -6,10 +6,10 @@ const CommentIndexItem = ({comment, username}) => {
   return (
     <div className="card__comment">
       <Divider>
-        { comment.create_date}
+        {comment.create_date}
       </Divider>
       <div className="comment__info">
-        <h3>{ username }</h3>
+        <h3>{username}</h3>
         <p>{comment.description}</p>
       </div>
     </div>

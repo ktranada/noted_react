@@ -4,9 +4,9 @@ import { AuthRoute, ProtectedRoute, ProtectedRedirectRoute } from '../util/route
 import SessionFormContainer from './session/session_form_container';
 import InviteResponseFormContainer from './session/invite/InviteResponseFormContainer';
 import LandingContainer from './LandingContainer';
-import BoardsContainer from './BoardsContainer';
+import DashboardContainer from './DashboardContainer';
 
-const App = () => {
+function App() {
   return (
     <div>
       <Switch>
@@ -15,7 +15,7 @@ const App = () => {
         <AuthRoute path="/signup" component={SessionFormContainer} />
         <ProtectedRoute path="/boards">
           <Switch>
-            <Route path="/boards/:boardId" component={BoardsContainer}/>
+            <Route path="/boards/:boardId" component={DashboardContainer}/>
             <Route component={LandingContainer}/>
           </Switch>
         </ProtectedRoute>

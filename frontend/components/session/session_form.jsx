@@ -1,7 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import merge from 'lodash/merge';
+import jstz from 'jstimezonedetect';
+import { Link } from 'react-router-dom';
+
 import InlineInput from '../form_elements/InlineInput';
 import SubmitButton from '../form_elements/SubmitButton';
 import FormValidator from '../../util/form_validator';
@@ -70,9 +72,18 @@ class SessionForm extends React.Component {
       email: this.state.email,
       password: this.state.password
     }
+
+    if (this.props.formType === 'signup') {
+      user['timezone'] = jstz.determine().name()
+    }
+
     this.props.processForm(user).then(
-      () => {},
+      (result) => {
+        console.log(result)
+      },
       err => {
+
+        console.log(err);
         this.setState({
           isSubmitting: false,
           errors:  {
@@ -103,33 +114,33 @@ class SessionForm extends React.Component {
 
     return (
       <form className="session-form" onSubmit={this.handleSubmit}>
-          <div className="session-form__content">
-            <img src="https://res.cloudinary.com/mycut/image/upload/v1496273166/logo-min_tmylez.png" />
-            { this.state.invalidCredentials && <p className="error__credentials">{this.state.invalidCredentials}</p> }
-            <h3>{formContent.title}</h3>
-            <InlineInput
-                type="email"
-                error={errors.email}
-                inputClass="session-form__input"
-                placeHolder="Email"
-                value={this.state.email}
-                handleChange={this.handleChange('email')}
-              />
+        <div className="session-form__content">
+          <img src="https://res.cloudinary.com/mycut/image/upload/v1496273166/logo-min_tmylez.png" />
+          { this.state.invalidCredentials && <p className="error__credentials">{this.state.invalidCredentials}</p> }
+          <h3>{formContent.title}</h3>
+          <InlineInput
+            type="email"
+            error={errors.email}
+            inputClass="session-form__input"
+            placeHolder="Email"
+            value={this.state.email}
+            handleChange={this.handleChange('email')}
+          />
 
-            <InlineInput
-              type="password"
-              error={errors.password}
-              inputClass="session-form__input"
-              placeHolder="Password"
-              value={this.state.password}
-              handleChange={this.handleChange('password')}
-              />
+          <InlineInput
+            type="password"
+            error={errors.password}
+            inputClass="session-form__input"
+            placeHolder="Password"
+            value={this.state.password}
+            handleChange={this.handleChange('password')}
+          />
 
-            <SubmitButton disabled={this.state.isSubmitting} buttonText={formContent.button} buttonClass="session-form__button"/>
+          <SubmitButton disabled={this.state.isSubmitting} buttonText={formContent.button} buttonClass="session-form__button"/>
 
-            <hr />
-            <span className="session-form__link">{formContent.bottomText} &nbsp; <a onClick={this.changeForm(formContent.bottomActionTo)}>{formContent.bottomActionText}</a></span>
-          </div>
+          <hr />
+          <span className="session-form__link">{formContent.bottomText} &nbsp; <a onClick={this.changeForm(formContent.bottomActionTo)}>{formContent.bottomActionText}</a></span>
+        </div>
       </form>
     )
   }

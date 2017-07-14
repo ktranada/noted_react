@@ -1,4 +1,3 @@
-
 # == Schema Information
 #
 # Table name: users
@@ -9,6 +8,7 @@
 #  session_token   :string           not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  timezone        :string           not null
 #
 
 class User < ActiveRecord::Base
@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
   after_initialize :ensure_session_token
   before_create :downcase_email
 
+  validates :timezone, presence: true
   validates :session_token, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: { case_sensitive: false, message: "Email has been taken"}
   validates :password_digest, presence: {  message: "Password cannot be blank" }
@@ -59,6 +60,30 @@ class User < ActiveRecord::Base
     self.session_token = User.generate_session_token
     self.save
     self.session_token
+  end
+
+  def update_appearance(status)
+    board_memberships.update_all(status: status)
+
+    board_memberships.each do |membership|
+      ActionCable.server.broadcast("appearance:#{membership.board_id}",
+        board_id: membership.board_id,
+        user_id: self.id,
+        status: status
+      )
+    end
+  end
+
+  def subscriptions_by_board
+    result = {}
+
+    subscriptions.each do |sub|
+      result[sub.board_id] = result[sub.board_id].nil? ?
+        [sub.channel_id] :
+        result[sub.board_id] << sub.channel_id
+    end
+
+    result
   end
 
   private

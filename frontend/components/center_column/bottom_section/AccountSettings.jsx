@@ -1,7 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const AccountSettings = (props) => {
+const propTypes = {
+  currentUser: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    email: PropTypes.string.isRequired
+  }).isRequired,
+  toggleModal: PropTypes.func.isRequired
+}
+
+function AccountSettings(props) {
   const { email } = props.currentUser;
 
   return (
@@ -18,12 +26,6 @@ const AccountSettings = (props) => {
   )
 };
 
-AccountSettings.propTypes = {
-  currentUser: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    email: PropTypes.string.isRequired
-  }).isRequired,
-  toggleModal: PropTypes.func.isRequired
-}
+AccountSettings.propTypes = propTypes;
 
 export default AccountSettings;

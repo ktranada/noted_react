@@ -1,9 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import Overview from './Overview';
 import MemberIndexContainer from './members/MemberIndexContainer';
 import InviteIndexContainer from './invites/InviteIndexContainer';
 import ConfigurationModal from '../ConfigurationModal';
+import { OPTIONS_GOTO_TAB } from '../../../../actions/modal_actions';
+
+const propTypes = {
+  currentBoard: PropTypes.object.isRequired,
+  currentUser: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    usernamesByBoardId: PropTypes.object.isRequired,
+    membershipsByBoardId: PropTypes.object.isRequired
+  }),
+  options: PropTypes.shape({
+    [OPTIONS_GOTO_TAB]: PropTypes.string
+  })
+}
+
+const defaultProps = {
+  options: null
+}
 
 const TABS = ['Profile', 'Overview', 'Members', 'Invites'];
 
@@ -62,6 +80,13 @@ class OwnerBoardSettingsModal extends React.Component {
   }
 
   render() {
+    const { currentBoard, options } = this.props;
+
+    let initialTab = null;
+    if (options && options[OPTIONS_GOTO_TAB]) {
+      initialTab = TABS.filter(tab => tab === options[OPTIONS_GOTO_TAB])[0];
+    }
+
     const deleteBoardButton = (
         <span onClick={this.handleDeleteButtonClick} role="button">Delete Board</span>
       );
@@ -69,9 +94,10 @@ class OwnerBoardSettingsModal extends React.Component {
     return (
       <ConfigurationModal
         type="board-settings"
-        currentBoard={this.props.currentBoard}
+        currentBoard={currentBoard}
         tabs={TABS}
-        header={this.props.currentBoard.title}
+        initialTab={initialTab}
+        header={currentBoard.title}
         contentComponent={this.contentComponent}
         bottomAction={deleteBoardButton}
         />
@@ -79,14 +105,6 @@ class OwnerBoardSettingsModal extends React.Component {
   }
 }
 
-OwnerBoardSettingsModal.propTypes = {
-  currentBoard: PropTypes.object.isRequired,
-  currentUser: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    usernamesByBoardId: PropTypes.object.isRequired,
-    membershipsByBoardId: PropTypes.object.isRequired
-  })
-}
-
-
+OwnerBoardSettingsModal.propTypes = propTypes;
+OwnerBoardSettingsModal.defaultProps = defaultProps;
 export default OwnerBoardSettingsModal;

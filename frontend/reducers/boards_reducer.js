@@ -1,6 +1,7 @@
 import merge from 'lodash/merge';
 import { byIdObject, updateObject, updateAssociationList } from './util';
-import { RECEIVE_BOARDS } from '../actions/session_actions';
+import { RECEIVE_BOARDS, UPDATE_TIME_ZONE } from '../actions/session_actions';
+import { NOTIFICATION_MESSAGES, NOTIFICATION_INCREMENT_MESSAGES } from '../actions/notification_actions';
 import {
   ADD_BOARD,
   RECEIVE_BOARD,
@@ -27,8 +28,9 @@ const initialState = {
 //     id: 1,
 //     isLoaded: false,
 //     isLoading: false,
-//     members: [],
 //     channels: [],
+//     members: [],
+//     subscriptions: [],
 //     lists: [],
 //     cards: [],
 //     invites: [],
@@ -46,12 +48,13 @@ function startLoadingBoard(state, action) {
 
 function receiveBoard(state, action) {
   const { board } = action;
-  const { members, channels, lists, invites } = board.info;
+  const { subscriptions, members, channels, lists, invites } = board.info;
   const newState = byIdObject(board.id, {
     isLoaded: true,
     isLoading: false,
-    members,
     channels,
+    subscriptions,
+    members,
     lists,
     invites
   })
@@ -167,9 +170,34 @@ function removeBoard(state, action) {
 }
 
 
+const updateUnreadMessages = (state, action) => {
+  if (state.byId[action.notification.board_id]) {
+    const newState = merge({}, state);
+    newState
+      .byId[action.notification.board_id]
+      .hasUnreadMessages = (
+        action.type === NOTIFICATION_INCREMENT_MESSAGES
+          ? true
+          : action.notification.unread_messages > 0
+        );
+    return newState;
+  }
+  return state;
+}
+
+const updateTimeZone = (state, action) => {
+  const newState = merge({}, state);
+  Object.keys(newState.byId).forEach(id => {
+    const board = newState.byId[id];
+    board.isLoaded = false;
+    board.isLoading = false;
+  })
+
+  return newState;
+}
+
 const boardsReducer = (state = initialState, action) => {
   switch (action.type) {
-    // case START_LOADING_BOARD: return startLoadingBoard(state, action);
     case RECEIVE_BOARD: return receiveBoard(state, action);
     case RECEIVE_BOARDS:
       return merge({}, initialState, {
@@ -185,6 +213,10 @@ const boardsReducer = (state = initialState, action) => {
     case REMOVE_INVITE: return removeInvite(state, action);
     case REMOVE_MEMBER: return removeMember(state, action);
     case REMOVE_BOARD: return removeBoard(state, action);
+    case NOTIFICATION_MESSAGES:
+    case NOTIFICATION_INCREMENT_MESSAGES:
+      return updateUnreadMessages(state, action);
+    case UPDATE_TIME_ZONE: return updateTimeZone(state, action);
     default:
       return state;
   }

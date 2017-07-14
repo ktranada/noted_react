@@ -1,3 +1,3 @@
 json.set! :info do
-  json.extract! user, :id, :email
+  json.extract! user, :id, :email, :timezone
 end

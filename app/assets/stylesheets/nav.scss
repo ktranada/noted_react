@@ -1,12 +1,21 @@
 @import "variables";
 .nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.navbar {
+  flex-grow: 1;
     width: 64px;
-    height: 100%;
     background: $bluegrey-dark;
     list-style: none;
     padding: 25px 10px;
 
-    .nav__tab {
+    .navbar__tab {
       margin-bottom: 25px;
       position: relative;
       a {
@@ -21,6 +30,7 @@
         text-transform: uppercase;
         font-size: 20px;
         display: inline-block;
+        position: relative;
         &.active::before {
           width: 3px;
           height: 22px;
@@ -32,10 +42,21 @@
           display: inline-block;
           position: absolute;
         }
+
+        &[data-badge='unread-messages']::after {
+          content: ' ';
+          height: 10px;
+          width: 10px;
+          position: absolute;
+          right: 3px;
+          bottom: 0;
+          background: palevioletred;
+          border-radius: 50%;
+        }
       }
     }
 
-    .nav__button {
+    .navbar__button {
       div {
         border: 1px #979797 dashed;
         border-radius: 50%;

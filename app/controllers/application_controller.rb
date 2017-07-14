@@ -19,12 +19,16 @@ class ApplicationController < ActionController::Base
   def login(user)
     user.reset_session_token!
     session[:session_token] = user.session_token
+    cookies.signed[:session_token] = user.session_token
     @current_user = user
+    user.update_appearance(:online)
   end
 
   def logout
     @current_user.try(:reset_session_token!)
+    @current_user.update_appearance(:offline)
     session[:session_token] = nil
+    cookies.signed[:session_token] = nil
     @current_user = nil
   end
 
@@ -39,6 +43,6 @@ class ApplicationController < ActionController::Base
   protected
 
   def user_params
-    params.require(:user).permit(:email, :password)
+    params.require(:user).permit(:email, :password, :timezone)
   end
 end

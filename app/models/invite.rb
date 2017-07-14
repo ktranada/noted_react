@@ -19,8 +19,10 @@ class Invite < ActiveRecord::Base
   enum status: [:pending, :accepted, :declined, :owner], _prefix: true
 
   validates :board, :board_member, :email, presence: true
-  validates :email, uniqueness: { scope: :board_id, case_sensitive: false }
-  validate :person_has_not_been_invited_before, on: :create
+  validates :email, uniqueness: {
+    scope: :board_id, case_sensitive: false, message: 'This person has already been invited to your board.'
+  }
+  # validate :person_has_not_been_invited_before, on: :create
   validate :has_remaining_invites, on: :create
   before_validation :create_code, :update_email
 

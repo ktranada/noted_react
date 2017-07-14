@@ -1,9 +1,10 @@
 import * as BoardsAPI from '../util/board_api';
 
 export const RECEIVE_BOARD = "RECEIVE_BOARD";
-export const ADD_BOARD = "ADD_BOARD";
-export const START_LOADING_BOARD = "START_LOADING_BOARD";
-export const RECEIVE_ERRORS = "RECEIVE_ERRORS";
+export const ADD_BOARD = 'ADD_BOARD';
+export const START_LOADING_BOARD = 'START_LOADING_BOARD';
+export const RECEIVE_ERRORS = 'RECEIVE_ERRORS';
+export const RECEIVE_SUBSCRIPTIONS = 'RECEIVE_SUBSCRIPTIONS';
 
 
 export const createBoard = board => dispatch => (
@@ -15,25 +16,38 @@ export const createBoard = board => dispatch => (
     error => error.responseJSON)
 )
 
-export const requestBoard = boardId => dispatch => {
-  dispatch(startLoadingBoard(boardId));
+export const requestBoard = (boardId, isTimeZoneUpdate) => dispatch => {
+  dispatch(startLoadingBoard(boardId, isTimeZoneUpdate));
   return BoardsAPI.requestBoard(boardId)
     .then(board => {
-      dispatch(receiveBoard(board));
+      dispatch(receiveBoard(board, isTimeZoneUpdate));
       return board;
     })
 }
 
-export const receiveBoard = board => ({
+export const requestSubscriptions = () => dispatch => (
+  BoardsAPI.requestSubscriptions().then(
+    subscriptions => dispatch(receiveSubscriptions(subscriptions))
+  )
+)
+
+export const receiveBoard = (board, isTimeZoneUpdate) => ({
   type: RECEIVE_BOARD,
-  board
+  board,
+  isTimeZoneUpdate
 })
 
-export const startLoadingBoard = (boardId) => ({
+export const receiveSubscriptions = subscriptions => ({
+  type: RECEIVE_SUBSCRIPTIONS,
+  subscriptions
+})
+
+export const startLoadingBoard = (boardId, isTimeZoneUpdate) => ({
   type: START_LOADING_BOARD,
   board: {
     id: boardId
-  }
+  },
+  isTimeZoneUpdate
 })
 
 export const addBoard = (board) => ({

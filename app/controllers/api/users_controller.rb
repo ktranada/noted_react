@@ -21,10 +21,11 @@ class Api::UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
+    previous_time_zone = @user.timezone
     if @user.update(user_params)
-      render json: { id: @user.id, email: @user.email }
+      render json: { id: @user.id, email: @user.email, timezone: @user.timezone }
     else
-      render json: @user.errors.full_messages, status: 422
+      render json: @user.errors.messages, status: 422
     end
   end
 

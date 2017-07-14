@@ -3,6 +3,8 @@ class Api::BoardsController < ApplicationController
     @board = Board
       .includes(:board_memberships, :members, :invites, :channels, lists: [cards: [:comments]])
       .find(params[:id])
+
+    @subscriptions = Subscription.includes(channel: [:messages]).where(board_id: params[:id], user_id: current_user.id)
     @invites = @board.invites.select {|invite| !invite.hide_from_client? }
     render :show
   end

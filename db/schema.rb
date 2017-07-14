@@ -10,18 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170619043554) do
+ActiveRecord::Schema.define(version: 20170713221115) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "board_memberships", force: :cascade do |t|
-    t.integer  "user_id",    null: false
-    t.integer  "board_id",   null: false
-    t.integer  "invite_id",  null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string   "username",   null: false
+    t.integer  "user_id",                null: false
+    t.integer  "board_id",               null: false
+    t.integer  "invite_id",              null: false
+    t.integer  "status",     default: 0
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.string   "username",               null: false
     t.index ["board_id", "invite_id"], name: "index_board_memberships_on_board_id_and_invite_id", unique: true, using: :btree
     t.index ["invite_id"], name: "index_board_memberships_on_invite_id", using: :btree
   end
@@ -96,12 +97,11 @@ ActiveRecord::Schema.define(version: 20170619043554) do
   end
 
   create_table "messages", force: :cascade do |t|
-    t.integer  "author_id",               null: false
-    t.integer  "channel_id",              null: false
-    t.string   "socket_id",  default: "", null: false
-    t.text     "content",                 null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.integer  "author_id",  null: false
+    t.integer  "channel_id", null: false
+    t.text     "content",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["author_id"], name: "index_messages_on_author_id", using: :btree
     t.index ["channel_id"], name: "index_messages_on_channel_id", using: :btree
   end
@@ -109,8 +109,10 @@ ActiveRecord::Schema.define(version: 20170619043554) do
   create_table "subscriptions", force: :cascade do |t|
     t.integer  "user_id",    null: false
     t.integer  "channel_id", null: false
+    t.integer  "board_id",   null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["board_id"], name: "index_subscriptions_on_board_id", using: :btree
     t.index ["channel_id", "user_id"], name: "index_subscriptions_on_channel_id_and_user_id", unique: true, using: :btree
     t.index ["channel_id"], name: "index_subscriptions_on_channel_id", using: :btree
     t.index ["user_id"], name: "index_subscriptions_on_user_id", using: :btree
@@ -122,6 +124,7 @@ ActiveRecord::Schema.define(version: 20170619043554) do
     t.string   "session_token",   null: false
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.string   "timezone",        null: false
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["session_token"], name: "index_users_on_session_token", unique: true, using: :btree
   end

@@ -1,13 +1,22 @@
 @import "variables";
 @import "misc";
-.right-column {
+.board-content {
   height: 100%;
   overflow-x: scroll;
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
+          position: relative;
   > div {
     min-width: 800px;
+  }
+
+  > .spinner {
+    position: absolute;
+        top: calc(50% - 76px);
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
   }
 }
 
@@ -61,7 +70,7 @@
   }
 }
 
-.right-column {
+.board-content {
   .board-wrapper {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -115,6 +124,7 @@
           display: flex;
           flex-direction: column;
           max-height: 100%;
+          padding-right: 4px;
           cursor: pointer;
           &.placeholder::after {
             position: absolute;
@@ -132,7 +142,7 @@
           }
 
           > hr {
-            width: calc(100% + 20px);
+            width: calc(100% + 14px);
             margin-left:  -10px;
             margin-top: 10px;
             margin-bottom: 15px;
@@ -142,7 +152,7 @@
           .list__cards {
             list-style: none;
             overflow-y: scroll;
-            @include scrollbar-vertical;
+            @include scrollbar-vertical(#EBEBEB);
 
             &.vertical-overlow {
               li {
@@ -155,16 +165,6 @@
               border-radius: 2px;
               background: $primary-grey-dark;
               margin-bottom: 5px;
-              // &:after {
-              //   position: absolute;
-              //   top: 0;
-              //   left: 0;
-              //   right: 0;
-              //   bottom: 0;
-              //   content: "";
-              //   border-radius: 2px;
-              //   background: $primary-grey-dark;
-              // }
             }
             li {
               position: relative;
@@ -198,6 +198,7 @@
             width: 100%;
             padding: 0;
             min-height: 30px;
+            padding-right: 6px;
             &.open {
 
               i.material-icons {
@@ -296,25 +297,6 @@
           }
         }
       }
-
-      // &::-webkit-scrollbar-thumb {
-      //   background: black;
-      // }
-      // &::-webkit-scrollbar {
-      //     height: 13px;
-      //     width: 13px;
-      // }
-      // &::webkit-scrollbar-button {
-      //   display: block;
-      //   height: 9px;
-      //   width: 5px;
-      // }
-      // &::-webkit-scrollbar-track {
-      //   width: 50px;
-      // }
-      // &::-webkit-scrollbar-track-piece {
-      //   background: red;
-      // }
     }
   }
 }

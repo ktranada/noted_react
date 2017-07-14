@@ -1,7 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
 import Spinner from '../util/Spinner';
+
+const propTypes = {
+  currentBoard: PropTypes.object.isRequired,
+  hasInvites: PropTypes.bool.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired
+}
 
 class InitialBoardContent extends React.Component {
   componentWillMount() {
@@ -55,11 +63,6 @@ class InitialBoardContent extends React.Component {
   }
 }
 
-InitialBoardContent.propTypes = {
-  currentBoard: PropTypes.object.isRequired,
-  hasInvites: PropTypes.bool.isRequired,
-  toggleModal: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired
-}
+InitialBoardContent.propTypes = propTypes;
 
 export default InitialBoardContent;

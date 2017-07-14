@@ -1,7 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import SubmitButton from '../../form_elements/SubmitButton';
 import InlineInput from '../../form_elements/InlineInput';
 import FormValidator from '../../../util/form_validator';
+
+const propTypes = {
+  history: PropTypes.object.isRequired,
+  createBoard: PropTypes.func.isRequired,
+  handleBackClick: PropTypes.func.isRequired
+}
 
 class CreateBoardContent extends React.Component {
   constructor(props) {
@@ -40,7 +48,7 @@ class CreateBoardContent extends React.Component {
       this.formValidator.notifyComponent(this);
       return;
     }
-    
+
     const board = {
       title: this.state.title,
       username: this.state.username
@@ -100,5 +108,6 @@ class CreateBoardContent extends React.Component {
   }
 }
 
+CreateBoardContent.propTypes = propTypes;
 
 export default CreateBoardContent;

@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import appearancesReducer from './appearances_reducer';
 import boardsReducer from './boards_reducer';
 import cardsReducer from './cards_reducer';
 import channelsReducer from './channels_reducer';
@@ -6,10 +7,12 @@ import commentsReducer from './comments_reducer';
 import invitesReducer from './invites_reducer';
 import currentBoardIdReducer from './current_board_id_reducer';
 import membersReducer from './members_reducer';
+import messagesReducer from './messages_reducer';
 import modalsReducer from './modals_reducer';
 import listsReducer from './lists_reducer';
 import loadingReducer from './loading_reducer';
 import sessionReducer from './session_reducer';
+import subscriptionsReducer from './subscriptions_reducer';
 
 const appReducer = combineReducers({
   session: sessionReducer,
@@ -19,7 +22,10 @@ const appReducer = combineReducers({
   cards: cardsReducer,
   comments: commentsReducer,
   members: membersReducer,
+  appearances: appearancesReducer,
   channels: channelsReducer,
+  subscriptions: subscriptionsReducer,
+  messages: messagesReducer,
   currentModal: modalsReducer,
   loading: loadingReducer
 });

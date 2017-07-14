@@ -1,6 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const propTypes = {
+  id: PropTypes.number.isRequired,
+  value: PropTypes.string.isRequired,
+  field: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  updateField: PropTypes.func.isRequired
+}
+
+
 class Overview extends React.Component {
   constructor(props) {
     super(props);
@@ -26,6 +35,7 @@ class Overview extends React.Component {
   handleChange(e) {
     this.setState({
       input: e.currentTarget.value,
+      errors: [],
       isValid: true
     })
   }
@@ -37,6 +47,8 @@ class Overview extends React.Component {
       this.setState({
         isValid: false
       });
+      return;
+    } else if (this.state.input === this.props.value) {
       return;
     }
 
@@ -50,6 +62,8 @@ class Overview extends React.Component {
   }
 
   render() {
+
+    const hasInputChanged = this.state.input !== this.props.value;
     return (
       <form
         className="content__board-overview"
@@ -62,18 +76,14 @@ class Overview extends React.Component {
               value={this.state.input}/>
           </label>
         </div>
-        <button type="submit" className="button button-green">Save</button>
+        <button
+          type="submit"
+          disabled={!hasInputChanged}
+          className="button button-green">Save</button>
       </form>
     )
   }
 }
 
-Overview.propTypes = {
-  id: PropTypes.number.isRequired,
-  value: PropTypes.string.isRequired,
-  field: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  updateField: PropTypes.func.isRequired
-}
-
+Overview.propTypes = propTypes;
 export default Overview;

@@ -18,7 +18,13 @@ class Channel < ActiveRecord::Base
 
   has_many :subscriptions, inverse_of: :channel, dependent: :destroy
   has_many :participants, through: :subscriptions, source: :user
-  has_many :messages, dependent: :destroy
+  has_many :messages, -> { order('created_at DESC') }, dependent: :destroy
+
+  def fetch_messages(options)
+    limit = options[:limit] || 50
+    page = options[:page] || 0
+    self.messages.limit(limit).offset(page * limit)
+  end
 
   def has_subscriber?(user)
     self.participants.include?(user)

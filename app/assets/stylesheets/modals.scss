@@ -292,6 +292,7 @@
         font-size: 15px;
         font-weight: 500;
         margin-top: 30px;
+        margin-bottom: 30px;
 
         > i.material-icons {
           font-size: 18px;
@@ -299,7 +300,23 @@
         }
       }
 
+      p[data-action] {
+        margin-top: 10px;
+        font-weight: 600;
+        font-size: 14px;
+        opacity: .8;
+        cursor: pointer;
+        color: rgba(73, 99, 111, 1);
+        &[data-action=invite] {
+          color: rgba(73, 99, 111, 1);
+        }
+        &:hover {
+          opacity: 1;
+        }
+      }
+
       &.results {
+        min-width: 350px;
         .results-button {
           width: 100%;
         }
@@ -348,6 +365,7 @@
         .results__actions {
           button {
             /* width: auto;*/
+            margin-bottom: 30px;
           }
         }
       }
@@ -386,7 +404,7 @@
             flex-direction: column;
   }
 
-  .nav__header, .configuration-content__header {
+  .navbar__header, .configuration-content__header {
     margin-bottom: 25px;
     font-weight: bold;
     color: $primary-grey;
@@ -428,7 +446,7 @@
       }
     }
 
-    .nav__action {
+    .navbar__action {
       padding-top: 20px;
       position: absolute;
       bottom: 25px;
@@ -718,7 +736,7 @@
   }
 
   .account-settings__container {
-    .nav__action {
+    .navbar__action {
       padding-top: 0;
       border: none;
       > div {
@@ -738,6 +756,16 @@
 
         hr {
           margin: 5px 0;
+        }
+      }
+    }
+
+    .board-overview__title {
+      label:nth-of-type(2) {
+        margin-top: 15px;
+
+        .select__container {
+          margin-top: 5px;
         }
       }
     }

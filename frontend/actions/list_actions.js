@@ -34,17 +34,3 @@ export function moveCard(id, prevListId, prevPos, nextListId, nextPos) {
       nextPos
   }
 }
-// export function moveCard(id, lastListId, lastCardPos, nextListId, nextCardPos) {
-//   return (dispatch) => {
-//     const cardMoveDetails = {
-//       type: MOVE_CARD,
-//       id,
-//       lastListId,
-//       nextListId,
-//       lastCardPos,
-//       nextCardPos
-//     };
-//     dispatch(cardMoveDetails);
-//     return BoardAPI.updateCard(cardMoveDetails);
-//   }
-// }

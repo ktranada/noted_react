@@ -4,6 +4,13 @@ import Input from './Input';
 import Footer from './Footer';
 import InviteVerificationErrors from './InviteVerificationErrors';
 
+const propTypes = {
+  currentUser: PropTypes.object.isRequired,
+  getInvite: PropTypes.func.isRequired,
+  handleBackClick: PropTypes.func.isRequired,
+  updateModalState: PropTypes.func.isRequired
+}
+
 class InviteVerification extends React.Component {
   constructor(props) {
     super(props);
@@ -62,11 +69,6 @@ class InviteVerification extends React.Component {
   }
 }
 
-InviteVerification.propTypes = {
-  currentUser: PropTypes.object.isRequired,
-  getInvite: PropTypes.func.isRequired,
-  handleBackClick: PropTypes.func.isRequired,
-  updateModalState: PropTypes.func.isRequired
-}
+InviteVerification.propTypes = propTypes;
 
 export default InviteVerification;

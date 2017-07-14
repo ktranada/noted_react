@@ -2,7 +2,7 @@ module EmailValidation
   extend ActiveSupport::Concern
 
   included do
-    validate :is_email_valid?, on: :create
+    validate :is_email_valid?, on: [:create, :update]
   end
 
   def is_email_valid?
