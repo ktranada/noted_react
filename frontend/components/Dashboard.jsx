@@ -69,12 +69,14 @@ class Dashboard extends React.PureComponent {
               path="/boards/:boardId/card/:cardId"
               component={BoardContentContainer}
               currentBoard={currentBoard}
+              currentUserId={currentUser.id}
             />
 
             <RouteWithProps
               path="/boards/:boardId/lists"
               component={BoardContentContainer}
               currentBoard={currentBoard}
+              currentUserId={currentUser.id}
             />
             <RouteWithProps
               path="/boards/:boardId/messages/:channelId"

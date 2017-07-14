@@ -11,35 +11,27 @@ class Api::ListsController < ApplicationController
   end
 
   def update
-    if params[:type] === 'order'
-      data = JSON.parse(params[:lists])
-      lists = List.where(board_id: params[:board_id], id: data['ids'])
 
-      @success = []
-      @errors = []
+    @list = List.find(params[:id])
+    if list_params[:position] != @list.position
+      @list.insert_at(list_params[:position].to_i)
+    elsif @list.update(title: list_params[:title])
+    end
 
-      lists.each do |list|
-        position = data[list.id.to_s]
-        if list.position != position
-          if !list.set_list_position(position)
-            @errors << list.errors
-          end
-        end
-      end
-
-      render json: { order: data['ids'], errors: @errors, board_id: params[:board_id] }
+    if !@list.errors.any?
+      ActionCable.server.broadcast("board:#{@list.board_id}",
+        type: 'list',
+        action: 'move',
+        list: {
+          id: @list.id,
+          title: @list.title,
+          position: @list.position
+        },
+        updated_by: params[:list][:updated_by]
+      )
+      render json: {}
     else
-      @list = List.find(params[:id])
-      if list_params[:position] != @list.position
-        @list.insert_at(list_params[:position].to_i)
-        render json: { id: @list.id, position: @list.position }
-      elsif @list.update(title: list_params[:title])
-        render json: { id: @list.id, title: @list.title }
-      else
-        render json: ["Could not update list"], status: 422
-      end
-
-
+      render json: ["Could not update list"], status: 422
     end
   end
 

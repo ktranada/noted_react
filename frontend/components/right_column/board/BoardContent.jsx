@@ -68,7 +68,20 @@ class BoardContent extends React.Component {
   }
 
   handleReceived(data) {
-    console.log(data);
+    if (this.props.currentUserId !== Number.parseInt(data.updated_by)) {
+      // Another user has made the changes
+      if (data.type === 'list') {
+        if (data.action === 'move') {
+          const { id, position } = data.list;
+          this.moveList(data.list.id, data.list.position);
+        }
+      } else if (data.type === 'card') {
+        if (data.action === 'move') {
+          const { id, previous_list_id, list_id, position } = data.card;
+          this.moveCard(id, list_id, position, previous_list_id);
+        }
+      }
+    }
   }
 
   createList(data) {
@@ -85,14 +98,22 @@ class BoardContent extends React.Component {
     }
   }
 
-  moveCard(cardId, nextListId, nextPos) {
-    const { list: previousList } = this.findList(this.state.prevHoveredListId)
+  moveCard(cardId, nextListId, nextPos, defaultPrevListId = -1) {
+    const prevListId = defaultPrevListId !== -1
+      ? defaultPrevListId
+      : this.state.prevHoveredListId;
+
+    const { list: previousList } = this.findList(prevListId)
     const prevPos = previousList.cards.indexOf(cardId);
     if (prevPos === -1) {
       return;
     }
-    this.props.moveCard(cardId, this.state.prevHoveredListId, prevPos, nextListId, nextPos);
-    this.setHoveredListId(nextListId);
+    this.props.moveCard(cardId, prevListId, prevPos, nextListId, nextPos);
+
+    if (defaultPrevListId === -1) {
+      // Changes were made by current user
+      this.setHoveredListId(nextListId);
+    }
   }
 
   moveList(listId, nextPos) {
@@ -123,10 +144,13 @@ class BoardContent extends React.Component {
   }
 
   updateListPosition(list) {
+    list['updated_by'] = this.props.currentUserId;
     this.props.updateListPosition(list);
   }
 
   updateCardPosition(card) {
+    card['updated_by'] = this.props.currentUserId;
+    card['board_id'] = this.props.currentBoard.id;
     this.props.updateCardPosition(card);
   }
 
