@@ -18,6 +18,9 @@ const modalsReducer = (state = initialState, action) => {
 
     case START_LOADING_BOARD:
     case RECEIVE_BOARD:
+      if (action.isTimeZoneUpdate) {
+        return state;
+      }
     case RECEIVE_BOARDS:
     case ADD_BOARD:
       return initialState;

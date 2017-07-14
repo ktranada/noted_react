@@ -5,11 +5,19 @@
 }
 
 div.divider {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   hr {
-    flex-grow: 1;
+    -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
     border-width: 1px;
   }
   div {
@@ -25,21 +33,39 @@ $offset: 187;
 $duration: 1.4s;
 
 .spinner {
-  animation: rotator $duration linear infinite;
+  -webkit-animation: rotator $duration linear infinite;
+          animation: rotator $duration linear infinite;
+}
+
+@-webkit-keyframes rotator {
+  0% { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(270deg); transform: rotate(270deg); }
 }
 
 @keyframes rotator {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(270deg); }
+  0% { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(270deg); transform: rotate(270deg); }
 }
 
 .path {
   stroke-dasharray: $offset;
   stroke-dashoffset: 0;
-  transform-origin: center;
-  animation:
+  -webkit-transform-origin: center;
+          transform-origin: center;
+  -webkit-animation:
     dash $duration ease-in-out infinite,
     colors ($duration*4) ease-in-out infinite;
+          animation:
+    dash $duration ease-in-out infinite,
+    colors ($duration*4) ease-in-out infinite;
+}
+
+@-webkit-keyframes colors {
+  0% { stroke: #00897B; }
+  25% { stroke: #90A4AE; }
+  50% { stroke: #CFD8DC; }
+  75% { stroke: #9E9E9E; }
+  100% { stroke: #ECEFF1; }
 }
 
 @keyframes colors {
@@ -50,15 +76,31 @@ $duration: 1.4s;
   100% { stroke: #ECEFF1; }
 }
 
+@-webkit-keyframes dash {
+ 0% { stroke-dashoffset: $offset; }
+ 50% {
+   stroke-dashoffset: $offset/4;
+   -webkit-transform:rotate(135deg);
+           transform:rotate(135deg);
+ }
+ 100% {
+   stroke-dashoffset: $offset;
+   -webkit-transform:rotate(450deg);
+           transform:rotate(450deg);
+ }
+}
+
 @keyframes dash {
  0% { stroke-dashoffset: $offset; }
  50% {
    stroke-dashoffset: $offset/4;
-   transform:rotate(135deg);
+   -webkit-transform:rotate(135deg);
+           transform:rotate(135deg);
  }
  100% {
    stroke-dashoffset: $offset;
-   transform:rotate(450deg);
+   -webkit-transform:rotate(450deg);
+           transform:rotate(450deg);
  }
 }
 
@@ -67,11 +109,12 @@ $duration: 1.4s;
 //====================
 
 
-@mixin scrollbar-vertical {
+@mixin scrollbar-vertical($scrollbar-track-background: white) {
   &::-webkit-scrollbar-track
   {
   	// -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-  	background-color: #eeeeee;
+  	background-color: $scrollbar-track-background;
+    border: none;
   }
 
   &::-webkit-scrollbar
@@ -83,5 +126,87 @@ $duration: 1.4s;
   &::-webkit-scrollbar-thumb
   {
   	background-color: #49636F;
+  }
+}
+
+
+//====================
+// Scrollbar
+//====================
+
+.select__container {
+  position: relative;
+  outline: 0;
+  .select__control {
+    padding: 5px;
+    background: white;
+    border-radius: 2px;
+    font-weight: 400;
+    color: black;
+    letter-spacing: .6px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    .select__placeholder {
+      color: #909496;
+    }
+  }
+
+  .select__menu {
+    @include scrollbar-vertical;
+    // transition: max-height .3s ease;
+    position: absolute;
+    left: 0;
+    right: 0;
+    max-height: 0;
+    background: white;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    overflow-y: auto;
+    z-index: 5;
+    > .item {
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: 400;
+      color: rgba(0,0,0, .85);
+      border-top: 1px solid #FAFAFA;
+      cursor: pointer;
+      &:hover {
+        background: rgba(0,0,0,.05);
+        color: rgba(0,0,0,.95);
+      }
+
+      &.selected {
+        background: rgba(0,0,0,.03);
+        color: rgba(0,0,0,.95);
+      }
+    }
+    .select__options-wrapper {
+      overflow-y: scroll;
+      margin: 5px;
+    }
+  }
+
+  &.active {
+
+    .select__control {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    .select__menu {
+      max-height: 135px;
+    }
+  }
+
+  &.closing {
+    -webkit-transition: border-radius ease .3s;
+    transition: border-radius ease .3s;
   }
 }

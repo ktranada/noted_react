@@ -49,6 +49,7 @@ class Dashboard extends React.PureComponent {
           <NavContainer
             isLanding={false}
             history={history}
+            timezone={currentUser.timezone}
             currentBoardId={currentBoard.id}
             toggleModal={this.toggleModal}
           />

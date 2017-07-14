@@ -5,7 +5,30 @@ import { ActionCable } from '../../util/ActionCableProvider';
 import Messages from './Messages';
 import ChatForm from './ChatForm';
 
-class Chat extends React.Component {
+const propTypes = {
+  currentBoard: PropTypes.shape({
+    id: PropTypes.number.isRequired
+  }).isRequired,
+  channel: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    has_more: PropTypes.bool.isRequired,
+  }),
+  members: PropTypes.object.isRequired,
+  messages: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    author_id: PropTypes.number.isRequired,
+    channel_id: PropTypes.number.isRequired,
+    content: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired,
+    time: PropTypes.string.isRequired,
+    time_offset: PropTypes.number.isRequired
+  })),
+  incrementMessageNotifications: PropTypes.func.isRequired,
+
+  location: PropTypes.object.isRequired,
+}
+
+class ChatRoom extends React.Component {
   constructor(props) {
     super(props);
 
@@ -75,4 +98,5 @@ class Chat extends React.Component {
   }
 }
 
-export default Chat;
+ChatRoom.propTypes = propTypes;
+export default ChatRoom;

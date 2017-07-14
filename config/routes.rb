@@ -22,5 +22,7 @@ Rails.application.routes.draw do
     resources :boards, only: [:create, :show, :update, :destroy]
     resources :board_memberships, only: [:destroy, :update]
     resources :subscriptions, only: [:index]
+
+    resources :timezones, only: [:index]
   end
 end

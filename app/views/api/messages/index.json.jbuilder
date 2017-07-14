@@ -6,9 +6,9 @@ json.set! :messages  do
     @messages.each do |message|
       json.set! message.id do
         json.extract! message, :id, :author_id, :content, :channel_id
-        json.date message.create_date
-        json.time message.create_time
-        json.time_offset message.time_offset
+        json.date message.create_date(current_user)
+        json.time message.create_time(current_user)
+        json.time_offset message.time_offset(current_user)
       end
     end
   end

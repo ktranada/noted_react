@@ -35,13 +35,18 @@ class BoardContent extends React.Component {
     this.updateListOrder = this.updateListOrder.bind(this);
     this.updateCardPosition = this.updateCardPosition.bind(this);
     this.setHoveredListId = this.setHoveredListId.bind(this);
-    window.scroller = this.scroller;
   }
 
   componentWillMount() {
     const { match, history } = this.props;
     if (!match.isExact) {
       this.props.history.replace(match.url);
+    }
+  }
+
+  componentDidMount() {
+    if (!this.scroller.element) {
+      this.scroller.element = document.getElementById('list-index__scroller')
     }
   }
 

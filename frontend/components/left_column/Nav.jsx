@@ -4,6 +4,19 @@ import PropTypes from 'prop-types';
 import { ADD_BOARD } from '../../actions/modal_actions';
 import NavTab  from './NavTab';
 
+const propTypes = {
+  boards: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequred,
+    hasUnreadMessages: PropTypes.bool.isRequired
+  }).isRequired).isRequired,
+  boardIsLoaded: PropTypes.bool.isRequired,
+  boardIsLoading: PropTypes.bool.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+  requestBoard: PropTypes.func.isRequired,
+  isLanding: PropTypes.bool.isRequired
+}
+
 class Nav extends React.Component {
   constructor(props) {
     super(props);
@@ -13,20 +26,21 @@ class Nav extends React.Component {
 
   componentWillMount() {
     if (!this.props.isLanding) {
-      this.requestBoard(this.props.currentBoardId, this.props);
+      this.requestBoard(this.props.currentBoardId, false, this.props);
     }
     this.props.requestSubscriptions();
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.currentBoardId !== this.props.currentBoardId) {
-      this.requestBoard(nextProps.currentBoardId, nextProps);
+    if (nextProps.currentBoardId !== this.props.currentBoardId
+        || this.props.timezone !== nextProps.timezone) {
+      this.requestBoard(nextProps.currentBoardId, this.props.timezone !== nextProps.timezone, nextProps);
     }
   }
 
-  requestBoard(boardId, { boardIsLoaded, boardIsLoading }) {
+  requestBoard(boardId, isTimeZoneUpdate, { boardIsLoaded, boardIsLoading }) {
     if (!boardIsLoaded && !boardIsLoading) {
-      this.props.requestBoard(boardId);
+      this.props.requestBoard(boardId, isTimeZoneUpdate);
     }
   }
   setMessageNotification(board_id, channel_id, isLoaded) {
@@ -68,17 +82,6 @@ class Nav extends React.Component {
   }
 }
 
-Nav.propTypes = {
-  boards: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequred,
-    hasUnreadMessages: PropTypes.bool.isRequired
-  }).isRequired).isRequired,
-  boardIsLoaded: PropTypes.bool.isRequired,
-  boardIsLoading: PropTypes.bool.isRequired,
-  toggleModal: PropTypes.func.isRequired,
-  requestBoard: PropTypes.func.isRequired,
-  isLanding: PropTypes.bool.isRequired
-}
+Nav.propTypes = propTypes;
 
 export default Nav;

@@ -1,4 +1,3 @@
-
 # == Schema Information
 #
 # Table name: users
@@ -9,6 +8,7 @@
 #  session_token   :string           not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  timezone        :string           not null
 #
 
 class User < ActiveRecord::Base
@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
   after_initialize :ensure_session_token
   before_create :downcase_email
 
+  validates :timezone, presence: true
   validates :session_token, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: { case_sensitive: false, message: "Email has been taken"}
   validates :password_digest, presence: {  message: "Password cannot be blank" }

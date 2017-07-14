@@ -9,7 +9,7 @@
 # rake db:reset => rake db:drop db:create db:migrate db:seed
 
 users = []
-main_user = User.create!(email: "kevin@noted.pw", password: "123pass")
+main_user = User.create!(email: "kevin@noted.pw", password: "123pass", timezone: "America/Los_Angeles")
 users << main_user
 
 board = Board.create!(title: "React", user_id: main_user.id)
@@ -25,7 +25,7 @@ channel_one = board.channels[0]
 channel_two = board2.channels[0]
 
 names.each do |name|
-  user = User.create!(email: "#{name}@noted.pw", password: "123pass")
+  user = User.create!(email: "#{name}@noted.pw", password: "123pass", timezone: "America/Los_Angeles")
   users << user
   invite = Invite.create!(user_id: main_user.id, board_id: board.id, email: user.email, status: :accepted)
   BoardMembership.create!(board_id: board.id, user_id: user.id, username: name, invite_id: invite.id)

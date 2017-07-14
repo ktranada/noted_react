@@ -1,3 +1,10 @@
+export const requestTimeZones = () => (
+  $.ajax({
+    method: "GET",
+    url: "/api/timezones"
+  })
+)
+
 export const signup = (user) => {
   return $.ajax({
     method: "POST",

@@ -21,7 +21,7 @@ const mapStateToProps = ({ boards, subscriptions }, { currentBoardId, isLanding 
 };
 
 const mapDispatchToProps = dispatch => ({
-  requestBoard: boardId => dispatch(requestBoard(boardId)),
+  requestBoard: (boardId, isTimeZoneUpdate) => dispatch(requestBoard(boardId, isTimeZoneUpdate)),
   incrementMessageNotifications: notification => dispatch(incrementMessageNotifications(notification)),
   requestSubscriptions: () => dispatch(requestSubscriptions())
 })

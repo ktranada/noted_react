@@ -1,6 +1,6 @@
 import merge from 'lodash/merge';
 import { byIdObject, updateObject, updateAssociationList } from './util';
-import { RECEIVE_BOARDS } from '../actions/session_actions';
+import { RECEIVE_BOARDS, UPDATE_TIME_ZONE } from '../actions/session_actions';
 import { NOTIFICATION_MESSAGES, NOTIFICATION_INCREMENT_MESSAGES } from '../actions/notification_actions';
 import {
   ADD_BOARD,
@@ -185,9 +185,19 @@ const updateUnreadMessages = (state, action) => {
   return state;
 }
 
+const updateTimeZone = (state, action) => {
+  const newState = merge({}, state);
+  Object.keys(newState.byId).forEach(id => {
+    const board = newState.byId[id];
+    board.isLoaded = false;
+    board.isLoading = false;
+  })
+
+  return newState;
+}
+
 const boardsReducer = (state = initialState, action) => {
   switch (action.type) {
-    // case START_LOADING_BOARD: return startLoadingBoard(state, action);
     case RECEIVE_BOARD: return receiveBoard(state, action);
     case RECEIVE_BOARDS:
       return merge({}, initialState, {
@@ -206,6 +216,7 @@ const boardsReducer = (state = initialState, action) => {
     case NOTIFICATION_MESSAGES:
     case NOTIFICATION_INCREMENT_MESSAGES:
       return updateUnreadMessages(state, action);
+    case UPDATE_TIME_ZONE: return updateTimeZone(state, action);
     default:
       return state;
   }

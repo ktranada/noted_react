@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ConfigurationModal from '../ConfigurationModal';
-import Overview from '../board/Overview';
+import AccountOverview from './AccountOverview';
 import { OPTIONS_GOTO_TAB } from '../../../../actions/modal_actions';
 
 const TABS = ['Profile'];
@@ -28,15 +28,13 @@ class AccountSettingsModal extends React.Component {
     super(props);
 
     this.contentComponent = this.contentComponent.bind(this);
-    this.handleEmailChange = this.handleEmailChange.bind(this);
+    this.handleAccountUpdate = this.handleAccountUpdate.bind(this);
     this.handleDeleteButtonClick = this.handleDeleteButtonClick.bind(this);
     this.handleLogoutButtonClick = this.handleLogoutButtonClick.bind(this);
   }
 
-  handleEmailChange(data) {
-    if (data.email !== this.props.currentUser.email) {
-      return this.props.updateUser(data);
-    }
+  handleAccountUpdate(data, previousTimeZone) {
+    return this.props.updateUser(data, previousTimeZone);
   }
 
   handleDeleteButtonClick() {
@@ -51,12 +49,11 @@ class AccountSettingsModal extends React.Component {
     const { currentBoard, currentUser } = this.props;
     switch (tab) {
       case 'Profile':
-        return <Overview
-          id={currentUser.id}
-          value={currentUser.email}
-          field="email"
-          label="EMAIL"
-          updateField={this.handleEmailChange}/>
+        return <AccountOverview
+          currentUser={currentUser}
+          requestTimeZones={this.props.requestTimeZones}
+          handleAccountUpdate={this.handleAccountUpdate}
+               />
       default:
         return null;
     }

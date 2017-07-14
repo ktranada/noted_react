@@ -14,9 +14,9 @@ class ChatChannel < ApplicationCable::Channel
       author_id: message.author_id,
       channel_id: message.channel_id,
       content: message.content,
-      date: message.create_date,
-      time: message.create_time,
-      time_offset: message.time_offset
+      date: message.create_date(current_user),
+      time: message.create_time(current_user),
+      time_offset: message.time_offset(current_user)
     )
 
     ActionCable.server.broadcast("notification:#{message.channel_id}", {})

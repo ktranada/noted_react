@@ -6,6 +6,7 @@
 #  user_id    :integer          not null
 #  board_id   :integer          not null
 #  invite_id  :integer          not null
+#  status     :integer          default("0")
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  username   :string           not null

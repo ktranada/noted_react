@@ -16,7 +16,7 @@
         top: calc(50% - 76px);
         left: 50%;
         -webkit-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);    
+        transform: translate(-50%, -50%);
   }
 }
 
@@ -152,7 +152,7 @@
           .list__cards {
             list-style: none;
             overflow-y: scroll;
-            @include scrollbar-vertical;
+            @include scrollbar-vertical(#EBEBEB);
 
             &.vertical-overlow {
               li {
