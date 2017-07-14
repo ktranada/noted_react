@@ -4,16 +4,16 @@ export const MOVE_CARD = 'MOVE_CARD';
 export const MOVE_LIST = 'MOVE_LIST';
 export const UPDATE_LIST_ORDER = 'UPDATE_LIST_ORDER';
 
-export function updateListOrder(boardId, lists) {
-  return (dispatch) => BoardAPI.updateLists(boardId, JSON.stringify(lists), 'order');
-}
+export const updateListPosition = (list) => dispatch => (
+  BoardAPI.updateList(list)
+)
 
-export function updateCardPosition(card) {
+export const updateCardPosition = (card) =>  dispatch => {
   card['type'] = 'position';
-  return (dispatch) => BoardAPI.updateCard(card)
+  return BoardAPI.updateCard(card)
 }
 
-export function moveList(boardId, listId, lastPos, nextPos) {
+export const moveList = (boardId, listId, lastPos, nextPos) => {
   return ({
     type: MOVE_LIST,
     boardId,
@@ -24,7 +24,7 @@ export function moveList(boardId, listId, lastPos, nextPos) {
 }
 
 
-export function moveCard(id, prevListId, prevPos, nextListId, nextPos) {
+export const moveCard = (id, prevListId, prevPos, nextListId, nextPos) => {
   return {
       type: MOVE_CARD,
       id,

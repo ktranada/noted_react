@@ -89,6 +89,10 @@ export const updateCard = data => (
   update('card', data.id, data)
 )
 
+export const updateList = data => (
+  update('list', data.id, data)
+)
+
 export const updateLists = (board_id, lists, type="attributes") => (
   $.ajax({
     method: 'PUT',

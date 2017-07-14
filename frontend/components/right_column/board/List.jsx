@@ -10,9 +10,9 @@ const propTypes = {
   list: PropTypes.object.isRequired,
   cards: PropTypes.arrayOf(PropTypes.object).isRequired,
   listCallbacks: PropTypes.shape({
-    addCard: PropTypes.func.isRequired,
+    createCard: PropTypes.func.isRequired,
     moveList: PropTypes.func.isRequired,
-    updateListOrder: PropTypes.func.isRequired
+    updateListPosition: PropTypes.func.isRequired
   }).isRequired,
   cardCallbacks: PropTypes.shape({
     setHoveredListId: PropTypes.func.isRequired,
@@ -37,11 +37,16 @@ const dropSpecs = {
        };
     }
 
-    const { position } = monitor.getItem();
+    const { id, position } = monitor.getItem();
     const { position: nextPosition } = props;
+
     if (position !== nextPosition) {
-      props.listCallbacks.updateListOrder();
+      return {
+        id,
+        position: nextPosition
+      }
     }
+    return null;
   },
   hover(props, monitor, component) {
     const { id } = monitor.getItem();
@@ -73,6 +78,13 @@ function dropCollect(connect, monitor) {
 const dragSpecs = {
   beginDrag({ list, position }) {
     return ({ id: list.id, position })
+  },
+
+  endDrag(props, monitor, component) {
+    const dropResult = monitor.getDropResult();
+    if (dropResult === null || !dropResult.id) return;
+
+    props.listCallbacks.updateListPosition(dropResult);
   },
 }
 
@@ -106,21 +118,21 @@ class List extends React.Component  {
       <div className="list-index__item-wrapper">
         {
           connectDragSource(
-              <div
-                ref={el => this.listItem = el}
-                className={`list-index__item ${isDragging ? "placeholder" : ""}`}>
-                <header>{list.id}</header>
-                <hr />
-                  <Cards
-                    list={list}
-                    cards={cards}
-                    height={clientHeight}
-                    prevHoveredListId={prevHoveredListId}
-                    isCardOver={isOver && type ==='card'}
-                    cardDragTracker={this.props.cardDragTracker}
-                    cardCallbacks={this.props.cardCallbacks}
-                  />
-                  <ListCardForm type="card" addItem={this.props.listCallbacks.addCard(list.id)} />
+            <div
+              ref={el => this.listItem = el}
+              className={`list-index__item ${isDragging ? "placeholder" : ""}`}>
+              <header>{list.id}</header>
+              <hr />
+              <Cards
+                list={list}
+                cards={cards}
+                height={clientHeight}
+                prevHoveredListId={prevHoveredListId}
+                isCardOver={isOver && type ==='card'}
+                cardDragTracker={this.props.cardDragTracker}
+                cardCallbacks={this.props.cardCallbacks}
+              />
+              <ListCardForm type="card" addItem={this.props.listCallbacks.createCard(list.id)} />
               </div>
             )
         }

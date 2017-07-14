@@ -28,6 +28,18 @@ class Api::ListsController < ApplicationController
       end
 
       render json: { order: data['ids'], errors: @errors, board_id: params[:board_id] }
+    else
+      @list = List.find(params[:id])
+      if list_params[:position] != @list.position
+        @list.insert_at(list_params[:position].to_i)
+        render json: { id: @list.id, position: @list.position }
+      elsif @list.update(title: list_params[:title])
+        render json: { id: @list.id, title: @list.title }
+      else
+        render json: ["Could not update list"], status: 422
+      end
+
+
     end
   end
 
