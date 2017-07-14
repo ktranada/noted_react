@@ -68,17 +68,23 @@ class BoardContent extends React.Component {
   }
 
   handleReceived(data) {
+    console.log(data);
+    const { type, action } = data;
     if (this.props.currentUserId !== Number.parseInt(data.updated_by)) {
       // Another user has made the changes
-      if (data.type === 'list') {
-        if (data.action === 'move') {
+      if (type === 'list') {
+        if (action === 'move') {
           const { id, position } = data.list;
-          this.moveList(data.list.id, data.list.position);
+          this.moveList(id, position);
+        } else if (action === 'add') {
+          this.props.addList(data.list);
         }
-      } else if (data.type === 'card') {
-        if (data.action === 'move') {
+      } else if (type === 'card') {
+        if (action === 'move') {
           const { id, previous_list_id, list_id, position } = data.card;
           this.moveCard(id, list_id, position, previous_list_id);
+        } else if (action === 'add') {
+          this.props.addCard(data.card);
         }
       }
     }
@@ -86,14 +92,19 @@ class BoardContent extends React.Component {
 
   createList(data) {
     const list = Object.assign({}, data, {
-      board_id: this.props.match.params.boardId
+      board_id: this.props.match.params.boardId,
+      updated_by: this.props.currentUserId
     })
     return this.props.createList(list);
   }
 
   createCard(list_id) {
     return (data) => {
-      const card = Object.assign({}, data, { list_id });
+      const card = Object.assign({}, data, {
+        list_id,
+        updated_by: this.props.currentUserId,
+        board_id: this.props.currentBoard.id
+      });
       return this.props.createCard(card);
     }
   }

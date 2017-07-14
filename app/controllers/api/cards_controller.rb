@@ -2,6 +2,18 @@ class Api::CardsController < ApplicationController
   def create
     @card = Card.new(card_params)
     if @card.save
+      ActionCable.server.broadcast("board:#{params[:card][:board_id]}",
+        type: 'card',
+        action: 'add',
+        card: {
+          id: @card.id,
+          list_id: @card.list_id,
+          title: @card.title,
+          description: @card.description,
+          comments: []
+        },
+        updated_by: params[:card][:updated_by]
+      )
       render :create
     else
       render json: @card.errors.full_messages, status: 422

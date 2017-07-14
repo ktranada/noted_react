@@ -4,6 +4,18 @@ class Api::ListsController < ApplicationController
     @list = List.new(list_params)
 
     if @list.save
+      ActionCable.server.broadcast("board:#{@list.board_id}",
+        type: 'list',
+        action: 'add',
+        list: {
+          id: @list.id,
+          title: @list.title,
+          position: @list.position,
+          board_id: @list.board_id,
+          cards: []
+        },
+        updated_by: params[:list][:updated_by]
+      )
       render :create
     else
       render json: @list.errors.full_messages, status: 422

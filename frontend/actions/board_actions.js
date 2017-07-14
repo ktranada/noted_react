@@ -20,7 +20,7 @@ export const REMOVE_MEMBER = 'REMOVE_MEMBER';
 export const createList = list => dispatch => (
   BoardAPI.createList(list)
     .then(list => {
-      // dispatch(addList(list));
+      dispatch(addList(list));
       return list;
     })
 );
