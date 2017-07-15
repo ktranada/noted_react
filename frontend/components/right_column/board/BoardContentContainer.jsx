@@ -1,12 +1,13 @@
 import { connect } from 'react-redux';
 import { asArrayByOrder, isLoadingByType } from '../../../reducers/selectors';
 import {
+  requestLists,
   createList,
   createCard,
   addList,
   addCard,
   addComment,
-  updateCard
+  updateCard,
 } from '../../../actions/board_actions';
 import {
   moveList,
@@ -20,11 +21,12 @@ import BoardContent from './BoardContent';
 const mapStateToProps = ({ lists, boards, loading}, { currentBoard }) => {
   return ({
     lists: asArrayByOrder(lists, currentBoard.lists),
-    isLoading: isLoadingByType(loading, currentBoard.id, 'loadingBoard')
+    isLoading: isLoadingByType(loading, currentBoard.id, 'loadingLists')
   })
 }
 
 const mapDispatchToProps = (dispatch, { currentBoard }) => ({
+  requestLists: () => dispatch(requestLists(currentBoard.id)),
   createList: list =>  dispatch(createList(list)),
   createCard: card => dispatch(createCard(card)),
   addList: list => dispatch(addList(list)),

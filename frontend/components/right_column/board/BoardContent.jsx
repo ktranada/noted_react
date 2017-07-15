@@ -43,6 +43,10 @@ class BoardContent extends React.Component {
     if (!match.isExact) {
       this.props.history.replace(match.url);
     }
+
+    if (!this.props.currentBoard.hasLoadedLists) {
+      this.props.requestLists();
+    }
   }
 
   componentDidMount() {
@@ -54,6 +58,11 @@ class BoardContent extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (!nextProps.match.isExact) {
       this.props.history.push(this.props.match.url);
+    }
+
+    if (this.props.currentBoard.id !== nextProps.currentBoard.id &&
+        !nextProps.currentBoard.hasLoadedLists) {
+      this.props.requestLists();
     }
   }
 

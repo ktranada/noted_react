@@ -11,9 +11,10 @@ class Api::MessagesController < ApplicationController
           channel_id: @message.channel_id,
           content: @message.content,
           date: @message.create_date(current_user),
+          timestamp: @message.created_at.to_i,
           time: @message.create_time(current_user),
           time_offset: @message.time_offset(current_user)
-        },
+        }
       )
 
       ActionCable.server.broadcast("notification:#{@message.channel_id}", {})

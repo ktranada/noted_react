@@ -15,41 +15,40 @@ const propTypes = {
   }).isRequired
 }
 
-class Cards extends React.Component {
-  render() {
-    const {
-      list,
-      cards,
-      connectDropTarget,
-      cardCallbacks,
-      isCardOver,
-      prevHoveredListId
-    } = this.props;
-    const cardList = [];
-    this.props.cards.forEach((card, position) => {
-      if (card !== undefined) {
-        cardList.push(
-          <Card
-            key={card.id}
-            boardId={list.board_id}
-            listId={list.id}
-            id={card.id}
-            prevHoveredListId={prevHoveredListId}
-            position={position}
-            title={card.title}
-            height={this.props.height}
-            cardCallbacks={cardCallbacks}
-          />
-        )
-      }
-    })
-    return (
-        <ul
-          className="list__cards">
-          {cardList}
-        </ul>
-      );
-  }
+function Cards(props) {
+  const {
+    list,
+    cards,
+    connectDropTarget,
+    cardCallbacks,
+    isCardOver,
+    prevHoveredListId,
+    height
+  } = props;
+  const cardList = [];
+  cards.forEach((card, position) => {
+    if (card !== undefined) {
+      cardList.push(
+        <Card
+          key={card.id}
+          boardId={list.board_id}
+          listId={list.id}
+          id={card.id}
+          prevHoveredListId={prevHoveredListId}
+          position={position}
+          title={card.title}
+          height={height}
+          cardCallbacks={cardCallbacks}
+        />
+      )
+    }
+  })
+  return (
+      <ul
+      className="list__cards">
+        {cardList}
+      </ul>
+    );
 }
 
 Cards.propTypes = propTypes;

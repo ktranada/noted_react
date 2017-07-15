@@ -1,5 +1,4 @@
 class Api::ListsController < ApplicationController
-
   def create
     @list = List.new(list_params)
 
@@ -19,6 +18,18 @@ class Api::ListsController < ApplicationController
       render :create
     else
       render json: @list.errors.full_messages, status: 422
+    end
+  end
+
+  def index
+    membership = current_user.board_memberships.find_by(board_id: params[:board_id])
+
+    if membership.nil?
+      render json: "You are not a member of this board.", status: 422
+    else
+      @board_id = params[:board_id]
+      @lists = List.includes(cards: [:comments]).where(board_id: params[:board_id]).order('position')
+      @cards = @lists.map(&:cards).flatten
     end
   end
 

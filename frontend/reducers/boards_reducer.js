@@ -8,12 +8,13 @@ import {
 } from '../actions/nav_actions';
 
 import {
+  RECEIVE_LISTS,
   ADD_LIST,
   ADD_INVITES,
   REMOVE_INVITE,
   REMOVE_MEMBER,
   UPDATE_BOARD,
-  REMOVE_BOARD
+  REMOVE_BOARD,
 } from '../actions/board_actions';
 import { MOVE_LIST, UPDATE_LIST_ORDER } from '../actions/list_actions';
 
@@ -60,6 +61,18 @@ function receiveBoard(state, action) {
   })
   newState['errors'] = [];
   return updateObject(state, newState)
+}
+
+function receiveLists(state, action) {
+  const { list_ids, board_id } = action.lists;
+  if (state.byId[board_id]) {
+    const newState = merge({}, state, byIdObject(board_id, {
+      lists: list_ids,
+      hasLoadedLists: true
+    }));
+    return newState;
+  }
+  return state;
 }
 
 function addBoard(state, action) {
@@ -205,18 +218,20 @@ const boardsReducer = (state = initialState, action) => {
         order: action.boards.order,
         errors: []
       });
+
+    case RECEIVE_LISTS: return receiveLists(state, action);
     case ADD_BOARD: return addBoard(state, action);
     case ADD_LIST: return addList(state, action);
     case ADD_INVITES: return addInvites(state, action);
     case MOVE_LIST: return moveList(state, action);
     case UPDATE_BOARD: return updateBoard(state, action);
     case REMOVE_INVITE: return removeInvite(state, action);
+    case UPDATE_TIME_ZONE: return updateTimeZone(state, action);
     case REMOVE_MEMBER: return removeMember(state, action);
     case REMOVE_BOARD: return removeBoard(state, action);
     case NOTIFICATION_MESSAGES:
     case NOTIFICATION_INCREMENT_MESSAGES:
       return updateUnreadMessages(state, action);
-    case UPDATE_TIME_ZONE: return updateTimeZone(state, action);
     default:
       return state;
   }

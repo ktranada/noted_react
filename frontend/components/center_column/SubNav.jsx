@@ -47,7 +47,7 @@ class SubNav extends React.Component {
           <button
             type="button"
             onClick={this.props.toggleModal('INVITE_PEOPLE')}
-            className="button button-green">
+          className="button button-green">
             <i aria-hidden className="material-icons">&#xE7FB;</i>Invite People
           </button>
           <i aria-hidden className="material-icons">&#xE14C;</i>

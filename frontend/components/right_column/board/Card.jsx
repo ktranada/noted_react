@@ -127,12 +127,13 @@ class Card extends React.PureComponent {
             isDragging && monitorItem && monitorItem.id === id
               ? <div className="placeholder__card" style={{ height }} />
               : (
-                  <div
-                    role="button"
-                    className="list__card cursor-pointer">
-                    <span>{title}</span>
-                  </div>
-                )
+                <div
+                  role="button"
+                  className="list__card cursor-pointer"
+                >
+                  <span>{id}</span>
+                </div>
+              )
           }
         </Link>
       </li>

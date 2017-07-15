@@ -1,10 +1,10 @@
 import React from 'react';
 import { ActionCable } from '../util/ActionCableProvider';
 
-const onReceiveMessages = (addMessage, incrementMessageNotifications) =>
+const onReceiveMessages = currentUserId => (addMessage, incrementMessageNotifications) =>
   response => {
     addMessage(response.message);
-    if (!window.location.hash.includes(`/boards/${resposne.board_id}/messages`)) {
+    if (!window.location.hash.includes(`/boards/${response.board_id}/messages`)) {
       incrementMessageNotifications({
         board_id: response.board_id,
         channel_id: response.message.channel_id
@@ -14,6 +14,7 @@ const onReceiveMessages = (addMessage, incrementMessageNotifications) =>
 
 function SubNavActionCable(props) {
   const {
+    currentUserId,
     currentBoardId,
     subscribedChannels,
     updateAppearance,
@@ -33,7 +34,7 @@ function SubNavActionCable(props) {
             <ActionCable
               key={channel.id}
               channel={{channel: 'ChatChannel', room: channel.id}}
-              onReceived={onReceiveMessages(addMessage, incrementMessageNotifications)}
+              onReceived={onReceiveMessages(currentUserId)(addMessage, incrementMessageNotifications)}
             />
           )
         })

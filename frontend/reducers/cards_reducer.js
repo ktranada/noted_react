@@ -1,5 +1,5 @@
 import merge from 'lodash/merge';
-import { ADD_CARD, ADD_COMMENT, UPDATE_CARD, REMOVE_CARD, REMOVE_BOARD } from '../actions/board_actions';
+import { RECEIVE_LISTS, ADD_CARD, ADD_COMMENT, UPDATE_CARD, REMOVE_CARD, REMOVE_BOARD } from '../actions/board_actions';
 import { MOVE_CARD } from '../actions/list_actions';
 import { RECEIVE_BOARD } from '../actions/nav_actions';
 import { updateObject, byIdObject, updateAssociationList, deleteObjectById, removeObjectsByBoard } from './util';
@@ -10,8 +10,8 @@ const initialState = {
 
 const cardsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case RECEIVE_BOARD:
-      return merge({}, state, action.board.cards);
+    case RECEIVE_LISTS:
+      return merge({}, state, action.lists.cards);
 
     case UPDATE_CARD:
     case ADD_CARD:

@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   end
 
   before_action :require_login!
+  # before_action :require_board_membership
   helper_method :current_user, :logged_in?
 
   def current_user

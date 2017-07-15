@@ -6,7 +6,7 @@ export const RECEIVE_MESSAGES = 'RECEIVE_MESSAGES';
 export const createMessage = message => dispatch => (
   BoardAPI.createMessage(message).then(
     message => {
-      return dispatch(addMessage(message));
+      return message;
     },
     error => error.responseJSON
   )

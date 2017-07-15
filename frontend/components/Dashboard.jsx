@@ -84,14 +84,13 @@ class Dashboard extends React.PureComponent {
               currentBoard={currentBoard}
               isLoading={isLoading}
             />
-            <Redirect from="/boards/:boardId" to={`/boards/${currentBoard.id}/lists`} />
-              {/* <RouteWithProps
-                path="/boards/:boardId"
-                isLoading={isLoading}
-                currentBoard={currentBoard}
-                component={InitialBoardContentContainer}
-                toggleModal={this.toggleModal}
-              /> */}
+            <RouteWithProps
+              path="/boards/:boardId"
+              isLoading={isLoading}
+              currentBoard={currentBoard}
+              component={InitialBoardContentContainer}
+              toggleModal={this.toggleModal}
+            />
 
           </Switch>
         </section>

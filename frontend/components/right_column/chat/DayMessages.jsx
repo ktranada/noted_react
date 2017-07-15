@@ -20,7 +20,7 @@ function DayMessages({ boardId, date, dayMessages, members }) {
   const messageRows = dayMessages.map(userMessages => {
     return (
       <Message
-        key={`${date}:${userMessages[0].id}`}
+        key={`user-messages-${userMessages[0].id}`}
         boardId={boardId}
         member={members[userMessages[0].author_id]}
         userMessages={userMessages}

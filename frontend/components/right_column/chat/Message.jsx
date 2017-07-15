@@ -19,9 +19,9 @@ const propTypes = {
 function formatContent(input, id, timestamp) {
   return input.split('<br>').map((item, key) => {
     if (item === '') {
-      return <span key={key} className="line-break"/>
+      return <span key={`line-break-${id}`} className="line-break"/>
     }
-    return <p key={key}>{item}</p>
+    return <p key={`message-item-${id}`}>{item}</p>
   });
 }
 
@@ -32,7 +32,8 @@ function Message({ boardId, member, userMessages }) {
 
   const username = member.usernamesByBoardId[boardId];
   const messageBody = userMessages.map(({ id, content, time, timestamp }, index) => {
-    return <div data-time={time} className="user-messages" key={`${id}:${timestamp}`}>{formatContent(content, id, timestamp)}</div>;
+    console.log(timestamp)
+    return <div data-time={time} className="user-messages" key={`$message__${id}-${timestamp}`}>{formatContent(content, id, timestamp)}</div>;
   });
 
   return (
