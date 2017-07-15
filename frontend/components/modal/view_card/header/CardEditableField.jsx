@@ -4,11 +4,22 @@ import PropTypes from 'prop-types';
 import Title from './Title';
 import Description from './Description';
 
+
+const propTypes = {
+  type: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ]).isRequired,
+  isRequired: PropTypes.bool.isRequired,
+  editCard: PropTypes.func.isRequired
+}
+
+
 const EDITABLE_COMPONENTS = {
   'title': Title,
   'description': Description
 }
-
 class CardEditableField extends React.Component {
   constructor(props) {
     super(props);
@@ -25,6 +36,15 @@ class CardEditableField extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value !== this.props.value &&
+        nextProps.value !== this.state[this.props.type]) {
+      // Changed by another user
+      this.setState({
+        [this.props.type]: nextProps.value
+      })
+    }
+  }
   focusTextarea(e) {
     this.setState({ isFocused: true})
   }
@@ -81,11 +101,7 @@ class CardEditableField extends React.Component {
   }
 }
 
-CardEditableField.propTypes = {
-  type: PropTypes.string.isRequired,
-  isRequired: PropTypes.bool.isRequired,
-  editCard: PropTypes.func.isRequired
-}
+CardEditableField.propTypes = propTypes;
 
 
 export default CardEditableField;

@@ -4,6 +4,7 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend  from 'react-dnd-html5-backend';
 
 import { ActionCable } from '../../util/ActionCableProvider';
+import BoardActionCable from './BoardActionCable';
 import ListIndex from './ListIndex';
 import ListContainer from './ListContainer';
 import Spinner from '../../util/Spinner';
@@ -28,7 +29,6 @@ class BoardContent extends React.Component {
 
     this.scroller = new Scroller();
 
-    this.handleReceived = this.handleReceived.bind(this);
     this.createList = this.createList.bind(this);
     this.createCard = this.createCard.bind(this);
     this.moveCard = throttle(this.moveCard.bind(this), 200);
@@ -65,29 +65,6 @@ class BoardContent extends React.Component {
 
   componentWillUnmount() {
     this.scroller.stopScrolling();
-  }
-
-  handleReceived(data) {
-    console.log(data);
-    const { type, action } = data;
-    if (this.props.currentUserId !== Number.parseInt(data.updated_by)) {
-      // Another user has made the changes
-      if (type === 'list') {
-        if (action === 'move') {
-          const { id, position } = data.list;
-          this.moveList(id, position);
-        } else if (action === 'add') {
-          this.props.addList(data.list);
-        }
-      } else if (type === 'card') {
-        if (action === 'move') {
-          const { id, previous_list_id, list_id, position } = data.card;
-          this.moveCard(id, list_id, position, previous_list_id);
-        } else if (action === 'add') {
-          this.props.addCard(data.card);
-        }
-      }
-    }
   }
 
   createList(data) {
@@ -190,10 +167,21 @@ class BoardContent extends React.Component {
                   updateListPosition: this.updateListPosition
                 }}
               >
-                <ActionCable
-                  ref="boardChannel"
-                  channel={{channel: 'BoardChannel', room: this.props.currentBoard.id}}
-                  onReceived={this.handleReceived}
+                <BoardActionCable
+                  currentUserId={this.props.currentUserId}
+                  currentBoardId={this.props.currentBoard.id}
+                  listCallbacks={{
+                    moveList: this.moveList,
+                    addList: this.props.addList
+                  }}
+                  cardCallbacks={{
+                    moveCard: this.moveCard,
+                    addCard: this.props.addCard,
+                    updateCard: this.props.updateCard
+                  }}
+                  commentCallbacks={{
+                    addComment: this.props.addComment
+                  }}
                 />
               </ListIndex>
             )

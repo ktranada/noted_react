@@ -23,28 +23,32 @@ class Api::CardsController < ApplicationController
   def update
     @card = Card.find(params[:id])
     previous_list_id = @card.list_id
+
+    action = ''
     if params[:card][:type] == 'position'
+      action = 'move'
       @card.move(card_params)
+    elsif @card.update(card_params)
+      action = 'update'
+    end
+
+    if !@card.errors.any?
       ActionCable.server.broadcast("board:#{params[:card][:board_id]}",
         type: 'card',
-        action: 'move',
+        action: action,
         card: {
           id: @card.id,
-          previous_list_id: previous_list_id,
           list_id: @card.list_id,
           title: @card.title,
           description: @card.description,
           position: @card.position
         },
+        previous_list_id: previous_list_id,
         updated_by: params[:card][:updated_by]
       )
-      render json: {}
+      render :create
     else
-      if @card.update(card_params)
-        render :create
-      else
-        render json: @card.errors.full_messages, status: 422
-      end
+      render json: @card.errors.full_messages, status: 422
     end
   end
 

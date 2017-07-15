@@ -9,7 +9,7 @@ const propTypes = {
 function SubNavDefault(props) {
   return (
     <div className="sub-nav-default">
-      <span>VIEW BOARD</span>
+      <span>BOARD</span>
       <div className="sub-nav-default__chat">
         <span>CHAT</span>
         <ul >

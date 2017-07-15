@@ -4,7 +4,9 @@ import {
   createList,
   createCard,
   addList,
-  addCard
+  addCard,
+  addComment,
+  updateCard
 } from '../../../actions/board_actions';
 import {
   moveList,
@@ -27,10 +29,12 @@ const mapDispatchToProps = (dispatch, { currentBoard }) => ({
   createCard: card => dispatch(createCard(card)),
   addList: list => dispatch(addList(list)),
   addCard: card => dispatch(addCard(card)),
+  addComment: comment => dispatch(addComment(comment)),
   moveList: (listId, lastPos, nextPos) => dispatch(moveList(currentBoard.id, listId, lastPos, nextPos)),
   moveCard: (cardId, lastListId, lastCardPos, nextListId, nextCardPos) =>  {
     return dispatch(moveCard(cardId, lastListId, lastCardPos, nextListId, nextCardPos));
   },
+  updateCard: card => dispatch(updateCard(card)),
   updateListPosition: list => dispatch(updateListPosition(list)),
   updateCardPosition: card => dispatch(updateCardPosition(card))
 })

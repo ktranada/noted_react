@@ -23,17 +23,20 @@ class Api::ListsController < ApplicationController
   end
 
   def update
-
     @list = List.find(params[:id])
+
+    action = ''
     if list_params[:position] != @list.position
       @list.insert_at(list_params[:position].to_i)
+      action = 'move'
     elsif @list.update(title: list_params[:title])
+      action = 'update'
     end
 
     if !@list.errors.any?
       ActionCable.server.broadcast("board:#{@list.board_id}",
         type: 'list',
-        action: 'move',
+        action: action,
         list: {
           id: @list.id,
           title: @list.title,

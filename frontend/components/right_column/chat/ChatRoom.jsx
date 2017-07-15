@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ActionCable } from '../../util/ActionCableProvider';
 
 import Messages from './Messages';
 import ChatForm from './ChatForm';
@@ -33,7 +32,6 @@ class ChatRoom extends React.Component {
     super(props);
 
     this.sendMessage = this.sendMessage.bind(this);
-    this.onReceivedMessages = this.onReceivedMessages.bind(this);
     this.loadMessages = this.loadMessages.bind(this);
 
     this.state = {
@@ -43,19 +41,10 @@ class ChatRoom extends React.Component {
     }
   }
 
-  onReceivedMessages(message) {
-    this.props.addMessage(message);
-    if (!window.location.hash.includes(this.props.location.pathname)) {
-      this.props.incrementMessageNotifications({
-        board_id: this.props.currentBoard.id,
-        channel_id: this.props.channel.id
-      });
-    }
-  }
-
   sendMessage(data) {
+    data['board_id'] = this.props.currentBoard.id;
     data['channel_id'] = this.props.channel.id
-    this.refs.chatChannel.perform('create_message', data)
+    this.props.sendMessage(data);
   }
 
 
@@ -78,11 +67,6 @@ class ChatRoom extends React.Component {
     if (!channel) return null;
     return (
       <div className="chat-wrapper">
-        <ActionCable
-          ref={`chatChannel`}
-          channel={{channel: 'ChatChannel', room: channel.id}}
-          onReceived={this.onReceivedMessages}
-        />
         <Messages
           loadMessages={this.loadMessages}
           currentPage={this.state.currentPage}

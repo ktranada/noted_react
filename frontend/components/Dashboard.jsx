@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 import { RouteWithProps } from '../util/route_util';
 import NavContainer from './left_column/NavContainer';
@@ -84,20 +84,21 @@ class Dashboard extends React.PureComponent {
               currentBoard={currentBoard}
               isLoading={isLoading}
             />
-
-            <RouteWithProps
-              path="/boards/:boardId"
-              isLoading={isLoading}
-              currentBoard={currentBoard}
-              component={InitialBoardContentContainer}
-              toggleModal={this.toggleModal}
-            />
+            <Redirect from="/boards/:boardId" to={`/boards/${currentBoard.id}/lists`} />
+              {/* <RouteWithProps
+                path="/boards/:boardId"
+                isLoading={isLoading}
+                currentBoard={currentBoard}
+                component={InitialBoardContentContainer}
+                toggleModal={this.toggleModal}
+              /> */}
 
           </Switch>
         </section>
 
         <RouteWithProps
           path="/boards/:boardId/card/:cardId"
+          currentUserId={currentUser.id}
           component={ViewCardModalContainer}
           currentBoard={currentBoard} />
 
