@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend  from 'react-dnd-html5-backend';
 
+import { ActionCable } from '../../util/ActionCableProvider';
+import BoardActionCable from './BoardActionCable';
 import ListIndex from './ListIndex';
 import ListContainer from './ListContainer';
 import Spinner from '../../util/Spinner';
-
 import Scroller from '../../util/Scroller';
 import { throttle } from '../../../actions/util';
 
@@ -28,11 +29,11 @@ class BoardContent extends React.Component {
 
     this.scroller = new Scroller();
 
-    this.addList = this.addList.bind(this);
-    this.addCard = this.addCard.bind(this);
+    this.createList = this.createList.bind(this);
+    this.createCard = this.createCard.bind(this);
     this.moveCard = throttle(this.moveCard.bind(this), 200);
     this.moveList = this.moveList.bind(this);
-    this.updateListOrder = this.updateListOrder.bind(this);
+    this.updateListPosition = this.updateListPosition.bind(this);
     this.updateCardPosition = this.updateCardPosition.bind(this);
     this.setHoveredListId = this.setHoveredListId.bind(this);
   }
@@ -41,6 +42,10 @@ class BoardContent extends React.Component {
     const { match, history } = this.props;
     if (!match.isExact) {
       this.props.history.replace(match.url);
+    }
+
+    if (!this.props.currentBoard.hasLoadedLists) {
+      this.props.requestLists();
     }
   }
 
@@ -54,6 +59,11 @@ class BoardContent extends React.Component {
     if (!nextProps.match.isExact) {
       this.props.history.push(this.props.match.url);
     }
+
+    if (this.props.currentBoard.id !== nextProps.currentBoard.id &&
+        !nextProps.currentBoard.hasLoadedLists) {
+      this.props.requestLists();
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -66,37 +76,41 @@ class BoardContent extends React.Component {
     this.scroller.stopScrolling();
   }
 
-  setHoveredListId(listId) {
-    if (this.state.prevHoveredListId !== listId) {
-      // We want to retain the previous and next list over multiple drags
-      this.setState({
-        prevHoveredListId: listId,
-      })
-    }
-  }
-
-  addList(data) {
+  createList(data) {
     const list = Object.assign({}, data, {
-      board_id: this.props.match.params.boardId
+      board_id: this.props.match.params.boardId,
+      updated_by: this.props.currentUserId
     })
     return this.props.createList(list);
   }
 
-  addCard(list_id) {
+  createCard(list_id) {
     return (data) => {
-      const card = Object.assign({}, data, { list_id });
+      const card = Object.assign({}, data, {
+        list_id,
+        updated_by: this.props.currentUserId,
+        board_id: this.props.currentBoard.id
+      });
       return this.props.createCard(card);
     }
   }
 
-  moveCard(cardId, nextListId, nextPos) {
-    const { list: previousList } = this.findList(this.state.prevHoveredListId)
+  moveCard(cardId, nextListId, nextPos, defaultPrevListId = -1) {
+    const prevListId = defaultPrevListId !== -1
+      ? defaultPrevListId
+      : this.state.prevHoveredListId;
+
+    const { list: previousList } = this.findList(prevListId)
     const prevPos = previousList.cards.indexOf(cardId);
     if (prevPos === -1) {
       return;
     }
-    this.props.moveCard(cardId, this.state.prevHoveredListId, prevPos, nextListId, nextPos);
-    this.setHoveredListId(nextListId);
+    this.props.moveCard(cardId, prevListId, prevPos, nextListId, nextPos);
+
+    if (defaultPrevListId === -1) {
+      // Changes were made by current user
+      this.setHoveredListId(nextListId);
+    }
   }
 
   moveList(listId, nextPos) {
@@ -117,18 +131,23 @@ class BoardContent extends React.Component {
     }
   }
 
-  updateListOrder() {
-    const lists = {
-      ids: []
-    };
-    this.props.lists.forEach(({ id }, position) => {
-      lists[id] = position;
-      lists.ids.push(id);
-    });
-    this.props.updateListOrder(lists);
+  setHoveredListId(listId) {
+    if (this.state.prevHoveredListId !== listId) {
+      // We want to retain the previous and next list over multiple drags
+      this.setState({
+        prevHoveredListId: listId,
+      })
+    }
+  }
+
+  updateListPosition(list) {
+    list['updated_by'] = this.props.currentUserId;
+    this.props.updateListPosition(list);
   }
 
   updateCardPosition(card) {
+    card['updated_by'] = this.props.currentUserId;
+    card['board_id'] = this.props.currentBoard.id;
     this.props.updateCardPosition(card);
   }
 
@@ -151,11 +170,29 @@ class BoardContent extends React.Component {
                   updateCardPosition: this.updateCardPosition
                 }}
                 listCallbacks={{
-                  addCard: this.addCard,
-                  addList: this.addList,
+                  createCard: this.createCard,
+                  createList: this.createList,
                   moveList: this.moveList,
-                  updateListOrder: this.updateListOrder
-                }} />
+                  updateListPosition: this.updateListPosition
+                }}
+              >
+                <BoardActionCable
+                  currentUserId={this.props.currentUserId}
+                  currentBoardId={this.props.currentBoard.id}
+                  listCallbacks={{
+                    moveList: this.moveList,
+                    addList: this.props.addList
+                  }}
+                  cardCallbacks={{
+                    moveCard: this.moveCard,
+                    addCard: this.props.addCard,
+                    updateCard: this.props.updateCard
+                  }}
+                  commentCallbacks={{
+                    addComment: this.props.addComment
+                  }}
+                />
+              </ListIndex>
             )
         }
       </div>

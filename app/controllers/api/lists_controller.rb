@@ -1,33 +1,63 @@
 class Api::ListsController < ApplicationController
-
   def create
     @list = List.new(list_params)
 
     if @list.save
+      ActionCable.server.broadcast("board:#{@list.board_id}",
+        type: 'list',
+        action: 'add',
+        list: {
+          id: @list.id,
+          title: @list.title,
+          position: @list.position,
+          board_id: @list.board_id,
+          cards: []
+        },
+        updated_by: params[:list][:updated_by]
+      )
       render :create
     else
       render json: @list.errors.full_messages, status: 422
     end
   end
 
+  def index
+    membership = current_user.board_memberships.find_by(board_id: params[:board_id])
+
+    if membership.nil?
+      render json: "You are not a member of this board.", status: 422
+    else
+      @board_id = params[:board_id]
+      @lists = List.includes(cards: [:comments]).where(board_id: params[:board_id]).order('position')
+      @cards = @lists.map(&:cards).flatten
+    end
+  end
+
   def update
-    if params[:type] === 'order'
-      data = JSON.parse(params[:lists])
-      lists = List.where(board_id: params[:board_id], id: data['ids'])
+    @list = List.find(params[:id])
 
-      @success = []
-      @errors = []
+    action = ''
+    if list_params[:position] != @list.position
+      @list.insert_at(list_params[:position].to_i)
+      action = 'move'
+    elsif @list.update(title: list_params[:title])
+      action = 'update'
+    end
 
-      lists.each do |list|
-        position = data[list.id.to_s]
-        if list.position != position
-          if !list.set_list_position(position)
-            @errors << list.errors
-          end
-        end
-      end
-
-      render json: { order: data['ids'], errors: @errors, board_id: params[:board_id] }
+    if !@list.errors.any?
+      ActionCable.server.broadcast("board:#{@list.board_id}",
+        type: 'list',
+        action: action,
+        list: {
+          id: @list.id,
+          title: @list.title,
+          position: @list.position
+        },
+        updated_by: params[:list][:updated_by]
+      )
+      render json: {}
+    else
+      render json: ["Could not update list"], status: 422
     end
   end
 

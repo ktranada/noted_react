@@ -1,7 +1,8 @@
 import * as BoardAPI from '../util/board_api';
-
+export const START_LOADING_LISTS = 'START_LOADING_LISTS'
 export const RECEIVE_USERNAME_ERRORS = 'RECEIVE_USERNAME_ERRORS';
 export const RECEIVE_INVITE_ERRORS = 'RECEIVE_INVITE_ERRORS';
+export const RECEIVE_LISTS = 'RECEIVE_LISTS';
 export const ADD_LIST = 'ADD_LIST';
 export const ADD_CARD = 'ADD_CARD';
 export const ADD_COMMENT = 'ADD_COMMENT';
@@ -11,11 +12,34 @@ export const ADD_INVITE = 'ADD_INVITE';
 export const ADD_INVITES = 'ADD_INVITES';
 export const UPDATE_CARD = 'UPDATE_CARD';
 export const UPDATE_BOARD = 'UPDATE_BOARD';
+export const UPDATE_BOARD_VIEW_STATUS = 'UPDATE_BOARD_VIEW_STATUS';
+export const UPDATE_BOARD_EXTERNAL_EDIT_STATUS = 'UPDATE_BOARD_EXTERNAL_EDIT_STATUS';
 export const UPDATE_USERNAME = 'UPDATE_USERNAME';
 export const REMOVE_BOARD = 'REMOVE_BOARD';
 export const REMOVE_CARD = 'REMOVE_CARD';
 export const REMOVE_INVITE = 'REMOVE_INVITE';
 export const REMOVE_MEMBER = 'REMOVE_MEMBER';
+
+
+
+export const requestLists  = (board_id) => dispatch => {
+  dispatch(startLoadingLists(board_id));
+  return BoardAPI.requestLists(board_id).then(
+    result => {
+      dispatch(receiveLists(result));
+    }
+  )
+}
+
+export const receiveLists = lists => ({
+  type: RECEIVE_LISTS,
+  lists
+})
+
+export const startLoadingLists = board_id => ({
+  type: START_LOADING_LISTS,
+  board_id
+})
 
 export const createList = list => dispatch => (
   BoardAPI.createList(list)

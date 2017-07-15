@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CardEditableField from './CardEditableField';
 
-
-
 const Header = props => {
   const { card, editCard } = props;
   return (

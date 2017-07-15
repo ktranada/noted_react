@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 import { RouteWithProps } from '../util/route_util';
 import NavContainer from './left_column/NavContainer';
@@ -69,12 +69,14 @@ class Dashboard extends React.PureComponent {
               path="/boards/:boardId/card/:cardId"
               component={BoardContentContainer}
               currentBoard={currentBoard}
+              currentUserId={currentUser.id}
             />
 
             <RouteWithProps
               path="/boards/:boardId/lists"
               component={BoardContentContainer}
               currentBoard={currentBoard}
+              currentUserId={currentUser.id}
             />
             <RouteWithProps
               path="/boards/:boardId/messages/:channelId"
@@ -82,7 +84,6 @@ class Dashboard extends React.PureComponent {
               currentBoard={currentBoard}
               isLoading={isLoading}
             />
-
             <RouteWithProps
               path="/boards/:boardId"
               isLoading={isLoading}
@@ -96,6 +97,7 @@ class Dashboard extends React.PureComponent {
 
         <RouteWithProps
           path="/boards/:boardId/card/:cardId"
+          currentUserId={currentUser.id}
           component={ViewCardModalContainer}
           currentBoard={currentBoard} />
 

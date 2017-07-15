@@ -11,6 +11,10 @@ const propTypes = {
   setMessageNotification: PropTypes.func.isRequired
 }
 
+const isTabActive = id => (match, location) => {
+  return location.pathname.includes(`/boards/${id}`);
+}
+
 class NavTab extends React.Component {
   render() {
     const {id, title, isLoaded, channels, hasUnreadMessages, setMessageNotification } = this.props;
@@ -26,7 +30,10 @@ class NavTab extends React.Component {
             />
           ))
         }
-        <NavLink data-badge={hasUnreadMessages ? 'unread-messages' : ''} to={`/boards/${id}`}>
+        <NavLink
+          data-badge={hasUnreadMessages ? 'unread-messages' : ''} to={`/boards/${id}/lists`}
+          isActive={isTabActive(id)}
+        >
           {title[0].toUpperCase()}
         </NavLink>
       </li>

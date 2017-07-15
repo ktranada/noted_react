@@ -43,6 +43,7 @@ class Nav extends React.Component {
       this.props.requestBoard(boardId, isTimeZoneUpdate);
     }
   }
+
   setMessageNotification(board_id, channel_id, isLoaded) {
     return () => {
       if (!window.location.hash.includes(`/messages/${channel_id}`)) {
@@ -50,7 +51,6 @@ class Nav extends React.Component {
       }
     }
   }
-
 
   render() {
     let { boards, currentBoardId } = this.props;

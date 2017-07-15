@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { ActionCable } from '../util/ActionCableProvider';
+// import { ActionCable } from '../util/ActionCableProvider';
+import SubNavActionCable from './SubNavActionCable';
 import BoardSettings from './top_section/BoardSettings';
 import SubNavActions from './middle_section/SubNavActions';
 import SubNavDefault from './SubNavDefault';
@@ -46,7 +47,7 @@ class SubNav extends React.Component {
           <button
             type="button"
             onClick={this.props.toggleModal('INVITE_PEOPLE')}
-            className="button button-green">
+          className="button button-green">
             <i aria-hidden className="material-icons">&#xE7FB;</i>Invite People
           </button>
           <i aria-hidden className="material-icons">&#xE14C;</i>
@@ -56,17 +57,21 @@ class SubNav extends React.Component {
 
     return (
       <div>
+
+        <SubNavActionCable
+          currentBoardId={currentBoard.id}
+          subscribedChannels={subscribedChannels}
+          updateAppearance={this.props.updateAppearance}
+          addMessage={this.props.addMessage}
+          incrementMessageNotifications={this.props.incrementMessageNotifications}
+        />
+
         <BoardSettings
           toggleModal={this.props.toggleModal}
           board={currentBoard}/>
         <hr />
         { inviteButton }
         { inviteButton && <hr />}
-        <ActionCable
-          ref="AppearanceChannel"
-          channel={{channel: 'AppearanceChannel', board_id: currentBoard.id}}
-          onReceived={this.handleAppearanceSubscription}
-        />
         <SubNavActions
           appearances={this.props.appearances}
           currentUserId={this.props.currentUser.id}

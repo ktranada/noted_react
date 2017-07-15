@@ -7,11 +7,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     resources :users, only: [:create, :show, :update, :destroy]
     resource :session, only: [:create, :destroy]
-    resources :lists, only: [:create] do
-      collection do
-        put :update
-      end
-    end
+    resources :lists, only: [:create, :index, :update]
 
     resources :channels, only: [:create] do
       resources :messages, only: [:index]
@@ -22,7 +18,7 @@ Rails.application.routes.draw do
     resources :boards, only: [:create, :show, :update, :destroy]
     resources :board_memberships, only: [:destroy, :update]
     resources :subscriptions, only: [:index]
-
+    resources :messages, only: [:create]
     resources :timezones, only: [:index]
   end
 end

@@ -16,6 +16,7 @@ else
         json.subscriptions []
         json.owner board.is_owned_by?(current_user)
         json.hasUnreadMessages false
+        json.hasLoadedLists false
       end
       order << board.id
     end

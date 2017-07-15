@@ -15,15 +15,16 @@ const defaultProps = {
   messages: []
 }
 
-function DayMessages({ boardId, date, dayMessages, members }) {
+function DayMessages({ boardId, date, dayMessages, members, contentType }) {
   if (dayMessages.length === 0) return null;
   const messageRows = dayMessages.map(userMessages => {
     return (
       <Message
-        key={`${date}:${userMessages[0].id}`}
+        key={`user-messages-${userMessages[0].id}`}
         boardId={boardId}
         member={members[userMessages[0].author_id]}
         userMessages={userMessages}
+        contentType={contentType}
       />
     )
   });

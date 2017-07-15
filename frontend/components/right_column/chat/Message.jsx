@@ -5,35 +5,34 @@ const propTypes = {
   boardId: PropTypes.number.isRequired,
   member: PropTypes.shape({
     usernamesByBoardId: PropTypes.object.isRequired
-  }).isRequired,
+  }),
   userMessages: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
-    author_id: PropTypes.number.isRequired,
-    channel_id: PropTypes.number.isRequired,
-    content: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired,
-    time: PropTypes.string.isRequired
-  }).isRequired)
+    time: PropTypes.string.isRequired,
+    timestamp: PropTypes.number.isRequired
+  }).isRequired),
+  contentType: PropTypes.string.isRequired
 }
 
-function formatContent(input) {
+function formatContent(input, id) {
   return input.split('<br>').map((item, key) => {
     if (item === '') {
-      return <span key={key} className="line-break"/>
+      return <span key={`line-break-${id}`} className="line-break"/>
     }
-    return <p key={key}>{item}</p>
+    return <p key={`message-item-${id}`}>{item}</p>
   });
-
 }
 
-function Message({ boardId, member, userMessages }) {
-  if (!member || !userMessages || userMessages.length === 0) {
+function Message({ boardId, member, userMessages, contentType }) {
+  if (!userMessages || userMessages.length === 0) {
     return null;
   }
 
-  const username = member.usernamesByBoardId[boardId];
-  const messageBody = userMessages.map(({ id, content, time }, index) => {
-    return <div data-time={time} className="user-messages" key={`${id}:${time}`}>{formatContent(content)}</div>;
+  const username = member ? member.usernamesByBoardId[boardId] : 'Deactivated User';
+  const messageBody = userMessages.map((message, index) => {
+    const { id, time, timestamp } = message;
+    const content = message[contentType]
+    return <div data-time={time} className="user-messages" key={`$message__${id}-${timestamp}`}>{formatContent(content, id)}</div>;
   });
 
   return (

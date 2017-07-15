@@ -1,28 +1,3 @@
-export const requestBoard = boardId => (
-  $.ajax({
-    method: 'GET',
-    url: `/api/boards/${boardId}`
-  })
-)
-
-export const requestSubscriptions = () => (
-  $.ajax({
-    method: 'GET',
-    url: `/api/subscriptions`
-  })
-);
-
-export const requestMessages = (channelId, page) => (
-  $.ajax({
-    method: 'GET',
-    url: `/api/channels/${channelId}/messages`,
-    data: {
-      page
-    }
-  })
-);
-
-
 const create = (resource, data) => (
   $.ajax({
     method: 'POST',
@@ -49,6 +24,42 @@ const destroy = (resource, id) => (
     url: `/api/${resource}s/${id}`
   })
 )
+
+export const requestBoard = boardId => (
+  $.ajax({
+    method: 'GET',
+    url: `/api/boards/${boardId}`
+  })
+)
+
+export const requestLists = board_id => (
+  $.ajax({
+    method: 'GET',
+    url: '/api/lists',
+    data: {
+      board_id
+    }
+  })
+)
+
+export const requestSubscriptions = () => (
+  $.ajax({
+    method: 'GET',
+    url: `/api/subscriptions`
+  })
+);
+
+export const requestMessages = (channelId, page) => (
+  $.ajax({
+    method: 'GET',
+    url: `/api/channels/${channelId}/messages`,
+    data: {
+      page
+    }
+  })
+);
+
+
 
 export const createBoard = data => (
   create('board', data)
@@ -87,6 +98,10 @@ export const createMessage = data => (
 
 export const updateCard = data => (
   update('card', data.id, data)
+)
+
+export const updateList = data => (
+  update('list', data.id, data)
 )
 
 export const updateLists = (board_id, lists, type="attributes") => (

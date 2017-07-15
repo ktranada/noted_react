@@ -13,10 +13,10 @@ const propTypes = {
   prevHoveredListId: PropTypes.number.isRequired,
   lists: PropTypes.array.isRequired,
   listCallbacks: PropTypes.shape({
-    addList: PropTypes.func.isRequired,
-    addCard: PropTypes.func.isRequired,
+    createList: PropTypes.func.isRequired,
+    createCard: PropTypes.func.isRequired,
     moveList: PropTypes.func.isRequired,
-    updateListOrder: PropTypes.func.isRequired
+    updateListPosition: PropTypes.func.isRequired
   }).isRequired,
   cardCallbacks: PropTypes.shape({
     moveCard: PropTypes.func.isRequired,
@@ -83,8 +83,9 @@ function ListIndex(props) {
 
   return props.connectDropTarget(
     <div id="list-index__scroller" className="list-index">
+      {props.children}
       {lists}
-      <ListCardForm type="list" addItem={props.listCallbacks.addList}/>
+      <ListCardForm type="list" addItem={props.listCallbacks.createList}/>
     </div>
   )
 }
