@@ -131,7 +131,7 @@ class Card extends React.PureComponent {
                   role="button"
                   className="list__card cursor-pointer"
                 >
-                  <span>{id}</span>
+                  <span>{title}</span>
                 </div>
               )
           }

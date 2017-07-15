@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import CommentForm from './CommentForm';
 import CommentIndexItem from './CommentIndexItem';
 import { getObjectById } from '../../../../reducers/selectors';
+import messagesByDate from '../../../../util/messages';
+import DayMessages from '../../../right_column/chat/DayMessages';
 
 const propTypes = {
   boardId: PropTypes.number.isRequired,
@@ -16,26 +18,43 @@ const propTypes = {
   createComment: PropTypes.func.isRequired
 }
 
+
 function CommentIndex(props) {
   const { members, boardId } = props;
-  const comments = props.comments.map(comment => {
-    const author = getObjectById(comment.author_id, members);
-    const username = author ? author.usernamesByBoardId[boardId] : "Deactivated User";
+  const data = messagesByDate(props.comments);
 
-    return(
-      <CommentIndexItem
-        key={comment.id}
-        username={username}
-        comment={comment}/>
-    )
+  const comments = []
+  data && data.order.forEach(date => {
+    comments.push(
+      <DayMessages
+        key={`date-${data[date][0][0].id}`}
+        date={date}
+        boardId={boardId}
+        dayMessages={data[date]}
+        members={props.members}
+        contentType="description"
+      />
+    );
   });
+  // const comments = props.comments.map(comment => {
+  //   const author = getObjectById(comment.author_id, members);
+  //   const username = author ? author.usernamesByBoardId[boardId] : "Deactivated User";
+  //   return(
+  //     <CommentIndexItem
+  //       key={comment.id}
+  //       username={username}
+  //       comment={comment}/>
+  //   )
+  // });
   return(
     <div className="card__comments">
       <h4>Add a comment</h4>
       <CommentForm
         createComment={props.createComment}
       />
-      { comments }
+      <div className="comments__index">
+        { comments }
+      </div>
     </div>
   )
 }

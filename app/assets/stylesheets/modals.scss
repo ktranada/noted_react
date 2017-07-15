@@ -781,7 +781,7 @@
   }
   .view-card-modal__content {
     min-height: 600px;
-    background: $primary-grey-dark;
+    background: #f7f6f6;
     min-width: 700px;
     border-radius: 2px;
     padding: 20px;
@@ -823,7 +823,7 @@
         }
 
         &.focused {
-          background: #fafafa;
+          background: white;
         }
 
         &:error {
@@ -901,6 +901,13 @@
             -ms-flex-direction: column;
                 flex-direction: column;
         margin-right: 15px;
+
+        .comments__index {
+          padding: 30px 20px;
+          border-radius: 2px;
+          max-width: 470px;
+          background: white;
+        }
         h4 {
           color: $bluegrey-medium;
         }

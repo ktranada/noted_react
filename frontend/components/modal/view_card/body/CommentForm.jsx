@@ -16,8 +16,14 @@ class CommentForm extends React.Component {
   }
 
   handleChange(e) {
+    if ((e.metaKey && e.which === 13 ) || (e.which === 13 && !e.shiftKey)) {
+      this.handleSubmit(e);
+      return;
+    }
+
     this.setState({
-      description: e.currentTarget.value
+      description: e.currentTarget.value,
+      isValid: true
     });
   }
 
@@ -43,6 +49,8 @@ class CommentForm extends React.Component {
       <form onSubmit={this.handleSubmit} className="card__comment-form">
         <TextareaAutosize
           minRows={5}
+          className={this.state.isValid ? '' : 'error'}
+          onKeyDown={this.handleChange}
           onChange={this.handleChange}
           value={this.state.description} />
         <button type="submit"><i className="material-icons">&#xE163;</i></button>

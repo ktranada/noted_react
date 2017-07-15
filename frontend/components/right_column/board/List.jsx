@@ -121,7 +121,7 @@ class List extends React.Component  {
             <div
               ref={el => this.listItem = el}
               className={`list-index__item ${isDragging ? "placeholder" : ""}`}>
-              <header>{list.id}</header>
+              <header>{list.title}</header>
               <hr />
               <Cards
                 list={list}
