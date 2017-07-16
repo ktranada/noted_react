@@ -27,8 +27,8 @@ const mapStateToProps = ({ lists, boards, loading}, { currentBoard }) => {
 
 const mapDispatchToProps = (dispatch, { currentBoard }) => ({
   requestLists: () => dispatch(requestLists(currentBoard.id)),
-  createList: list =>  dispatch(createList(list)),
-  createCard: card => dispatch(createCard(card)),
+  createList: list =>  dispatch(createList(currentBoard.id, list)),
+  createCard: card => dispatch(createCard(currentBoard.id, card)),
   addList: list => dispatch(addList(list)),
   addCard: card => dispatch(addCard(card)),
   addComment: comment => dispatch(addComment(comment)),
@@ -36,9 +36,9 @@ const mapDispatchToProps = (dispatch, { currentBoard }) => ({
   moveCard: (cardId, lastListId, lastCardPos, nextListId, nextCardPos) =>  {
     return dispatch(moveCard(cardId, lastListId, lastCardPos, nextListId, nextCardPos));
   },
-  updateCard: card => dispatch(updateCard(card)),
-  updateListPosition: list => dispatch(updateListPosition(list)),
-  updateCardPosition: card => dispatch(updateCardPosition(card))
+  updateCard: card => dispatch(updateCard(currentBoard.id, card)),
+  updateListPosition: list => dispatch(updateListPosition(currentBoard.id, list)),
+  updateCardPosition: card => dispatch(updateCardPosition(currentBoard.id, card))
 })
 
 export default connect(

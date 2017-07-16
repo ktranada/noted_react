@@ -6,8 +6,8 @@ import { getInvite, updateInvite } from '../../../actions/session_actions';
 
 const mapDispatchToProps = (dispatch) => ({
   // Create a board
-  createBoard: board => createBoard(board)(dispatch),
-  
+  createBoard: board => dispatch(createBoard(board)),
+
   // Join a board
   getInvite: code => dispatch(getInvite(code)),
   updateInvite: invite => dispatch(updateInvite(invite))

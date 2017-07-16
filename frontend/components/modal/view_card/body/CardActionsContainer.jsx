@@ -3,8 +3,8 @@ import { withRouter } from 'react-router-dom';
 import { destroyCard } from '../../../../actions/board_actions';
 import CardActions from './CardActions';
 
-const mapDispatchToProps = (dispatch, { cardId }) => ({
-  destroyCard: () => destroyCard(cardId)(dispatch)
+const mapDispatchToProps = (dispatch, { cardId, boardId }) => ({
+  destroyCard: () => dispatch(destroyCard(boardId, cardId))
 })
 
 export default withRouter(connect(

@@ -49,7 +49,7 @@ class ChatRoom extends React.Component {
 
 
   loadMessages() {
-    if (!this.state.isFetching) {
+    if (!this.state.isFetching && !this.state.fetchFailed) {
       this.setState({ isFetching: true, currentPage: this.state.currentPage + 1});
 
       return this.props.requestMessages(this.state.currentPage + 1).then(
@@ -71,6 +71,7 @@ class ChatRoom extends React.Component {
           loadMessages={this.loadMessages}
           currentPage={this.state.currentPage}
           isFetching={this.state.isFetching}
+          fetchFailed={this.state.fetchFailed}
           channel={channel}
           boardId={currentBoard.id}
           members={members}

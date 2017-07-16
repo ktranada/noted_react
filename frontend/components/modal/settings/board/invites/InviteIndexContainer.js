@@ -11,10 +11,10 @@ const mapStateToProps = ({ invites }, { currentBoard }) => {
   });
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, { currentBoard }) => {
   return({
     toggleInviteMembersModal: () => dispatch(toggleModal(INVITE_PEOPLE)),
-    destroyInvite: inviteId => destroyInvite(inviteId)(dispatch)
+    destroyInvite: inviteId => dispatch(destroyInvite(currentBoard.id, inviteId))
   })
 }
 

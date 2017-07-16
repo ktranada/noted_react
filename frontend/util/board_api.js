@@ -1,27 +1,32 @@
-const create = (resource, data) => (
+const create = (resource, board_id, data) => (
   $.ajax({
     method: 'POST',
     url: `/api/${resource}s`,
     data: {
-      [resource]: data
+      [resource]: data,
+      board_id
     }
   })
 )
 
-const update = (resource, id, data) => (
+const update = (resource, board_id, id, data) => (
   $.ajax({
     method: 'PUT',
     url: `/api/${resource}s/${id}`,
     data: {
-      [resource]: data
+      [resource]: data,
+      board_id
     }
   })
 )
 
-const destroy = (resource, id) => (
+const destroy = (resource, board_id, id) => (
   $.ajax({
     method: 'DELETE',
-    url: `/api/${resource}s/${id}`
+    url: `/api/${resource}s/${id}`,
+    data: {
+      board_id
+    }
   })
 )
 
@@ -49,94 +54,84 @@ export const requestSubscriptions = () => (
   })
 );
 
-export const requestMessages = (channelId, page) => (
+export const requestMessages = (board_id, channelId, page) => (
   $.ajax({
     method: 'GET',
     url: `/api/channels/${channelId}/messages`,
     data: {
-      page
+      page,
+      board_id
     }
   })
 );
 
 
 
-export const createBoard = data => (
-  create('board', data)
+export const createBoard = (data) => (
+  create('board', null, data)
 )
 
-export const createComment = data => (
-  create('comment', data)
+export const createComment = (board_id, data) => (
+  create('comment', board_id,  data)
 )
 
-export const createList = data => (
-  create('list', data)
+export const createList = (board_id, data) => (
+  create('list', board_id,  data)
 )
 
-export const createCard = data => (
-  create('card', data)
+export const createCard = (board_id, data) => (
+  create('card', board_id,  data)
 )
 
 
-export const createInvites = data => (
+export const createInvites = (board_id, data) => (
   $.ajax({
     method: 'POST',
     url: '/api/invites',
     data: {
-      'invites': data
+      invites: data,
+      board_id
     }
   })
 )
 
-export const createInvite = data => (
-  create('invite', data)
+export const createInvite = (board_id, data) => (
+  create('invite', board_id,  data)
 )
 
-export const createMessage = data => (
-  create('message', data)
-)
-
-export const updateCard = data => (
-  update('card', data.id, data)
-)
-
-export const updateList = data => (
-  update('list', data.id, data)
-)
-
-export const updateLists = (board_id, lists, type="attributes") => (
-  $.ajax({
-    method: 'PUT',
-    url: '/api/lists',
-    data: {
-      lists,
-      board_id,
-      type,
-    }
-  })
+export const createMessage = (board_id, data) => (
+  create('message', board_id,  data)
 )
 
 
-export const updateBoard = data => (
-  update('board', data.id, data)
+export const updateBoard = (board_id, data) => (
+  update('board', board_id, data.id, data)
 )
 
-export const updateMembership = data => (
-  update('board_membership', data.id, data)
+export const updateList = (board_id, data) => (
+  update('list', board_id,  data.id, data)
 )
 
-export const destroyBoard = data => (
-  destroy('board', data)
+export const updateCard = (board_id, data) => (
+  update('card', board_id,  data.id, data)
 )
 
-export const destroyInvite = data => (
-  destroy('invite', data)
+export const updateMembership = (board_id, data) => (
+  update('board_membership', board_id, data.id, data)
 )
 
-export const destroyCard = id => (
-  destroy('card', id)
+export const destroyBoard = (id) => (
+  destroy('board', id, id)
 )
 
-export const destroyMembership = data => (
-  destroy('board_membership', data)
+export const destroyInvite = (board_id, id) => (
+  destroy('invite', board_id, id)
+)
+
+export const destroyCard = (board_id, id) => (
+  destroy('card', board_id, id)
+)
+
+export const destroyMembership = (board_id, data) => (
+  destroy('board_membership', board_id, data)
 )

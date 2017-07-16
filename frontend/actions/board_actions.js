@@ -41,32 +41,32 @@ export const startLoadingLists = board_id => ({
   board_id
 })
 
-export const createList = list => dispatch => (
-  BoardAPI.createList(list)
+export const createList = (board_id, list) => dispatch => (
+  BoardAPI.createList(board_id, list)
     .then(list => {
       dispatch(addList(list));
       return list;
     })
 );
 
-export const createCard = card => dispatch => (
-  BoardAPI.createCard(card)
+export const createCard = (board_id, card) => dispatch => (
+  BoardAPI.createCard(board_id, card)
     .then(card => {
       dispatch(addCard(card));
       return card;
     })
 )
 
-export const createComment = comment => dispatch => (
-  BoardAPI.createComment(comment)
+export const createComment = (board_id, comment) => dispatch => (
+  BoardAPI.createComment(board_id, comment)
     .then(comment => {
       dispatch(addComment(comment));
       return comment;
     })
 )
 
-export const createInvites = invites => dispatch => (
-  BoardAPI.createInvites(JSON.stringify(invites))
+export const createInvites = (board_id, invites) => dispatch => (
+  BoardAPI.createInvites(board_id, JSON.stringify(invites))
     .then(invites => {
       if (invites.byId) {
         dispatch(addInvites(invites));
@@ -75,24 +75,24 @@ export const createInvites = invites => dispatch => (
     })
 )
 
-export const editBoard = board => dispatch => (
-  BoardAPI.updateBoard(board)
+export const editBoard = (board_id, board) => dispatch => (
+  BoardAPI.updateBoard(board_id, board)
     .then(board => {
       dispatch(updateBoard(board));
       return board;
     })
 )
 
-export const editCard = card => dispatch => (
-  BoardAPI.updateCard(card)
+export const editCard = (board_id, card) => dispatch => (
+  BoardAPI.updateCard(board_id, card)
     .then(card => {
       dispatch(updateCard(card));
       return card;
     })
 )
 
-export const editMembership = membership => dispatch => (
-  BoardAPI.updateMembership(membership).then(
+export const editMembership = (board_id, membership) => dispatch => (
+  BoardAPI.updateMembership(board_id, membership).then(
     membership => {
       dispatch(updateUsername(membership));
       return membership;
@@ -109,23 +109,23 @@ export const destroyBoard = boardId => dispatch => (
 );
 
 
-export const destroyCard = cardId => dispatch => (
-  BoardAPI.destroyCard(cardId)
+export const destroyCard = (board_id, cardId) => dispatch => (
+  BoardAPI.destroyCard(board_id, cardId)
     .then((card) => {
       return dispatch(removeCard(card));
     })
 );
 
-export const destroyMembership = membershipId => dispatch => (
-  BoardAPI.destroyMembership(membershipId)
+export const destroyMembership = (board_id, membershipId) => dispatch => (
+  BoardAPI.destroyMembership(board_id, membershipId)
     .then(membership => {
       dispatch(removeMember(membership));
       return membership;
     })
 )
 
-export const destroyInvite = inviteId => dispatch => (
-  BoardAPI.destroyInvite(inviteId)
+export const destroyInvite = (board_id, inviteId) => dispatch => (
+  BoardAPI.destroyInvite(board_id, inviteId)
     .then(invite => {
       dispatch(removeInvite(invite));
       return invite;

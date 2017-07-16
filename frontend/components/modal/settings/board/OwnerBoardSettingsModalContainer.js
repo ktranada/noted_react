@@ -9,11 +9,10 @@ const mapStateToProps = ({ session, members }) => {
   });
 }
 
-
 const mapDispatchToProps = (dispatch, { currentBoard }) => {
   return({
-    editMembership: membership => dispatch(editMembership(membership)),
-    editBoard: board => dispatch(editBoard(board)),
+    editMembership: membership => dispatch(editMembership(currentBoard.id, membership)),
+    editBoard: board => dispatch(editBoard(currentBoard.id, board)),
     destroyBoard: () => {
       return dispatch(destroyBoard(currentBoard.id));
     },
