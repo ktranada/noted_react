@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   end
 
   before_action :require_login!
-  # before_action :require_board_membership
+  before_action :confirm_board_membership
   helper_method :current_user, :logged_in?
 
   def current_user
@@ -22,6 +22,7 @@ class ApplicationController < ActionController::Base
     session[:session_token] = user.session_token
     cookies.signed[:session_token] = user.session_token
     @current_user = user
+    @board_memberships = user.board_membership_ids
     user.update_appearance(:online)
   end
 
@@ -31,6 +32,17 @@ class ApplicationController < ActionController::Base
     session[:session_token] = nil
     cookies.signed[:session_token] = nil
     @current_user = nil
+  end
+
+  def can_access_board?
+    board_id = params[:controller] == "api/boards" ? params[:id] : params[:board_id]
+    current_user.board_memberships.map(&:board_id).include?(board_id.to_i)
+  end
+
+  def confirm_board_membership
+    unless can_access_board?
+      render json: "You are not a member of this board.", status: 401
+    end
   end
 
 

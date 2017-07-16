@@ -8,7 +8,6 @@ import JoinBoardContent from './join/JoinBoardContent';
 
 const propTypes = {
   currentUser: PropTypes.object.isRequired,
-  createBoard: PropTypes.func.isRequired,
   getInvite: PropTypes.func.isRequired,
   updateInvite: PropTypes.func.isRequired
 }
@@ -27,7 +26,11 @@ class AddBoardModal extends React.Component {
   }
 
   createBoard(board) {
-    return this.props.createBoard(board)
+    return this.props.createBoard(board).then(
+      board => {
+        this.props.history.push(`/boards/${board.id}`)
+      }
+    )
   }
 
   handleBoardSelection(type) {
@@ -46,16 +49,18 @@ class AddBoardModal extends React.Component {
         {
           type === 'create'
             ? <CreateBoardContent
-                history={this.props.history}
-                handleBackClick={this.handleBoardSelection('')}
-                createBoard={this.createBoard} />
+              history={this.props.history}
+              handleBackClick={this.handleBoardSelection('')}
+              createBoard={this.createBoard} />
             : (type === 'join')
-              ? <JoinBoardContent
+              ?
+                <JoinBoardContent
                   history={this.props.history}
-                  currentUser={this.props.currentUser}
+                  email={this.props.currentUser.email}
                   getInvite={this.props.getInvite}
                   updateInvite={this.props.updateInvite}
-                  handleBackClick={this.handleBoardSelection('')}/>
+                  handleBackClick={this.handleBoardSelection('')}
+                />
               : <InitialContent handleBoardSelection={this.handleBoardSelection}/>
         }
       </ModalOverlayContainer>

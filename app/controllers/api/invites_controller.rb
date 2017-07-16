@@ -1,5 +1,6 @@
 class Api::InvitesController < ApplicationController
-  skip_before_action :require_login!, only: [:show, :create, :update]
+  skip_before_action :require_login!, only: [:show,  :update]
+  skip_before_action :confirm_board_membership, only: [:show, :update]
 
   def show
     @invite = Invite.find_by_code(params[:id])
@@ -65,7 +66,8 @@ class Api::InvitesController < ApplicationController
     membership = BoardMembership.new(
       board_id: invite.board_id,
       invite_id: invite.id,
-      username: params[:invite][:username])
+      username: params[:invite][:username],
+      status: :online)
 
     errors = {}
     if !membership.valid? && membership.errors[:username].any?

@@ -6,7 +6,6 @@ import InlineInput from '../../form_elements/InlineInput';
 import FormValidator from '../../../util/form_validator';
 
 const propTypes = {
-  history: PropTypes.object.isRequired,
   createBoard: PropTypes.func.isRequired,
   handleBackClick: PropTypes.func.isRequired
 }
@@ -54,9 +53,7 @@ class CreateBoardContent extends React.Component {
       username: this.state.username
     }
     this.props.createBoard(board).then(
-      board => {
-        this.props.history.push(`/boards/${board.id}`)
-      },
+      () => {},
       error => {
         this.setState({
           isSubmitting: false,

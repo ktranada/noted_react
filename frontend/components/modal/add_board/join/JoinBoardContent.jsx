@@ -6,7 +6,7 @@ import UsernameVerification from './UsernameVerification';
 
 const propTypes = {
   history: PropTypes.object.isRequired,
-  currentUser: PropTypes.object.isRequired,
+  email: PropTypes.string.isRequired,
   getInvite: PropTypes.func.isRequired,
   updateInvite: PropTypes.func.isRequired,
   handleBackClick: PropTypes.func.isRequired
@@ -41,7 +41,7 @@ class JoinBoardContent extends React.Component {
         {
           !this.state.invite &&
           <InviteVerification
-            currentUser={this.props.currentUser}
+            email={this.props.email}
             handleBackClick={this.props.handleBackClick}
             getInvite={this.props.getInvite}
             updateModalState={this.updateModalState}/>

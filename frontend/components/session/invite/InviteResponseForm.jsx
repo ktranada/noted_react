@@ -121,41 +121,44 @@ class InviteResponseForm extends React.Component {
       )
     }
 
+    const logoLink = process.env.NODE_ENV !== 'production' ? 'http://127.0.0.1:3000/#/login' : 'http://noted.pw/#/login';
     return (
       <form className="session-form invite-form" onSubmit={this.handleSubmit}>
-          <div className="session-form__content">
+        <div className="session-form__content">
+          <a href={logoLink}>
             <img src="https://res.cloudinary.com/mycut/image/upload/v1496273166/logo-min_tmylez.png" />
-            <h3>Join <b>{invite.board_title}</b></h3>
-            <InlineInput
-                type="text"
-                hasCustomErrors
-                error={errors.username}
-                inputClass="session-form__input"
-                placeHolder="Username"
-                value={this.state.username}
-                handleChange={this.handleChange('username')}>
-                {errors.username && <p className="error">{errors.username}</p>}
-                <p>Username can only contain lowercase letters and numbers.</p>
-            </InlineInput>
+          </a>
+          <h3>Join <b>{invite.board_title}</b></h3>
+          <InlineInput
+            type="text"
+            hasCustomErrors
+            error={errors.username}
+            inputClass="session-form__input"
+            placeHolder="Username"
+            value={this.state.username}
+            handleChange={this.handleChange('username')}>
+            {errors.username && <p className="error">{errors.username}</p>}
+            <p>Username can only contain lowercase letters and numbers.</p>
+          </InlineInput>
 
 
-            {
+          {
               !this.state.userExists &&
-              <InlineInput
-               type="password"
-               hasCustomErrors
-               error={errors.password}
-               inputClass="session-form__input"
-               placeHolder="Password"
-               value={this.state.password}
-               handleChange={this.handleChange('password')}>
-               {errors.password && <p className="error">{errors.password}</p>}
-               <p>Password must be at least 6 characters long.</p>
-              </InlineInput>
-             }
+            <InlineInput
+              type="password"
+              hasCustomErrors
+              error={errors.password}
+              inputClass="session-form__input"
+              placeHolder="Password"
+              value={this.state.password}
+              handleChange={this.handleChange('password')}>
+              {errors.password && <p className="error">{errors.password}</p>}
+              <p>Password must be at least 6 characters long.</p>
+            </InlineInput>
+          }
 
-            <button type={isSubmitting ? "button" : "submit"} className={`session-form__button ${isSubmitting ? 'processing' : ''}`}>
-              {isSubmitting ? <Spinner /> : "Continue"}
+          <button type={isSubmitting ? "button" : "submit"} className={`session-form__button ${isSubmitting ? 'processing' : ''}`}>
+            {isSubmitting ? <Spinner /> : "Continue"}
             </button>
           </div>
       </form>

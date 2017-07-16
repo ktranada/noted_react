@@ -1,4 +1,5 @@
 class Api::TimezonesController < ApplicationController
+  skip_before_action :confirm_board_membership
   def index
     result = ActiveSupport::TimeZone.all.map do |tz|
       utc_offset = tz.utc_offset / 3600

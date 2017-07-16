@@ -5,7 +5,7 @@ import Footer from './Footer';
 import InviteVerificationErrors from './InviteVerificationErrors';
 
 const propTypes = {
-  currentUser: PropTypes.object.isRequired,
+  email: PropTypes.string.isRequired,
   getInvite: PropTypes.func.isRequired,
   handleBackClick: PropTypes.func.isRequired,
   updateModalState: PropTypes.func.isRequired
@@ -39,7 +39,7 @@ class InviteVerification extends React.Component {
 
     this.props.getInvite(this.state.code).then(
       invite => {
-        if (invite.email !== this.props.currentUser.email) {
+        if (invite.email !== this.props.email) {
           this.setState({ error: 'revoked' });
           return;
         }

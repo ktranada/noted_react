@@ -9,11 +9,11 @@ import MemberBoardSettingsModalContainer from './settings/board/MemberBoardSetti
 import AccountSettingsModalContainer from './settings/account/AccountSettingsModalContainer';
 
 function ModalController(props) {
+  const { currentUser, currentBoard, history, hideModal, isLoading } = props;
   let Modal = null;
   switch (props.modal) {
     case ADD_BOARD:
       Modal = AddBoardModalContainer;
-      break;
     case INVITE_PEOPLE:
       Modal = InviteMembersModalContainer;
       break;
