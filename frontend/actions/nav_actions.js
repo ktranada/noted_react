@@ -16,11 +16,11 @@ export const createBoard = board => dispatch => (
     error => error.responseJSON)
 )
 
-export const requestBoard = (boardId, isTimeZoneUpdate) => dispatch => {
+export const requestBoard = (boardId, isTimeZoneUpdate = false, isJoining = false) => dispatch => {
   dispatch(startLoadingBoard(boardId, isTimeZoneUpdate));
   return BoardsAPI.requestBoard(boardId)
     .then(board => {
-      dispatch(receiveBoard(board, isTimeZoneUpdate));
+      dispatch(receiveBoard(board, isTimeZoneUpdate, isJoining));
       return board;
     })
 }
@@ -31,10 +31,11 @@ export const requestSubscriptions = () => dispatch => (
   )
 )
 
-export const receiveBoard = (board, isTimeZoneUpdate) => ({
+export const receiveBoard = (board, isTimeZoneUpdate, isJoining) => ({
   type: RECEIVE_BOARD,
   board,
-  isTimeZoneUpdate
+  isTimeZoneUpdate,
+  isJoining
 })
 
 export const receiveSubscriptions = subscriptions => ({

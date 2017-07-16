@@ -14,6 +14,7 @@ function ModalController(props) {
   switch (props.modal) {
     case ADD_BOARD:
       Modal = AddBoardModalContainer;
+      break;
     case INVITE_PEOPLE:
       Modal = InviteMembersModalContainer;
       break;

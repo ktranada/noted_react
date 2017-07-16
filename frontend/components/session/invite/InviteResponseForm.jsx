@@ -6,6 +6,12 @@ import InlineInput from '../../form_elements/InlineInput';
 import InviteStatus from './InviteStatus';
 import Spinner from '../../util/Spinner';
 import FormValidator from '../../../util/form_validator';
+import jstz from 'jstimezonedetect';
+
+const propTypes = {
+  code: PropTypes.string,
+  isLoggedIn: PropTypes.bool
+}
 
 class InviteResponseForm extends React.Component {
   constructor(props) {
@@ -29,7 +35,6 @@ class InviteResponseForm extends React.Component {
     this.props.getInvite(this.props.code).then(
       invite => {
         if (this.props.isLoggedIn && this.props.currentUser.email !== invite.email) {
-          // Logout unless current user is recipient of invite
           this.props.logoutCurrentUser();
         }
 
@@ -67,7 +72,7 @@ class InviteResponseForm extends React.Component {
   }
 
   handleSubmit(e) {
-    e.preventDefault;
+    e.preventDefault();
     if (this.isSubmitting) {
       return;
     }
@@ -81,17 +86,20 @@ class InviteResponseForm extends React.Component {
 
     const invite = {
       id: this.state.invite.id,
-      username: this.state.username,
-      password: this.state.password
+      username: this.state.username.trim(),
+      password: this.state.password,
+      timezone: jstz.determine().name()
     }
 
     this.props.updateInvite(invite).then(
-      () => {
-        // 1) If the currently logged in user is the recipient,
-        //    they will be sent to the new board
-        // 2) This user will be sent to the login page --
-        //    all routes (except session) require auth
-        this.props.history.push(`/boards/${this.state.invite.board_id}`);
+      (invite) => {
+        if (this.props.currentUser) {
+          this.props.requestBoard(invite.board_id).then(
+            (board) => this.props.history.push(`/boards/${board.id}`)
+          )
+        } else {
+          this.props.history.push(`/login`)
+        }
       },
       error => {
         if (error['status']) {
@@ -166,10 +174,7 @@ class InviteResponseForm extends React.Component {
   }
 }
 
-InviteResponseForm.propTypes = {
-  code: PropTypes.string.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired
-}
+InviteResponseForm.propTypes = propTypes;
 
 
 

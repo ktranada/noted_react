@@ -69,7 +69,7 @@ class SessionForm extends React.Component {
     this.setState({ isSubmitting: true });
 
     const user = {
-      email: this.state.email,
+      email: this.state.email.trim(),
       password: this.state.password
     }
 

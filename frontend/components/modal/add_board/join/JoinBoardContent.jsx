@@ -51,6 +51,7 @@ class JoinBoardContent extends React.Component {
           <UsernameVerification
             history={this.props.history}
             invite={this.state.invite}
+            requestBoard={this.props.requestBoard}
             updateInvite={this.props.updateInvite}
             handleBackClick={this.props.handleBackClick}
             updateModalState={this.updateModalState}/>

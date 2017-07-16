@@ -33,14 +33,24 @@ json.set! :messages do
   json.partial! 'api/messages/messages', messages: messages.flatten
 end
 
-json.set! :invites do
-  json.partial! 'api/invites/invites', invites: @invites
+isOwner = @board.is_owned_by?(current_user)
+
+if isOwner
+  json.set! :invites do
+    json.partial! 'api/invites/invites', invites: @invites
+  end
+else
+  json.invites []
 end
 
-
-
 json.set! :info do
+  json.extract! @board, :id, :title
   json.members @board.board_memberships.map(&:user).pluck(:id)
   json.channels @board.channels.pluck(:id)
-  json.invites @invites.pluck(:id)
+  json.invites isOwner ? @invites.pluck(:id) : []
+  json.owner isOwner
+  json.hasLoadedLists false
+  json.hasUnreadMessages false
+  json.isLoaded true
+  json.isLoading false
 end

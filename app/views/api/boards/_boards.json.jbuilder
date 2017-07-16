@@ -13,10 +13,10 @@ else
         json.members []
         json.lists []
         json.invites []
-        json.subscriptions []
+        # json.subscriptions []
         json.owner board.is_owned_by?(current_user)
-        json.hasUnreadMessages false
         json.hasLoadedLists false
+        json.hasUnreadMessages false
       end
       order << board.id
     end

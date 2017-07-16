@@ -58,6 +58,7 @@ class AddBoardModal extends React.Component {
                   history={this.props.history}
                   email={this.props.currentUser.email}
                   getInvite={this.props.getInvite}
+                  requestBoard={this.props.requestBoard}
                   updateInvite={this.props.updateInvite}
                   handleBackClick={this.handleBoardSelection('')}
                 />

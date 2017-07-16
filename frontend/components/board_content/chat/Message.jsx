@@ -23,7 +23,7 @@ function formatContent(input, id) {
   });
 }
 
-function Message({ boardId, member, userMessages, contentType }) {
+const Message = ({ boardId, member, userMessages, contentType }) => {
   if (!userMessages || userMessages.length === 0) {
     return null;
   }

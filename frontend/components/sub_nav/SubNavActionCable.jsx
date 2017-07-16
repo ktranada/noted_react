@@ -12,7 +12,7 @@ const onReceiveMessages = currentUserId => (addMessage, incrementMessageNotifica
     }
 }
 
-function SubNavActionCable(props) {
+const SubNavActionCable = (props) => {
   const {
     currentUserId,
     currentBoardId,

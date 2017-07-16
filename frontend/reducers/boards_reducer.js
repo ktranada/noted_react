@@ -11,6 +11,7 @@ import {
   RECEIVE_LISTS,
   ADD_LIST,
   ADD_INVITES,
+  ADD_MEMBER,
   REMOVE_INVITE,
   REMOVE_MEMBER,
   UPDATE_BOARD,
@@ -40,30 +41,23 @@ const initialState = {
 //   }
 // }
 
-function startLoadingBoard(state, action) {
+const startLoadingBoard = (state, action) => {
   const newState = byIdObject(action.board.id, {
     isLoading: true
   })
   return updateObject(state, newState);
 }
 
-function receiveBoard(state, action) {
-  const { board } = action;
-  const { subscriptions, members, channels, lists, invites } = board.info;
-  const newState = byIdObject(board.id, {
-    isLoaded: true,
-    isLoading: false,
-    channels,
-    subscriptions,
-    members,
-    lists,
-    invites
-  })
-  newState['errors'] = [];
-  return updateObject(state, newState)
+const receiveBoard = (state, action) => {
+  const newState = updateObject({}, state, { errors: [] });
+  newState.byId[action.board.id] = action.board.info;
+  if (action.isJoining) {
+    newState.order = [...newState.order, action.board.id];
+  }
+  return newState;
 }
 
-function receiveLists(state, action) {
+const receiveLists = (state, action) => {
   const { list_ids, board_id } = action.lists;
   if (state.byId[board_id]) {
     const newState = merge({}, state, byIdObject(board_id, {
@@ -75,7 +69,7 @@ function receiveLists(state, action) {
   return state;
 }
 
-function addBoard(state, action) {
+const addBoard = (state, action) => {
   let newState = {
     byId: {
       [action.board.id]: action.board
@@ -86,16 +80,16 @@ function addBoard(state, action) {
   return updateObject(state, newState);
 }
 
-function addInvites(state, action) {
+const addInvites = (state, action) => {
   return updateAssociationList(
     state,
     action.invites.board_id,
     'invites',
     action.invites.ids
-  );
+  )
 }
 
-function addList(state, action) {
+const addList = (state, action) => {
   return updateAssociationList(
     state,
     action.list.board_id,
@@ -104,7 +98,16 @@ function addList(state, action) {
   );
 }
 
-function moveList(state, action) {
+const addMember = (state, action) => {
+  return updateAssociationList(
+    state,
+    action.membership.board_id,
+    'members',
+    action.membership.user_id
+  )
+}
+
+const moveList = (state, action) => {
   let board = state.byId[action.boardId];
   if (board) {
     const { lastPos, nextPos } = action;
@@ -119,7 +122,7 @@ function moveList(state, action) {
   }
 }
 
-function updateListOrder(state, action) {
+const updateListOrder = (state, action) => {
   const { lists, board_id } = action.lists;
   let board = state.byId[board_id];
   if (board && lists) {
@@ -130,11 +133,11 @@ function updateListOrder(state, action) {
   return state;
 }
 
-function updateBoard(state, { board }) {
+const updateBoard = (state, { board }) => {
   return updateObject(state, byIdObject(board.id, { title: board.title}));
 }
 
-function removeInvite(state, action) {
+const removeInvite = (state, action) => {
   return updateAssociationList(
     state,
     action.invite.board_id,
@@ -143,11 +146,11 @@ function removeInvite(state, action) {
     { remove: true});
 }
 
-function removeMember(state, action) {
+const removeMember = (state, action) => {
   const { membership } = action;
 
   let newState;
-  if (!state.byId[membership.board_id].owner) {
+  if (membership.isSelf && state.byId[membership.board_id] && !state.byId[membership.board_id].owner) {
     newState = merge({}, state);
     delete newState.byId[membership.board_id];
     newState.order = newState.order.filter(id => id !== membership.board_id);
@@ -169,7 +172,7 @@ function removeMember(state, action) {
     { remove: true });
 }
 
-function removeBoard(state, action) {
+const removeBoard = (state, action) => {
   const newState = merge({}, state);
   const byId = newState.byId;
   const order = newState.order;
@@ -182,6 +185,16 @@ function removeBoard(state, action) {
   return newState;
 }
 
+const updateTimeZone = (state, action) => {
+  const newState = merge({}, state);
+  Object.keys(newState.byId).forEach(id => {
+    const board = newState.byId[id];
+    board.isLoaded = false;
+    board.isLoading = false;
+  })
+
+  return newState;
+}
 
 const updateUnreadMessages = (state, action) => {
   if (state.byId[action.notification.board_id]) {
@@ -198,17 +211,6 @@ const updateUnreadMessages = (state, action) => {
   return state;
 }
 
-const updateTimeZone = (state, action) => {
-  const newState = merge({}, state);
-  Object.keys(newState.byId).forEach(id => {
-    const board = newState.byId[id];
-    board.isLoaded = false;
-    board.isLoading = false;
-  })
-
-  return newState;
-}
-
 const boardsReducer = (state = initialState, action) => {
   switch (action.type) {
     case RECEIVE_BOARD: return receiveBoard(state, action);
@@ -221,6 +223,7 @@ const boardsReducer = (state = initialState, action) => {
 
     case RECEIVE_LISTS: return receiveLists(state, action);
     case ADD_BOARD: return addBoard(state, action);
+    case ADD_MEMBER: return addMember(state, action);
     case ADD_LIST: return addList(state, action);
     case ADD_INVITES: return addInvites(state, action);
     case MOVE_LIST: return moveList(state, action);

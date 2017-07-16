@@ -35,6 +35,15 @@ class Api::BoardsController < ApplicationController
     @board = Board.find(params[:id])
 
     if @board.update(board_params)
+      ActionCable.server.broadcast("board:#{@board.id}",
+        type: 'board',
+        action: 'update',
+        board: {
+          id: @board.id,
+          title: @board.title
+        },
+        updated_by: params[:comment][:updated_by]
+      )
       render json: { id: @board.id, title: @board.title }
     else
       render json: {}, status: 422

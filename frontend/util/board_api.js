@@ -1,10 +1,9 @@
 const create = (resource, board_id, data) => (
   $.ajax({
     method: 'POST',
-    url: `/api/${resource}s`,
+    url: `/api/boards/${board_id}/${resource}s`,
     data: {
       [resource]: data,
-      board_id
     }
   })
 )
@@ -12,10 +11,9 @@ const create = (resource, board_id, data) => (
 const update = (resource, board_id, id, data) => (
   $.ajax({
     method: 'PUT',
-    url: `/api/${resource}s/${id}`,
+    url: `/api/boards/${board_id}/${resource}s/${id}`,
     data: {
       [resource]: data,
-      board_id
     }
   })
 )
@@ -23,10 +21,7 @@ const update = (resource, board_id, id, data) => (
 const destroy = (resource, board_id, id) => (
   $.ajax({
     method: 'DELETE',
-    url: `/api/${resource}s/${id}`,
-    data: {
-      board_id
-    }
+    url: `/api/boards/${board_id}/${resource}s/${id}`
   })
 )
 
@@ -40,10 +35,8 @@ export const requestBoard = boardId => (
 export const requestLists = board_id => (
   $.ajax({
     method: 'GET',
-    url: '/api/lists',
-    data: {
-      board_id
-    }
+    url: `/api/boards/${board_id}/lists`,
+
   })
 )
 
@@ -57,18 +50,31 @@ export const requestSubscriptions = () => (
 export const requestMessages = (board_id, channelId, page) => (
   $.ajax({
     method: 'GET',
-    url: `/api/channels/${channelId}/messages`,
+    url: `/api/boards/${board_id}/channels/${channelId}/messages`,
     data: {
       page,
-      board_id
     }
   })
 );
 
-
-
 export const createBoard = (data) => (
-  create('board', null, data)
+  $.ajax({
+    method: 'POST',
+    url: '/api/boards',
+    data: {
+      board: data
+    }
+  })
+)
+
+export const createInvites = (board_id, data) => (
+  $.ajax({
+    method: 'POST',
+    url: `/api/boards/${board_id}/invites`,
+    data: {
+      invites: data
+    }
+  })
 )
 
 export const createComment = (board_id, data) => (
@@ -81,18 +87,6 @@ export const createList = (board_id, data) => (
 
 export const createCard = (board_id, data) => (
   create('card', board_id,  data)
-)
-
-
-export const createInvites = (board_id, data) => (
-  $.ajax({
-    method: 'POST',
-    url: '/api/invites',
-    data: {
-      invites: data,
-      board_id
-    }
-  })
 )
 
 export const createInvite = (board_id, data) => (
@@ -121,7 +115,10 @@ export const updateMembership = (board_id, data) => (
 )
 
 export const destroyBoard = (id) => (
-  destroy('board', id, id)
+  $.ajax({
+    method: 'DELETE',
+    url: `/api/boards/${id}`
+  })
 )
 
 export const destroyInvite = (board_id, id) => (

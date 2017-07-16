@@ -7,6 +7,7 @@ export const ADD_LIST = 'ADD_LIST';
 export const ADD_CARD = 'ADD_CARD';
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const ADD_MESSAGE = 'ADD_MESSAGE';
+export const ADD_MEMBER = 'ADD_MEMBER';
 export const EDIT_INVITES = 'EDIT_INVITES';
 export const ADD_INVITE = 'ADD_INVITE';
 export const ADD_INVITES = 'ADD_INVITES';
@@ -94,7 +95,7 @@ export const editCard = (board_id, card) => dispatch => (
 export const editMembership = (board_id, membership) => dispatch => (
   BoardAPI.updateMembership(board_id, membership).then(
     membership => {
-      dispatch(updateUsername(membership));
+      // dispatch(updateUsername(membership));
       return membership;
     },
     errors => errors.responseJSON.username
@@ -119,7 +120,7 @@ export const destroyCard = (board_id, cardId) => dispatch => (
 export const destroyMembership = (board_id, membershipId) => dispatch => (
   BoardAPI.destroyMembership(board_id, membershipId)
     .then(membership => {
-      dispatch(removeMember(membership));
+      // dispatch(removeMember(membership));
       return membership;
     })
 )
@@ -156,6 +157,11 @@ export const addCard = card => ({
 export const addComment = comment => ({
   type: ADD_COMMENT,
   comment
+});
+
+export const addMember = membership => ({
+  type: ADD_MEMBER,
+  membership
 });
 
 export const updateBoard = board => ({
