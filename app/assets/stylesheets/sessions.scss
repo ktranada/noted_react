@@ -109,6 +109,8 @@ $input-width: 225px;
   }
 
   &.invite-form {
+    .session-form__content {
+    }
     h3 {
       max-width: 225px;
       overflow-x: hidden;

@@ -16,7 +16,10 @@ const propTypes = {
   lists: PropTypes.array.isRequired,
   createCard: PropTypes.func.isRequired,
   createList: PropTypes.func.isRequired,
-  moveList: PropTypes.func.isRequired
+  moveList: PropTypes.func.isRequired,
+  addList: PropTypes.func.isRequired,
+  addCard: PropTypes.func.isRequired,
+  updateCard: PropTypes.func.isRequired
 }
 
 class BoardContent extends React.Component {
@@ -95,6 +98,14 @@ class BoardContent extends React.Component {
     }
   }
 
+  moveList(listId, nextPos) {
+    if (nextPos === undefined) {
+      return;
+    }
+    const { lastPos } = this.findList(listId);
+    this.props.moveList(listId, lastPos, nextPos);
+  }
+
   moveCard(cardId, nextListId, nextPos, defaultPrevListId = -1) {
     const prevListId = defaultPrevListId !== -1
       ? defaultPrevListId
@@ -111,14 +122,6 @@ class BoardContent extends React.Component {
       // Changes were made by current user
       this.setHoveredListId(nextListId);
     }
-  }
-
-  moveList(listId, nextPos) {
-    if (nextPos === undefined) {
-      return;
-    }
-    const { lastPos } = this.findList(listId);
-    this.props.moveList(listId, lastPos, nextPos);
   }
 
   findList(id) {

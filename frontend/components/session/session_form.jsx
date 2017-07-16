@@ -56,7 +56,7 @@ class SessionForm extends React.Component {
   }
 
   handleSubmit(e) {
-    e.preventDefault;
+    e.preventDefault();
     if (this.state.isSubmitting) {
       return;
     }

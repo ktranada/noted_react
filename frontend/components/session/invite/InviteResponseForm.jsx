@@ -52,7 +52,10 @@ class InviteResponseForm extends React.Component {
   handleChange(field) {
     return (e) => {
       this.setState({
-        [field]: e.currentTarget.value
+        [field]: e.currentTarget.value,
+        errors: {
+          [field]: ''
+        }
       });
     }
   }

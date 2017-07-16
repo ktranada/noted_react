@@ -31,7 +31,7 @@ class NavTab extends React.Component {
           ))
         }
         <NavLink
-          data-badge={hasUnreadMessages ? 'unread-messages' : ''} to={`/boards/${id}/lists`}
+          data-badge={hasUnreadMessages ? 'unread-messages' : ''} to={`/boards/${id}`}
           isActive={isTabActive(id)}
         >
           {title[0].toUpperCase()}

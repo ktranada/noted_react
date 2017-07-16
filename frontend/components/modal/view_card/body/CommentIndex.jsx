@@ -5,7 +5,7 @@ import CommentForm from './CommentForm';
 import CommentIndexItem from './CommentIndexItem';
 import { getObjectById } from '../../../../reducers/selectors';
 import messagesByDate from '../../../../util/messages';
-import DayMessages from '../../../right_column/chat/DayMessages';
+import DayMessages from '../../../board_content/chat/DayMessages';
 
 const propTypes = {
   boardId: PropTypes.number.isRequired,
@@ -36,16 +36,7 @@ function CommentIndex(props) {
       />
     );
   });
-  // const comments = props.comments.map(comment => {
-  //   const author = getObjectById(comment.author_id, members);
-  //   const username = author ? author.usernamesByBoardId[boardId] : "Deactivated User";
-  //   return(
-  //     <CommentIndexItem
-  //       key={comment.id}
-  //       username={username}
-  //       comment={comment}/>
-  //   )
-  // });
+
   return(
     <div className="card__comments">
       <h4>Add a comment</h4>

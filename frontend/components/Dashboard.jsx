@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 import { RouteWithProps } from '../util/route_util';
-import NavContainer from './left_column/NavContainer';
-import SubNavContainer from './center_column/SubNavContainer';
-import AccountSettings from './center_column/bottom_section/AccountSettings';
+import NavContainer from './nav/NavContainer';
+import SubNavContainer from './sub_nav/SubNavContainer';
+import AccountSettings from './sub_nav/bottom_section/AccountSettings';
 import ModalControllerContainer from './modal/ModalControllerContainer';
-import InitialBoardContentContainer from './right_column/InitialBoardContentContainer';
-import BoardContentContainer from './right_column/board/BoardContentContainer';
-import ChatRoomContainer from './right_column/chat/ChatRoomContainer';
+import InitialBoardContentContainer from './board_content/InitialBoardContentContainer';
+import BoardContentContainer from './board_content/board/BoardContentContainer';
+import ChatRoomContainer from './board_content/chat/ChatRoomContainer';
 import ViewCardModalContainer from './modal/view_card/ViewCardModalContainer';
 
 class Dashboard extends React.PureComponent {

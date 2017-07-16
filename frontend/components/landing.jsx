@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 
-import AccountSettings from './center_column/bottom_section/AccountSettings';
-import NavContainer from './left_column/NavContainer';
-import SubNavDefault from './center_column/SubNavDefault';
+import AccountSettings from './sub_nav/bottom_section/AccountSettings';
+import NavContainer from './nav/NavContainer';
+import SubNavDefault from './sub_nav/SubNavDefault';
 import ModalControllerContainer from './modal/ModalControllerContainer';
-import NewUserActions from './right_column/NewUserActions';
+import NewUserActions from './board_content/NewUserActions';
 
 const propTypes = {
   toggleModal: PropTypes.func.isRequired

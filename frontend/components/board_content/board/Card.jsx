@@ -13,15 +13,13 @@ const propTypes = {
   cardCallbacks: PropTypes.shape({
     setHoveredListId: PropTypes.func.isRequired,
     moveCard: PropTypes.func.isRequired
-  }),
-  isPlaceholder: PropTypes.bool
+  })
 }
 
 const defaultProps = {
   id: -1,
   title: "",
-  boardId: -1,
-  isPlaceholder: false
+  boardId: -1
 }
 
 const dragSpecs = {
