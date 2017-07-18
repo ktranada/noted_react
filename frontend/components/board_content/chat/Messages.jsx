@@ -46,6 +46,7 @@ class Messages extends React.Component {
   handleScroll(e) {
     if (this.props.channel.has_more
         && !this.props.isFetching
+        && !this.props.fetchFailed
         && this.messagesWrapper.scrollTop < 5) {
       const prevScrollHeight= this.messagesWrapper.scrollHeight;
       console.log('prevscrollHeight: ', prevScrollHeight);

@@ -6,6 +6,12 @@ import InlineInput from '../../form_elements/InlineInput';
 import InviteStatus from './InviteStatus';
 import Spinner from '../../util/Spinner';
 import FormValidator from '../../../util/form_validator';
+import jstz from 'jstimezonedetect';
+
+const propTypes = {
+  code: PropTypes.string,
+  isLoggedIn: PropTypes.bool
+}
 
 class InviteResponseForm extends React.Component {
   constructor(props) {
@@ -29,7 +35,6 @@ class InviteResponseForm extends React.Component {
     this.props.getInvite(this.props.code).then(
       invite => {
         if (this.props.isLoggedIn && this.props.currentUser.email !== invite.email) {
-          // Logout unless current user is recipient of invite
           this.props.logoutCurrentUser();
         }
 
@@ -67,7 +72,7 @@ class InviteResponseForm extends React.Component {
   }
 
   handleSubmit(e) {
-    e.preventDefault;
+    e.preventDefault();
     if (this.isSubmitting) {
       return;
     }
@@ -81,17 +86,20 @@ class InviteResponseForm extends React.Component {
 
     const invite = {
       id: this.state.invite.id,
-      username: this.state.username,
-      password: this.state.password
+      username: this.state.username.trim(),
+      password: this.state.password,
+      timezone: jstz.determine().name()
     }
 
     this.props.updateInvite(invite).then(
-      () => {
-        // 1) If the currently logged in user is the recipient,
-        //    they will be sent to the new board
-        // 2) This user will be sent to the login page --
-        //    all routes (except session) require auth
-        this.props.history.push(`/boards/${this.state.invite.board_id}`);
+      (invite) => {
+        if (this.props.currentUser) {
+          this.props.requestBoard(invite.board_id).then(
+            (board) => this.props.history.push(`/boards/${board.id}`)
+          )
+        } else {
+          this.props.history.push(`/login`)
+        }
       },
       error => {
         if (error['status']) {
@@ -121,41 +129,44 @@ class InviteResponseForm extends React.Component {
       )
     }
 
+    const logoLink = process.env.NODE_ENV !== 'production' ? 'http://127.0.0.1:3000/#/login' : 'http://noted.pw/#/login';
     return (
       <form className="session-form invite-form" onSubmit={this.handleSubmit}>
-          <div className="session-form__content">
+        <div className="session-form__content">
+          <a href={logoLink}>
             <img src="https://res.cloudinary.com/mycut/image/upload/v1496273166/logo-min_tmylez.png" />
-            <h3>Join <b>{invite.board_title}</b></h3>
-            <InlineInput
-                type="text"
-                hasCustomErrors
-                error={errors.username}
-                inputClass="session-form__input"
-                placeHolder="Username"
-                value={this.state.username}
-                handleChange={this.handleChange('username')}>
-                {errors.username && <p className="error">{errors.username}</p>}
-                <p>Username can only contain lowercase letters and numbers.</p>
-            </InlineInput>
+          </a>
+          <h3>Join <b>{invite.board_title}</b></h3>
+          <InlineInput
+            type="text"
+            hasCustomErrors
+            error={errors.username}
+            inputClass="session-form__input"
+            placeHolder="Username"
+            value={this.state.username}
+            handleChange={this.handleChange('username')}>
+            {errors.username && <p className="error">{errors.username}</p>}
+            <p>Username can only contain lowercase letters and numbers.</p>
+          </InlineInput>
 
 
-            {
+          {
               !this.state.userExists &&
-              <InlineInput
-               type="password"
-               hasCustomErrors
-               error={errors.password}
-               inputClass="session-form__input"
-               placeHolder="Password"
-               value={this.state.password}
-               handleChange={this.handleChange('password')}>
-               {errors.password && <p className="error">{errors.password}</p>}
-               <p>Password must be at least 6 characters long.</p>
-              </InlineInput>
-             }
+            <InlineInput
+              type="password"
+              hasCustomErrors
+              error={errors.password}
+              inputClass="session-form__input"
+              placeHolder="Password"
+              value={this.state.password}
+              handleChange={this.handleChange('password')}>
+              {errors.password && <p className="error">{errors.password}</p>}
+              <p>Password must be at least 6 characters long.</p>
+            </InlineInput>
+          }
 
-            <button type={isSubmitting ? "button" : "submit"} className={`session-form__button ${isSubmitting ? 'processing' : ''}`}>
-              {isSubmitting ? <Spinner /> : "Continue"}
+          <button type={isSubmitting ? "button" : "submit"} className={`session-form__button ${isSubmitting ? 'processing' : ''}`}>
+            {isSubmitting ? <Spinner /> : "Continue"}
             </button>
           </div>
       </form>
@@ -163,10 +174,7 @@ class InviteResponseForm extends React.Component {
   }
 }
 
-InviteResponseForm.propTypes = {
-  code: PropTypes.string.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired
-}
+InviteResponseForm.propTypes = propTypes;
 
 
 

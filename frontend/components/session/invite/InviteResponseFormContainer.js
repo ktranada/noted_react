@@ -15,6 +15,7 @@ const mapStateToProps = ({ session }, { match }) => {
 
 const mapDispatchToProps = dispatch => {
   return ({
+    requestBoard: (boardId) => dispatch(requestBoard(boardId, false, true)),
     updateInvite: invite => dispatch(updateInvite(invite)),
     logoutCurrentUser: () => dispatch(logout()),
     getInvite: code => dispatch(getInvite(code))

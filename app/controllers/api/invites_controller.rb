@@ -1,14 +1,15 @@
 class Api::InvitesController < ApplicationController
-  skip_before_action :require_login!, only: [:show, :create, :update]
+  skip_before_action :require_login!, only: [:show,  :update]
+  skip_before_action :confirm_board_membership, only: [:show, :update]
 
   def show
     @invite = Invite.find_by_code(params[:id])
     if @invite
       if !@invite.status_pending?
         render json: { status: "responded" }, status: 422
-        return
+      else
+        render :show
       end
-      render :show
     else
       render json: { status: "revoked" }, status: 422
     end
@@ -65,14 +66,15 @@ class Api::InvitesController < ApplicationController
     membership = BoardMembership.new(
       board_id: invite.board_id,
       invite_id: invite.id,
-      username: params[:invite][:username])
+      username: params[:invite][:username],
+      status: current_user ? :online : :offline)
 
     errors = {}
     if !membership.valid? && membership.errors[:username].any?
       errors[:username] = membership.errors[:username][0]
     end
 
-    @user = invite.find_or_create_user_account(params[:invite][:password])
+    @user = invite.find_or_create_user_account(params[:invite][:password], params[:invite][:timezone])
     if !@user.valid? && @user.errors[:password].any?
       errors[:password] = @user.errors[:password][0]
     end
@@ -82,17 +84,36 @@ class Api::InvitesController < ApplicationController
       return
     end
 
-    @user.save
-    membership.user_id = @user.id
-    membership.save
 
-    invite.update(status: :accepted)
+    if @user.save
+      membership.user_id = @user.id
+      if membership.save
+        ActionCable.server.broadcast("notification:#{membership.board_id}", {
+          type: 'membership',
+          action: 'add',
+          membership: {
+            board_id: membership.board_id,
+            user_id: @user.id,
+            membership_id: membership.id,
+            invite_id: invite.id,
+            username: membership.username
+          }
+        })
 
-    if (logged_in?)
-      render "api/users/show"
-    else
-      render json: { board_id: invite.board_id }
+        if membership.status_online?
+          ActionCable.server.broadcast("appearance:#{membership.board_id}",
+            board_id: membership.board_id,
+            user_id: @user.id,
+            status: :online
+          )
+        end
+
+        invite.update(status: :accepted)
+        render json: { board_id: invite.board_id }
+      end
+      return
     end
+    render json: "Invite could not be updated", status: 422
   end
 
   private

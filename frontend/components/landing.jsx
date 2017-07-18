@@ -31,6 +31,8 @@ class Landing extends React.PureComponent {
           <NavContainer
             {...this.props}
             isLanding={true}
+            timezone={this.props.currentUser.timezone}
+            currentUserId={this.props.currentUser.id}
             toggleModal={this.toggleModal} />
         </section>
         <section className="sub-nav">

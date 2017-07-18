@@ -43,9 +43,12 @@ function CommentIndex(props) {
       <CommentForm
         createComment={props.createComment}
       />
-      <div className="comments__index">
-        { comments }
-      </div>
+      {
+        comments.length !== 0 &&
+        <div className="comments__index">
+          { comments }
+        </div>
+      }
     </div>
   )
 }

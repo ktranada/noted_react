@@ -50,6 +50,7 @@ class Dashboard extends React.PureComponent {
             isLanding={false}
             history={history}
             timezone={currentUser.timezone}
+            currentUserId={currentUser.id}
             currentBoardId={currentBoard.id}
             toggleModal={this.toggleModal}
           />

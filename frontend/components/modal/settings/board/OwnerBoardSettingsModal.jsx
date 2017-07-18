@@ -70,7 +70,7 @@ class OwnerBoardSettingsModal extends React.Component {
         return <MemberIndexContainer
           boardId={currentBoard.id}
           currentUserId={currentUser.id}
-          currentBoard={currentBoard} />
+          boardMembers={currentBoard.members} />
       case 'Invites':
         return <InviteIndexContainer
           currentBoard={currentBoard} />

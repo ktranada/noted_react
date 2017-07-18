@@ -3,14 +3,14 @@ import { asArrayByOrder } from '../../../../../reducers/selectors';
 import { destroyMembership } from '../../../../../actions/board_actions';
 import MemberIndex from './MemberIndex';
 
-const mapStateToProps = ({ session, members }, { currentBoard }) => ({
-  members: asArrayByOrder(members, currentBoard.members),
+const mapStateToProps = ({ session, members }, { boardMembers }) => ({
+  members: asArrayByOrder(members, boardMembers),
   currentUserId: session.currentUser.id
 })
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, { boardId }) => {
   return({
-    destroyMembership: id => destroyMembership(id)(dispatch)
+    destroyMembership: id => dispatch(destroyMembership(boardId, id))
   })
 }
 

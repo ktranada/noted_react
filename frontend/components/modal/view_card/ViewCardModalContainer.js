@@ -18,9 +18,9 @@ const mapStateToProps = ({ comments, members, cards, loading }, {match, currentB
   }
 }
 
-const mapDispatchToProps = (dispatch, { card }) => ({
-  editCard: (card) => dispatch(editCard(card)),
-  createComment: comment => dispatch(createComment(comment))
+const mapDispatchToProps = (dispatch, { card, currentBoard }) => ({
+  editCard: (card) => dispatch(editCard(currentBoard.id, card)),
+  createComment: comment => dispatch(createComment(currentBoard.id, comment))
 })
 
 export default connect(

@@ -1,14 +1,5 @@
 class Api::BoardsController < ApplicationController
-  def show
-    @board = Board
-      .includes(:board_memberships, :members, :invites, :channels, lists: [cards: [:comments]])
-      .find(params[:id])
-
-    @subscriptions = Subscription.includes(channel: [:messages]).where(board_id: params[:id], user_id: current_user.id)
-    @invites = @board.invites.select {|invite| !invite.hide_from_client? }
-    render :show
-  end
-
+  skip_before_action :confirm_board_membership, only: [:create]
 
   def create
     @board = Board.new(board_params)
@@ -29,10 +20,30 @@ class Api::BoardsController < ApplicationController
     end
   end
 
+  def show
+    @board = Board
+      .includes(:board_memberships, :members, :invites, :channels, lists: [cards: [:comments]])
+      .find(params[:id])
+
+    @subscriptions = Subscription.includes(channel: [:messages]).where(board_id: params[:id], user_id: current_user.id)
+    @invites = @board.invites.select {|invite| !invite.hide_from_client? }
+    render :show
+  end
+
+
   def update
     @board = Board.find(params[:id])
 
     if @board.update(board_params)
+      ActionCable.server.broadcast("board:#{@board.id}",
+        type: 'board',
+        action: 'update',
+        board: {
+          id: @board.id,
+          title: @board.title
+        },
+        updated_by: params[:comment][:updated_by]
+      )
       render json: { id: @board.id, title: @board.title }
     else
       render json: {}, status: 422

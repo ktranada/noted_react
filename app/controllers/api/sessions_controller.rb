@@ -1,5 +1,7 @@
 class Api::SessionsController < ApplicationController
   skip_before_action :require_login!, only: [:create]
+  skip_before_action :confirm_board_membership
+
   def create
     @user = User.includes(:subscriptions, board_memberships: [:board]).find_by_credentials(
       user_params[:email],

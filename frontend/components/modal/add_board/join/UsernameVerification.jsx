@@ -35,7 +35,9 @@ class UsernameVerification extends React.Component {
     }
     this.props.updateInvite(invite).then(
       invite => {
-        this.props.history.push(`/boards/${this.props.invite.board_id}`);
+        this.props.requestBoard(invite.board_id).then(
+          (board) => this.props.history.push(`/boards/${board.id}`)
+        )
       },
       error => {
         let visibleError =

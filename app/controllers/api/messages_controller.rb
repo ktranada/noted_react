@@ -17,7 +17,14 @@ class Api::MessagesController < ApplicationController
         }
       )
 
-      ActionCable.server.broadcast("notification:#{@message.channel_id}", {})
+      ActionCable.server.broadcast("notification:#{@message.channel_id}", {
+        type: 'message',
+        action: 'add',
+        message: {
+          board_id: params[:board_id],
+          channel_id: @message.channel_id
+        }
+      })
       render :create
     else
       render json: "Message could not be sent", status: 422

@@ -30,8 +30,8 @@ class Invite < ActiveRecord::Base
   belongs_to :board_member, class_name: 'User', foreign_key: 'user_id'
   has_one :board_membership
 
-  def find_or_create_user_account(password)
-    User.find_by_email(email) || User.new(email: email, password: password)
+  def find_or_create_user_account(password, timezone)
+    User.find_by_email(email) || User.new(email: email, password: password, timezone: timezone)
   end
 
   def has_response?

@@ -11,8 +11,8 @@ const mapStateToProps = ({ invites }, { currentBoard }) => {
 
 const mapDispatchToProps = (dispatch, { currentBoard }) => {
   return ({
-    createInvites: invites => createInvites(invites)(dispatch),
-    destroyInvite: (inviteId) => destroyInvite(inviteId)(dispatch)
+    createInvites: invites => dispatch(createInvites(currentBoard.id, invites)),
+    destroyInvite: (inviteId) => dispatch(destroyInvite(currentBoard.id, inviteId))
   })
 };
 

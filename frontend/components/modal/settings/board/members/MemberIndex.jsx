@@ -2,6 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Member from './Member';
 
+const propTypes = {
+  boardId: PropTypes.number.isRequired,
+  currentUserId: PropTypes.number.isRequired,
+  members: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    usernamesByBoardId: PropTypes.object.isRequired,
+    membershipsByBoardId: PropTypes.object.isRequired
+  })).isRequired,
+}
+
+
 class MemberIndex extends React.Component {
   constructor(props) {
     super(props);
@@ -32,15 +43,5 @@ class MemberIndex extends React.Component {
   }
 }
 
-MemberIndex.propTypes = {
-  boardId: PropTypes.number.isRequired,
-  currentUserId: PropTypes.number.isRequired,
-  currentBoard: PropTypes.object.isRequired,
-  members: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    usernamesByBoardId: PropTypes.object.isRequired,
-    membershipsByBoardId: PropTypes.object.isRequired
-  })).isRequired,
-}
-
+MemberIndex.propTypes = propTypes;
 export default MemberIndex;

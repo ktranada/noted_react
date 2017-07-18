@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import CommentIndex from './CommentIndex';
 import CardActionsContainer from './CardActionsContainer';
 
+const propTypes = {
+  card: PropTypes.object.isRequired,
+  boardId: PropTypes.number.isRequired
+}
+
 const Body = props => {
 
   return (
@@ -15,13 +20,10 @@ const Body = props => {
         card={props.card}
         createComment={props.createComment}
       />
-      <CardActionsContainer cardId={props.card.id}/>
+      <CardActionsContainer boardId={props.boardId} cardId={props.card.id}/>
     </div>
   )
 }
 
-Body.propTypes = {
-  card: PropTypes.object.isRequired
-}
-
+Body.propTypes = propTypes;
 export default Body;

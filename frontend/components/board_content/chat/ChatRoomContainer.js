@@ -18,12 +18,12 @@ function mapStateToProps({ messages, channels, members}, { currentBoard, match: 
   }
 }
 
-const  mapDispatchToProps = (dispatch, { match: { params: { channelId } } }) => {
+const  mapDispatchToProps = (dispatch, { currentBoard, match: { params: { channelId } } }) => {
   return ({
-    sendMessage: message => dispatch(createMessage(message)),
+    sendMessage: message => dispatch(createMessage(currentBoard.id, message)),
     addMessage: message => dispatch(addMessage(message)),
     incrementMessageNotifications: notification => dispatch(incrementMessageNotifications(notification)),
-    requestMessages: page => dispatch(requestMessages(channelId, page))
+    requestMessages: page => dispatch(requestMessages(currentBoard.id, channelId, page))
   })
 }
 

@@ -3,8 +3,8 @@ import * as BoardAPI from '../util/board_api';
 export const ADD_MESSAGE = 'ADD_MESSAGE';
 export const RECEIVE_MESSAGES = 'RECEIVE_MESSAGES';
 
-export const createMessage = message => dispatch => (
-  BoardAPI.createMessage(message).then(
+export const createMessage = (board_id, message) => dispatch => (
+  BoardAPI.createMessage(board_id, message).then(
     message => {
       return message;
     },
@@ -12,8 +12,8 @@ export const createMessage = message => dispatch => (
   )
 )
 
-export const requestMessages = (channelId, page) => dispatch => (
-  BoardAPI.requestMessages(channelId, page).then(
+export const requestMessages = (board_id, channelId, page) => dispatch => (
+  BoardAPI.requestMessages(board_id, channelId, page).then(
     messages => {
       console.log(messages);
       dispatch(receiveMessages(messages));

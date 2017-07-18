@@ -6,3 +6,4 @@ json.channels []
 json.invites []
 json.lists []
 json.owner true
+json.hasUnreadMessages false

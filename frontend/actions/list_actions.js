@@ -4,13 +4,13 @@ export const MOVE_CARD = 'MOVE_CARD';
 export const MOVE_LIST = 'MOVE_LIST';
 export const UPDATE_LIST_ORDER = 'UPDATE_LIST_ORDER';
 
-export const updateListPosition = (list) => dispatch => (
-  BoardAPI.updateList(list)
+export const updateListPosition = (board_id, list) => dispatch => (
+  BoardAPI.updateList(board_id, list)
 )
 
-export const updateCardPosition = (card) =>  dispatch => {
+export const updateCardPosition = (board_id, card) =>  dispatch => {
   card['type'] = 'position';
-  return BoardAPI.updateCard(card)
+  return BoardAPI.updateCard(board_id, card)
 }
 
 export const moveList = (boardId, listId, lastPos, nextPos) => {

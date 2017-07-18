@@ -57,7 +57,6 @@ class SubNav extends React.Component {
 
     return (
       <div>
-
         <SubNavActionCable
           currentBoardId={currentBoard.id}
           subscribedChannels={subscribedChannels}

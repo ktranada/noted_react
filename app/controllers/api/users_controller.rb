@@ -1,5 +1,6 @@
 class Api::UsersController < ApplicationController
   skip_before_action :require_login!, only: [:create]
+  skip_before_action :confirm_board_membership, only: [:create, :destroy]
 
   def index
     @memberships = BoardMembership.includes(:user).where(board_id: params[:board_id]).order(:username)
