@@ -2,8 +2,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { asArrayByOrder, getCurrentBoardById, isLoadingByType } from '../../reducers/selectors';
 import { requestSubscriptions, requestBoard } from '../../actions/nav_actions';
-import { addMember, updateUsername, removeMember } from '../../actions/board_actions';
-import { incrementMessageNotifications } from '../../actions/notification_actions';
 import Nav from './Nav';
 
 const mapStateToProps = ({ boards, subscriptions, channels, loading}, { currentBoardId, isLanding }) => {
@@ -24,11 +22,7 @@ const mapStateToProps = ({ boards, subscriptions, channels, loading}, { currentB
 
 const mapDispatchToProps = dispatch => ({
   requestBoard: (boardId, isTimeZoneUpdate) => dispatch(requestBoard(boardId, isTimeZoneUpdate)),
-  incrementMessageNotifications: notification => dispatch(incrementMessageNotifications(notification)),
   requestSubscriptions: () => dispatch(requestSubscriptions()),
-  addMember: membership => dispatch(addMember(membership)),
-  removeMember: membership => dispatch(removeMember(membership)),
-  updateUsername: membership => dispatch(updateUsername(membership)),
 })
 
 export default connect(

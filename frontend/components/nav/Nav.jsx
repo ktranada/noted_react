@@ -20,8 +20,6 @@ const propTypes = {
 class Nav extends React.Component {
   constructor(props) {
     super(props);
-
-    this.onReceived = this.onReceived.bind(this);
   }
 
   componentWillMount() {
@@ -44,27 +42,6 @@ class Nav extends React.Component {
     }
   }
 
-  onReceived(data) {
-    const { type, action } = data;
-    if (type === 'message') {
-      if (action === 'add') {
-        const { board_id, channel_id } = data.message;
-        if (!window.location.hash.includes(`/messages/${channel_id}`)) {
-          this.props.incrementMessageNotifications({  board_id, channel_id, unread_messages: 1 });
-        }
-      }
-    } else if (type === 'membership') {
-      if (action === 'add') {
-        this.props.addMember(data.membership);
-      } else if (action === 'remove') {
-        const { membership } = data;
-        membership['isSelf'] = membership.user_id === this.props.currentUserId;
-        this.props.removeMember(membership);
-      } else if (action === 'update') {
-        this.props.updateUsername(data.membership);
-      }
-    }
-  }
 
   render() {
     let { boards, currentBoardId } = this.props;
@@ -72,7 +49,6 @@ class Nav extends React.Component {
       <NavTab
         key={board.id}
         {...board }
-        onReceived={this.onReceived}
       />
     ));
 

@@ -1,46 +1,72 @@
 import React from 'react';
 import { ActionCable } from '../util/ActionCableProvider';
 
-const onReceiveMessages = currentUserId => (addMessage, incrementMessageNotifications) =>
-  response => {
-    addMessage(response.message);
-    if (!window.location.hash.includes(`/boards/${response.board_id}/messages`)) {
-      incrementMessageNotifications({
-        board_id: response.board_id,
-        channel_id: response.message.channel_id
-      });
-    }
-}
+class SubNavActionCable extends React.Component {
 
-const SubNavActionCable = (props) => {
-  const {
-    currentUserId,
-    currentBoardId,
-    subscribedChannels,
-    updateAppearance,
-    incrementMessageNotifications,
-    addMessage
-  } = props;
+  constructor(props) {
+    super(props);
 
-  return (
-    <div>
-      <ActionCable
-        channel={{channel: 'AppearanceChannel', board_id: currentBoardId}}
-        onReceived={updateAppearance}
-      />
-      {
-        subscribedChannels.map(channel => {
-          return (
-            <ActionCable
-              key={channel.id}
-              channel={{channel: 'ChatChannel', room: channel.id}}
-              onReceived={onReceiveMessages(currentUserId)(addMessage, incrementMessageNotifications)}
-            />
-          )
-        })
+    this.onReceivedMembership = this.onReceivedMembership.bind(this);
+    this.onReceiveMessageCount = this.onReceiveMessageCount.bind(this);
+  }
+
+  onReceiveMessageCount(board_id)  {
+    const { incrementMessageNotifications } = this.props.messageCallbacks;
+    return ({channel_id}) => {
+      if (!window.location.hash.includes(`boards/${board_id}/messages/${channel_id}`)) {
+        incrementMessageNotifications({
+          board_id,
+          channel_id
+        });
       }
-    </div>
-  )
+    }
+  }
+
+  onReceivedMembership({ action, membership }) {
+    const { addMember, updateUsername, removeMember } = this.props.membershipCallbacks;
+    if (action === 'create') {
+      addMember(membership)
+    } else if (action == 'update') {
+      updateUsername(membership);
+    } else if (action === 'destroy') {
+      removeMember(membership);
+    }
+  }
+
+
+  render() {
+    const {
+      currentUserId,
+      currentBoardId,
+      subscribedChannels,
+      updateAppearance,
+    } = this.props;
+
+    return (
+      <div>
+        <ActionCable
+          channel={{channel: 'AppearanceChannel', board_id: currentBoardId}}
+          onReceived={updateAppearance}
+        />
+        {
+          subscribedChannels.map(channel => {
+            return (
+              <ActionCable
+                key={channel.id}
+                channel={{channel: 'MessageCountChannel', room: channel.id}}
+                onReceived={this.onReceiveMessageCount(channel.board_id)}
+              />
+            )
+          })
+        }
+        <ActionCable
+          ref="membershipChannel"
+          channel={{channel: 'MembershipChannel', room: currentBoardId, board_id: currentBoardId}}
+          onReceived={this.onReceivedMembership}
+        />
+      </div>
+    )
+  }
 }
 
 

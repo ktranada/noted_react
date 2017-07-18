@@ -19,7 +19,7 @@ const propTypes = {
   currentUserId: PropTypes.number.isRequired
 }
 
-function SubNavActions(props) {
+const SubNavActions = (props) => {
   const { appearances, subscribedChannels, channels, members, boardId, currentUserId } = props;
   return (
     <ul className="sub-nav__actions">

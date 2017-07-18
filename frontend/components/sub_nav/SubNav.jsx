@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// import { ActionCable } from '../util/ActionCableProvider';
 import SubNavActionCable from './SubNavActionCable';
 import BoardSettings from './top_section/BoardSettings';
 import SubNavActions from './middle_section/SubNavActions';
@@ -20,12 +19,7 @@ class SubNav extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleAppearanceSubscription = this.handleAppearanceSubscription.bind(this);
     this.setMessageNotification = this.setMessageNotification.bind(this);
-  }
-
-  handleAppearanceSubscription(appearance) {
-    this.props.updateAppearance(appearance);
   }
 
   setMessageNotification(notification) {
@@ -61,8 +55,15 @@ class SubNav extends React.Component {
           currentBoardId={currentBoard.id}
           subscribedChannels={subscribedChannels}
           updateAppearance={this.props.updateAppearance}
+          membershipCallbacks={{
+            addMember: this.props.addMember,
+            updateUsername: this.props.updateUsername,
+            removeMember: this.props.removeMember
+          }}
+          messageCallbacks={{
+            incrementMessageNotifications: this.props.incrementMessageNotifications
+          }}
           addMessage={this.props.addMessage}
-          incrementMessageNotifications={this.props.incrementMessageNotifications}
         />
 
         <BoardSettings
