@@ -42,12 +42,12 @@ class BoardContent extends React.Component {
   }
 
   componentWillMount() {
-    const { match, history } = this.props;
+    const { match, history, currentBoard } = this.props;
     if (!match.isExact) {
       this.props.history.replace(match.url);
     }
 
-    if (!this.props.currentBoard.hasLoadedLists) {
+    if (currentBoard.isLoaded && !currentBoard.hasLoadedLists) {
       this.props.requestLists();
     }
   }
@@ -62,10 +62,9 @@ class BoardContent extends React.Component {
     if (!nextProps.match.isExact) {
       this.props.history.push(this.props.match.url);
     }
-
-    if (this.props.currentBoard.id !== nextProps.currentBoard.id &&
-        !nextProps.currentBoard.hasLoadedLists) {
-      this.props.requestLists();
+    const { currentBoard: nextBoard } = nextProps;
+    if (!nextProps.isLoadingLists && nextBoard.isLoaded && !nextBoard.hasLoadedLists) {
+      nextProps.requestLists();
     }
   }
 

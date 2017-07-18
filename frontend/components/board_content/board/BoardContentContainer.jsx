@@ -21,7 +21,9 @@ import BoardContent from './BoardContent';
 const mapStateToProps = ({ lists, boards, loading}, { currentBoard }) => {
   return ({
     lists: asArrayByOrder(lists, currentBoard.lists),
-    isLoading: isLoadingByType(loading, currentBoard.id, 'loadingLists')
+    isBoardLoaded: currentBoard.isLoaded,
+    isLoadingBoard: isLoadingByType(loading, currentBoard.id, 'loadingBoard'),
+    isLoadingLists: isLoadingByType(loading, currentBoard.id, 'loadingLists')
   })
 }
 

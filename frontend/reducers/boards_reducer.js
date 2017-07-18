@@ -1,7 +1,6 @@
 import merge from 'lodash/merge';
 import { byIdObject, updateObject, updateAssociationList } from './util';
 import { RECEIVE_BOARDS, UPDATE_TIME_ZONE } from '../actions/session_actions';
-import { NOTIFICATION_MESSAGES, NOTIFICATION_INCREMENT_MESSAGES } from '../actions/notification_actions';
 import {
   ADD_BOARD,
   RECEIVE_BOARD,
@@ -29,7 +28,8 @@ const initialState = {
 //   '1': {
 //     id: 1,
 //     isLoaded: false,
-//     isLoading: false,
+//     hasLoadedLists: false,
+//     owner: false,
 //     channels: [],
 //     members: [],
 //     subscriptions: [],
@@ -40,13 +40,6 @@ const initialState = {
 //     title: 'React'
 //   }
 // }
-
-const startLoadingBoard = (state, action) => {
-  const newState = byIdObject(action.board.id, {
-    isLoading: true
-  })
-  return updateObject(state, newState);
-}
 
 const receiveBoard = (state, action) => {
   const newState = updateObject({}, state, { errors: [] });
@@ -190,25 +183,9 @@ const updateTimeZone = (state, action) => {
   Object.keys(newState.byId).forEach(id => {
     const board = newState.byId[id];
     board.isLoaded = false;
-    board.isLoading = false;
   })
 
   return newState;
-}
-
-const updateUnreadMessages = (state, action) => {
-  if (state.byId[action.notification.board_id]) {
-    const newState = merge({}, state);
-    newState
-      .byId[action.notification.board_id]
-      .hasUnreadMessages = (
-        action.type === NOTIFICATION_INCREMENT_MESSAGES
-          ? true
-          : action.notification.unread_messages > 0
-        );
-    return newState;
-  }
-  return state;
 }
 
 const boardsReducer = (state = initialState, action) => {
@@ -232,9 +209,7 @@ const boardsReducer = (state = initialState, action) => {
     case UPDATE_TIME_ZONE: return updateTimeZone(state, action);
     case REMOVE_MEMBER: return removeMember(state, action);
     case REMOVE_BOARD: return removeBoard(state, action);
-    case NOTIFICATION_MESSAGES:
-    case NOTIFICATION_INCREMENT_MESSAGES:
-      return updateUnreadMessages(state, action);
+
     default:
       return state;
   }

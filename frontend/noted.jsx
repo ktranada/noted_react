@@ -18,7 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
         currentUser: window.currentUser.info,
         errors: []
       },
-      boards: window.boards
+      boards: window.boards.boards,
+      loading: window.boards.loading
     };
     store = configureStore(preloadedState);
     delete window.currentUser;

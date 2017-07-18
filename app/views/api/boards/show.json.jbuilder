@@ -49,8 +49,5 @@ json.set! :info do
   json.channels @board.channels.pluck(:id)
   json.invites isOwner ? @invites.pluck(:id) : []
   json.owner isOwner
-  json.hasLoadedLists false
-  json.hasUnreadMessages false
   json.isLoaded true
-  json.isLoading false
 end
