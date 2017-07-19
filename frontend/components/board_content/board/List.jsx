@@ -66,7 +66,7 @@ const dropSpecs = {
   }
 }
 
-function dropCollect(connect, monitor) {
+const dropCollect = (connect, monitor) => {
   return {
     connectDropTarget: connect.dropTarget(),
     item: monitor.getItem(),
@@ -88,15 +88,7 @@ const dragSpecs = {
   },
 }
 
-function collect(connect, monitor) {
-  return {
-    connectDragSource: connect.dragSource(),
-    isDragging: monitor.isDragging()
-  }
-}
-
 class List extends React.Component  {
-
   render() {
     const {
       list,
@@ -121,7 +113,7 @@ class List extends React.Component  {
             <div
               ref={el => this.listItem = el}
               className={`list-index__item ${isDragging ? "placeholder" : ""}`}>
-              <header>{list.title}</header>
+              <header>{list.id}</header>
               <hr />
               <Cards
                 list={list}

@@ -4,7 +4,7 @@ import { HashRouter } from 'react-router-dom';
 import  ActionCableProvider from './util/ActionCableProvider';
 import App from './app';
 
-function Root({ store }) {
+const Root = ({ store }) => {
   const cableUrl = process.env.NODE_ENV !== 'production'
     ? 'ws://127.0.0.1:3000/cable'
     : 'www.noted.pw/cable'

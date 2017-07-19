@@ -6,7 +6,7 @@ const propTypes = {
   isLoading: PropTypes.bool.isRequired
 }
 
-function SubNavDefault(props) {
+const SubNavDefault = props => {
   return (
     <div className="sub-nav-default">
       <span>BOARD</span>

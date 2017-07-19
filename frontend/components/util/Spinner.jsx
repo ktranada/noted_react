@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Spinner(props) {
+const Spinner = (props) => {
   const { style } = props;
   return (
     <svg style={style} className="spinner" width="35px" height={props.height ? `${props.height}px` : "65px"} viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">

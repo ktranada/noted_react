@@ -48,11 +48,13 @@ class ListCardForm extends React.Component {
 
     this.props.addItem({
       title: this.state.title
-    }).then(() => this.setState({
+    });
+
+    this.setState({
       isAdding: false,
       title: '',
       isBlank: false
-    }));
+    });
   }
 
   render() {

@@ -41,7 +41,14 @@ class SubNav extends React.Component {
     }
 
     let inviteButton = null;
-    const { currentBoard, members, channels, subscribedChannels } = this.props;
+    const {
+      currentUserId,
+      currentBoard,
+      appearances,
+      members,
+      channels,
+      subscribedChannels,
+    } = this.props;
     if (currentBoard.isLoaded && members.length === 0) {
       inviteButton = (
         <div className="initial-invite-display">
@@ -75,14 +82,16 @@ class SubNav extends React.Component {
 
         <BoardSettings
           toggleModal={this.props.toggleModal}
-          board={currentBoard}/>
+          title={currentBoard.title}
+          isOwner={currentBoard.owner}
+        />
         <hr />
         { inviteButton }
         { inviteButton && <hr />}
         <SubNavActions
-          appearances={this.props.appearances}
-          currentUserId={this.props.currentUser.id}
-          isViewingCard={this.props.location.pathname.includes('card')}
+          appearances={appearances}
+          currentUserId={currentUserId}
+          isViewingCard={window.location.hash.includes('card')}
           setMessageNotification={this.setMessageNotification}
           boardId={currentBoard.id}
           members={members}

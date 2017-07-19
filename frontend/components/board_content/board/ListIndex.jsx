@@ -62,13 +62,13 @@ const specs = {
   }
 }
 
-function collect(connect, monitor) {
+const collect = (connect, monitor) => {
   return {
     connectDropTarget: connect.dropTarget()
   }
 }
 
-function ListIndex(props) {
+const ListIndex = props => {
   const lists = props.lists.map((list, position) => (
     <ListContainer
       key={list.id}

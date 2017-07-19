@@ -14,20 +14,18 @@ const isTabActive = id => (match, location) => {
   return location.pathname.includes(`/boards/${id}`);
 }
 
-class NavTab extends React.Component {
-  render() {
-    const {id, title, isLoaded, channels, hasUnreadMessages, hasNotifications } = this.props;
-    return (
-      <li className="navbar__tab">
-        <NavLink
-          data-badge={hasUnreadMessages || hasNotifications ? 'unread-messages' : ''} to={`/boards/${id}`}
-          isActive={isTabActive(id)}
-        >
-          {title[0].toUpperCase()}
-        </NavLink>
-      </li>
-    )
-  }
+const NavTab = props => {
+  const {id, title, isLoaded, channels, hasUnreadMessages, hasNotifications } = props;
+  return (
+    <li className="navbar__tab">
+      <NavLink
+        data-badge={hasUnreadMessages || hasNotifications ? 'unread-messages' : ''} to={`/boards/${id}`}
+        isActive={isTabActive(id)}
+      >
+        {title[0].toUpperCase()}
+      </NavLink>
+    </li>
+  )
 }
 
 NavTab.propTypes = propTypes;

@@ -7,7 +7,7 @@ const propTypes = {
 }
 
 
-function ConfigurationContent(props) {
+const ConfigurationContent = (props) => {
   return (
     <div className="configuration-content">
       <span className="configuration-content__header">{props.header}</span>

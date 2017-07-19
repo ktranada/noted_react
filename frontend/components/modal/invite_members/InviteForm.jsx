@@ -14,7 +14,7 @@ const propTypes = {
   removeInviteRow: PropTypes.func.isRequired
  }
 
-function InviteForm(props) {
+const InviteForm = (props) => {
   const {
     invites,
     remainingInviteCount,

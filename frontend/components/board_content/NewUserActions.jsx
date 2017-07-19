@@ -6,7 +6,7 @@ const propTypes = {
   toggleModal: PropTypes.func.isRequired
 }
 
-function NewUserActions(props) {
+const NewUserActions = props => {
   if (props.boardCount === 3) {
     return null
   }

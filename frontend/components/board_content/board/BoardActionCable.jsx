@@ -47,7 +47,7 @@ class BoardActionCable extends React.Component {
     if (action === 'move') {
       const { id, position } = list;
       moveList(id, position);
-    } else if (action === 'add') {
+    } else if (action === 'create') {
       addList(list);
     }
   }
@@ -60,7 +60,7 @@ class BoardActionCable extends React.Component {
         const { id, list_id, position } = card;
         moveCard(id, list_id, position, data.previous_list_id);
         break;
-      case 'add':
+      case 'create':
         addCard(card);
         break;
       case 'update':
@@ -72,7 +72,7 @@ class BoardActionCable extends React.Component {
   handleCommentNotification(action, data) {
     const { comment } = data;
     const { addComment } = this.props.commentCallbacks;
-    if (action === 'add') {
+    if (action === 'create') {
       addComment(comment);
     }
   }

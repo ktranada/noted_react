@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DragSource, DropTarget } from 'react-dnd';
-import { findDOMNode } from 'react-dom';
 
 import Card from './Card';
 import ListCardForm from './ListCardForm';
@@ -15,7 +13,7 @@ const propTypes = {
   }).isRequired
 }
 
-function Cards(props) {
+const Cards = (props) => {
   const {
     list,
     cards,

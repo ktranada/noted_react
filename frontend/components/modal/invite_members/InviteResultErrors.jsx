@@ -5,7 +5,7 @@ const propTypes = {
   errors: PropTypes.arrayOf(PropTypes.object).isRequired
 }
 
-function InviteResultErrors(props) {
+const InviteResultErrors = props => {
   return (
     <div className="results__errors">
       <div className="results__header">

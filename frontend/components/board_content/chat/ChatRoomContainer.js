@@ -5,7 +5,7 @@ import { createMessage, addMessage, requestMessages } from '../../../actions/cha
 import { incrementMessageNotifications } from '../../../actions/notification_actions';
 import ChatRoom from './ChatRoom';
 
-function mapStateToProps({ messages, channels, members, loading}, { currentBoard, match: { params: { channelId } } }) {
+const mapStateToProps = ({ messages, channels, members, loading}, { currentBoard, match: { params: { channelId } } }) => {
   const channel = getObjectById(channelId, channels);
   const boardMembers = {};
   currentBoard.members.forEach(id  => {

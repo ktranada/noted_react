@@ -19,11 +19,31 @@ const propTypes = {
   currentUserId: PropTypes.number.isRequired
 }
 
+const defaultProps = {
+  channels: [],
+  members: []
+}
+
 const SubNavActions = (props) => {
-  const { appearances, subscribedChannels, channels, members, boardId, currentUserId } = props;
+  const {
+    boardId,
+    currentUserId,
+    appearances,
+    channels,
+    subscribedChannels,
+    members,
+    isViewingCard
+  } = props;
   return (
     <ul className="sub-nav__actions">
-      <li className="sub-nav__category"><NavLink className={props.isViewingCard ? 'active' : ''} to={`/boards/${boardId}/lists`}><i aria-hidden className="material-icons">&#xE3EC;</i>VIEW BOARD</NavLink></li>
+      <li className="sub-nav__category">
+        <NavLink
+          className={isViewingCard ? 'active' : ''}
+          to={`/boards/${boardId}/lists`}
+        >
+          <i aria-hidden className="material-icons">&#xE3EC;</i>VIEW BOARD
+        </NavLink>
+      </li>
       <li className="sub-nav__category channels"><span><i aria-hidden className="material-icons">&#xE0B7;</i>CHAT</span>
         <Channels
           setMessageNotification={props.setMessageNotification}

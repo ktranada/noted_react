@@ -5,7 +5,7 @@ const propTypes = {
   success: PropTypes.arrayOf(PropTypes.object).isRequired
 }
 
-function InviteResultSuccess(props) {
+const InviteResultSuccess = props => {
   return (
     <div className="results__success">
       <div className="results__header">

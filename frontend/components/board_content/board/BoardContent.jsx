@@ -14,11 +14,12 @@ import { throttle } from '../../../actions/util';
 const propTypes = {
   currentBoard: PropTypes.object.isRequired,
   lists: PropTypes.array.isRequired,
-  createCard: PropTypes.func.isRequired,
-  createList: PropTypes.func.isRequired,
-  moveList: PropTypes.func.isRequired,
+
+  requestLists: PropTypes.func.isRequired,
   addList: PropTypes.func.isRequired,
   addCard: PropTypes.func.isRequired,
+  moveList: PropTypes.func.isRequired,
+  moveCard: PropTypes.func.isRequired,
   updateCard: PropTypes.func.isRequired
 }
 
@@ -83,7 +84,7 @@ class BoardContent extends React.Component {
       board_id: this.props.match.params.boardId,
       updated_by: this.props.currentUserId
     })
-    return this.props.createList(list);
+    this.refs.boardChannel.refs.boardChannel.perform('create_list', list);
   }
 
   createCard(list_id) {
@@ -93,7 +94,7 @@ class BoardContent extends React.Component {
         updated_by: this.props.currentUserId,
         board_id: this.props.currentBoard.id
       });
-      return this.props.createCard(card);
+      this.refs.boardChannel.refs.boardChannel.perform('create_card', card);
     }
   }
 
@@ -144,13 +145,14 @@ class BoardContent extends React.Component {
 
   updateListPosition(list) {
     list['updated_by'] = this.props.currentUserId;
-    this.props.updateListPosition(list);
+    this.refs.boardChannel.refs.boardChannel.perform('update_list_position', list);
+    // this.props.updateListPosition(list);
   }
 
   updateCardPosition(card) {
     card['updated_by'] = this.props.currentUserId;
     card['board_id'] = this.props.currentBoard.id;
-    this.props.updateCardPosition(card);
+    this.refs.boardChannel.refs.boardChannel.perform('update_card_position', card);
   }
 
   render() {
@@ -179,6 +181,7 @@ class BoardContent extends React.Component {
                 }}
               >
                 <BoardActionCable
+                  ref="boardChannel"
                   currentUserId={this.props.currentUserId}
                   currentBoardId={this.props.currentBoard.id}
                   listCallbacks={{

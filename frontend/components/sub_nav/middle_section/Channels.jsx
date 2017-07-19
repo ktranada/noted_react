@@ -12,7 +12,11 @@ const propTypes = {
   })),
 }
 
-function Channels(props) {
+const defaultProps = {
+  channels: []
+}
+
+const Channels = props => {
   const channels = props.channels.map(channel => (
       <li
         data-unread-count={channel.unread_messages}
@@ -36,5 +40,6 @@ function Channels(props) {
 }
 
 Channels.propTypes = propTypes;
+Channels.defaultPrps = defaultProps;
 
 export default Channels;

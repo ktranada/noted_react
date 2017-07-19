@@ -79,6 +79,12 @@ const contextTypes = {
 }
 
 class ActionCable extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.perform = this.perform.bind(this);
+  }
   componentDidMount() {
 
     let self = this;

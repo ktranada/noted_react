@@ -58,9 +58,7 @@ class Messages extends React.Component {
     }
   }
 
-
   render() {
-
     const { channel, isFetching, fetchFailed, currentPage } = this.props;
     const data = messagesByDate(this.props.messages, true);
 

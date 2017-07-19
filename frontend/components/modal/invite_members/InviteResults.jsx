@@ -12,7 +12,7 @@ const propTypes = {
   }).isRequired
 }
 
-function InviteResults(props) {
+const InviteResults = props => {
   const { success, errors, count } = props.results;
   const isSuccess = success.length === count;
   const isFailure = !isSuccess && errors.length === count;

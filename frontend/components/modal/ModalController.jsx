@@ -8,7 +8,7 @@ import OwnerBoardSettingsModalContainer from './settings/board/OwnerBoardSetting
 import MemberBoardSettingsModalContainer from './settings/board/MemberBoardSettingsModalContainer';
 import AccountSettingsModalContainer from './settings/account/AccountSettingsModalContainer';
 
-function ModalController(props) {
+const  ModalController = (props) => {
   const { currentUser, currentBoard, history, hideModal, isLoading } = props;
   let Modal = null;
   switch (props.modal) {

@@ -42,22 +42,6 @@ export const startLoadingLists = board_id => ({
   board_id
 })
 
-export const createList = (board_id, list) => dispatch => (
-  BoardAPI.createList(board_id, list)
-    .then(list => {
-      dispatch(addList(list));
-      return list;
-    })
-);
-
-export const createCard = (board_id, card) => dispatch => (
-  BoardAPI.createCard(board_id, card)
-    .then(card => {
-      dispatch(addCard(card));
-      return card;
-    })
-)
-
 export const createComment = (board_id, comment) => dispatch => (
   BoardAPI.createComment(board_id, comment)
     .then(comment => {
@@ -132,7 +116,6 @@ export const destroyInvite = (board_id, inviteId) => dispatch => (
       return invite;
     })
 )
-
 
 export const receiveInviteErrors = errors => ({
   type: RECEIVE_INVITE_ERRORS,
