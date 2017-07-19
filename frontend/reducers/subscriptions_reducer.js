@@ -9,12 +9,8 @@ const initialState = {
 
 function subscriptionsReducer(state = initialState, action) {
   switch (action.type) {
-    case RECEIVE_BOARD:
-      return updateObject(state, {
-        channelsByBoardId: action.board.subscriptions
-      });
-    case RECEIVE_SUBSCRIPTIONS:
-      return merge({}, state, action.subscriptions);
+    case RECEIVE_BOARD: return updateObject(state, action.board.subscriptions);
+    case RECEIVE_SUBSCRIPTIONS: return merge({}, state, action.subscriptions);
     default:
       return state;
   }

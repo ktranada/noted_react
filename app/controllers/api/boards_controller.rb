@@ -22,11 +22,14 @@ class Api::BoardsController < ApplicationController
 
   def show
     @board = Board
-      .includes(:board_memberships, :members, :invites, :channels, lists: [cards: [:comments]])
+      .includes(:board_memberships, :members, :invites, :channels)
       .find(params[:id])
 
+    @isOwner = @board.is_owned_by?(current_user)
     @subscriptions = Subscription.includes(channel: [:messages]).where(board_id: params[:id], user_id: current_user.id)
-    @invites = @board.invites.select {|invite| !invite.hide_from_client? }
+    if @isOwner
+      @invites = @board.invites.select {|invite| !invite.hide_from_client? }
+    end
     render :show
   end
 

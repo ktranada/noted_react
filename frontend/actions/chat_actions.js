@@ -2,29 +2,27 @@ import * as BoardAPI from '../util/board_api';
 
 export const ADD_MESSAGE = 'ADD_MESSAGE';
 export const RECEIVE_MESSAGES = 'RECEIVE_MESSAGES';
+export const START_LOADING_MESSAGES = 'START_LOADING_MESSAGES';
 
-export const createMessage = (board_id, message) => dispatch => (
-  BoardAPI.createMessage(board_id, message).then(
-    message => {
-      return message;
-    },
-    error => error.responseJSON
-  )
-)
-
-export const requestMessages = (board_id, channelId, page) => dispatch => (
-  BoardAPI.requestMessages(board_id, channelId, page).then(
+export const requestMessages = (board_id, channel_id, page) => dispatch => {
+  if (page === 0) {
+    dispatch(startLoadingMessages(channel_id))
+  }
+  return BoardAPI.requestMessages(board_id, channel_id, page).then(
     messages => {
-      console.log(messages);
       dispatch(receiveMessages(messages));
       return messages;
     },
     error => {
-      console.log(error)
       return error;
     }
   )
-)
+}
+
+export const startLoadingMessages = channel_id => ({
+  type: START_LOADING_MESSAGES,
+  channel_id
+})
 export const receiveMessages = messages => ({
   type: RECEIVE_MESSAGES,
   messages

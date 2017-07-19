@@ -9,16 +9,14 @@ json.set! :appearances do
 end
 
 channel_info_by_id = {}
-messages = []
 
 @subscriptions.each do |sub|
   channel = sub.channel
-  channelMessages = channel.messages.order('created_at DESC').limit(25)
   channel_info_by_id[channel.id] = {
-    messages: channelMessages.pluck(:id),
-    has_more: channel.messages.length > 10
+    messages: [],
+    has_more: channel.messages.length > 10,
+    has_loaded_messages: false
   }
-  messages << channelMessages
 end
 
 json.set! :channels do
@@ -26,16 +24,10 @@ json.set! :channels do
 end
 
 json.set! :subscriptions do
-  json.partial! 'api/subscriptions/subscription', board_id: @board.id, subscriptions: @subscriptions
+  json.partial! 'api/subscriptions/subscriptions', board_id: @board.id, subscriptions: @subscriptions
 end
 
-json.set! :messages do
-  json.partial! 'api/messages/messages', messages: messages.flatten
-end
-
-isOwner = @board.is_owned_by?(current_user)
-
-if isOwner
+if @isOwner
   json.set! :invites do
     json.partial! 'api/invites/invites', invites: @invites
   end
@@ -47,7 +39,7 @@ json.set! :info do
   json.extract! @board, :id, :title
   json.members @board.board_memberships.map(&:user).pluck(:id)
   json.channels @board.channels.pluck(:id)
-  json.invites isOwner ? @invites.pluck(:id) : []
-  json.owner isOwner
+  json.invites @isOwner ? @invites.pluck(:id) : []
+  json.owner @isOwner
   json.isLoaded true
 end

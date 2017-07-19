@@ -26,7 +26,7 @@ class Nav extends React.Component {
     if (!this.props.isLanding) {
       this.requestBoard(this.props.currentBoardId, false, this.props);
     }
-    this.props.requestSubscriptions();
+    // this.props.requestSubscriptions();
   }
 
   componentWillReceiveProps(nextProps) {

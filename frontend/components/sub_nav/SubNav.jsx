@@ -12,7 +12,14 @@ const propTypes = {
   members: PropTypes.arrayOf(PropTypes.object).isRequired,
   isLoading: PropTypes.bool.isRequired,
   currentBoard: PropTypes.object.isRequired,
-  toggleModal: PropTypes.func.isRequired
+  toggleModal: PropTypes.func.isRequired,
+
+  setMessageNotification: PropTypes.func.isRequired,
+  updateAppearance: PropTypes.func.isRequired,
+  addMember: PropTypes.func.isRequired,
+  updateUsername: PropTypes.func.isRequired,
+  removeMember: PropTypes.func.isRequired,
+  incrementMessageNotifications: PropTypes.func.isRequired
 }
 
 class SubNav extends React.Component {

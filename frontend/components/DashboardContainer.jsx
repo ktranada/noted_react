@@ -6,7 +6,7 @@ import { toggleModal } from '../actions/modal_actions';
 const mapStateToProps = ({session, boards, loading }, { match }) => ({
   currentUser: session.currentUser,
   currentBoard: getCurrentBoardById(match.params.boardId, boards),
-  isLoading: isLoadingByType(loading, match.params.boardId, 'loadingBoard')
+  isLoading: isLoadingByType(loading, 'Board', match.params.boardId, 'loadingBoard')
 })
 
 const mapDispatchToProps = (dispatch) => ({

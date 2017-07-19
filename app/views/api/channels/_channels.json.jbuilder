@@ -7,9 +7,10 @@ json.set! :byId do
       json.board_id channel.board_id
       json.title channel.title
       json.permission channel.permission
-      json.messages  info[:messages] || []
-      json.has_more info[:has_more]
+      json.messages []
       json.unread_messages 0
+      json.has_more info[:has_more]
+      json.has_loaded_messages false
     end
   end
 end

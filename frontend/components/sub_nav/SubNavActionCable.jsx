@@ -2,7 +2,6 @@ import React from 'react';
 import { ActionCable } from '../util/ActionCableProvider';
 
 class SubNavActionCable extends React.Component {
-
   constructor(props) {
     super(props);
 

@@ -19,4 +19,5 @@ class Message < ActiveRecord::Base
 
 
   after_create_commit { MessageCountJob.perform_now(self) }
+
 end

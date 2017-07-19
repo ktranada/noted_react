@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { ActionCable } from '../../util/ActionCableProvider';
+import Spinner from '../../util/Spinner';
 import Messages from './Messages';
 import ChatForm from './ChatForm';
 
@@ -20,11 +22,11 @@ const propTypes = {
     content: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
     time: PropTypes.string.isRequired,
-    time_offset: PropTypes.number.isRequired
+    time_offset: PropTypes.number.isRequired,
+    timestamp: PropTypes.number.isRequired
   })),
-  incrementMessageNotifications: PropTypes.func.isRequired,
-
-  location: PropTypes.object.isRequired,
+  requestMessages: PropTypes.func.isRequired,
+  addMessage: PropTypes.func.isRequired
 }
 
 class ChatRoom extends React.Component {
@@ -33,6 +35,7 @@ class ChatRoom extends React.Component {
 
     this.sendMessage = this.sendMessage.bind(this);
     this.loadMessages = this.loadMessages.bind(this);
+    this.onReceivedChat = this.onReceivedChat.bind(this);
 
     this.state = {
       isFetching: false,
@@ -41,10 +44,29 @@ class ChatRoom extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const { channel, isLoading, requestMessages } = this.props;
+    if (channel && !isLoading && !channel.has_loaded_messages) {
+      requestMessages(0);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.isLoading && !nextProps.channel.has_loaded_messages) {
+      nextProps.requestMessages(0);
+    }
+  }
+
+  onReceivedChat({ action, message }) {
+    if (action === 'create') {
+      this.props.addMessage(message);
+    }
+  }
+
   sendMessage(data) {
     data['board_id'] = this.props.currentBoard.id;
-    data['channel_id'] = this.props.channel.id
-    this.props.sendMessage(data);
+    data['channel_id'] = this.props.channel.id;
+    this.refs.chatChannel.perform('send_message', { message: data });
   }
 
 
@@ -65,8 +87,16 @@ class ChatRoom extends React.Component {
   render() {
     const { channel, messages, members, currentBoard } = this.props;
     if (!channel) return null;
+    if (!channel.has_loaded_messages) {
+      return <Spinner />
+    }
     return (
       <div className="chat-wrapper">
+        <ActionCable
+          ref="chatChannel"
+          channel={{channel: 'ChatChannel', room: channel.id, board_id: currentBoard.id}}
+          onReceived={this.onReceivedChat}
+        />
         <Messages
           loadMessages={this.loadMessages}
           currentPage={this.state.currentPage}

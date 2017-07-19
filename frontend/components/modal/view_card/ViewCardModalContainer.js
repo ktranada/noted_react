@@ -11,7 +11,7 @@ const mapStateToProps = ({ comments, members, cards, loading }, {match, currentB
   })
   return {
     card,
-    isLoading: isLoadingByType(loading, currentBoard.id, 'loadingLists'),
+    isLoading: isLoadingByType(loading, 'Board', currentBoard.id, 'loadingLists'),
     comments: asArrayByOrder(comments, card.comments),
     boardId: currentBoard.id,
     members: boardMembers

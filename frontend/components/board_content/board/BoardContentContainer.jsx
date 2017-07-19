@@ -22,8 +22,8 @@ const mapStateToProps = ({ lists, boards, loading}, { currentBoard }) => {
   return ({
     lists: asArrayByOrder(lists, currentBoard.lists),
     isBoardLoaded: currentBoard.isLoaded,
-    isLoadingBoard: isLoadingByType(loading, currentBoard.id, 'loadingBoard'),
-    isLoadingLists: isLoadingByType(loading, currentBoard.id, 'loadingLists')
+    isLoadingBoard: isLoadingByType(loading, 'Board', currentBoard.id, 'loadingBoard'),
+    isLoadingLists: isLoadingByType(loading, 'Board', currentBoard.id, 'loadingLists')
   })
 }
 

@@ -16,7 +16,7 @@ const mapStateToProps = ({ boards, subscriptions, channels, loading}, { currentB
   return ({
     boards: boardsArray,
     boardIsLoaded: isLanding ? true : currentBoard.isLoaded,
-    boardIsLoading: isLanding ? false : isLoadingByType(loading, currentBoardId, 'loadingBoard')
+    boardIsLoading: isLanding ? false : isLoadingByType(loading, 'Board', currentBoardId, 'loadingBoard')
   })
 };
 

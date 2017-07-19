@@ -34,6 +34,7 @@ const receiveMessages = (state, { messages: { channel_id, channel_messages, has_
     const channel = newState.byId[channel_id];
     channel.has_more = has_more;
     channel.messages = [...channel.messages, ...channel_messages];
+    channel.has_loaded_messages = true;
     return newState;
   }
   return state;
