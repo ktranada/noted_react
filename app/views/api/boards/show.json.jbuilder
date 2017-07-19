@@ -42,4 +42,6 @@ json.set! :info do
   json.invites @isOwner ? @invites.pluck(:id) : []
   json.owner @isOwner
   json.isLoaded true
+  json.has_loaded_lists false
+  json.subscribe_to_nav_notifications false
 end

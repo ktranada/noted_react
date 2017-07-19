@@ -16,6 +16,7 @@ import {
   UPDATE_BOARD,
   REMOVE_BOARD,
 } from '../actions/board_actions';
+import { RECEIVE_MESSAGES } from '../actions/chat_actions';
 import { MOVE_LIST, UPDATE_LIST_ORDER } from '../actions/list_actions';
 
 const initialState = {
@@ -27,8 +28,8 @@ const initialState = {
 // byId: {
 //   '1': {
 //     id: 1,
-//     isLoaded: false,
-//     hasLoadedLists: false,
+//     isLoaded: fa]lse,
+//     has_loaded_lists: false,
 //     owner: false,
 //     channels: [],
 //     members: [],
@@ -55,7 +56,7 @@ const receiveLists = (state, action) => {
   if (state.byId[board_id]) {
     const newState = merge({}, state, byIdObject(board_id, {
       lists: list_ids,
-      hasLoadedLists: true
+      has_loaded_lists: true
     }));
     return newState;
   }

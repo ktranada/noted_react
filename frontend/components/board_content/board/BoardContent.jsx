@@ -47,7 +47,7 @@ class BoardContent extends React.Component {
       this.props.history.replace(match.url);
     }
 
-    if (currentBoard.isLoaded && !currentBoard.hasLoadedLists) {
+    if (currentBoard.isLoaded && !currentBoard.has_loaded_lists) {
       this.props.requestLists();
     }
   }
@@ -63,7 +63,7 @@ class BoardContent extends React.Component {
       this.props.history.push(this.props.match.url);
     }
     const { currentBoard: nextBoard } = nextProps;
-    if (!nextProps.isLoadingLists && nextBoard.isLoaded && !nextBoard.hasLoadedLists) {
+    if (!nextProps.isLoadingLists && nextBoard.isLoaded && !nextBoard.has_loaded_lists) {
       nextProps.requestLists();
     }
   }

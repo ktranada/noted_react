@@ -19,6 +19,7 @@ class ChatChannel < ApplicationCable::Channel
       ActionCable.server.broadcast(
         "chat:b_#{message_params['board_id']}:c_#{message.channel_id}", {
           action: 'create',
+          board_id: message_params['board_id'],
           message: render_jbuilder('api/messages/message', {
               message: message,
               current_user: current_user
@@ -26,6 +27,13 @@ class ChatChannel < ApplicationCable::Channel
           )
         }
       )
+
+      ActionCable.server.broadcast("nav_notification:#{message_params['board_id']}", {
+        board_id: message_params['board_id'],
+        channel_id: message.channel_id,
+        is_nav_notification: true,
+        has_unread_messages: true
+      })
     end
   end
 end

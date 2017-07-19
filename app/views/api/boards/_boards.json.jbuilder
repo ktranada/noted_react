@@ -14,7 +14,8 @@ json.set! :boards do
           json.lists []
           json.invites []
           json.owner board.is_owned_by?(current_user)
-          json.hasLoadedLists false
+          json.has_loaded_lists false
+          json.subscribe_to_nav_notifications true
         end
         order << board.id
       end

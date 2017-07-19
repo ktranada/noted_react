@@ -16,11 +16,11 @@ const isTabActive = id => (match, location) => {
 
 class NavTab extends React.Component {
   render() {
-    const {id, title, isLoaded, channels, hasUnreadMessages } = this.props;
+    const {id, title, isLoaded, channels, hasUnreadMessages, hasNotifications } = this.props;
     return (
       <li className="navbar__tab">
         <NavLink
-          data-badge={hasUnreadMessages ? 'unread-messages' : ''} to={`/boards/${id}`}
+          data-badge={hasUnreadMessages || hasNotifications ? 'unread-messages' : ''} to={`/boards/${id}`}
           isActive={isTabActive(id)}
         >
           {title[0].toUpperCase()}

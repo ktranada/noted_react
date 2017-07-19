@@ -2,7 +2,7 @@ import merge from 'lodash/merge';
 import { ADD_MESSAGE, RECEIVE_MESSAGES } from '../actions/chat_actions';
 import { RECEIVE_BOARD } from '../actions/nav_actions';
 import { REMOVE_BOARD } from '../actions/board_actions';
-import { NOTIFICATION_MESSAGES, NOTIFICATION_INCREMENT_MESSAGES } from '../actions/notification_actions';
+import { SET_UNREAD_MESSAGE_COUNT, INCREMENT_UNREAD_MESSAGE_COUNT } from '../actions/notification_actions';
 import { updateObject, removeObjectsByBoard, updateAssociationList } from './util';
 
 const initialState = {
@@ -50,13 +50,21 @@ const setMessageNotification = (state, action) => {
 }
 
 const incrementMessageNotifications = (state, action) => {
-  if (state.byId[action.notification.channel_id]) {
-    const newState = merge({}, state);
-    newState.byId[action.notification.channel_id].unread_messages += 1;
+  const { notification } = action;
+  let newState;
+  if (state.byId[notification.channel_id]) {
+    newState = merge({}, state);
+    newState.byId[notification.channel_id].unread_messages += 1;
     return newState;
-  } else if (action.notification.isLoaded === false) {
-    const newState = merge({}, state);
-    newState.byId[action.notification.channel_id] = {
+  } else if (notification.isLoaded === false) {
+    newState = merge({}, state);
+    newState.byId[notification.channel_id] = {
+      unread_messages: 1
+    }
+    return newState;
+  } else if (notification.is_nav_notification) {
+    newState = merge({}, state);
+    newState.byId[notification.channel_id] =  {
       unread_messages: 1
     }
     return newState;
@@ -70,8 +78,8 @@ const channelsReducer = (state = initialState, action) => {
     case RECEIVE_MESSAGES: return receiveMessages(state, action);
     case REMOVE_BOARD: return removeObjectsByBoard(state, action.board.channels);
     case ADD_MESSAGE: return updateAssociationList(state, action.message.channel_id, 'messages', action.message.id, {prepend: true});
-    case NOTIFICATION_MESSAGES: return setMessageNotification(state, action);
-    case NOTIFICATION_INCREMENT_MESSAGES: return incrementMessageNotifications(state, action);
+    case SET_UNREAD_MESSAGE_COUNT: return setMessageNotification(state, action);
+    case INCREMENT_UNREAD_MESSAGE_COUNT: return incrementMessageNotifications(state, action);
     default:
       return state;
   }

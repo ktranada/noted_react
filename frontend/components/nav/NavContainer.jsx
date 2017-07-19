@@ -1,16 +1,17 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { asArrayByOrder, getCurrentBoardById, isLoadingByType } from '../../reducers/selectors';
-import { requestSubscriptions, requestBoard } from '../../actions/nav_actions';
+import { requestBoard } from '../../actions/nav_actions';
+import { incrementMessageNotifications } from '../../actions/notification_actions';
 import Nav from './Nav';
 
 const mapStateToProps = ({ boards, subscriptions, channels, loading}, { currentBoardId, isLanding }) => {
   const currentBoard = getCurrentBoardById(currentBoardId, boards);
   const boardsArray = asArrayByOrder(boards, boards.order)
-    .map(({ id, isLoaded, title }) => {
+    .map(({ id, isLoaded, title, subscribe_to_nav_notifications }) => {
       const subscribedChannels = subscriptions.channelsByBoardId[id] || []
       const hasUnreadMessages = subscribedChannels.find(id => channels.byId[id] && channels.byId[id].unread_messages > 0) !== undefined;
-      return { id, isLoaded, title, hasUnreadMessages, channels: subscribedChannels }
+      return { id, isLoaded, title, hasUnreadMessages, subscribe_to_nav_notifications, channels: subscribedChannels }
     });
 
   return ({
@@ -22,7 +23,7 @@ const mapStateToProps = ({ boards, subscriptions, channels, loading}, { currentB
 
 const mapDispatchToProps = dispatch => ({
   requestBoard: (boardId, isTimeZoneUpdate) => dispatch(requestBoard(boardId, isTimeZoneUpdate)),
-  requestSubscriptions: () => dispatch(requestSubscriptions()),
+  incrementMessageNotifications: notification => dispatch(incrementMessageNotifications(notification))
 })
 
 export default connect(

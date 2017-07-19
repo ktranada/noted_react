@@ -1,3 +1,4 @@
+json.board_id @board_id
 json.channel_id @channel.id
 json.channel_messages @messages.pluck(:id)
 json.has_more @messages.length > 0
