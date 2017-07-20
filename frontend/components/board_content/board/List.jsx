@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DragSource, DropTarget } from 'react-dnd';
+import TextareaAutosize from 'react-textarea-autosize';
 
 import Cards from './Cards';
 import ListCardForm from './ListCardForm';
-
 const propTypes = {
   prevHoveredListId: PropTypes.number.isRequired,
   list: PropTypes.object.isRequired,
   cards: PropTypes.arrayOf(PropTypes.object).isRequired,
   listCallbacks: PropTypes.shape({
     createCard: PropTypes.func.isRequired,
+    editList: PropTypes.func.isRequired,
     moveList: PropTypes.func.isRequired,
     updateListPosition: PropTypes.func.isRequired
   }).isRequired,
@@ -89,6 +90,51 @@ const dragSpecs = {
 }
 
 class List extends React.Component  {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      title: this.props.list.title,
+      isEditing: false,
+      isBlank: false
+    }
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.toggleEdit = this.toggleEdit.bind(this);
+  }
+
+  handleChange(e) {
+    this.setState({
+      title: e.currentTarget.value,
+      isBlank: false
+    })
+  }
+
+  handleSubmit(e) {
+    if (this.props.title === this.state.title) {
+      this.toggleEdit();
+      return;
+    }
+
+    if (!this.state.title.trim()) {
+      this.setState({ isBlank: true });
+      return;
+    }
+
+    this.props.listCallbacks.editList({
+      id: this.props.list.id,
+      title: this.state.title
+    });
+    this.toggleEdit();
+  }
+
+  toggleEdit() {
+    this.setState({
+      isEditing: !this.state.isEditing,
+    })
+  }
+
   render() {
     const {
       list,
@@ -113,7 +159,20 @@ class List extends React.Component  {
             <div
               ref={el => this.listItem = el}
               className={`list-index__item ${isDragging ? "placeholder" : ""}`}>
-              <header>{list.id}</header>
+              {
+                this.state.isEditing
+                  ? (
+                    <TextareaAutosize
+                      onChange={this.handleChange}
+                      autoFocus
+                      onBlur={this.handleSubmit}
+                      value={this.state.title}
+                      className={this.state.isBlank ? 'error' : ''}
+                      placeholder="Title"
+                    />
+                  )
+                  : <header onClick={this.toggleEdit}>{list.title}</header>
+              }
               <hr />
               <Cards
                 list={list}
@@ -125,7 +184,7 @@ class List extends React.Component  {
                 cardCallbacks={this.props.cardCallbacks}
               />
               <ListCardForm type="card" addItem={this.props.listCallbacks.createCard(list.id)} />
-              </div>
+            </div>
             )
         }
       </div>

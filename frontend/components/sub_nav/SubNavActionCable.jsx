@@ -28,7 +28,10 @@ class SubNavActionCable extends React.Component {
     } else if (action == 'update') {
       updateUsername(membership);
     } else if (action === 'destroy') {
-      removeMember(membership);
+      if (membership.user_id !== this.props.currentUserId) {
+        console.log(membership);
+        removeMember(membership);
+      }
     }
   }
 
@@ -52,7 +55,7 @@ class SubNavActionCable extends React.Component {
             return (
               <ActionCable
                 key={channel.id}
-                channel={{channel: 'MessageCountChannel', room: channel.id}}
+                channel={{channel: 'MessageCountChannel', room: channel.id, board_id: currentBoardId}}
                 onReceived={this.onReceiveMessageCount(channel.board_id)}
               />
             )

@@ -77,37 +77,12 @@ export const createInvites = (board_id, data) => (
   })
 )
 
-export const createComment = (board_id, data) => (
-  create('comment', board_id,  data)
-)
-
-export const createList = (board_id, data) => (
-  create('list', board_id,  data)
-)
-
-export const createCard = (board_id, data) => (
-  create('card', board_id,  data)
-)
-
 export const createInvite = (board_id, data) => (
   create('invite', board_id,  data)
 )
 
-export const createMessage = (board_id, data) => (
-  create('message', board_id,  data)
-)
-
-
 export const updateBoard = (board_id, data) => (
   update('board', board_id, data.id, data)
-)
-
-export const updateList = (board_id, data) => (
-  update('list', board_id,  data.id, data)
-)
-
-export const updateCard = (board_id, data) => (
-  update('card', board_id,  data.id, data)
 )
 
 export const updateMembership = (board_id, data) => (
@@ -123,10 +98,6 @@ export const destroyBoard = (id) => (
 
 export const destroyInvite = (board_id, id) => (
   destroy('invite', board_id, id)
-)
-
-export const destroyCard = (board_id, id) => (
-  destroy('card', board_id, id)
 )
 
 export const destroyMembership = (board_id, data) => (

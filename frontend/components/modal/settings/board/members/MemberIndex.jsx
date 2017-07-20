@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+
+import { ActionCable } from '../../../../util/ActionCableProvider';
 import Member from './Member';
 
 const propTypes = {
@@ -22,21 +25,28 @@ class MemberIndex extends React.Component {
 
   handleClick(membershipId) {
     return () => {
-      this.props.destroyMembership(membershipId)
+      this.props.destroyMembership({id: membershipId})
     }
   }
 
   render() {
-    const { boardId, currentUserId } = this.props;
+    const { boardId, currentUserId, membershipCableRef } = this.props;
     return (
       <div className="board-settings__members">
+        <ActionCable
+          ref={membershipCableRef}
+          channel={{channel: 'MembershipChannel', room: boardId, board_id: boardId}}
+        />
         {
-          this.props.members.map(member => <Member
-            key={member.id}
-            boardId={this.props.boardId}
-            member={member}
-            isAdmin={member.id === currentUserId}
-            handleClick={this.handleClick} />)
+          this.props.members.map(member => (
+            <Member
+              key={member.id}
+              boardId={this.props.boardId}
+              member={member}
+              isAdmin={member.id === currentUserId}
+              handleClick={this.handleClick}
+            />)
+          )
         }
       </div>
     )

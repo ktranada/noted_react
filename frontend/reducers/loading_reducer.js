@@ -1,6 +1,8 @@
 import merge from 'lodash/merge';
+
+import { deleteObjectById } from './util';
 import { RECEIVE_BOARD, START_LOADING_BOARD, ADD_BOARD } from '../actions/nav_actions';
-import { RECEIVE_LISTS, START_LOADING_LISTS } from '../actions/board_actions';
+import { RECEIVE_LISTS, START_LOADING_LISTS, REMOVE_BOARD } from '../actions/board_actions';
 import { RECEIVE_MESSAGES, START_LOADING_MESSAGES } from '../actions/chat_actions';
 
 const initialState = {
@@ -49,6 +51,14 @@ const loadingReducer = (state = initialState, action) => {
         loadingBoard: false,
         loadingLists: false
       }
+      return newState;
+    case REMOVE_BOARD:
+      let newState = newState = merge({}, state);
+      delete newState.byBoardId[action.board.id]
+
+      action.board.channels.forEach(channel => {
+        delete newState.byChannelId[channel];
+      })
       return newState;
 
     default:

@@ -11,6 +11,13 @@ function subscriptionsReducer(state = initialState, action) {
   switch (action.type) {
     case RECEIVE_BOARD: return updateObject(state, action.board.subscriptions);
     case RECEIVE_SUBSCRIPTIONS: return merge({}, state, action.subscriptions);
+    case REMOVE_BOARD:
+      if (state.channelsByBoardId[action.board.id]) {
+        const newState = merge({}, state);
+        delete newState.channelsByBoardId[action.board.id]
+        return newState;
+      }
+      return state;
     default:
       return state;
   }

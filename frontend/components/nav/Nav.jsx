@@ -89,14 +89,15 @@ class Nav extends React.Component {
       />
     ));
 
-    const boardNotificationSubscriptions = boards.map(board => (
-      <ActionCable
-        key={`navNotification${board.id}`}
-        shouldUnsubscribe={!board.subscribe_to_nav_notifications || currentBoardId === board.id}
-        channel={{channel: 'NavNotificationChannel', room: board.id}}
-        onReceived={this.onReceivedNotification}
-      />
-    ))
+    const navNotificationSubscriptions = this.props.boards.map(board => (
+        <ActionCable
+          key={`navNotification${board.id}`}
+          shouldUnsubscribe={!board.subscribe_to_nav_notifications || this.props.currentBoardId === board.id}
+          channel={{channel: 'NavNotificationChannel', room: board.id, board_id: board.id}}
+          onReceived={this.onReceivedNotification}
+        />
+      )
+    )
 
     let boardFormButton = null;
     if (boardsList.length < 3) {
@@ -111,7 +112,7 @@ class Nav extends React.Component {
 
     return (
       <ul className="navbar">
-        {boardNotificationSubscriptions}
+        {navNotificationSubscriptions}
         {boardsList}
         {boardFormButton}
       </ul>

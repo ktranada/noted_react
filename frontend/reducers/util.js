@@ -41,14 +41,16 @@ export const updateAssociationList = (state, associationId, association, newObje
   return remove ? updateObjectWithUpdatedAssociations(state, newState) : updateObject(state, newState);
 }
 
-export const deleteObjectById = (state, id) => {
-  const entities = merge({}, state.byId);
-  if (typeof entities === 'undefined') {
+export const deleteObjectById = (state, id, type = 'byId') => {
+  if (state[type] && state[type][id] === undefined) {
     return state;
   }
+
+  const entities = merge({}, state[type]);
+
   delete entities[id];
   return ({
-    byId: entities
+    [type]: entities
   });
 }
 

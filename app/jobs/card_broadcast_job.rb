@@ -10,6 +10,6 @@ class CardBroadcastJob < ApplicationJob
       position: card.position
     })
     body[:previous_list_id] = previous_list_id
-    ActionCable.server.broadcast("board:#{board_id}", body)
+    ActionCable.server.broadcast("board_content:#{board_id}", body)
   end
 end

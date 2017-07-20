@@ -67,7 +67,8 @@ class Overview extends React.Component {
     return (
       <form
         className="content__board-overview"
-        onSubmit={this.handleSubmit}>
+        onSubmit={this.handleSubmit}
+      >
         <div className="board-overview__title">
           <label data-error={this.state.errors[0]}>{this.props.label}
             <input

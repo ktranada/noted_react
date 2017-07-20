@@ -6,6 +6,8 @@ import {
   addCard,
   addComment,
   updateCard,
+  updateList,
+  removeCard
 } from '../../../actions/board_actions';
 import {
   moveList,
@@ -35,7 +37,9 @@ const mapDispatchToProps = (dispatch, { currentBoard }) => ({
   moveCard: (cardId, lastListId, lastCardPos, nextListId, nextCardPos) =>  {
     return dispatch(moveCard(cardId, lastListId, lastCardPos, nextListId, nextCardPos));
   },
-  updateCard: card => dispatch(updateCard(currentBoard.id, card)),
+  updateCard: card => dispatch(updateCard(card)),
+  updateList: list => dispatch(updateList(list)),
+  removeCard: card => dispatch(removeCard(card))
 })
 
 export default connect(

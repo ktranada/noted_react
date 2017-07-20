@@ -1,4 +1,5 @@
 import * as BoardAPI from '../util/board_api';
+
 export const START_LOADING_LISTS = 'START_LOADING_LISTS'
 export const RECEIVE_USERNAME_ERRORS = 'RECEIVE_USERNAME_ERRORS';
 export const RECEIVE_INVITE_ERRORS = 'RECEIVE_INVITE_ERRORS';
@@ -13,15 +14,12 @@ export const ADD_INVITE = 'ADD_INVITE';
 export const ADD_INVITES = 'ADD_INVITES';
 export const UPDATE_CARD = 'UPDATE_CARD';
 export const UPDATE_BOARD = 'UPDATE_BOARD';
-export const UPDATE_BOARD_VIEW_STATUS = 'UPDATE_BOARD_VIEW_STATUS';
-export const UPDATE_BOARD_EXTERNAL_EDIT_STATUS = 'UPDATE_BOARD_EXTERNAL_EDIT_STATUS';
 export const UPDATE_USERNAME = 'UPDATE_USERNAME';
+export const UPDATE_LIST = 'UPDATE_LIST';
 export const REMOVE_BOARD = 'REMOVE_BOARD';
 export const REMOVE_CARD = 'REMOVE_CARD';
 export const REMOVE_INVITE = 'REMOVE_INVITE';
 export const REMOVE_MEMBER = 'REMOVE_MEMBER';
-
-
 
 export const requestLists  = (board_id) => dispatch => {
   dispatch(startLoadingLists(board_id));
@@ -31,24 +29,6 @@ export const requestLists  = (board_id) => dispatch => {
     }
   )
 }
-
-export const receiveLists = lists => ({
-  type: RECEIVE_LISTS,
-  lists
-})
-
-export const startLoadingLists = board_id => ({
-  type: START_LOADING_LISTS,
-  board_id
-})
-
-export const createComment = (board_id, comment) => dispatch => (
-  BoardAPI.createComment(board_id, comment)
-    .then(comment => {
-      dispatch(addComment(comment));
-      return comment;
-    })
-)
 
 export const createInvites = (board_id, invites) => dispatch => (
   BoardAPI.createInvites(board_id, JSON.stringify(invites))
@@ -65,14 +45,6 @@ export const editBoard = (board_id, board) => dispatch => (
     .then(board => {
       dispatch(updateBoard(board));
       return board;
-    })
-)
-
-export const editCard = (board_id, card) => dispatch => (
-  BoardAPI.updateCard(board_id, card)
-    .then(card => {
-      dispatch(updateCard(card));
-      return card;
     })
 )
 
@@ -93,14 +65,6 @@ export const destroyBoard = boardId => dispatch => (
     })
 );
 
-
-export const destroyCard = (board_id, cardId) => dispatch => (
-  BoardAPI.destroyCard(board_id, cardId)
-    .then((card) => {
-      return dispatch(removeCard(card));
-    })
-);
-
 export const destroyMembership = (board_id, membershipId) => dispatch => (
   BoardAPI.destroyMembership(board_id, membershipId)
     .then(membership => {
@@ -116,6 +80,16 @@ export const destroyInvite = (board_id, inviteId) => dispatch => (
       return invite;
     })
 )
+
+export const receiveLists = lists => ({
+  type: RECEIVE_LISTS,
+  lists
+})
+
+export const startLoadingLists = board_id => ({
+  type: START_LOADING_LISTS,
+  board_id
+})
 
 export const receiveInviteErrors = errors => ({
   type: RECEIVE_INVITE_ERRORS,
@@ -155,6 +129,11 @@ export const updateBoard = board => ({
 export const updateCard = card => ({
   type: UPDATE_CARD,
   card
+});
+
+export const updateList = list => ({
+  type: UPDATE_LIST,
+  list
 });
 
 export const updateUsername = membership => ({

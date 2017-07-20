@@ -5,7 +5,6 @@ import cardsReducer from './cards_reducer';
 import channelsReducer from './channels_reducer';
 import commentsReducer from './comments_reducer';
 import invitesReducer from './invites_reducer';
-import currentBoardIdReducer from './current_board_id_reducer';
 import membersReducer from './members_reducer';
 import messagesReducer from './messages_reducer';
 import modalsReducer from './modals_reducer';

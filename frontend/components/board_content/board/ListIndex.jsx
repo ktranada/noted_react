@@ -15,6 +15,7 @@ const propTypes = {
   listCallbacks: PropTypes.shape({
     createList: PropTypes.func.isRequired,
     createCard: PropTypes.func.isRequired,
+    editList: PropTypes.func.isRequired,
     moveList: PropTypes.func.isRequired,
     updateListPosition: PropTypes.func.isRequired
   }).isRequired,

@@ -40,6 +40,13 @@ function appearancesReducer(state = initialState, action) {
       return updateObject(state, action.board.appearances);
     case UPDATE_APPEARANCE:
       return updateAppearance(state, action);
+    case REMOVE_BOARD:
+      if (state.usersByBoardId[action.board.id]) {
+        const newState = merge({}, state);
+        delete newState.usersByBoardId[action.board.id]
+        return newState;
+      }
+      return state;
     default:
       return state;
   }

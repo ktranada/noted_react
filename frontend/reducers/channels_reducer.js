@@ -76,10 +76,10 @@ const channelsReducer = (state = initialState, action) => {
   switch (action.type) {
     case RECEIVE_BOARD: return receiveBoard(state, action);
     case RECEIVE_MESSAGES: return receiveMessages(state, action);
-    case REMOVE_BOARD: return removeObjectsByBoard(state, action.board.channels);
     case ADD_MESSAGE: return updateAssociationList(state, action.message.channel_id, 'messages', action.message.id, {prepend: true});
     case SET_UNREAD_MESSAGE_COUNT: return setMessageNotification(state, action);
     case INCREMENT_UNREAD_MESSAGE_COUNT: return incrementMessageNotifications(state, action);
+    case REMOVE_BOARD: return removeObjectsByBoard(state, action.board.channels);  
     default:
       return state;
   }

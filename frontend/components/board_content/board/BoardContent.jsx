@@ -4,7 +4,7 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend  from 'react-dnd-html5-backend';
 
 import { ActionCable } from '../../util/ActionCableProvider';
-import BoardActionCable from './BoardActionCable';
+import BoardContentActionCable from './BoardContentActionCable';
 import ListIndex from './ListIndex';
 import ListContainer from './ListContainer';
 import Spinner from '../../util/Spinner';
@@ -20,7 +20,8 @@ const propTypes = {
   addCard: PropTypes.func.isRequired,
   moveList: PropTypes.func.isRequired,
   moveCard: PropTypes.func.isRequired,
-  updateCard: PropTypes.func.isRequired
+  updateCard: PropTypes.func.isRequired,
+  removeCard: PropTypes.func.isRequired,
 }
 
 class BoardContent extends React.Component {
@@ -35,6 +36,7 @@ class BoardContent extends React.Component {
 
     this.createList = this.createList.bind(this);
     this.createCard = this.createCard.bind(this);
+    this.editList = this.editList.bind(this);
     this.moveCard = throttle(this.moveCard.bind(this), 200);
     this.moveList = this.moveList.bind(this);
     this.updateListPosition = this.updateListPosition.bind(this);
@@ -84,7 +86,7 @@ class BoardContent extends React.Component {
       board_id: this.props.match.params.boardId,
       updated_by: this.props.currentUserId
     })
-    this.refs.boardChannel.refs.boardChannel.perform('create_list', list);
+    this.boardContentCableRef.perform('create_list', list);
   }
 
   createCard(list_id) {
@@ -94,8 +96,12 @@ class BoardContent extends React.Component {
         updated_by: this.props.currentUserId,
         board_id: this.props.currentBoard.id
       });
-      this.refs.boardChannel.refs.boardChannel.perform('create_card', card);
+      this.boardContentCableRef.perform('create_card', card);
     }
+  }
+
+  editList(list) {
+    this.boardContentCableRef.perform('edit_list', list);
   }
 
   moveList(listId, nextPos) {
@@ -145,14 +151,13 @@ class BoardContent extends React.Component {
 
   updateListPosition(list) {
     list['updated_by'] = this.props.currentUserId;
-    this.refs.boardChannel.refs.boardChannel.perform('update_list_position', list);
-    // this.props.updateListPosition(list);
+    this.boardContentCableRef.perform('update_list_position', list);
   }
 
   updateCardPosition(card) {
     card['updated_by'] = this.props.currentUserId;
     card['board_id'] = this.props.currentBoard.id;
-    this.refs.boardChannel.refs.boardChannel.perform('update_card_position', card);
+    this.boardContentCableRef.perform('update_card_position', card);
   }
 
   render() {
@@ -176,22 +181,26 @@ class BoardContent extends React.Component {
                 listCallbacks={{
                   createCard: this.createCard,
                   createList: this.createList,
+                  editList: this.editList,
                   moveList: this.moveList,
                   updateListPosition: this.updateListPosition
                 }}
               >
-                <BoardActionCable
-                  ref="boardChannel"
+                <BoardContentActionCable
+                  boardContentCableRef={el => this.boardContentCableRef = el}
                   currentUserId={this.props.currentUserId}
                   currentBoardId={this.props.currentBoard.id}
+                  historyPush={this.props.history.push}
                   listCallbacks={{
+                    addList: this.props.addList,
                     moveList: this.moveList,
-                    addList: this.props.addList
+                    updateList: this.props.updateList
                   }}
                   cardCallbacks={{
                     moveCard: this.moveCard,
                     addCard: this.props.addCard,
-                    updateCard: this.props.updateCard
+                    updateCard: this.props.updateCard,
+                    removeCard: this.props.removeCard
                   }}
                   commentCallbacks={{
                     addComment: this.props.addComment

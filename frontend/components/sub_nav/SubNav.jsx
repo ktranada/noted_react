@@ -66,6 +66,7 @@ class SubNav extends React.Component {
     return (
       <div>
         <SubNavActionCable
+          currentUserId={currentUserId}
           currentBoardId={currentBoard.id}
           subscribedChannels={subscribedChannels}
           updateAppearance={this.props.updateAppearance}
@@ -77,7 +78,6 @@ class SubNav extends React.Component {
           messageCallbacks={{
             incrementMessageNotifications: this.props.incrementMessageNotifications
           }}
-          addMessage={this.props.addMessage}
         />
 
         <BoardSettings

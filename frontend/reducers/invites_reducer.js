@@ -24,9 +24,8 @@ const invitesReducer = (state = initialState, action) => {
     case ADD_MEMBER: return updateObject(state, byIdObject(action.membership.invite_id, { status: 'accepted' }))
     case REMOVE_INVITE: return deleteObjectById(state, action.invite.id);
     case REMOVE_MEMBER: return deleteObjectById(state, action.membership.invite_id);
-    case REMOVE_BOARD: return removeObjectsByBoard(state, action.board.invites)
-    default:
-      return state;
+    case REMOVE_BOARD: return removeObjectsByBoard(state, action.board.invites);
+    default: return state;
   }
 }
 

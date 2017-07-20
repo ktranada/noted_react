@@ -33,6 +33,7 @@ class OwnerBoardSettingsModal extends React.Component {
     this.handleBoardNameChange = this.handleBoardNameChange.bind(this);
     this.handleDeleteButtonClick = this.handleDeleteButtonClick.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
+    this.destroyMembership = this.destroyMembership.bind(this);
   }
 
   handleBoardNameChange(data) {
@@ -41,6 +42,11 @@ class OwnerBoardSettingsModal extends React.Component {
 
   handleUsernameChange(data) {
     return this.props.editMembership(data);
+  }
+
+  destroyMembership(data) {
+    data['board_id'] = this.props.currentBoard.id;
+    this.membershipCableRef.perform('destroy_membership', data);
   }
 
   handleDeleteButtonClick() {
@@ -54,6 +60,7 @@ class OwnerBoardSettingsModal extends React.Component {
     switch (tab) {
       case 'Profile':
         return <Overview
+          currentBoardId={currentBoard.id}
           id={currentUser.membershipsByBoardId[currentBoard.id]}
           value={currentUser.usernamesByBoardId[currentBoard.id]}
           field="username"
@@ -67,10 +74,15 @@ class OwnerBoardSettingsModal extends React.Component {
           label="BOARD NAME"
           updateField={this.handleBoardNameChange}/>
       case 'Members':
-        return <MemberIndexContainer
-          boardId={currentBoard.id}
-          currentUserId={currentUser.id}
-          boardMembers={currentBoard.members} />
+        return (
+          <MemberIndexContainer
+            membershipCableRef={el => this.membershipCableRef = el}
+            boardId={currentBoard.id}
+            currentUserId={currentUser.id}
+            boardMembers={currentBoard.members}
+            destroyMembership={this.destroyMembership}
+          />
+        )
       case 'Invites':
         return <InviteIndexContainer
           currentBoard={currentBoard} />
@@ -100,7 +112,7 @@ class OwnerBoardSettingsModal extends React.Component {
         header={currentBoard.title}
         contentComponent={this.contentComponent}
         bottomAction={deleteBoardButton}
-        />
+      />
     )
   }
 }

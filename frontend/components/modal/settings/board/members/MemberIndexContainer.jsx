@@ -8,13 +8,6 @@ const mapStateToProps = ({ session, members }, { boardMembers }) => ({
   currentUserId: session.currentUser.id
 })
 
-const mapDispatchToProps = (dispatch, { boardId }) => {
-  return({
-    destroyMembership: id => dispatch(destroyMembership(boardId, id))
-  })
-}
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
 )(MemberIndex)

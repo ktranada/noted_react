@@ -9,16 +9,11 @@ const initialState = {
 
 const commentsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case RECEIVE_LISTS:
-      return updateObject(state, action.lists.comments);
-    case ADD_COMMENT:
-      return updateObject(state, byIdObject(action.comment.id, action.comment));
-    case REMOVE_BOARD:
-      return removeObjectsByBoard(state, action.board.comments);
-    default:
-      return state;
+    case RECEIVE_LISTS: return updateObject(state, action.lists.comments);
+    case ADD_COMMENT: return updateObject(state, byIdObject(action.comment.id, action.comment));
+    case REMOVE_BOARD: return removeObjectsByBoard(state, action.board.comments);
+    default: return state;
   }
 }
-
 
 export default commentsReducer;

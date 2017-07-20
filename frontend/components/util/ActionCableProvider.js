@@ -28,6 +28,7 @@ class ActionCableProvider extends React.Component {
       this.cable = this.props.cable
     } else {
       this.cable = actioncable.createConsumer(this.props.url)
+      window.cable = this.cable;
     }
   }
 
@@ -79,12 +80,6 @@ const contextTypes = {
 }
 
 class ActionCable extends React.Component {
-
-  constructor(props) {
-    super(props);
-
-    this.perform = this.perform.bind(this);
-  }
   componentDidMount() {
 
     let self = this;
@@ -102,7 +97,10 @@ class ActionCable extends React.Component {
                && channelInfo.channel === this.props.channel.channel)
     });
 
-    if (subscription === undefined && !shouldUnsubscribe) {
+    if (subscription === undefined) {
+      if (shouldUnsubscribe) {
+        return;
+      }
       this.cable = this.context.cable.subscriptions.create(
         this.props.channel,
         {
@@ -167,6 +165,13 @@ class ActionCable extends React.Component {
       this.context.cable.subscriptions.remove(this.cable)
       this.cable = null
     }
+  }
+
+  removeBoardSubscriptions(boardId) {
+    const cableSubscriptions = this.context.cable.subscriptions;
+    const boardSubscriptions = cableSubscriptions.subscriptions.filter(sub => sub.channelInfo.board_id == boardId);
+    console.log(boardSubscriptions);
+    boardSubscriptions.forEach(subscription => cableSubscriptions.remove(subscription));
   }
 
   render() {

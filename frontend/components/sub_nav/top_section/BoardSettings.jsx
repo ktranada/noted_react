@@ -41,7 +41,7 @@ class BoardSettings extends React.Component {
         showDropdown: false
       });
       this.dropdownRef.blur();
-      this.props.toggleModal(type);
+      this.props.toggleModal(type)(e);
     }
   }
 

@@ -71,11 +71,15 @@ const removeMember = (state, action) => {
 
 const removeBoard = (state, action) => {
   const members = state.byId;
+
   const boardId = action.board.id;
   const newState = merge({}, members);
 
   action.board.members.forEach(memberId => {
     let member = members[memberId];
+    if (!member) {
+      return;
+    }
     delete member.membershipsByBoardId[boardId]
 
     if (Object.keys(member.membershipsByBoardId).length == 0) {

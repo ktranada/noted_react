@@ -66,36 +66,44 @@ class ListCardForm extends React.Component {
       element = (
         <form
           onSubmit={this.handleSubmit}
-          className="list-index-add__form">
+          className="list-index-add__form"
+        >
           <TextareaAutosize
             onChange={this.handleChange}
             autoFocus
             value={this.state.title}
             className={this.state.isBlank ? 'error' : ''}
-            placeholder="Title"/>
+            placeholder="Title"
+          />
           <div className="board-list-add__actions">
             <button
               type="button"
               onClick={this.handleClick('cancel')}
-              className="button button-red small"><i className="material-icons">&#xE14C;</i></button>
+              className="button button-red small"
+            >
+              <i className="material-icons">&#xE14C;</i>
+            </button>
             <button type="submit" className="button-green small"><i className="material-icons">&#xE145;</i></button>
           </div>
         </form>
       )
     } else {
-      element = isList ? (
-        <div role="button" onClick={this.handleClick('add')}>
-          <i className="material-icons">&#xE145;</i>
-          <span>Add a list</span>
-        </div>
-      ) : (
-        <button
-          type="button"
-          onClick={this.handleClick('add')}
-          className="button button-bluegrey-light">
-          <i className="material-icons">&#xE145;</i>
-        </button>
-      )
+      element = isList
+        ? (
+          <div role="button" onClick={this.handleClick('add')}>
+            <i className="material-icons">&#xE145;</i>
+            <span>Add a list</span>
+          </div>
+        )
+        : (
+          <button
+            type="button"
+            onClick={this.handleClick('add')}
+            className="button button-bluegrey-light"
+          >
+            <i className="material-icons">&#xE145;</i>
+          </button>
+        )
     }
 
     return (

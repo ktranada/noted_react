@@ -167,16 +167,15 @@ const removeMember = (state, action) => {
 }
 
 const removeBoard = (state, action) => {
-  const newState = merge({}, state);
-  const byId = newState.byId;
-  const order = newState.order;
-
-  if (byId[action.board.id]) {
+  if (state.byId[action.board.id]) {
+    const newState = merge({}, state);
+    const byId = newState.byId;
+    const order = newState.order;
     delete byId[action.board.id]
     newState.order = newState.order.filter(id => id != action.board.id);
+    return newState;
   }
-
-  return newState;
+  return state;
 }
 
 const updateTimeZone = (state, action) => {
@@ -194,8 +193,8 @@ const boardsReducer = (state = initialState, action) => {
     case RECEIVE_BOARD: return receiveBoard(state, action);
     case RECEIVE_BOARDS:
       return merge({}, initialState, {
-        byId: action.boards.byId,
-        order: action.boards.order,
+        byId: action.boards.boards.byId,
+        order: action.boards.boards.order,
         errors: []
       });
 

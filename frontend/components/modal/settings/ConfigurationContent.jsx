@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 
 const propTypes = {
   header: PropTypes.string.isRequired,
-  children: PropTypes.element
 }
-
 
 const ConfigurationContent = (props) => {
   return (

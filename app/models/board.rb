@@ -38,7 +38,7 @@ class Board < ActiveRecord::Base
   end
 
   def is_owned_by?(user)
-    self.owner == user
+    self.user_id == user.id
   end
 
   private

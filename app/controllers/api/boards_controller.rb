@@ -38,7 +38,7 @@ class Api::BoardsController < ApplicationController
     @board = Board.find(params[:id])
 
     if @board.update(board_params)
-      ActionCable.server.broadcast("board:#{@board.id}",
+      ActionCable.server.broadcast("board_content:#{@board.id}",
         type: 'board',
         action: 'update',
         board: {

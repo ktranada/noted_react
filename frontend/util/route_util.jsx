@@ -16,7 +16,7 @@ const Auth = ({ component: Component, path, isLoggedIn }) => (
 const Protected = ({children, path, isLoggedIn}) => (
   <Route path={path} render={(props) => (
     isLoggedIn ?
-        ( children ) :
+      ( children ) :
         (<Redirect to="/login" />)
   )} />
 );

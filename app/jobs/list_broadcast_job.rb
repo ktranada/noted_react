@@ -3,7 +3,7 @@ class ListBroadcastJob < ApplicationJob
 
   def perform(action, list, updated_by)
     ActionCable.server.broadcast(
-      "board:#{list.board_id}",
+      "board_content:#{list.board_id}",
       broadcast_body(:list, action, updated_by, {
         id: list.id,
         board_id: list.board_id,

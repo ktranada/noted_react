@@ -49,7 +49,8 @@ class ConfigurationModal extends React.Component {
             handleTabChange={this.handleTabChange}
             bottomAction={this.props.bottomAction}/>
           <ConfigurationContent header={this.state.currentTab}>
-            { this.props.contentComponent(this.state.currentTab) }
+            {this.props.children}
+            {this.props.contentComponent(this.state.currentTab)}
           </ConfigurationContent>
         </div>
       </ModalOverlayContainer>

@@ -19,7 +19,7 @@ const propTypes = {
   }).isRequired,
 }
 
-class BoardActionCable extends React.Component {
+class BoardContentActionCable extends React.Component {
   constructor(props) {
     super(props);
 
@@ -31,8 +31,16 @@ class BoardActionCable extends React.Component {
   }
   handleReceived(data) {
     const { type, action } = data;
-    if (this.props.currentUserId !== Number.parseInt(data.updated_by)) {
+    if (action === 'move' && this.props.currentUserId !== Number.parseInt(data.updated_by)) {
       // Another user has made the changes
+      if (type === 'list') {
+        const { id, position } = data.list;
+        this.props.listCallbacks.moveList(id, position);
+      } else if (type === 'card') {
+        const { id, list_id, position } = data.card;
+        this.props.cardCallbacks.moveCard(id, list_id, position, data.previous_list_id);
+      }
+    } else {
       switch (type) {
         case 'list': this.handleListNotification(action, data); break;
         case 'card': this.handleCardNotification(action, data); break;
@@ -43,29 +51,25 @@ class BoardActionCable extends React.Component {
 
   handleListNotification(action, data) {
     const { list } = data;
-    const { moveList, addList } = this.props.listCallbacks;
-    if (action === 'move') {
-      const { id, position } = list;
-      moveList(id, position);
-    } else if (action === 'create') {
-      addList(list);
+    const { addList, updateList } = this.props.listCallbacks;
+    switch (action) {
+      case 'create': addList(list); break;
+      case 'update': updateList(list); break;
     }
   }
 
   handleCardNotification(action, data) {
     const { card } = data;
-    const { moveCard, addCard } = this.props.cardCallbacks;
+    const { addCard, updateCard, removeCard } = this.props.cardCallbacks;
     switch (action) {
-      case 'move':
-        const { id, list_id, position } = card;
-        moveCard(id, list_id, position, data.previous_list_id);
-        break;
-      case 'create':
-        addCard(card);
-        break;
-      case 'update':
-        this.props.cardCallbacks.updateCard(card);
-        break;
+      case 'create': addCard(card);break;
+      case 'update': updateCard(card); break;
+      case 'destroy':
+      if (window.location.hash.includes(`/boards/${this.props.currentBoardId}/card/${card.id}`)) {
+        this.props.historyPush(`/boards/${this.props.currentBoardId}/lists`)
+      }
+      removeCard(card);
+      break;
     }
   }
 
@@ -80,12 +84,12 @@ class BoardActionCable extends React.Component {
   render() {
     return(
       <ActionCable
-        ref="boardChannel"
-        channel={{channel: 'BoardChannel', room: this.props.currentBoardId}}
+        ref={this.props.boardContentCableRef}
+        channel={{channel: 'BoardContentChannel', room: this.props.currentBoardId, board_id: this.props.currentBoardId}}
         onReceived={this.handleReceived}
       />
     )
   }
 }
 
-export default BoardActionCable;
+export default BoardContentActionCable;
