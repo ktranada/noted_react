@@ -9,6 +9,7 @@ json.set! :byId do
       json.permission channel.permission
       json.messages []
       json.unread_messages 0
+      json.latest nil
       json.has_more info[:has_more]
       json.has_loaded_messages false
     end

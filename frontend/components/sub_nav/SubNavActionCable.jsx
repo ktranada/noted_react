@@ -29,7 +29,6 @@ class SubNavActionCable extends React.Component {
       updateUsername(membership);
     } else if (action === 'destroy') {
       if (membership.user_id !== this.props.currentUserId) {
-        console.log(membership);
         removeMember(membership);
       }
     }

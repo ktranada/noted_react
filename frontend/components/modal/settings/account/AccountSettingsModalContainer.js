@@ -1,5 +1,5 @@
-import { connect } from 'react-redux';
-import { logout, updateUser, destroyUser, requestTimeZones, updateTimeZone } from '../../../../actions/session_actions';
+  import { connect } from 'react-redux';
+import { logout, updateUser, destroyUser, requestTimeZones, updateTimezone } from '../../../../actions/session_actions';
 import AccountSettingsModal from './AccountSettingsModal';
 
 const mapDispatchToProps = (dispatch, { currentUser }) => ({
@@ -7,7 +7,7 @@ const mapDispatchToProps = (dispatch, { currentUser }) => ({
   logout: () => dispatch(logout()),
   destroyUser: () => dispatch(destroyUser(currentUser.id)),
   requestTimeZones: () => dispatch(requestTimeZones()),
-  updateTimeZone: () => dispatch(updateTimeZone())
+  updateTimezone: () => dispatch(updateTimezone())
 });
 
 export default connect(

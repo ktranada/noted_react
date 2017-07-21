@@ -1,6 +1,6 @@
 import merge from 'lodash/merge';
 import { byIdObject, updateObject, updateAssociationList } from './util';
-import { RECEIVE_BOARDS, UPDATE_TIME_ZONE } from '../actions/session_actions';
+import { RECEIVE_BOARDS, UPDATE_TIMEZONE } from '../actions/session_actions';
 import {
   ADD_BOARD,
   RECEIVE_BOARD,
@@ -178,7 +178,7 @@ const removeBoard = (state, action) => {
   return state;
 }
 
-const updateTimeZone = (state, action) => {
+const updateTimezone = (state, action) => {
   const newState = merge({}, state);
   Object.keys(newState.byId).forEach(id => {
     const board = newState.byId[id];
@@ -206,7 +206,7 @@ const boardsReducer = (state = initialState, action) => {
     case MOVE_LIST: return moveList(state, action);
     case UPDATE_BOARD: return updateBoard(state, action);
     case REMOVE_INVITE: return removeInvite(state, action);
-    case UPDATE_TIME_ZONE: return updateTimeZone(state, action);
+    case UPDATE_TIMEZONE: return updateTimezone(state, action);
     case REMOVE_MEMBER: return removeMember(state, action);
     case REMOVE_BOARD: return removeBoard(state, action);
 

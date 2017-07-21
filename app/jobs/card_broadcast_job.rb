@@ -6,7 +6,7 @@ class CardBroadcastJob < ApplicationJob
       id: card.id,
       list_id: card.list_id,
       title: card.title,
-      description: card.description,
+      description: card.description || '',
       position: card.position
     })
     body[:previous_list_id] = previous_list_id

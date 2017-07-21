@@ -29,6 +29,7 @@ class Nav extends React.Component {
     }
 
     this.onReceivedNotification = this.onReceivedNotification.bind(this);
+    this.onReceivedBoardName = this.onReceivedBoardName.bind(this);
     this.updateNotificationList = this.updateNotificationList.bind(this);
   }
 
@@ -49,6 +50,9 @@ class Nav extends React.Component {
     }
 
     this.updateNotificationList(nextProps);
+  }
+  onReceivedBoardName(data) {
+    this.props.updateBoard(data.board);
   }
 
   onReceivedNotification(data) {
@@ -79,6 +83,30 @@ class Nav extends React.Component {
     })
   }
 
+  actionCableSubscriptions() {
+    const subscriptions = []
+    this.props.boards.forEach(board => {
+        subscriptions.push(
+          <ActionCable
+            key={`navNotification${board.id}`}
+            shouldUnsubscribe={!board.subscribe_to_nav_notifications || this.props.currentBoardId === board.id}
+            channel={{channel: 'NavNotificationChannel', room: board.id, board_id: board.id}}
+            onReceived={this.onReceivedNotification}
+          />
+        );
+        subscriptions.push(
+          <ActionCable
+            key={`boardName${board.id}`}
+            ref={`boardName${board.id}`}
+            channel={{channel: 'BoardNameChannel', room: board.id, board_id: board.id}}
+            onReceived={this.onReceivedBoardName}
+          />
+        )
+      }
+    )
+    return subscriptions;
+  }
+
   render() {
     let { boards, currentBoardId, isLanding } = this.props;
     const boardsList = boards.map((board) => (
@@ -89,15 +117,6 @@ class Nav extends React.Component {
       />
     ));
 
-    const navNotificationSubscriptions = this.props.boards.map(board => (
-        <ActionCable
-          key={`navNotification${board.id}`}
-          shouldUnsubscribe={!board.subscribe_to_nav_notifications || this.props.currentBoardId === board.id}
-          channel={{channel: 'NavNotificationChannel', room: board.id, board_id: board.id}}
-          onReceived={this.onReceivedNotification}
-        />
-      )
-    )
 
     let boardFormButton = null;
     if (boardsList.length < 3) {
@@ -112,7 +131,7 @@ class Nav extends React.Component {
 
     return (
       <ul className="navbar">
-        {navNotificationSubscriptions}
+        {this.actionCableSubscriptions()}
         {boardsList}
         {boardFormButton}
       </ul>

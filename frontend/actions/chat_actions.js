@@ -4,11 +4,11 @@ export const ADD_MESSAGE = 'ADD_MESSAGE';
 export const RECEIVE_MESSAGES = 'RECEIVE_MESSAGES';
 export const START_LOADING_MESSAGES = 'START_LOADING_MESSAGES';
 
-export const requestMessages = (board_id, channel_id, page) => dispatch => {
-  if (page === 0) {
+export const requestMessages = (board_id, channel_id, latest) => dispatch => {
+  if (latest === null) {
     dispatch(startLoadingMessages(channel_id))
   }
-  return BoardAPI.requestMessages(board_id, channel_id, page).then(
+  return BoardAPI.requestMessages(board_id, channel_id, latest).then(
     messages => {
       dispatch(receiveMessages(messages));
       return messages;

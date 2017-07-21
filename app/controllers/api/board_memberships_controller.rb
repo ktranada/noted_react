@@ -1,7 +1,8 @@
 class Api::BoardMembershipsController < ApplicationController
   def destroy
-    @membership = BoardMembership.includes(:board).find(params[:id])
+    @membership = BoardMembership.includes(board: [:members, :invites, lists: [cards: [:comments]], channels: [:messages]]).find(params[:id])
     if @membership.board.is_owned_by?(current_user) || @membership.user == current_user
+      MembershipRemovalJob.perform_now(current_user, @membership)
       @membership.destroy
       render :destroy
     else

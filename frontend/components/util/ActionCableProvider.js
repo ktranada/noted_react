@@ -1,4 +1,5 @@
 import React from 'react';
+import merge from 'lodash/merge';
 import actioncable from 'actioncable';
 import PropTypes from 'prop-types';
 Object.defineProperty(exports, "__esModule", {
@@ -28,7 +29,6 @@ class ActionCableProvider extends React.Component {
       this.cable = this.props.cable
     } else {
       this.cable = actioncable.createConsumer(this.props.url)
-      window.cable = this.cable;
     }
   }
 
@@ -67,12 +67,14 @@ const actionCablePropTypes = {
   onDisconnected: PropTypes.func,
   onRejected: PropTypes.func,
   unsubscribeOnUmount: PropTypes.bool,
-  shouldUnsubscribe: PropTypes.bool
+  shouldUnsubscribe: PropTypes.bool,
+  trackedProps: PropTypes.object
 }
 
 const actionCableDefaultProps = {
   unsubscribeOnUmount: false,
-  shouldUnsubscribe: false
+  shouldUnsubscribe: false,
+  trackedProps: null
 }
 
 const contextTypes = {
@@ -89,7 +91,6 @@ class ActionCable extends React.Component {
         onConnected = _props.onConnected,
         onDisconnected = _props.onDisconnected,
         onRejected = _props.onRejected,
-        unsubscribeOnUmount = _props.unsubscribeOnUmount,
         shouldUnsubscribe = _props.shouldUnsubscribe;
 
     const subscription = this.context.cable.subscriptions.subscriptions.find(({channelInfo}) => {
@@ -119,11 +120,13 @@ class ActionCable extends React.Component {
           rejected() {
             onRejected && onRejected()
           },
-          channelInfo: this.props.channel
+          channelInfo: this.props.channel,
         }
       )
     } else {
       this.cable = subscription;
+
+
       if (shouldUnsubscribe) {
         this.unsubscribe();
       }
@@ -137,11 +140,10 @@ class ActionCable extends React.Component {
   }
 
   componentWillUnmount() {
-    // if (unsubscribeOnUmount && this.cable) {
-    //   console.log('removing sub: ', this.props.channel);
-    //   this.context.cable.subscriptions.remove(this.cable)
-    //   this.cable = null
-    // }
+    if (this.props.unsubscribeOnUmount && this.cable) {
+      this.context.cable.subscriptions.remove(this.cable)
+      this.cable = null
+    }
   }
 
   send(data) {
@@ -170,7 +172,6 @@ class ActionCable extends React.Component {
   removeBoardSubscriptions(boardId) {
     const cableSubscriptions = this.context.cable.subscriptions;
     const boardSubscriptions = cableSubscriptions.subscriptions.filter(sub => sub.channelInfo.board_id == boardId);
-    console.log(boardSubscriptions);
     boardSubscriptions.forEach(subscription => cableSubscriptions.remove(subscription));
   }
 

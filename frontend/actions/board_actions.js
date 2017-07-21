@@ -43,7 +43,6 @@ export const createInvites = (board_id, invites) => dispatch => (
 export const editBoard = (board_id, board) => dispatch => (
   BoardAPI.updateBoard(board_id, board)
     .then(board => {
-      dispatch(updateBoard(board));
       return board;
     })
 )
@@ -51,7 +50,6 @@ export const editBoard = (board_id, board) => dispatch => (
 export const editMembership = (board_id, membership) => dispatch => (
   BoardAPI.updateMembership(board_id, membership).then(
     membership => {
-      // dispatch(updateUsername(membership));
       return membership;
     },
     errors => errors.responseJSON.username
@@ -60,7 +58,6 @@ export const editMembership = (board_id, membership) => dispatch => (
 export const destroyBoard = boardId => dispatch => (
   BoardAPI.destroyBoard(boardId)
     .then((board) => {
-      dispatch(removeBoard(board));
       return board;
     })
 );
@@ -68,7 +65,6 @@ export const destroyBoard = boardId => dispatch => (
 export const destroyMembership = (board_id, membershipId) => dispatch => (
   BoardAPI.destroyMembership(board_id, membershipId)
     .then(membership => {
-      // dispatch(removeMember(membership));
       return membership;
     })
 )

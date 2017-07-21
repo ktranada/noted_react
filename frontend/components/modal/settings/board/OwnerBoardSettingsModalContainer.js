@@ -13,9 +13,7 @@ const mapDispatchToProps = (dispatch, { currentBoard }) => {
   return({
     editMembership: membership => dispatch(editMembership(currentBoard.id, membership)),
     editBoard: board => dispatch(editBoard(currentBoard.id, board)),
-    destroyBoard: () => {
-      return dispatch(destroyBoard(currentBoard.id));
-    },
+    destroyBoard: () => dispatch(destroyBoard(currentBoard.id))
   })
 }
 

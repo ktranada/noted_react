@@ -35,4 +35,5 @@ json.set! :loading do
     end
   end
   json.set! :byChannelId, {}
+  json.isUpdatingTimezone false
 end

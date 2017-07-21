@@ -1,7 +1,9 @@
+count = @messages.length
 json.board_id @board_id
 json.channel_id @channel.id
-json.channel_messages @messages.pluck(:id)
-json.has_more @messages.length > 0
+json.channel_messages @messages.pluck(:id) || []
+json.has_more count > 0
+json.latest count == 0 ? @latest : @messages.last.created_at.to_i
 json.set! :messages  do
   json.set! :byId do
     @messages.each do |message|

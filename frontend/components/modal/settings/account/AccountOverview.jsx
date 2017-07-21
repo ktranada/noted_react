@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { ActionCable } from '../../../util/ActionCableProvider';
 import Select from '../../../form_elements/Select';
 import Spinner from '../../../util/Spinner';
 
@@ -72,6 +73,7 @@ class AccountOverview extends React.Component {
     }, currentTimeZone).then(
       nextTimeZone => {
         this.setState({ errors: [], isSubmitting: false });
+        this.refs.timeZoneChannel.perform('reload_user');
       },
       errors => this.setState({ errors: errors.email, isSubmitting: false })
     )
@@ -88,7 +90,13 @@ class AccountOverview extends React.Component {
     return (
       <form
         className="content__board-overview"
-        onSubmit={this.handleSubmit}>
+        onSubmit={this.handleSubmit}
+      >
+        <ActionCable
+          unsubscribeOnUmount
+          ref="timeZoneChannel"
+          channel={{channel: 'TimeZoneChannel', user_id: this.props.currentUser.id}}
+        />
         <div className="board-overview__title">
           <label data-error={this.state.errors[0]}>EMAIL
             <input

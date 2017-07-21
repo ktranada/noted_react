@@ -20,11 +20,15 @@ class ChatChannel < ApplicationCable::Channel
         "chat:b_#{message_params['board_id']}:c_#{message.channel_id}", {
           action: 'create',
           board_id: message_params['board_id'],
-          message: render_jbuilder('api/messages/message', {
-              message: message,
-              current_user: current_user
-            }
-          )
+          message: {
+            id: message.id,
+            author_id: message.author_id,
+            channel_id: message.channel_id,
+            content: message.content,
+            create_date: message.created_at.to_time,
+            time_offset: message.time_offset(current_user),
+            timestamp: message.created_at.to_i
+          }
         }
       )
 

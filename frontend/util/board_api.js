@@ -47,12 +47,12 @@ export const requestSubscriptions = () => (
   })
 );
 
-export const requestMessages = (board_id, channelId, page) => (
+export const requestMessages = (board_id, channelId, latest) => (
   $.ajax({
     method: 'GET',
     url: `/api/boards/${board_id}/channels/${channelId}/messages`,
     data: {
-      page,
+      latest,
     }
   })
 );
@@ -82,7 +82,13 @@ export const createInvite = (board_id, data) => (
 )
 
 export const updateBoard = (board_id, data) => (
-  update('board', board_id, data.id, data)
+  $.ajax({
+    method: 'PUT',
+    url: `/api/boards/${board_id}`,
+    data: {
+      board: data,
+    }
+  })
 )
 
 export const updateMembership = (board_id, data) => (

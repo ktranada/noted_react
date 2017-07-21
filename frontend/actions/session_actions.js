@@ -6,7 +6,8 @@ export const RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
 export const RECEIVE_USER_SESSION_ERRORS = "RECEIVE_USER_SESSION_ERRORS"
 export const RECEIVE_BOARDS = "RECEIVE_BOARDS"
 export const RECEIVE_USER_UPDATE_ERRORS = 'RECEIVE_USER_UPDATE_ERRORS';
-export const UPDATE_TIME_ZONE = 'UPDATE_TIME_ZONE';
+export const START_UPDATING_TIMEZONE = 'START_UPDATING_TIMEZONE';
+export const UPDATE_TIMEZONE = 'UPDATE_TIMEZONE';
 
 const parseSignInResponse = (promise, dispatch) => {
   return promise.then(
@@ -56,17 +57,22 @@ export const updateInvite = invite => dispatch => (
     )
 )
 
-export const updateUser = (user, previousTimeZone) => dispatch => (
-  SessionAPI.updateUser(user).then(
+export const updateUser = (user, previousTimeZone) => dispatch => {
+  if (previousTimeZone !== undefined && user.timezone !== previousTimeZone) {
+    dispatch(startUpdatingTimezone());
+  }
+
+  return SessionAPI.updateUser(user).then(
       (user) => {
         if (previousTimeZone !== undefined && user.timezone !== previousTimeZone) {
-          dispatch(updateTimeZone());
+          dispatch(updateTimezone(user.timezone));
+        } else {
+          dispatch(receiveCurrentUser(user));
         }
-        dispatch(receiveCurrentUser(user));
         return user.timezone;
       },
       errors => errors.responseJSON)
-);
+}
 
 export const destroyUser = userId => dispatch => (
   SessionAPI.destroyUser(userId).then(
@@ -78,12 +84,17 @@ export const destroyUser = userId => dispatch => (
 
 export const requestTimeZones = () => dispatch => (
   SessionAPI.requestTimeZones().then(
-    timeZones => timeZones
+    timezones => timezones
   )
 )
 
-export const updateTimeZone = () => ({
-  type: UPDATE_TIME_ZONE
+export const startUpdatingTimezone = () => ({
+  type: START_UPDATING_TIMEZONE
+})
+
+export const updateTimezone = (timezone) => ({
+  type: UPDATE_TIMEZONE,
+  timezone
 })
 
 export const receiveBoards = boards => ({

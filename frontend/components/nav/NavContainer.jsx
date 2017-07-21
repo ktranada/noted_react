@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { asArrayByOrder, getCurrentBoardById, isLoadingByType } from '../../reducers/selectors';
 import { requestBoard } from '../../actions/nav_actions';
-import { removeBoard } from '../../actions/board_actions';
+import { removeBoard, updateBoard } from '../../actions/board_actions';
 import { incrementMessageNotifications } from '../../actions/notification_actions';
 import Nav from './Nav';
 
@@ -24,9 +24,12 @@ const mapStateToProps = ({ boards, subscriptions, channels, loading}, { currentB
 
 const mapDispatchToProps = dispatch => ({
   requestBoard: (boardId, isTimeZoneUpdate) => dispatch(requestBoard(boardId, isTimeZoneUpdate)),
+
+  // Websocket
+  incrementMessageNotifications: notification => dispatch(incrementMessageNotifications(notification)),
+  updateBoard: board => dispatch(updateBoard(board)),
   removeBoard: board => dispatch(removeBoard(board)),
   removeMember: member => dispatch(removeMember(member)),
-  incrementMessageNotifications: notification => dispatch(incrementMessageNotifications(notification))
 })
 
 export default connect(

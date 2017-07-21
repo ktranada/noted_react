@@ -5,7 +5,7 @@ import { createMessage, addMessage, requestMessages } from '../../../actions/cha
 import { incrementMessageNotifications } from '../../../actions/notification_actions';
 import ChatRoom from './ChatRoom';
 
-const mapStateToProps = ({ messages, channels, members, loading}, { currentBoard, match: { params: { channelId } } }) => {
+const mapStateToProps = ({ session, messages, channels, members, loading}, { currentBoard, match: { params: { channelId } } }) => {
   const channel = getObjectById(channelId, channels);
   const boardMembers = {};
   currentBoard.members.forEach(id  => {
@@ -13,9 +13,11 @@ const mapStateToProps = ({ messages, channels, members, loading}, { currentBoard
   })
   return {
     channel,
+    timezone: session.currentUser.timezone,
     messages: channel ? asArrayByOrder(messages, channel.messages) : [],
     members: boardMembers,
-    isLoading: channel ? isLoadingByType(loading, 'Channel', channel.id, 'loadingMessages') : true
+    isLoading: channel ? isLoadingByType(loading, 'Channel', channel.id, 'loadingMessages') : true,
+    isUpdatingTimezone: loading.isUpdatingTimezone
   }
 }
 

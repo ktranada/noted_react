@@ -14,20 +14,27 @@ const receiveBoard = (state, action) => {
   const preservedUnreadStates = {
     byId: {}
   }
+
+  const newState = merge({}, state, action.board.channels);
+
   // Temporary until notifications are persisted in the db
   Object.keys(channels.byId).forEach((id) => {
     let channel = state.byId[id];
     if (channel !== undefined) {
-      preservedUnreadStates.byId[id] = {
-        unread_messages: channel.unread_messages
-      }
+      const newChannel = newState.byId[id];
+      newChannel.latest = channel.latest;
+      newChannel.unread_messages = channel.unread_messages;
+      newChannel.messages = channels.byId[id].messages;
     }
   })
 
-  return merge({}, state, action.board.channels, preservedUnreadStates);
+  // const newState = merge({}, state, action.board.channels, preservedUnreadStates);
+
+
+  return newState;;
 }
 
-const receiveMessages = (state, { messages: { channel_id, channel_messages, has_more } }) => {
+const receiveMessages = (state, { messages: { channel_id, channel_messages, has_more, latest } }) => {
 
   if (state.byId[channel_id]) {
     const newState = merge({}, state);
@@ -35,6 +42,7 @@ const receiveMessages = (state, { messages: { channel_id, channel_messages, has_
     channel.has_more = has_more;
     channel.messages = [...channel.messages, ...channel_messages];
     channel.has_loaded_messages = true;
+    channel.latest = latest;
     return newState;
   }
   return state;
@@ -79,7 +87,7 @@ const channelsReducer = (state = initialState, action) => {
     case ADD_MESSAGE: return updateAssociationList(state, action.message.channel_id, 'messages', action.message.id, {prepend: true});
     case SET_UNREAD_MESSAGE_COUNT: return setMessageNotification(state, action);
     case INCREMENT_UNREAD_MESSAGE_COUNT: return incrementMessageNotifications(state, action);
-    case REMOVE_BOARD: return removeObjectsByBoard(state, action.board.channels);  
+    case REMOVE_BOARD: return removeObjectsByBoard(state, action.board.channels);
     default:
       return state;
   }
