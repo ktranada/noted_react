@@ -34,6 +34,11 @@ class BoardMembership < ActiveRecord::Base
   after_create_commit { MembershipBroadcastJob.perform_now('create', self, nil) }
   after_update_commit { MembershipBroadcastJob.perform_now('update', self, nil) }
 
+  def self.to_destroy(id)
+    memberships = BoardMembership.includes(board: [:members, :invites, lists: [cards: [:comments]], channels: [:messages]]).where(id: id)
+    id.kind_of?(Array) ? memberships : memberships.first
+  end
+
   private
 
   def subscribe_to_general_channel

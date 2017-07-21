@@ -1,6 +1,15 @@
 import React from 'react';
-import TextareaAutosize from 'react-textarea-autosize';
 import PropTypes from 'prop-types';
+import TextareaAutosize from 'react-textarea-autosize';
+
+const propTypes = {
+  value: PropTypes.string.isRequired,
+  isValid: PropTypes.bool.isRequired,
+  isFocused: PropTypes.bool,
+  updateField: PropTypes.func.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  updateField: PropTypes.func.isRequired
+}
 
 const Title = props => {
   const focus = props.isFocused || props.initialFocus ? 'focused' : ''
@@ -12,17 +21,11 @@ const Title = props => {
       onBlur={props.updateField}
       onChange={props.handleChange}
       value={props.value}
-      className={className}/>
+      className={className}
+    />
   )
 }
-Title.propTypes = {
-  value: PropTypes.string.isRequired,
-  isValid: PropTypes.bool.isRequired,
-  isFocused: PropTypes.bool.isRequired,
-  updateField: PropTypes.func.isRequired,
-  handleChange: PropTypes.func.isRequired,
-  updateField: PropTypes.func.isRequired
-}
 
+Title.propTypes = propTypes;
 
 export default Title;

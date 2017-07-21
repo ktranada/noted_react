@@ -18,5 +18,5 @@ class List  < ActiveRecord::Base
 
   has_many :cards, -> { order(position: :asc) }, dependent: :destroy
 
-  after_create_commit { ListBroadcastJob.perform_now('create', self, -1) }
+  after_create_commit { ListBroadcastJob.perform_now('create', self) }
 end

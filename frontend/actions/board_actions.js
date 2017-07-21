@@ -16,10 +16,14 @@ export const UPDATE_CARD = 'UPDATE_CARD';
 export const UPDATE_BOARD = 'UPDATE_BOARD';
 export const UPDATE_USERNAME = 'UPDATE_USERNAME';
 export const UPDATE_LIST = 'UPDATE_LIST';
+export const MOVE_CARD = 'MOVE_CARD';
+export const MOVE_LIST = 'MOVE_LIST';
 export const REMOVE_BOARD = 'REMOVE_BOARD';
+export const REMOVE_LIST = 'REMOVE_LIST';
 export const REMOVE_CARD = 'REMOVE_CARD';
 export const REMOVE_INVITE = 'REMOVE_INVITE';
 export const REMOVE_MEMBER = 'REMOVE_MEMBER';
+
 
 export const requestLists  = (board_id) => dispatch => {
   dispatch(startLoadingLists(board_id));
@@ -130,11 +134,33 @@ export const updateList = list => ({
 export const updateUsername = membership => ({
   type: UPDATE_USERNAME,
   membership
+});
+
+export const moveList = (boardId, listId, lastPos, nextPos) => ({
+  type: MOVE_LIST,
+  boardId,
+  listId,
+  lastPos,
+  nextPos
+})
+
+export const moveCard = (id, prevListId, prevPos, nextListId, nextPos) => ({
+    type: MOVE_CARD,
+    id,
+    prevListId,
+    prevPos,
+    nextListId,
+    nextPos
 })
 
 export const removeBoard = board => ({
   type: REMOVE_BOARD,
   board
+});
+
+export const removeList = list => ({
+  type: REMOVE_LIST,
+  list
 });
 
 export const removeCard = card => ({

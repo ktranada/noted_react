@@ -127,8 +127,66 @@
           padding-right: 4px;
           cursor: pointer;
 
+          .list__header {
+            position: relative;
+            margin-right: 30px;
+            .list__actions {
+              position: absolute;
+              right: -210px;
+              z-index: 5;
+              top: 35px;
+              background: #efeeee;
+              padding: 5px 10px;
+              width: 200px;
+              box-shadow: 0 1px 6px rgba(0,0,0,.15);
+              outline: none;
+              .list-actions__header {
+                cursor: default;
+                text-align: center;
+                  padding: 10px;
+                .material-icons {
+                  position: absolute;
+                      right: 10px;
+                      top: 10px;
+                      font-size: 18px;
+                      font-weight: bold;
+                      cursor: pointer;
+                }
+              }
+              hr {
+                border-top-color: black;
+                margin-bottom: 5px;
+              }
+              div[role="button"] {
+                position: relative;
+                padding: 5px 0;
+                &:hover {
+                  cursor: pointer;
+                  color: white;
+                  &::after {
+                    content: " ";
+                    position: absolute;
+                    width: calc(100% + 20px);
+                    left: -10px;
+                    background: #49636F;
+                    z-index: -1;
+                    height: 100%;
+                    top: 0;
+                  }
+                }
+              }
+            }
+            > .material-icons {
+              position: absolute;
+              right: -30px;
+              top: 0;
+              cursor: pointer;
+            }
+
+
+          }
           > textarea {
-            width: calc(100% - 6px);            
+            width: calc(100% - 6px);
           }
           &.placeholder::after {
             position: absolute;

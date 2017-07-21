@@ -41,6 +41,7 @@ class BoardContent extends React.Component {
     this.moveList = this.moveList.bind(this);
     this.updateListPosition = this.updateListPosition.bind(this);
     this.updateCardPosition = this.updateCardPosition.bind(this);
+    this.destroyList = this.destroyList.bind(this);
     this.setHoveredListId = this.setHoveredListId.bind(this);
   }
 
@@ -160,12 +161,19 @@ class BoardContent extends React.Component {
     this.boardContentCableRef.perform('update_card_position', card);
   }
 
+  destroyList(id) {
+    return () => {
+      console.log(id)
+      this.boardContentCableRef.perform('destroy_list', { id });
+    }
+  }
+
   render() {
     const cardDragTracker = Object.assign({}, this.state);
     return (
       <div className="board-wrapper">
         {
-          this.props.isLoading
+          !this.props.currentBoard.has_loaded_lists
             ? <Spinner />
             : (
               <ListIndex
@@ -183,7 +191,8 @@ class BoardContent extends React.Component {
                   createList: this.createList,
                   editList: this.editList,
                   moveList: this.moveList,
-                  updateListPosition: this.updateListPosition
+                  updateListPosition: this.updateListPosition,
+                  destroyList: this.destroyList
                 }}
               >
                 <BoardContentActionCable
@@ -194,7 +203,8 @@ class BoardContent extends React.Component {
                   listCallbacks={{
                     addList: this.props.addList,
                     moveList: this.moveList,
-                    updateList: this.props.updateList
+                    updateList: this.props.updateList,
+                    removeList: this.props.removeList
                   }}
                   cardCallbacks={{
                     moveCard: this.moveCard,

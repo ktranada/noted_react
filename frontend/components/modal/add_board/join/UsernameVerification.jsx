@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Input from './Input';
+import JoinBoardStep from './JoinBoardStep';
 import InviteVerificationErrors from './InviteVerificationErrors';
 import Footer from './Footer';
 
@@ -13,6 +13,7 @@ class UsernameVerification extends React.Component {
     this.state = {
       username: '',
       error: '',
+      isSubmitting: false
     }
   }
 
@@ -42,27 +43,30 @@ class UsernameVerification extends React.Component {
       error => {
         let visibleError =
         this.setState({
-          error: error['status'] || error['username'] || ''
+          error: error['status'] || error['username'] || '',
+          isSubmitting: false
         })
       }
     )
+    this.setState({isSubmitting: true});
   }
 
   render() {
     return (
       <div>
         <div className="board-form-join__inputs">
-          <Input
+          <JoinBoardStep
             label="USERNAME"
             value={this.state.username}
             handleChange={this.handleChange}>
             <InviteVerificationErrors error={this.state.error}/>
             <p>Username can only contain lowercase letters and numbers.</p>
-          </Input>
+          </JoinBoardStep>
         </div>
         <Footer
           buttonType="submit"
           buttonText="Join"
+          disabled={this.state.isSubmitting}
           handleButtonClick={this.handleClick}
           handleBackClick={this.props.handleBackClick} />
       </div>

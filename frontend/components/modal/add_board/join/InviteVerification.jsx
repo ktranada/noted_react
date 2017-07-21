@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Input from './Input';
+import JoinBoardStep from './JoinBoardStep';
 import Footer from './Footer';
 import InviteVerificationErrors from './InviteVerificationErrors';
 
 const propTypes = {
   email: PropTypes.string.isRequired,
-  getInvite: PropTypes.func.isRequired,
+  requestInvite: PropTypes.func.isRequired,
   handleBackClick: PropTypes.func.isRequired,
   updateModalState: PropTypes.func.isRequired
 }
@@ -37,7 +37,7 @@ class InviteVerification extends React.Component {
       return;
     }
 
-    this.props.getInvite(this.state.code).then(
+    this.props.requestInvite(this.state.code).then(
       invite => {
         if (invite.email !== this.props.email) {
           this.setState({ error: 'revoked' });
@@ -53,12 +53,12 @@ class InviteVerification extends React.Component {
     return (
       <div>
         <div className="board-form-join__inputs">
-          <Input
+          <JoinBoardStep
             label="Invite Code"
             value={this.state.code}
             handleChange={this.handleChange}>
             <InviteVerificationErrors error={this.state.error} />
-          </Input>
+          </JoinBoardStep>
         </div>
         <Footer
           buttonText="Continue"

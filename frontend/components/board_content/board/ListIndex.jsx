@@ -93,5 +93,4 @@ const ListIndex = props => {
 
 ListIndex.propTypes = propTypes;
 
-// export default ListIndex;
 export default DropTarget(['list', 'card'], specs, collect)(ListIndex);

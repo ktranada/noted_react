@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import AddBoardModal from './AddBoardModal';
 import { createBoard, requestBoard} from '../../../actions/nav_actions.js';
-import { getInvite, updateInvite } from '../../../actions/session_actions';
+import { requestInvite, updateInvite } from '../../../actions/session_actions';
 
 const mapDispatchToProps = (dispatch) => ({
   requestBoard: boardId => dispatch(requestBoard(boardId, false, true)),
@@ -10,7 +10,7 @@ const mapDispatchToProps = (dispatch) => ({
   createBoard: board => dispatch(createBoard(board)),
 
   // Join a board
-  getInvite: code => dispatch(getInvite(code)),
+  requestInvite: code => dispatch(requestInvite(code)),
   updateInvite: invite => dispatch(updateInvite(invite))
 });
 

@@ -15,9 +15,10 @@ import {
   REMOVE_MEMBER,
   UPDATE_BOARD,
   REMOVE_BOARD,
+  REMOVE_LIST,
+  MOVE_LIST
 } from '../actions/board_actions';
 import { RECEIVE_MESSAGES } from '../actions/chat_actions';
-import { MOVE_LIST, UPDATE_LIST_ORDER } from '../actions/list_actions';
 
 const initialState = {
   byId: {},
@@ -210,6 +211,7 @@ const boardsReducer = (state = initialState, action) => {
     case UPDATE_TIMEZONE: return updateTimezone(state, action);
     case REMOVE_MEMBER: return removeMember(state, action);
     case REMOVE_BOARD: return removeBoard(state, action);
+    case REMOVE_LIST: return updateAssociationList(state, action.list.board_id, 'lists', action.list.id, { remove: true });
 
     default:
       return state;

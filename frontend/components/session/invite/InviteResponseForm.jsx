@@ -32,7 +32,7 @@ class InviteResponseForm extends React.Component {
   }
 
   componentWillMount() {
-    this.props.getInvite(this.props.code).then(
+    this.props.requestInvite(this.props.code).then(
       invite => {
         if (this.props.isLoggedIn && this.props.currentUser.email !== invite.email) {
           this.props.logoutCurrentUser();

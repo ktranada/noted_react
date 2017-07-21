@@ -4,7 +4,7 @@ import { editCard, createComment, addComment } from '../../../actions/board_acti
 import ViewCardModal from './ViewCardModal';
 
 const mapStateToProps = ({ comments, members, cards, loading }, {match, currentBoard}) => {
-  const card = getObjectById(match.params.cardId, cards) || {};
+  const card = getObjectById(match.params.cardId, cards);
   const boardMembers = {};
   currentBoard.members.forEach(id  => {
     boardMembers[id] = members.byId[id]
@@ -14,7 +14,7 @@ const mapStateToProps = ({ comments, members, cards, loading }, {match, currentB
   return {
     card,
     isLoading,
-    comments: asArrayByOrder(comments, card.comments),
+    comments: card ? asArrayByOrder(comments, card.comments) : [],
     boardId: currentBoard.id,
     members: boardMembers
   }

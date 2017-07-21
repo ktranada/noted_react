@@ -2,6 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CardEditableField from './CardEditableField';
 
+const propTypes = {
+  card: PropTypes.object.isRequired,
+  editCard: PropTypes.func.isRequired
+}
+
 const Header = props => {
   const { card, editCard } = props;
   return (
@@ -23,9 +28,6 @@ const Header = props => {
 }
 
 
-Header.propTypes = {
-  card: PropTypes.object.isRequired,
-  editCard: PropTypes.func.isRequired
-}
+Header.propTypes = propTypes;
 
 export default Header;

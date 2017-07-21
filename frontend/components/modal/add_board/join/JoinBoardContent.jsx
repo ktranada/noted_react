@@ -7,12 +7,11 @@ import UsernameVerification from './UsernameVerification';
 const propTypes = {
   history: PropTypes.object.isRequired,
   email: PropTypes.string.isRequired,
-  getInvite: PropTypes.func.isRequired,
+  requestInvite: PropTypes.func.isRequired,
   updateInvite: PropTypes.func.isRequired,
   handleBackClick: PropTypes.func.isRequired
 }
 
-// TODO: Make invite verification and user verification pure components, keep state in this component
 class JoinBoardContent extends React.Component {
   constructor(props) {
     super(props);
@@ -43,7 +42,7 @@ class JoinBoardContent extends React.Component {
           <InviteVerification
             email={this.props.email}
             handleBackClick={this.props.handleBackClick}
-            getInvite={this.props.getInvite}
+            requestInvite={this.props.requestInvite}
             updateModalState={this.updateModalState}/>
         }
         {

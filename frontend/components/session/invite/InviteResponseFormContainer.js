@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import InviteResponseForm from './InviteResponseForm';
-import { getInvite, updateInvite, logout } from '../../../actions/session_actions';
+import { requestInvite, updateInvite, logout } from '../../../actions/session_actions';
 import { requestBoard } from '../../../actions/nav_actions';
 import { addInvites } from '../../../actions/board_actions';
 import { asArray } from '../../../reducers/selectors';
@@ -18,7 +18,7 @@ const mapDispatchToProps = dispatch => {
     requestBoard: (boardId) => dispatch(requestBoard(boardId, false, true)),
     updateInvite: invite => dispatch(updateInvite(invite)),
     logoutCurrentUser: () => dispatch(logout()),
-    getInvite: code => dispatch(getInvite(code))
+    requestInvite: code => dispatch(requestInvite(code))
   })
 }
 

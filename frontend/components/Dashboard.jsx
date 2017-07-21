@@ -12,7 +12,7 @@ import BoardContentContainer from './board_content/board/BoardContentContainer';
 import ChatRoomContainer from './board_content/chat/ChatRoomContainer';
 import ViewCardModalContainer from './modal/view_card/ViewCardModalContainer';
 
-class Dashboard extends React.PureComponent {
+class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.toggleModal = this.toggleModal.bind(this);
@@ -71,6 +71,7 @@ class Dashboard extends React.PureComponent {
         <section className="board-content">
           <Switch>
             <RouteWithProps
+              exact
               path="/boards/:boardId/card/:cardId"
               component={BoardContentContainer}
               currentBoard={currentBoard}
@@ -78,12 +79,14 @@ class Dashboard extends React.PureComponent {
             />
 
             <RouteWithProps
+              exact
               path="/boards/:boardId/lists"
               component={BoardContentContainer}
               currentBoard={currentBoard}
               currentUserId={currentUser.id}
             />
             <RouteWithProps
+              exact
               path="/boards/:boardId/messages/:channelId"
               component={ChatRoomContainer}
               currentBoard={currentBoard}
@@ -102,6 +105,7 @@ class Dashboard extends React.PureComponent {
         </section>
 
         <RouteWithProps
+          exact
           path="/boards/:boardId/card/:cardId"
           currentUserId={currentUser.id}
           component={ViewCardModalContainer}

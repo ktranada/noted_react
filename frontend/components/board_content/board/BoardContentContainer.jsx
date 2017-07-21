@@ -7,12 +7,11 @@ import {
   addComment,
   updateCard,
   updateList,
-  removeCard
-} from '../../../actions/board_actions';
-import {
   moveList,
   moveCard,
-} from '../../../actions/list_actions';
+  removeList,
+  removeCard
+} from '../../../actions/board_actions';
 import BoardContent from './BoardContent';
 
 
@@ -33,12 +32,12 @@ const mapDispatchToProps = (dispatch, { currentBoard }) => ({
   addList: list => dispatch(addList(list)),
   addCard: card => dispatch(addCard(card)),
 
-  moveList: (listId, lastPos, nextPos) => dispatch(moveList(currentBoard.id, listId, lastPos, nextPos)),
-  moveCard: (cardId, lastListId, lastCardPos, nextListId, nextCardPos) =>  {
-    return dispatch(moveCard(cardId, lastListId, lastCardPos, nextListId, nextCardPos));
-  },
   updateCard: card => dispatch(updateCard(card)),
   updateList: list => dispatch(updateList(list)),
+  moveList: (listId, lastPos, nextPos) => dispatch(moveList(currentBoard.id, listId, lastPos, nextPos)),
+  moveCard: (cardId, lastListId, lastCardPos, nextListId, nextCardPos) => dispatch(moveCard(cardId, lastListId, lastCardPos, nextListId, nextCardPos)),
+
+  removeList: list => dispatch(removeList(list)),
   removeCard: card => dispatch(removeCard(card))
 })
 

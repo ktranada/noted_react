@@ -52,7 +52,7 @@ export const getObjectById = (id, entity) => {
   return entity.byId[id];
 }
 
-export const getInvitesByStatus = (invitesArray, status) => {
+export const requestInvitesByStatus = (invitesArray, status) => {
   if (isUndefined(invitesArray)) return null;
 
   return invitesArray.filter(invite => invite.status === status);

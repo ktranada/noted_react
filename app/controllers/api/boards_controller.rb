@@ -56,7 +56,7 @@ class Api::BoardsController < ApplicationController
 
   def destroy
     @board = Board.find(params[:id])
-    memberships = BoardMembership.includes(board: [:members, :invites, lists: [cards: [:comments]], channels: [:messages]]).where(id: @board.board_membership_ids)
+    memberships = BoardMembership.to_destroy(@board.board_membership_ids)
 
     memberships.each do |mbs|
       MembershipRemovalJob.perform_now(current_user, mbs)

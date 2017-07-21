@@ -9,6 +9,20 @@ export const RECEIVE_USER_UPDATE_ERRORS = 'RECEIVE_USER_UPDATE_ERRORS';
 export const START_UPDATING_TIMEZONE = 'START_UPDATING_TIMEZONE';
 export const UPDATE_TIMEZONE = 'UPDATE_TIMEZONE';
 
+export const requestInvite = code => dispatch => (
+  SessionAPI.requestInvite(code)
+    .then(
+      invite => invite,
+      error => error.responseJSON
+    )
+)
+
+export const requestTimeZones = () => dispatch => (
+  SessionAPI.requestTimeZones().then(
+    timezones => timezones
+  )
+)
+
 const parseSignInResponse = (promise, dispatch) => {
   return promise.then(
     response => {
@@ -20,28 +34,20 @@ const parseSignInResponse = (promise, dispatch) => {
          err => err);
 }
 
-export const signup = user => dispatch => {
-  return parseSignInResponse(SessionAPI.signup(user), dispatch)
+export const signup = user => dispatch => (
+  parseSignInResponse(SessionAPI.signup(user), dispatch)
+)
 
-}
+export const login = user => (dispatch) => (
+   parseSignInResponse(SessionAPI.login(user), dispatch)
+)
 
-export const login = user => (dispatch) => {
-  return parseSignInResponse(SessionAPI.login(user), dispatch)
-}
 export const logout = () => dispatch => (
   SessionAPI.logout()
     .then(() => {
       dispatch(toggleModal(null));
       dispatch(receiveCurrentUser(null));
     })
-)
-
-export const getInvite = code => dispatch => (
-  SessionAPI.getInvite(code)
-    .then(
-      invite => invite,
-      error => error.responseJSON
-    )
 )
 
 export const updateInvite = invite => dispatch => (
@@ -80,12 +86,6 @@ export const destroyUser = userId => dispatch => (
         dispatch(toggleModal(null))
         dispatch(receiveCurrentUser(null))
   })
-)
-
-export const requestTimeZones = () => dispatch => (
-  SessionAPI.requestTimeZones().then(
-    timezones => timezones
-  )
 )
 
 export const startUpdatingTimezone = () => ({

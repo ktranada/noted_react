@@ -8,7 +8,7 @@ import JoinBoardContent from './join/JoinBoardContent';
 
 const propTypes = {
   currentUser: PropTypes.object.isRequired,
-  getInvite: PropTypes.func.isRequired,
+  requestInvite: PropTypes.func.isRequired,
   updateInvite: PropTypes.func.isRequired
 }
 
@@ -57,7 +57,7 @@ class AddBoardModal extends React.Component {
                 <JoinBoardContent
                   history={this.props.history}
                   email={this.props.currentUser.email}
-                  getInvite={this.props.getInvite}
+                  requestInvite={this.props.requestInvite}
                   requestBoard={this.props.requestBoard}
                   updateInvite={this.props.updateInvite}
                   handleBackClick={this.handleBoardSelection('')}

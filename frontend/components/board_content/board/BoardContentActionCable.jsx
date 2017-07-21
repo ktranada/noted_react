@@ -9,6 +9,7 @@ const propTypes = {
   listCallbacks: PropTypes.shape({
     addList: PropTypes.func.isRequired,
     moveList: PropTypes.func.isRequired,
+    removeList: PropTypes.func.isRequired,
   }).isRequired,
   cardCallbacks: PropTypes.shape({
     addCard: PropTypes.func.isRequired,
@@ -51,10 +52,11 @@ class BoardContentActionCable extends React.Component {
 
   handleListNotification(action, data) {
     const { list } = data;
-    const { addList, updateList } = this.props.listCallbacks;
+    const { addList, updateList, removeList } = this.props.listCallbacks;
     switch (action) {
       case 'create': addList(list); break;
       case 'update': updateList(list); break;
+      case 'destroy': removeList(list); break;
     }
   }
 

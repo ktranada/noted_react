@@ -76,7 +76,7 @@ class ChatRoom extends React.Component {
   sendMessage(data) {
     data['board_id'] = this.props.currentBoard.id;
     data['channel_id'] = this.props.channel.id;
-    this.chatChannelCable.perform('send_message', { message: data });
+    this.chatChannelCable.perform('create_message', { message: data });
   }
 
 

@@ -19,7 +19,7 @@ class ViewCardModal extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.isLoading && (typeof nextProps.card === 'undefined')) {
+    if (!nextProps.isLoading && (!nextProps.card)) {
       this.props.history.replace(`/boards/${this.props.boardId}/lists`)
     }
   }
@@ -54,7 +54,7 @@ class ViewCardModal extends React.Component {
       >
         <div className="view-card-modal__content">
           {
-            isLoading ?
+            isLoading || !card ?
               <Spinner /> :
               (
                 <div>

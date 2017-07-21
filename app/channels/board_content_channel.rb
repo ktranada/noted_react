@@ -11,7 +11,7 @@ class BoardContentChannel < ApplicationCable::Channel
   def create_card(data)
     card = Card.new(list_id: data['list_id'], title: data['title'], description: data['description'])
     if card.save
-      CardBroadcastJob.perform_now('create', @board_id, card.list_id, card, -1)
+      CardBroadcastJob.perform_now('create', @board_id, card.list_id, card)
     end
   end
 
@@ -27,13 +27,6 @@ class BoardContentChannel < ApplicationCable::Channel
     end
   end
 
-  def edit_card(data)
-    card = Card.where(id: data['id']).first
-    if !card.nil? && card.update(title: data['title'], description: data['description'])
-      CardBroadcastJob.perform_now('update', @board_id, card.list_id, card, data['updated_by'])
-    end
-  end
-
   def edit_list(data)
     list = List.where(id: data['id']).first
     if !list.nil? && list.update(title: data['title'])
@@ -41,11 +34,10 @@ class BoardContentChannel < ApplicationCable::Channel
     end
   end
 
-  def destroy_card(data)
+  def edit_card(data)
     card = Card.where(id: data['id']).first
-    if !card.nil?
-      card.destroy
-      CardBroadcastJob.perform_now('destroy', @board_id, card.list_id, card, current_user.id)
+    if !card.nil? && card.update(title: data['title'], description: data['description'])
+      CardBroadcastJob.perform_now('update', @board_id, card.list_id, card, current_user.id)
     end
   end
 
@@ -53,7 +45,7 @@ class BoardContentChannel < ApplicationCable::Channel
     list = List.where(id: data['id']).first
     if !list.nil?
       list.insert_at(data['position'].to_i)
-      ListBroadcastJob.perform_now('move', list, data['updated_by'])
+      ListBroadcastJob.perform_now('move', list, current_user.id)
     end
   end
 
@@ -63,8 +55,27 @@ class BoardContentChannel < ApplicationCable::Channel
       previous_list_id = card.list_id
       card.move(data)
       if !card.errors.any?
-        CardBroadcastJob.perform_now('move', @board_id, previous_list_id, card, data['updated_by'])
+        CardBroadcastJob.perform_now('move', @board_id, previous_list_id, card, current_user.id)
       end
+    end
+  end
+
+  def destroy_card(data)
+    card = Card.where(id: data['id']).first
+    if !card.nil?
+      comment_ids = card.comment_ids
+      card.destroy
+      CardBroadcastJob.perform_now('destroy', @board_id, card.list_id, card, current_user.id, comment_ids)
+    end
+  end
+
+  def destroy_list(data)
+    list = List.includes(cards: [:comments]).where(id: data['id']).first
+    if !list.nil?
+      card_ids = list.card_ids
+      comment_ids = list.cards.map(&:comments).flatten.pluck(:id)
+      list.destroy
+      ListBroadcastJob.perform_now('destroy', list, current_user.id, card_ids, comment_ids)
     end
   end
 end

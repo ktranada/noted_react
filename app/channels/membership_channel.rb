@@ -8,9 +8,8 @@ class MembershipChannel < ApplicationCable::Channel
   end
 
   def destroy_membership(data)
-    membership = BoardMembership.includes(board: [:members, :invites, lists: [cards: [:comments]], channels: [:messages]]).where(id: data['id']).first
+    membership = BoardMembership.to_destroy(data['id'])
     if !membership.nil? && membership.board_is_owned_by?(current_user)
-
       membership.destroy
       MembershipRemovalJob.perform_now(current_user, membership)
     end

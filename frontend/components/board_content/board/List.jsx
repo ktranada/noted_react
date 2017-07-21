@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 import { DragSource, DropTarget } from 'react-dnd';
 import TextareaAutosize from 'react-textarea-autosize';
 
+import ListActions from './ListActions';
 import Cards from './Cards';
 import ListCardForm from './ListCardForm';
+
+
 const propTypes = {
   prevHoveredListId: PropTypes.number.isRequired,
   list: PropTypes.object.isRequired,
@@ -13,7 +16,8 @@ const propTypes = {
     createCard: PropTypes.func.isRequired,
     editList: PropTypes.func.isRequired,
     moveList: PropTypes.func.isRequired,
-    updateListPosition: PropTypes.func.isRequired
+    updateListPosition: PropTypes.func.isRequired,
+    destroyList: PropTypes.func.isRequired
   }).isRequired,
   cardCallbacks: PropTypes.shape({
     setHoveredListId: PropTypes.func.isRequired,
@@ -77,7 +81,7 @@ const dropCollect = (connect, monitor) => {
 }
 
 const dragSpecs = {
-  beginDrag({ list, position }) {
+  beginDrag({ list, position }, monitor, component) {
     return ({ id: list.id, position })
   },
 
@@ -96,12 +100,22 @@ class List extends React.Component  {
     this.state = {
       title: this.props.list.title,
       isEditing: false,
-      isBlank: false
+      isBlank: false,
+      showDropdown: false
     }
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
+    this.toggleListDropdown = this.toggleListDropdown.bind(this);
+
+    this.listActionsRef = null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.showDropdown) {
+      this.listActionsRef.focus();
+    }
   }
 
   handleChange(e) {
@@ -135,6 +149,12 @@ class List extends React.Component  {
     })
   }
 
+  toggleListDropdown(hide = false) {
+    this.setState({
+      showDropdown: !this.state.showDropdown
+    })
+  }
+
   render() {
     const {
       list,
@@ -159,20 +179,32 @@ class List extends React.Component  {
             <div
               ref={el => this.listItem = el}
               className={`list-index__item ${isDragging ? "placeholder" : ""}`}>
-              {
-                this.state.isEditing
-                  ? (
-                    <TextareaAutosize
-                      onChange={this.handleChange}
-                      autoFocus
-                      onBlur={this.handleSubmit}
-                      value={this.state.title}
-                      className={this.state.isBlank ? 'error' : ''}
-                      placeholder="Title"
-                    />
-                  )
-                  : <header onClick={this.toggleEdit}>{list.title}</header>
-              }
+              <div className="list__header">
+                {
+                  this.state.isEditing
+                    ? (
+                      <TextareaAutosize
+                        onChange={this.handleChange}
+                        autoFocus
+                        onBlur={this.handleSubmit}
+                        value={this.state.title}
+                        className={this.state.isBlank ? 'error' : ''}
+                        placeholder="Title"
+                      />
+                    )
+                    : <header onClick={this.toggleEdit}>{list.title}</header>
+                }
+                <i onClick={this.toggleListDropdown} className="material-icons">&#xE5D4;</i>
+                {
+                  this.state.showDropdown &&
+                  <ListActions
+                    listActionsRef={el => this.listActionsRef = el }
+                    toggleListDropdown={this.toggleListDropdown}
+                    destroyList={listCallbacks.destroyList(list.id)}
+                  />
+                }
+              </div>
+
               <hr />
               <Cards
                 list={list}
@@ -185,7 +217,7 @@ class List extends React.Component  {
               />
               <ListCardForm type="card" addItem={this.props.listCallbacks.createCard(list.id)} />
             </div>
-            )
+          )
         }
       </div>
     )

@@ -15,7 +15,7 @@ export const createBoard = board => dispatch => (
       return board;
     },
     error => error.responseJSON)
-)
+);
 
 export const requestBoard = (boardId, isTimeZoneUpdate = false, isJoining = false) => dispatch => {
   dispatch(startLoadingBoard(boardId, isTimeZoneUpdate));
@@ -26,23 +26,12 @@ export const requestBoard = (boardId, isTimeZoneUpdate = false, isJoining = fals
     })
 }
 
-export const requestSubscriptions = () => dispatch => {
-  return BoardsAPI.requestSubscriptions().then(
-    subscriptions => dispatch(receiveSubscriptions(subscriptions))
-  )
-}
-
 export const receiveBoard = (board, isTimeZoneUpdate, isJoining) => ({
   type: RECEIVE_BOARD,
   board,
   isTimeZoneUpdate,
   isJoining
-})
-
-export const receiveSubscriptions = subscriptions => ({
-  type: RECEIVE_SUBSCRIPTIONS,
-  subscriptions
-})
+});
 
 export const startLoadingBoard = (boardId, isTimeZoneUpdate) => ({
   type: START_LOADING_BOARD,
@@ -50,13 +39,12 @@ export const startLoadingBoard = (boardId, isTimeZoneUpdate) => ({
     id: boardId
   },
   isTimeZoneUpdate
-})
-
+});
 
 export const startLoadingSubscriptions = (boardId) => ({
   type: START_LOADING_SUBSCRIPTIONS,
   boardId
-})
+});
 
 export const addBoard = (board) => ({
   type: ADD_BOARD,

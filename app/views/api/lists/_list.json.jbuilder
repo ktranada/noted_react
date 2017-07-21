@@ -1,2 +1,7 @@
 json.extract! list, :id, :title, :position, :board_id
-json.cards list.card_ids
+if action === 'destroy'
+  json.cards card_ids
+  json.comments comment_ids
+elsif action === 'create'
+  json.cards []
+end

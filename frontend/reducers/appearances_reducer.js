@@ -45,10 +45,7 @@ function appearancesReducer(state = initialState, action) {
         return updateObject(state, {
           usersByBoardId: {
             [membership.board_id]: {
-              [membership.user_id]: {
-                user_id: membership.user_id,
-                status: membership.status
-              }
+              [membership.user_id]: membership.status
             }
           }
         })

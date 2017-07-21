@@ -1,7 +1,6 @@
 import merge from 'lodash/merge';
 import { RECEIVE_BOARD } from '../actions/nav_actions';
-import { RECEIVE_LISTS, ADD_LIST, ADD_CARD, UPDATE_LIST, REMOVE_CARD,REMOVE_BOARD } from '../actions/board_actions';
-import { MOVE_CARD } from '../actions/list_actions';
+import { RECEIVE_LISTS, ADD_LIST, ADD_CARD, UPDATE_LIST, MOVE_CARD, REMOVE_BOARD, REMOVE_LIST, REMOVE_CARD } from '../actions/board_actions';
 import { updateObject, byIdObject, updateAssociationList, removeObjectsByBoard, updateObjectWithUpdatedAssociations } from './util';
 
 const initialState = {
@@ -48,6 +47,13 @@ const listsReducer = (state = initialState, action) => {
         }));
         return newState;
       }
+    case REMOVE_LIST:
+      if (state.byId[action.list.id]) {
+        const newState = merge({}, state);
+        delete newState.byId[action.list.id]
+        return newState
+      }
+      return state;
     case REMOVE_CARD:
       return updateAssociationList( state, action.card.list_id, 'cards', action.card.id, { remove: true });
     case REMOVE_BOARD:

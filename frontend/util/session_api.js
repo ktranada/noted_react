@@ -15,7 +15,7 @@ export const signup = (user) => {
   });
 }
 
-export const getInvite = code => (
+export const requestInvite = code => (
   $.ajax({
     method: 'GET',
     url: `/api/invites/${code}`

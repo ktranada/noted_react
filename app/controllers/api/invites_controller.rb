@@ -2,19 +2,6 @@ class Api::InvitesController < ApplicationController
   skip_before_action :require_login!, only: [:show,  :update]
   skip_before_action :confirm_board_membership, only: [:show, :update]
 
-  def show
-    @invite = Invite.find_by_code(params[:id])
-    if @invite
-      if !@invite.status_pending?
-        render json: { status: "responded" }, status: 422
-      else
-        render :show
-      end
-    else
-      render json: { status: "revoked" }, status: 422
-    end
-  end
-
   def create
     json = JSON.parse(params[:invites])
     @board_id = json["board_id"]
@@ -45,11 +32,18 @@ class Api::InvitesController < ApplicationController
       end
     end
   end
-
-  def destroy
-    invite = Invite.find(params[:id])
-    invite.destroy
-    render json: { id: invite.id, board_id: invite.board_id }
+  
+  def show
+    @invite = Invite.find_by_code(params[:id])
+    if @invite
+      if !@invite.status_pending?
+        render json: { status: "responded" }, status: 422
+      else
+        render :show
+      end
+    else
+      render json: { status: "revoked" }, status: 422
+    end
   end
 
   def update
@@ -114,6 +108,12 @@ class Api::InvitesController < ApplicationController
       return
     end
     render json: "Invite could not be updated", status: 422
+  end
+
+  def destroy
+    invite = Invite.find(params[:id])
+    invite.destroy
+    render json: { id: invite.id, board_id: invite.board_id }
   end
 
   private
