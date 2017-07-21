@@ -9,13 +9,13 @@ const propTypes = {
   bottomAction: PropTypes.element.isRequired,
 }
 
-function createNavLink(tab, currentTab, handleTabChange) {
+const createNavLink = (tab, currentTab, handleTabChange) => {
   const active = tab === currentTab ? 'active' : '';
   return <li key={tab} className={active} onClick={active ? null : handleTabChange(tab)}>{tab}</li>;
 };
 
 
-function ConfigurationNav({tabs, currentTab, header, handleTabChange, bottomAction}) {
+const ConfigurationNav = ({tabs, currentTab, header, handleTabChange, bottomAction}) => {
   const navLinks = tabs.map(tab => createNavLink(tab, currentTab, handleTabChange));
   return (
     <nav className="configuration__nav">

@@ -1,10 +1,12 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import SubNav from './SubNav';
+
 import { getCurrentBoardById, asArrayByOrder, isLoadingByType } from '../../reducers/selectors';
-import { addMessage } from '../../actions/chat_actions';
 import { updateAppearance } from '../../actions/sub_nav_actions';
+import { addMember, updateUsername, updateBoard, removeMember } from '../../actions/board_actions';
 import { setMessageNotification, incrementMessageNotifications } from '../../actions/notification_actions';
+
+import SubNav from './SubNav';
 
 const mapStateToProps = ({ boards, channels, members, loading, subscriptions, appearances }, { currentBoard }) => {
   return ({
@@ -12,15 +14,28 @@ const mapStateToProps = ({ boards, channels, members, loading, subscriptions, ap
     subscribedChannels: asArrayByOrder(channels, subscriptions.channelsByBoardId[currentBoard.id]),
     channels: asArrayByOrder(channels, currentBoard.channels),
     members: asArrayByOrder(members, currentBoard.members),
-    isLoading: isLoadingByType(loading, currentBoard.id, "loadingBoard")
+    isLoading: isLoadingByType(loading, 'Board', currentBoard.id, "loadingBoard")
   });
 }
 
 const mapDispatchToProps = dispatch => ({
-  updateAppearance: appearance => dispatch(updateAppearance(appearance)),
   setMessageNotification: notification => dispatch(setMessageNotification(notification)),
-  addMessage: message => dispatch(addMessage(message)),
+
+  // WebSockets
+  //// Appearance
+  updateAppearance: appearance => dispatch(updateAppearance(appearance)),
+
+  //// Membership
+  addMember: membership => dispatch(addMember(membership)),
+  updateUsername: membership => dispatch(updateUsername(membership)),
+  removeMember: membership => dispatch(removeMember(membership)),
+
+  //// Message
   incrementMessageNotifications: notification => dispatch(incrementMessageNotifications(notification)),
+
+  //// Board
+  updateBoard: board => dispatch(updateBoard(board))
+
 })
 
 export default connect(

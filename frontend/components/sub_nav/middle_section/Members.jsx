@@ -9,7 +9,11 @@ const propTypes = {
   currentUserId: PropTypes.number.isRequired
 }
 
-function Members(props) {
+const defaultProps = {
+  members: []
+}
+
+const Members = props => {
   const members = props.members.map(member =>(
     <li key={member.id}>
       <div className={`appearance ${props.appearances[member.id]}`}/>
@@ -25,5 +29,6 @@ function Members(props) {
 }
 
 Members.propTypes = propTypes;
+Members.defaultPrps = defaultProps;
 
 export default Members;

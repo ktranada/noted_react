@@ -14,12 +14,12 @@ const propTypes = {
   contentType: PropTypes.string.isRequired
 }
 
-function formatContent(input, id) {
+const formatContent = (input, id) =>{
   return input.split('<br>').map((item, key) => {
     if (item === '') {
-      return <span key={`line-break-${id}`} className="line-break"/>
+      return <span key={`line-break-${id}-${key}`} className="line-break"/>
     }
-    return <p key={`message-item-${id}`}>{item}</p>
+    return <p key={`message-item-${id}-${key}`}>{item}</p>
   });
 }
 
@@ -32,7 +32,7 @@ const Message = ({ boardId, member, userMessages, contentType }) => {
   const messageBody = userMessages.map((message, index) => {
     const { id, time, timestamp } = message;
     const content = message[contentType]
-    return <div data-time={time} className="user-messages" key={`$message__${id}-${timestamp}`}>{formatContent(content, id)}</div>;
+    return <div data-time={time} className="user-messages" key={`$message__${id}-${timestamp}`}>{formatContent(content, id, timestamp)}</div>;
   });
 
   return (

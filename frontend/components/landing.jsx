@@ -12,7 +12,7 @@ const propTypes = {
   toggleModal: PropTypes.func.isRequired
 }
 
-class Landing extends React.PureComponent {
+class Landing extends React.Component {
   constructor(props) {
     super(props);
 

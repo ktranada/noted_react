@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import merge from 'lodash/merge';
 
+import { ActionCable } from '../util/ActionCableProvider';
 import { ADD_BOARD } from '../../actions/modal_actions';
 import NavTab  from './NavTab';
 
@@ -8,33 +10,57 @@ const propTypes = {
   boards: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequred,
-    hasUnreadMessages: PropTypes.bool.isRequired
+    subscribe_to_nav_notifications: PropTypes.bool.isRequired
   }).isRequired).isRequired,
+  isLanding: PropTypes.bool.isRequired,
   boardIsLoaded: PropTypes.bool.isRequired,
   boardIsLoading: PropTypes.bool.isRequired,
   toggleModal: PropTypes.func.isRequired,
   requestBoard: PropTypes.func.isRequired,
-  isLanding: PropTypes.bool.isRequired
+  incrementMessageNotifications: PropTypes.func.isRequired,
 }
 
 class Nav extends React.Component {
   constructor(props) {
     super(props);
 
-    this.onReceived = this.onReceived.bind(this);
+    this.state = {
+      boardNotifications: {}
+    }
+
+    this.onReceivedNotification = this.onReceivedNotification.bind(this);
+    this.onReceivedBoardName = this.onReceivedBoardName.bind(this);
+    this.updateNotificationList = this.updateNotificationList.bind(this);
+  }
+
+  componentDidMount() {
+    this.updateNotificationList(this.props);
   }
 
   componentWillMount() {
     if (!this.props.isLanding) {
       this.requestBoard(this.props.currentBoardId, false, this.props);
     }
-    this.props.requestSubscriptions();
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.currentBoardId !== this.props.currentBoardId
         || this.props.timezone !== nextProps.timezone) {
       this.requestBoard(nextProps.currentBoardId, this.props.timezone !== nextProps.timezone, nextProps);
+    }
+
+    this.updateNotificationList(nextProps);
+  }
+  onReceivedBoardName(data) {
+    this.props.updateBoard(data.board);
+  }
+
+  onReceivedNotification(data) {
+    if (this.state.boardNotifications[data.board_id]) {
+      const newState = merge({}, this.state);
+      newState.boardNotifications[data.board_id].has_unread_messages = data.has_unread_messages;
+      this.setState(newState);
+      this.props.incrementMessageNotifications(data);
     }
   }
 
@@ -44,37 +70,53 @@ class Nav extends React.Component {
     }
   }
 
-  onReceived(data) {
-    const { type, action } = data;
-    if (type === 'message') {
-      if (action === 'add') {
-        const { board_id, channel_id } = data.message;
-        if (!window.location.hash.includes(`/messages/${channel_id}`)) {
-          this.props.incrementMessageNotifications({  board_id, channel_id, unread_messages: 1 });
-        }
+  updateNotificationList(props) {
+    const boardNotifications = {}
+    props.boards.forEach(board => {
+      if (board.subscribe_to_nav_notifications) {
+        const boardNotification = this.state.boardNotifications[board.id];
+        boardNotifications[board.id] = { has_unread_messages:  boardNotification && boardNotification.has_unread_messages }
       }
-    } else if (type === 'membership') {
-      if (action === 'add') {
-        this.props.addMember(data.membership);
-      } else if (action === 'remove') {
-        const { membership } = data;
-        membership['isSelf'] = membership.user_id === this.props.currentUserId;
-        this.props.removeMember(membership);
-      } else if (action === 'update') {
-        this.props.updateUsername(data.membership);
+    });
+    this.setState({
+      boardNotifications
+    })
+  }
+
+  actionCableSubscriptions() {
+    const subscriptions = []
+    this.props.boards.forEach(board => {
+        subscriptions.push(
+          <ActionCable
+            key={`navNotification${board.id}`}
+            shouldUnsubscribe={!board.subscribe_to_nav_notifications || this.props.currentBoardId === board.id}
+            channel={{channel: 'NavNotificationChannel', room: board.id, board_id: board.id}}
+            onReceived={this.onReceivedNotification}
+          />
+        );
+        subscriptions.push(
+          <ActionCable
+            key={`boardName${board.id}`}
+            ref={`boardName${board.id}`}
+            channel={{channel: 'BoardNameChannel', room: board.id, board_id: board.id}}
+            onReceived={this.onReceivedBoardName}
+          />
+        )
       }
-    }
+    )
+    return subscriptions;
   }
 
   render() {
-    let { boards, currentBoardId } = this.props;
+    let { boards, currentBoardId, isLanding } = this.props;
     const boardsList = boards.map((board) => (
       <NavTab
         key={board.id}
+        hasNotifications={this.state.boardNotifications[board.id] && this.state.boardNotifications[board.id].has_unread_messages}
         {...board }
-        onReceived={this.onReceived}
       />
     ));
+
 
     let boardFormButton = null;
     if (boardsList.length < 3) {
@@ -89,6 +131,7 @@ class Nav extends React.Component {
 
     return (
       <ul className="navbar">
+        {this.actionCableSubscriptions()}
         {boardsList}
         {boardFormButton}
       </ul>

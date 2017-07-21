@@ -1,4 +1,5 @@
 import React from 'react';
+import merge from 'lodash/merge';
 import actioncable from 'actioncable';
 import PropTypes from 'prop-types';
 Object.defineProperty(exports, "__esModule", {
@@ -65,6 +66,15 @@ const actionCablePropTypes = {
   onConnected: PropTypes.func,
   onDisconnected: PropTypes.func,
   onRejected: PropTypes.func,
+  unsubscribeOnUmount: PropTypes.bool,
+  shouldUnsubscribe: PropTypes.bool,
+  trackedProps: PropTypes.object
+}
+
+const actionCableDefaultProps = {
+  unsubscribeOnUmount: false,
+  shouldUnsubscribe: false,
+  trackedProps: null
 }
 
 const contextTypes = {
@@ -80,7 +90,8 @@ class ActionCable extends React.Component {
         onInitialized = _props.onInitialized,
         onConnected = _props.onConnected,
         onDisconnected = _props.onDisconnected,
-        onRejected = _props.onRejected;
+        onRejected = _props.onRejected,
+        shouldUnsubscribe = _props.shouldUnsubscribe;
 
     const subscription = this.context.cable.subscriptions.subscriptions.find(({channelInfo}) => {
       return  (channelInfo.room === this.props.channel.room
@@ -88,6 +99,9 @@ class ActionCable extends React.Component {
     });
 
     if (subscription === undefined) {
+      if (shouldUnsubscribe) {
+        return;
+      }
       this.cable = this.context.cable.subscriptions.create(
         this.props.channel,
         {
@@ -106,19 +120,30 @@ class ActionCable extends React.Component {
           rejected() {
             onRejected && onRejected()
           },
-          channelInfo: this.props.channel
+          channelInfo: this.props.channel,
         }
       )
     } else {
       this.cable = subscription;
+
+
+      if (shouldUnsubscribe) {
+        this.unsubscribe();
+      }
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.shouldUnsubscribe) {
+      this.unsubscribe();
     }
   }
 
   componentWillUnmount() {
-    // if (this.cable) {
-    //   this.context.cable.subscriptions.remove(this.cable)
-    //   this.cable = null
-    // }
+    if (this.props.unsubscribeOnUmount && this.cable) {
+      this.context.cable.subscriptions.remove(this.cable)
+      this.cable = null
+    }
   }
 
   send(data) {
@@ -137,13 +162,28 @@ class ActionCable extends React.Component {
     this.cable.perform(action, data)
   }
 
+  unsubscribe() {
+    if (this.cable) {
+      this.context.cable.subscriptions.remove(this.cable)
+      this.cable = null
+    }
+  }
+
+  removeBoardSubscriptions(boardId) {
+    const cableSubscriptions = this.context.cable.subscriptions;
+    const boardSubscriptions = cableSubscriptions.subscriptions.filter(sub => sub.channelInfo.board_id == boardId);
+    boardSubscriptions.forEach(subscription => cableSubscriptions.remove(subscription));
+  }
+
   render() {
     return null
   }
+
 }
 
 
 ActionCable.propTypes = actionCablePropTypes;
+ActionCable.defaultProps = actionCableDefaultProps;
 ActionCable.contextTypes = contextTypes;
 
 

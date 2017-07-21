@@ -13,7 +13,7 @@ const propTypes = {
 }
 
 
-function Invites({ status, canRemove, invites, handleClick }) {
+const Invites = ({ status, canRemove, invites, handleClick }) => {
   if (!invites.length) return null;
   return (
     <div className={`board-settings__invites-${status}`}>

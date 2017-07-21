@@ -19,7 +19,7 @@ const propTypes = {
 }
 
 
-function CommentIndex(props) {
+const CommentIndex = (props) => {
   const { members, boardId } = props;
   const data = messagesByDate(props.comments);
 

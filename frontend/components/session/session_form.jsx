@@ -79,11 +79,8 @@ class SessionForm extends React.Component {
 
     this.props.processForm(user).then(
       (result) => {
-        console.log(result)
       },
       err => {
-
-        console.log(err);
         this.setState({
           isSubmitting: false,
           errors:  {

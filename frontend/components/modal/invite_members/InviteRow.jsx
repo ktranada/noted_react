@@ -10,7 +10,7 @@ const propTypes = {
 }
 
 
-function InviteRow(props) {
+const InviteRow = props => {
   const isInitialRow = props.inviteCount === 1;
   const isValid = typeof props.isValid === 'undefined' ? true : props.isValid; // Could be undefined from the beginning
 

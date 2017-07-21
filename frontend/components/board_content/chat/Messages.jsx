@@ -19,7 +19,6 @@ const propTypes = {
   channel: PropTypes.shape({
     has_more: PropTypes.bool.isRequired
   }),
-  currentPage: PropTypes.number.isRequired,
   loadMessages: PropTypes.func.isRequired,
 }
 
@@ -49,7 +48,6 @@ class Messages extends React.Component {
         && !this.props.fetchFailed
         && this.messagesWrapper.scrollTop < 5) {
       const prevScrollHeight= this.messagesWrapper.scrollHeight;
-      console.log('prevscrollHeight: ', prevScrollHeight);
       this.props.loadMessages().then(
         () => {
           this.messagesWrapper.scrollTop = this.messagesWrapper.scrollHeight - prevScrollHeight;
@@ -58,10 +56,8 @@ class Messages extends React.Component {
     }
   }
 
-
   render() {
-
-    const { channel, isFetching, fetchFailed, currentPage } = this.props;
+    const { channel, isFetching, fetchFailed } = this.props;
     const data = messagesByDate(this.props.messages, true);
 
     const messages = []
@@ -85,19 +81,19 @@ class Messages extends React.Component {
         ref={el => this.messagesWrapper = el }
         className="messages__wrapper"
       >
-      {
-        isFetching || fetchFailed
-        ? (
-            <div
-              className={`messages__loader fetching ${fetchFailed ? "failed" : ""}`}
-            >
-              {fetchFailed ? 'Could not fetch messages' : 'Fetching messages...'}
-            </div>
-          )
-        : channel.has_more
-          ? <div onClick={this.handleScroll} className="messages__loader">Fetch more</div>
-          : null
-      }
+        {
+          isFetching || fetchFailed
+            ? (
+              <div
+                className={`messages__loader fetching ${fetchFailed ? "failed" : ""}`}
+              >
+                {fetchFailed ? 'Could not fetch messages' : 'Fetching messages...'}
+              </div>
+            )
+            : channel.has_more
+              ? <div onClick={this.handleScroll} className="messages__loader">Fetch more</div>
+              : null
+        }
 
         {
           !channel.has_more

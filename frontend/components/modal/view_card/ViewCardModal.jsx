@@ -1,6 +1,7 @@
 import React from 'react';
 import merge from 'lodash/merge';
 
+import { ActionCable } from '../../util/ActionCableProvider';
 import ModalOverlayContainer from '../ModalOverlayContainer';
 import Header from './header/Header';
 import Body from './body/Body';
@@ -14,6 +15,7 @@ class ViewCardModal extends React.Component {
     this.handleBackgroundClick = this.handleBackgroundClick.bind(this);
     this.createComment = this.createComment.bind(this);
     this.editCard = this.editCard.bind(this);
+    this.destroyCard = this.destroyCard.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -29,14 +31,18 @@ class ViewCardModal extends React.Component {
     comment['board_id'] = this.props.boardId
     comment['card_id'] = this.props.card.id;
     comment['updated_by'] = this.props.currentUserId;
-    this.props.createComment(comment);
+    this.refs.boardChannel.perform('create_comment', comment);
   }
 
   editCard(data) {
     data['updated_by'] = this.props.currentUserId;
     data['board_id'] = this.props.boardId;
     const card = merge({}, this.props.card, data);
-    this.props.editCard(card);
+    this.refs.boardChannel.perform('edit_card', card);
+  }
+
+  destroyCard() {
+    this.refs.boardChannel.perform('destroy_card', this.props.card);
   }
 
   render() {
@@ -52,8 +58,13 @@ class ViewCardModal extends React.Component {
               <Spinner /> :
               (
                 <div>
+                  <ActionCable
+                    ref="boardChannel"
+                    channel={{channel: 'BoardContentChannel', room: currentBoard.id}}
+                  />
                   <Header card={card} editCard={this.editCard} />
                   <Body
+                    destroyCard={this.destroyCard}
                     createComment={this.createComment}
                     comments={comments}
                     members={members}

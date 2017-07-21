@@ -22,11 +22,14 @@ class Api::BoardsController < ApplicationController
 
   def show
     @board = Board
-      .includes(:board_memberships, :members, :invites, :channels, lists: [cards: [:comments]])
+      .includes(:board_memberships, :members, :invites, :channels)
       .find(params[:id])
 
+    @isOwner = @board.is_owned_by?(current_user)
     @subscriptions = Subscription.includes(channel: [:messages]).where(board_id: params[:id], user_id: current_user.id)
-    @invites = @board.invites.select {|invite| !invite.hide_from_client? }
+    if @isOwner
+      @invites = @board.invites.select {|invite| !invite.hide_from_client? }
+    end
     render :show
   end
 
@@ -35,14 +38,14 @@ class Api::BoardsController < ApplicationController
     @board = Board.find(params[:id])
 
     if @board.update(board_params)
-      ActionCable.server.broadcast("board:#{@board.id}",
+      ActionCable.server.broadcast("board_name:#{@board.id}",
         type: 'board',
         action: 'update',
         board: {
           id: @board.id,
           title: @board.title
         },
-        updated_by: params[:comment][:updated_by]
+        updated_by: current_user.id
       )
       render json: { id: @board.id, title: @board.title }
     else
@@ -52,11 +55,16 @@ class Api::BoardsController < ApplicationController
 
 
   def destroy
-    @board = Board.includes(:channels, :members, :invites, lists: [cards: [:comments]]).find(params[:id])
+    @board = Board.find(params[:id])
+    memberships = BoardMembership.includes(board: [:members, :invites, lists: [cards: [:comments]], channels: [:messages]]).where(id: @board.board_membership_ids)
 
+    memberships.each do |mbs|
+      MembershipRemovalJob.perform_now(current_user, mbs)
+    end
+    
     @board.destroy
 
-    render :destroy
+    render json: {}
   end
 
   private

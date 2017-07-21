@@ -28,6 +28,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'faker'
   gem 'redis'
+  gem 'rack-mini-profiler'
 end
 
 group :development do

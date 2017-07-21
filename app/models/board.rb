@@ -26,6 +26,7 @@ class Board < ActiveRecord::Base
   has_many :channels, dependent: :destroy
 
   before_create :set_position
+
   after_commit :create_general_channel, on: :create
 
   def has_member?(user)
@@ -38,7 +39,7 @@ class Board < ActiveRecord::Base
   end
 
   def is_owned_by?(user)
-    self.owner == user
+    self.user_id == user.id
   end
 
   private

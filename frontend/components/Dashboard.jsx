@@ -57,7 +57,11 @@ class Dashboard extends React.PureComponent {
         </section>
 
         <section className="sub-nav">
-          <SubNavContainer {...this.props} />
+          <SubNavContainer
+            currentBoard={currentBoard}
+            toggleModal={this.toggleModal}
+            currentUserId={currentUser.id}
+          />
           <AccountSettings
             currentUser={currentUser}
             toggleModal={this.toggleModal}
@@ -86,13 +90,14 @@ class Dashboard extends React.PureComponent {
               isLoading={isLoading}
             />
             <RouteWithProps
+              exact
               path="/boards/:boardId"
               isLoading={isLoading}
               currentBoard={currentBoard}
               component={InitialBoardContentContainer}
               toggleModal={this.toggleModal}
             />
-
+            <Redirect to={`/boards/${currentBoard.id}`} />
           </Switch>
         </section>
 

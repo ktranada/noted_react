@@ -49,11 +49,13 @@ class AccountSettingsModal extends React.Component {
     const { currentBoard, currentUser } = this.props;
     switch (tab) {
       case 'Profile':
-        return <AccountOverview
-          currentUser={currentUser}
-          requestTimeZones={this.props.requestTimeZones}
-          handleAccountUpdate={this.handleAccountUpdate}
-               />
+        return (
+          <AccountOverview
+            currentUser={currentUser}
+            requestTimeZones={this.props.requestTimeZones}
+            handleAccountUpdate={this.handleAccountUpdate}
+          />
+        )
       default:
         return null;
     }

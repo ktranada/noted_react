@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment-timezone';
 
+import { ActionCable } from '../../util/ActionCableProvider';
+import Spinner from '../../util/Spinner';
 import Messages from './Messages';
 import ChatForm from './ChatForm';
 
@@ -20,12 +23,13 @@ const propTypes = {
     content: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
     time: PropTypes.string.isRequired,
-    time_offset: PropTypes.number.isRequired
+    time_offset: PropTypes.number.isRequired,
+    timestamp: PropTypes.number.isRequired
   })),
-  incrementMessageNotifications: PropTypes.func.isRequired,
-
-  location: PropTypes.object.isRequired,
+  requestMessages: PropTypes.func.isRequired,
+  addMessage: PropTypes.func.isRequired
 }
+
 
 class ChatRoom extends React.Component {
   constructor(props) {
@@ -33,26 +37,54 @@ class ChatRoom extends React.Component {
 
     this.sendMessage = this.sendMessage.bind(this);
     this.loadMessages = this.loadMessages.bind(this);
-
+    this.onReceivedChat = this.onReceivedChat.bind(this);
     this.state = {
       isFetching: false,
-      currentPage: 0,
       fetchFailed: false
     }
+    this.chatChannelCable = null;
+    this.bindActionCable = this.bindActionCable.bind(this)
+  }
+
+  componentDidMount() {
+    const { channel, isLoading, requestMessages } = this.props;
+    if (channel && !isLoading && !channel.has_loaded_messages) {
+      requestMessages(null);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.isLoading && !nextProps.channel.has_loaded_messages) {
+      nextProps.requestMessages(null);
+    }
+  }
+
+  onReceivedChat({ action, message }) {
+    if (action === 'create') {
+      const { created_at } = message;
+      const localTimezone = moment.tz(created_at, this.props.timezone);
+      message['date'] = localTimezone.format('MMMM Do');
+      message['time'] = localTimezone.format('h:mm A');
+      this.props.addMessage(message);
+    }
+  }
+
+  bindActionCable(el) {
+    this.chatChannelCable = el;
   }
 
   sendMessage(data) {
     data['board_id'] = this.props.currentBoard.id;
-    data['channel_id'] = this.props.channel.id
-    this.props.sendMessage(data);
+    data['channel_id'] = this.props.channel.id;
+    this.chatChannelCable.perform('send_message', { message: data });
   }
 
 
   loadMessages() {
     if (!this.state.isFetching && !this.state.fetchFailed) {
-      this.setState({ isFetching: true, currentPage: this.state.currentPage + 1});
+      this.setState({ isFetching: true});
 
-      return this.props.requestMessages(this.state.currentPage + 1).then(
+      return this.props.requestMessages(this.props.channel.latest).then(
         response => {},
         errors => {}
       ).then(
@@ -63,13 +95,23 @@ class ChatRoom extends React.Component {
   }
 
   render() {
-    const { channel, messages, members, currentBoard } = this.props;
+    const { channel, messages, members, currentBoard, timezone } = this.props;
     if (!channel) return null;
+    if (!channel.has_loaded_messages) {
+      return <Spinner />
+    }
     return (
       <div className="chat-wrapper">
+        <ActionCable
+          ref={this.bindActionCable}
+          shouldUnsubscribe={this.props.isUpdatingTimezone}
+          channel={{channel: 'ChatChannel', room: channel.id, board_id: currentBoard.id}}
+          onReceived={this.onReceivedChat}
+          trackedProps={{timezone}}
+        />
+
         <Messages
           loadMessages={this.loadMessages}
-          currentPage={this.state.currentPage}
           isFetching={this.state.isFetching}
           fetchFailed={this.state.fetchFailed}
           channel={channel}

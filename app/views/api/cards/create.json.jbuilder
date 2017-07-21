@@ -1,2 +1,2 @@
-json.extract! @card, :id, :list_id, :title, :description
+json.extract! @card, :id, :list_id, :title, :description, :position
 json.comments []

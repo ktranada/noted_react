@@ -17,4 +17,6 @@ class List  < ActiveRecord::Base
   acts_as_list scope: :board, top_of_list: 0
 
   has_many :cards, -> { order(position: :asc) }, dependent: :destroy
+
+  after_create_commit { ListBroadcastJob.perform_now('create', self, -1) }
 end

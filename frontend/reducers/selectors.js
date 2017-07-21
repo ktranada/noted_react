@@ -31,12 +31,17 @@ export const getCurrentBoardById = (id, boards) => {
   return boards.byId[id];
 }
 
-export const isLoadingByType = (loadingState, boardId, type) => {
+export const isLoadingByType = (loadingState, resource, id, type) => {
     if (isUndefined(loadingState)) {
       return true;
     }
-    let board = loadingState.byBoardId[boardId];
-    return Boolean(board) ? board[type] : true;
+    let loader = loadingState[`by${resource}Id`];
+
+    if (loader && loader[id] && loader[id][type] !== undefined) {
+      return loader[id][type];
+    }
+
+    return true;
 }
 
 export const getObjectById = (id, entity) => {

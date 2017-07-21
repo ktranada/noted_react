@@ -15,6 +15,7 @@ const propTypes = {
   listCallbacks: PropTypes.shape({
     createList: PropTypes.func.isRequired,
     createCard: PropTypes.func.isRequired,
+    editList: PropTypes.func.isRequired,
     moveList: PropTypes.func.isRequired,
     updateListPosition: PropTypes.func.isRequired
   }).isRequired,
@@ -62,13 +63,13 @@ const specs = {
   }
 }
 
-function collect(connect, monitor) {
+const collect = (connect, monitor) => {
   return {
     connectDropTarget: connect.dropTarget()
   }
 }
 
-function ListIndex(props) {
+const ListIndex = props => {
   const lists = props.lists.map((list, position) => (
     <ListContainer
       key={list.id}

@@ -1,5 +1,5 @@
 import merge from 'lodash/merge';
-import { RECEIVE_USER_SESSION_ERRORS, RECEIVE_CURRENT_USER } from '../actions/session_actions'
+import { RECEIVE_USER_SESSION_ERRORS, RECEIVE_CURRENT_USER, UPDATE_TIMEZONE } from '../actions/session_actions'
 
 const nullUser = {
   currentUser: null,
@@ -21,6 +21,12 @@ const sessionReducer = (state = nullUser, action) => {
         return merge({}, nullUser, {
           errors: action.errors
         });
+    case UPDATE_TIMEZONE:
+      if (state.currentUser) {
+        return merge({}, state, {
+          currentUser: { timezone: action.timezone }
+        })
+      }
     default:
       return state;
   }

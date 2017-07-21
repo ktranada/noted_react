@@ -5,6 +5,8 @@ import { INVITE_PEOPLE, BOARD_SETTINGS } from '../../../actions/modal_actions';
 
 const propTypes = {
   board: PropTypes.object.isRequired,
+  title: PropTypes.string.isRequired,
+  isOwner: PropTypes.bool.isRequired,
   toggleModal: PropTypes.func.isRequired
 }
 
@@ -39,15 +41,15 @@ class BoardSettings extends React.Component {
         showDropdown: false
       });
       this.dropdownRef.blur();
-      this.props.toggleModal(type);
+      this.props.toggleModal(type)(e);
     }
   }
 
   render() {
-    const { board } = this.props;
+    const { title, isOwner } = this.props;
     return (
       <div className="board-configuration">
-        <span>{board.title}</span>
+        <span>{title}</span>
         <i
           role="button"
           className="material-icons"
@@ -56,17 +58,17 @@ class BoardSettings extends React.Component {
           tabIndex={-1}
           onBlur={this.toggleDropdown}
           ref={el => {this.dropdownRef = el; }}
-          style={!board.owner ? ({bottom: '-4rem' }) : ({})}
+          style={!isOwner ? ({bottom: '-4rem' }) : ({})}
           className={`board-configuration__dropdown ${this.state.showDropdown ? 'open' : ''}`}>
           {
-            board.owner &&
+            isOwner &&
             <div role="button"
               onClick={this.toggleModal(INVITE_PEOPLE)}>
               <i className="material-icons">&#xE7FE;</i>
               Invite Members
             </div>
           }
-          { board.owner && <hr />}
+          { isOwner && <hr />}
           <div role="button" onClick={this.toggleModal(BOARD_SETTINGS)}>
             <i className="material-icons">&#xE8B8;</i>
             Settings

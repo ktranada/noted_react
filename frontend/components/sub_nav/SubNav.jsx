@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// import { ActionCable } from '../util/ActionCableProvider';
 import SubNavActionCable from './SubNavActionCable';
 import BoardSettings from './top_section/BoardSettings';
 import SubNavActions from './middle_section/SubNavActions';
@@ -13,19 +12,21 @@ const propTypes = {
   members: PropTypes.arrayOf(PropTypes.object).isRequired,
   isLoading: PropTypes.bool.isRequired,
   currentBoard: PropTypes.object.isRequired,
-  toggleModal: PropTypes.func.isRequired
+  toggleModal: PropTypes.func.isRequired,
+
+  setMessageNotification: PropTypes.func.isRequired,
+  updateAppearance: PropTypes.func.isRequired,
+  addMember: PropTypes.func.isRequired,
+  updateUsername: PropTypes.func.isRequired,
+  removeMember: PropTypes.func.isRequired,
+  incrementMessageNotifications: PropTypes.func.isRequired
 }
 
 class SubNav extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleAppearanceSubscription = this.handleAppearanceSubscription.bind(this);
     this.setMessageNotification = this.setMessageNotification.bind(this);
-  }
-
-  handleAppearanceSubscription(appearance) {
-    this.props.updateAppearance(appearance);
   }
 
   setMessageNotification(notification) {
@@ -40,7 +41,14 @@ class SubNav extends React.Component {
     }
 
     let inviteButton = null;
-    const { currentBoard, members, channels, subscribedChannels } = this.props;
+    const {
+      currentUserId,
+      currentBoard,
+      appearances,
+      members,
+      channels,
+      subscribedChannels,
+    } = this.props;
     if (currentBoard.isLoaded && members.length === 0) {
       inviteButton = (
         <div className="initial-invite-display">
@@ -58,23 +66,32 @@ class SubNav extends React.Component {
     return (
       <div>
         <SubNavActionCable
+          currentUserId={currentUserId}
           currentBoardId={currentBoard.id}
           subscribedChannels={subscribedChannels}
           updateAppearance={this.props.updateAppearance}
-          addMessage={this.props.addMessage}
-          incrementMessageNotifications={this.props.incrementMessageNotifications}
+          membershipCallbacks={{
+            addMember: this.props.addMember,
+            updateUsername: this.props.updateUsername,
+            removeMember: this.props.removeMember
+          }}
+          messageCallbacks={{
+            incrementMessageNotifications: this.props.incrementMessageNotifications
+          }}
         />
 
         <BoardSettings
           toggleModal={this.props.toggleModal}
-          board={currentBoard}/>
+          title={currentBoard.title}
+          isOwner={currentBoard.owner}
+        />
         <hr />
         { inviteButton }
         { inviteButton && <hr />}
         <SubNavActions
-          appearances={this.props.appearances}
-          currentUserId={this.props.currentUser.id}
-          isViewingCard={this.props.location.pathname.includes('card')}
+          appearances={appearances}
+          currentUserId={currentUserId}
+          isViewingCard={window.location.hash.includes('card')}
           setMessageNotification={this.setMessageNotification}
           boardId={currentBoard.id}
           members={members}

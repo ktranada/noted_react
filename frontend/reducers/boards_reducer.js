@@ -1,7 +1,6 @@
 import merge from 'lodash/merge';
 import { byIdObject, updateObject, updateAssociationList } from './util';
-import { RECEIVE_BOARDS, UPDATE_TIME_ZONE } from '../actions/session_actions';
-import { NOTIFICATION_MESSAGES, NOTIFICATION_INCREMENT_MESSAGES } from '../actions/notification_actions';
+import { RECEIVE_BOARDS, UPDATE_TIMEZONE } from '../actions/session_actions';
 import {
   ADD_BOARD,
   RECEIVE_BOARD,
@@ -17,6 +16,7 @@ import {
   UPDATE_BOARD,
   REMOVE_BOARD,
 } from '../actions/board_actions';
+import { RECEIVE_MESSAGES } from '../actions/chat_actions';
 import { MOVE_LIST, UPDATE_LIST_ORDER } from '../actions/list_actions';
 
 const initialState = {
@@ -28,8 +28,9 @@ const initialState = {
 // byId: {
 //   '1': {
 //     id: 1,
-//     isLoaded: false,
-//     isLoading: false,
+//     isLoaded: fa]lse,
+//     has_loaded_lists: false,
+//     owner: false,
 //     channels: [],
 //     members: [],
 //     subscriptions: [],
@@ -40,13 +41,6 @@ const initialState = {
 //     title: 'React'
 //   }
 // }
-
-const startLoadingBoard = (state, action) => {
-  const newState = byIdObject(action.board.id, {
-    isLoading: true
-  })
-  return updateObject(state, newState);
-}
 
 const receiveBoard = (state, action) => {
   const newState = updateObject({}, state, { errors: [] });
@@ -62,7 +56,7 @@ const receiveLists = (state, action) => {
   if (state.byId[board_id]) {
     const newState = merge({}, state, byIdObject(board_id, {
       lists: list_ids,
-      hasLoadedLists: true
+      has_loaded_lists: true
     }));
     return newState;
   }
@@ -173,42 +167,25 @@ const removeMember = (state, action) => {
 }
 
 const removeBoard = (state, action) => {
-  const newState = merge({}, state);
-  const byId = newState.byId;
-  const order = newState.order;
-
-  if (byId[action.board.id]) {
+  if (state.byId[action.board.id]) {
+    const newState = merge({}, state);
+    const byId = newState.byId;
+    const order = newState.order;
     delete byId[action.board.id]
     newState.order = newState.order.filter(id => id != action.board.id);
+    return newState;
   }
-
-  return newState;
+  return state;
 }
 
-const updateTimeZone = (state, action) => {
+const updateTimezone = (state, action) => {
   const newState = merge({}, state);
   Object.keys(newState.byId).forEach(id => {
     const board = newState.byId[id];
     board.isLoaded = false;
-    board.isLoading = false;
   })
 
   return newState;
-}
-
-const updateUnreadMessages = (state, action) => {
-  if (state.byId[action.notification.board_id]) {
-    const newState = merge({}, state);
-    newState
-      .byId[action.notification.board_id]
-      .hasUnreadMessages = (
-        action.type === NOTIFICATION_INCREMENT_MESSAGES
-          ? true
-          : action.notification.unread_messages > 0
-        );
-    return newState;
-  }
-  return state;
 }
 
 const boardsReducer = (state = initialState, action) => {
@@ -216,8 +193,8 @@ const boardsReducer = (state = initialState, action) => {
     case RECEIVE_BOARD: return receiveBoard(state, action);
     case RECEIVE_BOARDS:
       return merge({}, initialState, {
-        byId: action.boards.byId,
-        order: action.boards.order,
+        byId: action.boards.boards.byId,
+        order: action.boards.boards.order,
         errors: []
       });
 
@@ -229,12 +206,10 @@ const boardsReducer = (state = initialState, action) => {
     case MOVE_LIST: return moveList(state, action);
     case UPDATE_BOARD: return updateBoard(state, action);
     case REMOVE_INVITE: return removeInvite(state, action);
-    case UPDATE_TIME_ZONE: return updateTimeZone(state, action);
+    case UPDATE_TIMEZONE: return updateTimezone(state, action);
     case REMOVE_MEMBER: return removeMember(state, action);
     case REMOVE_BOARD: return removeBoard(state, action);
-    case NOTIFICATION_MESSAGES:
-    case NOTIFICATION_INCREMENT_MESSAGES:
-      return updateUnreadMessages(state, action);
+
     default:
       return state;
   }

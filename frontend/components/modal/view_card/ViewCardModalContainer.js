@@ -9,9 +9,11 @@ const mapStateToProps = ({ comments, members, cards, loading }, {match, currentB
   currentBoard.members.forEach(id  => {
     boardMembers[id] = members.byId[id]
   })
+  const isLoading = isLoadingByType(loading, 'Board', currentBoard.id, 'loadingLists') ||
+    isLoadingByType(loading, 'Board', currentBoard.id, 'loadingBoard')
   return {
     card,
-    isLoading: isLoadingByType(loading, currentBoard.id, 'loadingLists'),
+    isLoading,
     comments: asArrayByOrder(comments, card.comments),
     boardId: currentBoard.id,
     members: boardMembers
@@ -20,7 +22,8 @@ const mapStateToProps = ({ comments, members, cards, loading }, {match, currentB
 
 const mapDispatchToProps = (dispatch, { card, currentBoard }) => ({
   editCard: (card) => dispatch(editCard(currentBoard.id, card)),
-  createComment: comment => dispatch(createComment(currentBoard.id, comment))
+  // destroyCard: () => dispatch(destroyCard(current, cardId)),
+  // createComment: comment => dispatch(createComment(currentBoard.id, comment))
 })
 
 export default connect(

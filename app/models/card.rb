@@ -24,15 +24,15 @@ class Card < ActiveRecord::Base
   delegate :board, to: :list
 
   def move(updates)
-    if list_id == updates[:list_id]
-      if position != updates[:position]
+    if list_id == updates['list_id']
+      if position != updates['position']
         self.remove_from_list
-        self.insert_at(updates[:position])
+        self.insert_at(updates['position'])
       end
     else
       self.remove_from_list
-      self.update(list_id: updates[:list_id])
-      self.insert_at(updates[:position].to_i)
+      self.update(list_id: updates['list_id'])
+      self.insert_at(updates['position'])
     end
   end
 

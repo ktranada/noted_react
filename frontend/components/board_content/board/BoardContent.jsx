@@ -4,7 +4,7 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend  from 'react-dnd-html5-backend';
 
 import { ActionCable } from '../../util/ActionCableProvider';
-import BoardActionCable from './BoardActionCable';
+import BoardContentActionCable from './BoardContentActionCable';
 import ListIndex from './ListIndex';
 import ListContainer from './ListContainer';
 import Spinner from '../../util/Spinner';
@@ -14,12 +14,14 @@ import { throttle } from '../../../actions/util';
 const propTypes = {
   currentBoard: PropTypes.object.isRequired,
   lists: PropTypes.array.isRequired,
-  createCard: PropTypes.func.isRequired,
-  createList: PropTypes.func.isRequired,
-  moveList: PropTypes.func.isRequired,
+
+  requestLists: PropTypes.func.isRequired,
   addList: PropTypes.func.isRequired,
   addCard: PropTypes.func.isRequired,
-  updateCard: PropTypes.func.isRequired
+  moveList: PropTypes.func.isRequired,
+  moveCard: PropTypes.func.isRequired,
+  updateCard: PropTypes.func.isRequired,
+  removeCard: PropTypes.func.isRequired,
 }
 
 class BoardContent extends React.Component {
@@ -34,6 +36,7 @@ class BoardContent extends React.Component {
 
     this.createList = this.createList.bind(this);
     this.createCard = this.createCard.bind(this);
+    this.editList = this.editList.bind(this);
     this.moveCard = throttle(this.moveCard.bind(this), 200);
     this.moveList = this.moveList.bind(this);
     this.updateListPosition = this.updateListPosition.bind(this);
@@ -42,12 +45,12 @@ class BoardContent extends React.Component {
   }
 
   componentWillMount() {
-    const { match, history } = this.props;
+    const { match, history, currentBoard } = this.props;
     if (!match.isExact) {
       this.props.history.replace(match.url);
     }
 
-    if (!this.props.currentBoard.hasLoadedLists) {
+    if (currentBoard.isLoaded && !currentBoard.has_loaded_lists) {
       this.props.requestLists();
     }
   }
@@ -62,10 +65,9 @@ class BoardContent extends React.Component {
     if (!nextProps.match.isExact) {
       this.props.history.push(this.props.match.url);
     }
-
-    if (this.props.currentBoard.id !== nextProps.currentBoard.id &&
-        !nextProps.currentBoard.hasLoadedLists) {
-      this.props.requestLists();
+    const { currentBoard: nextBoard } = nextProps;
+    if (!nextProps.isLoadingLists && nextBoard.isLoaded && !nextBoard.has_loaded_lists) {
+      nextProps.requestLists();
     }
   }
 
@@ -84,7 +86,7 @@ class BoardContent extends React.Component {
       board_id: this.props.match.params.boardId,
       updated_by: this.props.currentUserId
     })
-    return this.props.createList(list);
+    this.boardContentCableRef.perform('create_list', list);
   }
 
   createCard(list_id) {
@@ -94,8 +96,12 @@ class BoardContent extends React.Component {
         updated_by: this.props.currentUserId,
         board_id: this.props.currentBoard.id
       });
-      return this.props.createCard(card);
+      this.boardContentCableRef.perform('create_card', card);
     }
+  }
+
+  editList(list) {
+    this.boardContentCableRef.perform('edit_list', list);
   }
 
   moveList(listId, nextPos) {
@@ -145,13 +151,13 @@ class BoardContent extends React.Component {
 
   updateListPosition(list) {
     list['updated_by'] = this.props.currentUserId;
-    this.props.updateListPosition(list);
+    this.boardContentCableRef.perform('update_list_position', list);
   }
 
   updateCardPosition(card) {
     card['updated_by'] = this.props.currentUserId;
     card['board_id'] = this.props.currentBoard.id;
-    this.props.updateCardPosition(card);
+    this.boardContentCableRef.perform('update_card_position', card);
   }
 
   render() {
@@ -175,21 +181,26 @@ class BoardContent extends React.Component {
                 listCallbacks={{
                   createCard: this.createCard,
                   createList: this.createList,
+                  editList: this.editList,
                   moveList: this.moveList,
                   updateListPosition: this.updateListPosition
                 }}
               >
-                <BoardActionCable
+                <BoardContentActionCable
+                  boardContentCableRef={el => this.boardContentCableRef = el}
                   currentUserId={this.props.currentUserId}
                   currentBoardId={this.props.currentBoard.id}
+                  historyPush={this.props.history.push}
                   listCallbacks={{
+                    addList: this.props.addList,
                     moveList: this.moveList,
-                    addList: this.props.addList
+                    updateList: this.props.updateList
                   }}
                   cardCallbacks={{
                     moveCard: this.moveCard,
                     addCard: this.props.addCard,
-                    updateCard: this.props.updateCard
+                    updateCard: this.props.updateCard,
+                    removeCard: this.props.removeCard
                   }}
                   commentCallbacks={{
                     addComment: this.props.addComment

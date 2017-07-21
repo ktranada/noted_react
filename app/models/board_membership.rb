@@ -29,6 +29,11 @@ class BoardMembership < ActiveRecord::Base
   after_commit :subscribe_to_general_channel, on: :create
   after_destroy :remove_subscriptions
 
+  delegate :is_owned_by?, to: :board, prefix: true
+
+  after_create_commit { MembershipBroadcastJob.perform_now('create', self, nil) }
+  after_update_commit { MembershipBroadcastJob.perform_now('update', self, nil) }
+
   private
 
   def subscribe_to_general_channel

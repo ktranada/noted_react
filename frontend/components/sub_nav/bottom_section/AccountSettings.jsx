@@ -9,7 +9,7 @@ const propTypes = {
   toggleModal: PropTypes.func.isRequired
 }
 
-function AccountSettings(props) {
+const AccountSettings = (props) => {
   const { email } = props.currentUser;
 
   return (

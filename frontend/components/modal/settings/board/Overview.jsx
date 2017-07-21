@@ -16,7 +16,8 @@ class Overview extends React.Component {
 
     this.state = {
       input: this.props.value,
-      errors: []
+      errors: [],
+      isValid: true
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -67,11 +68,12 @@ class Overview extends React.Component {
     return (
       <form
         className="content__board-overview"
-        onSubmit={this.handleSubmit}>
+        onSubmit={this.handleSubmit}
+      >
         <div className="board-overview__title">
           <label data-error={this.state.errors[0]}>{this.props.label}
             <input
-              className={this.state.errors.length ? 'error' : ''}
+              className={!this.state.isValid || this.state.errors.length ? 'error' : ''}
               onChange={this.handleChange}
               value={this.state.input}/>
           </label>

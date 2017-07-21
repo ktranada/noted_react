@@ -9,19 +9,15 @@ Rails.application.routes.draw do
     resource :session, only: [:create, :destroy]
 
     resources :boards, only: [:create, :show, :update, :destroy] do
-      resources :lists, only: [:create, :index, :update]
-      resources :cards, only: [:create, :destroy, :update]
-      resources :comments, only: [:create, :destroy, :update]
+      resources :lists, only: [:index]
       resources :board_memberships, only: [:destroy, :update]
       resources :invites, only: [:create, :destroy]
-      resources :channels, only: [:create] do
-        resources :messages, only: [:create, :index]
+      resources :channels, only: [] do
+        resources :messages, only: [:index]
       end
-      resources :messages, only: [:create]
     end
 
     resources :invites, only: [ :show, :update]
-    resources :subscriptions, only: [:index]
     resources :timezones, only: [:index]
   end
 end
