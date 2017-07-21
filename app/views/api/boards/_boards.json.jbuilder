@@ -29,11 +29,10 @@ json.set! :loading do
   json.set! :byBoardId do
     order.each do |id|
       json.set! id do
-        json.loadingBoard false
-        json.loadingLists false
+        json.loading_board false
+        json.loading_lists false
       end
     end
   end
   json.set! :byChannelId, {}
-  json.isUpdatingTimezone false
 end

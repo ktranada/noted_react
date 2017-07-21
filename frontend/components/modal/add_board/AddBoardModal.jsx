@@ -28,7 +28,7 @@ class AddBoardModal extends React.Component {
   createBoard(board) {
     return this.props.createBoard(board).then(
       board => {
-        this.props.history.push(`/boards/${board.id}`)
+        this.props.history.push(`/boards/${board.board.id}`)
       }
     )
   }

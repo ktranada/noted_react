@@ -64,11 +64,12 @@ const receiveLists = (state, action) => {
 }
 
 const addBoard = (state, action) => {
+  const { board } = action.board;
   let newState = {
     byId: {
-      [action.board.id]: action.board
+      [board.id]: board
     },
-    order: [...state.order, action.board.id],
+    order: [...state.order, board.id],
     errors: []
   };
   return updateObject(state, newState);

@@ -14,7 +14,7 @@ const mapStateToProps = ({ boards, channels, members, loading, subscriptions, ap
     subscribedChannels: asArrayByOrder(channels, subscriptions.channelsByBoardId[currentBoard.id]),
     channels: asArrayByOrder(channels, currentBoard.channels),
     members: asArrayByOrder(members, currentBoard.members),
-    isLoading: isLoadingByType(loading, 'Board', currentBoard.id, "loadingBoard")
+    isLoading: isLoadingByType(loading, 'Board', currentBoard.id, 'loading_board')
   });
 }
 

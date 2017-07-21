@@ -26,6 +26,7 @@ export const requestLists  = (board_id) => dispatch => {
   return BoardAPI.requestLists(board_id).then(
     result => {
       dispatch(receiveLists(result));
+      return result;
     }
   )
 }
@@ -56,17 +57,11 @@ export const editMembership = (board_id, membership) => dispatch => (
 ))
 
 export const destroyBoard = boardId => dispatch => (
-  BoardAPI.destroyBoard(boardId)
-    .then((board) => {
-      return board;
-    })
+  BoardAPI.destroyBoard(boardId).then((board) => board)
 );
 
 export const destroyMembership = (board_id, membershipId) => dispatch => (
-  BoardAPI.destroyMembership(board_id, membershipId)
-    .then(membership => {
-      return membership;
-    })
+  BoardAPI.destroyMembership(board_id, membershipId).then(membership => membership)
 )
 
 export const destroyInvite = (board_id, inviteId) => dispatch => (

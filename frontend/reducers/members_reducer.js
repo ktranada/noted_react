@@ -1,6 +1,6 @@
 import merge from 'lodash/merge';
 import { RECEIVE_BOARD_MEMBERS } from '../actions/sub_nav_actions';
-import { RECEIVE_BOARD } from '../actions/nav_actions';
+import { RECEIVE_BOARD, ADD_BOARD } from '../actions/nav_actions';
 import { ADD_MEMBER, REMOVE_MEMBER, REMOVE_BOARD, UPDATE_USERNAME, RECEIVE_USERNAME_ERRORS } from '../actions/board_actions';
 import { updateAssociationList, byIdObject, updateObject } from './util';
 import { asArrayByOrder } from './selectors';
@@ -97,17 +97,13 @@ const removeBoard = (state, action) => {
 const membersReducer = (state = initialState, action) => {
   Object.freeze(state);
   switch (action.type) {
-    case RECEIVE_BOARD:
-      return merge({}, state, action.board.members);
-    case RECEIVE_BOARD_MEMBERS:
-      return merge({}, initialState, action.members);
+    case RECEIVE_BOARD: return merge({}, state, action.board.members);
+    case RECEIVE_BOARD_MEMBERS: return merge({}, initialState, action.members);
+    case ADD_BOARD: return merge({}, state, action.board.members)
     case ADD_MEMBER: return addMember(state, action);
-    case UPDATE_USERNAME:
-      return updateUsername(state, action);
-    case REMOVE_MEMBER:
-      return removeMember(state, action);
-    case REMOVE_BOARD:
-      return removeBoard(state, action);
+    case UPDATE_USERNAME: return updateUsername(state, action);
+    case REMOVE_MEMBER: return removeMember(state, action);
+    case REMOVE_BOARD: return removeBoard(state, action);
     default:
       return state;
   }

@@ -9,8 +9,8 @@ const mapStateToProps = ({ comments, members, cards, loading }, {match, currentB
   currentBoard.members.forEach(id  => {
     boardMembers[id] = members.byId[id]
   })
-  const isLoading = isLoadingByType(loading, 'Board', currentBoard.id, 'loadingLists') ||
-    isLoadingByType(loading, 'Board', currentBoard.id, 'loadingBoard')
+  const isLoading = isLoadingByType(loading, 'Board', currentBoard.id, 'loading_lists') ||
+    isLoadingByType(loading, 'Board', currentBoard.id, 'loading_board')
   return {
     card,
     isLoading,

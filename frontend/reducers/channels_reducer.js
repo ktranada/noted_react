@@ -1,6 +1,6 @@
 import merge from 'lodash/merge';
 import { ADD_MESSAGE, RECEIVE_MESSAGES } from '../actions/chat_actions';
-import { RECEIVE_BOARD } from '../actions/nav_actions';
+import { RECEIVE_BOARD, ADD_BOARD } from '../actions/nav_actions';
 import { REMOVE_BOARD } from '../actions/board_actions';
 import { SET_UNREAD_MESSAGE_COUNT, INCREMENT_UNREAD_MESSAGE_COUNT } from '../actions/notification_actions';
 import { updateObject, removeObjectsByBoard, updateAssociationList } from './util';
@@ -84,6 +84,7 @@ const channelsReducer = (state = initialState, action) => {
   switch (action.type) {
     case RECEIVE_BOARD: return receiveBoard(state, action);
     case RECEIVE_MESSAGES: return receiveMessages(state, action);
+    case ADD_BOARD: return updateObject(state, action.board.channels);
     case ADD_MESSAGE: return updateAssociationList(state, action.message.channel_id, 'messages', action.message.id, {prepend: true});
     case SET_UNREAD_MESSAGE_COUNT: return setMessageNotification(state, action);
     case INCREMENT_UNREAD_MESSAGE_COUNT: return incrementMessageNotifications(state, action);

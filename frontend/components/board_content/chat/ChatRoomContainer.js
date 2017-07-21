@@ -16,7 +16,7 @@ const mapStateToProps = ({ session, messages, channels, members, loading}, { cur
     timezone: session.currentUser.timezone,
     messages: channel ? asArrayByOrder(messages, channel.messages) : [],
     members: boardMembers,
-    isLoading: channel ? isLoadingByType(loading, 'Channel', channel.id, 'loadingMessages') : true,
+    isLoading: channel ? isLoadingByType(loading, 'Channel', channel.id, 'loading_messages') : true,
     isUpdatingTimezone: loading.isUpdatingTimezone
   }
 }

@@ -7,7 +7,8 @@ class CardBroadcastJob < ApplicationJob
       list_id: card.list_id,
       title: card.title,
       description: card.description || '',
-      position: card.position
+      position: card.position,
+      comments: card.comment_ids
     })
     body[:previous_list_id] = previous_list_id
     ActionCable.server.broadcast("board_content:#{board_id}", body)

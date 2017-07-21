@@ -9,11 +9,11 @@ class Api::BoardsController < ApplicationController
 
     if !membership.valid? && membership.errors[:username].any?
       render json: { username: membership.errors[:username][0] }, status: 422
-      return;
+      return
     end
 
     if @board.save
-      @board.create_owner_membership(params[:board][:username])
+      @membership = @board.create_owner_membership(params[:board][:username])
       render :create
     else
       render json: @board.errors.full_messages, status: 422
@@ -61,7 +61,7 @@ class Api::BoardsController < ApplicationController
     memberships.each do |mbs|
       MembershipRemovalJob.perform_now(current_user, mbs)
     end
-    
+
     @board.destroy
 
     render json: {}

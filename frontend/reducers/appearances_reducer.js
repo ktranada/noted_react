@@ -1,5 +1,5 @@
 import merge from 'lodash/merge';
-import { RECEIVE_BOARD } from '../actions/nav_actions';
+import { RECEIVE_BOARD, ADD_BOARD } from '../actions/nav_actions';
 import { UPDATE_APPEARANCE } from '../actions/sub_nav_actions';
 import { REMOVE_BOARD, ADD_MEMBER } from '../actions/board_actions';
 import { updateObject, removeObjectsByBoard, updateAssociationList } from './util';
@@ -38,6 +38,7 @@ function appearancesReducer(state = initialState, action) {
   switch (action.type) {
     case RECEIVE_BOARD:
       return updateObject(state, action.board.appearances);
+    case ADD_BOARD: return updateObject(state, action.board.appearances);
     case ADD_MEMBER:
       const { membership } = action;
       if (state.usersByBoardId[membership.board_id]) {
