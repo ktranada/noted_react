@@ -20,7 +20,9 @@ Noted is a kanban board for personal or team use.
 - Lists and cards are draggable.
 - Each board has its own chat system
   - General chat
-
+- Real-time features (using ActionCable to implement websockets)
+  - Chat
+  - Board Updates (updates, membership changes, etc)
 
   *admin = ability to delete
 
