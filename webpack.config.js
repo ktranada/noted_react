@@ -1,6 +1,8 @@
 const path = require("path")
+const webpack = require('webpack');
+const isProduction = process.env.NODE_ENV === 'production'
 
-module.exports = {
+const config = {
   context: __dirname,
   entry: "./frontend/noted.jsx",
   output: {
@@ -8,10 +10,15 @@ module.exports = {
     filename: "bundle.js"
   },
 
+  plugins: [],
+
   module: {
     rules: [
       {
         test: [/\.jsx?$/, /\.js?$/],
+        include: [
+          path.resolve(__dirname, './frontend')
+        ],
         exclude: /node_modules/,
         loader: "babel-loader",
         query: {
@@ -26,3 +33,20 @@ module.exports = {
     extensions: [".js", ".jsx", "*"]
   }
 }
+
+if (isProduction) {
+
+  config.plugins.push(new webpack.DefinePlugin({
+    'process.env': {
+      'NODE_ENV': JSON.stringify('production')
+    }
+  }));
+  config.plugins.push(new webpack.optimize.UglifyJsPlugin({
+    compress: {
+      warnings: true
+    }
+  }));
+}
+
+
+module.exports = config;

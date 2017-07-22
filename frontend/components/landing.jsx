@@ -53,4 +53,5 @@ class Landing extends React.Component {
 }
 
 Landing.propTypes = propTypes;
+
 export default Landing;

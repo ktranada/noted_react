@@ -40,13 +40,6 @@ export const requestLists = board_id => (
   })
 )
 
-export const requestSubscriptions = () => (
-  $.ajax({
-    method: 'GET',
-    url: `/api/subscriptions`
-  })
-);
-
 export const requestMessages = (board_id, channelId, latest) => (
   $.ajax({
     method: 'GET',

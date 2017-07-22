@@ -20,13 +20,13 @@ gem 'cloudinary'
 gem 'pusher'
 gem 'mailgun-ruby', '~>1.1.6'
 gem 'acts_as_list'
+gem 'faker'
 
 
 group :development, :test do
   gem 'byebug', platform: :mri
   gem 'rspec-rails'
   gem 'factory_girl_rails'
-  gem 'faker'
   gem 'redis'
   gem 'rack-mini-profiler'
 end
