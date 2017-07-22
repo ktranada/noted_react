@@ -16,9 +16,6 @@ const config = {
     rules: [
       {
         test: [/\.jsx?$/, /\.js?$/],
-        include: [
-          path.resolve(__dirname, './frontend')
-        ],
         exclude: /node_modules/,
         loader: "babel-loader",
         query: {
@@ -34,18 +31,18 @@ const config = {
   }
 }
 
-if (isProduction) {
+if (true) {
 
   config.plugins.push(new webpack.DefinePlugin({
     'process.env': {
       'NODE_ENV': JSON.stringify('production')
     }
   }));
-  config.plugins.push(new webpack.optimize.UglifyJsPlugin({
-    compress: {
-      warnings: true
-    }
-  }));
+  // config.plugins.push(new webpack.optimize.UglifyJsPlugin({
+  //   compress: {
+  //     warnings: true
+  //   }
+  // }));
 }
 
 
