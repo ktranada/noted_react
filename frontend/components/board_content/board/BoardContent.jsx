@@ -87,7 +87,7 @@ class BoardContent extends React.Component {
       board_id: this.props.match.params.boardId,
       updated_by: this.props.currentUserId
     })
-    this.boardContentCableRef.perform('create_list', list);
+    this.boardContentCableRef && this.boardContentCableRef.perform('create_list', list);
   }
 
   createCard(list_id) {
@@ -97,12 +97,12 @@ class BoardContent extends React.Component {
         updated_by: this.props.currentUserId,
         board_id: this.props.currentBoard.id
       });
-      this.boardContentCableRef.perform('create_card', card);
+      this.boardContentCableRef && this.boardContentCableRef.perform('create_card', card);
     }
   }
 
   editList(list) {
-    this.boardContentCableRef.perform('edit_list', list);
+    this.boardContentCableRef && this.boardContentCableRef.perform('edit_list', list);
   }
 
   moveList(listId, nextPos) {
@@ -152,19 +152,19 @@ class BoardContent extends React.Component {
 
   updateListPosition(list) {
     list['updated_by'] = this.props.currentUserId;
-    this.boardContentCableRef.perform('update_list_position', list);
+    this.boardContentCableRef && this.boardContentCableRef.perform('update_list_position', list);
   }
 
   updateCardPosition(card) {
     card['updated_by'] = this.props.currentUserId;
     card['board_id'] = this.props.currentBoard.id;
-    this.boardContentCableRef.perform('update_card_position', card);
+    this.boardContentCableRef && this.boardContentCableRef.perform('update_card_position', card);
   }
 
   destroyList(id) {
     return () => {
       console.log(id)
-      this.boardContentCableRef.perform('destroy_list', { id });
+      this.boardContentCableRef && this.boardContentCableRef.perform('destroy_list', { id });
     }
   }
 

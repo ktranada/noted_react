@@ -146,7 +146,7 @@ class InviteResponseForm extends React.Component {
             value={this.state.username}
             handleChange={this.handleChange('username')}>
             {errors.username && <p className="error">{errors.username}</p>}
-            <p>Username can only contain lowercase letters and numbers.</p>
+            <p>Username can only contain lowercase letters, numbers, and cannot exceed 16 characters.</p>
           </InlineInput>
 
 

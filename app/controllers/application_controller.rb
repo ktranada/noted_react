@@ -29,8 +29,14 @@ class ApplicationController < ActionController::Base
   def logout
     @current_user.try(:reset_session_token!)
     @current_user.update_appearance(:offline)
+
+    SessionEndBroadcastJob.perform_now(@current_user)
+
+    ActionCable.server.disconnect(current_user: @current_user)
+
     session[:session_token] = nil
     cookies.signed[:session_token] = nil
+
     @current_user = nil
   end
 

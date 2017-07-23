@@ -65,6 +65,7 @@ class OwnerBoardSettingsModal extends React.Component {
           value={currentUser.usernamesByBoardId[currentBoard.id]}
           field="username"
           label="USERNAME"
+          note="Username can only contain lowercase letters, numbers, and cannot be longer than 16 characters."
           updateField={this.handleUsernameChange}/>
       case 'Overview':
         return <Overview

@@ -1,7 +1,7 @@
 class MembershipBroadcastJob < ApplicationJob
   queue_as :default
 
-  def perform(action, membership, body)
+  def perform(action, membership, body = nil)
     body ||= render_jbuilder('api/board_memberships/membership', {
         membership: membership,
         action: action

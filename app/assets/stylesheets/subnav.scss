@@ -6,38 +6,40 @@ $margin-left-subcategory: 30px;
   min-width: 250px;
   background: $bluegrey-light;
   position: relative;
+  max-width: 250px;
 
   /*======================*/
   /* Top*/
   /*======================*/
 
    .board-configuration {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-pack: justify;
-            -ms-flex-pack: justify;
-                justify-content: space-between;
-        -webkit-box-align: center;
-            -ms-flex-align: center;
-                align-items: center;
+     position: relative;
         color: white;
         font-size: 16px;
         position: relative;
-        span {
+        max-width: 230px;
+      > div:first-of-type {
           pointer-events: none;
+          text-overflow: ellipsis;
+          overflow-x: hidden;
+          width: 185px;
         }
         > i {
-          margin-right: -10px;
+          position: absolute;
+             top: 0;
+             right: -10px;
+
           cursor: pointer;
         }
 
       .board-configuration__dropdown {
+        pointer-events: all;
         outline: none;
         position: absolute;
-        bottom: -7.5rem;
-        right: 10px;
-        z-index: 10;
+        top: 35px;
+        right: 0;
+        width: 210px;
+        z-index: 4;
         background: $primary-grey-light;
         color: black;
         padding: 0px;
@@ -45,9 +47,9 @@ $margin-left-subcategory: 30px;
         -webkit-box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.15)!important;
                 box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.15)!important;
         display: none;
-        -webkit-transition: min-height .3s ease;
-        transition: min-height .3s ease;
         > div {
+          width: 100%;
+
           padding: 15px 10px;
           display: -webkit-box;
           display: -ms-flexbox;
@@ -55,7 +57,6 @@ $margin-left-subcategory: 30px;
           -webkit-box-align: center;
               -ms-flex-align: center;
                   align-items: center;
-          width: 200px;
           color: grey;
           > .material-icons {
             font-size: 18px;
@@ -110,6 +111,7 @@ $margin-left-subcategory: 30px;
       line-height: 40px;
       font-size: 18px;
       background: $bluegrey-light;
+      color: white;
       margin-right: 15px;
       border-radius: 50%;
       &:hover {

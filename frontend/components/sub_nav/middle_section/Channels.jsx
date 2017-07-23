@@ -16,6 +16,10 @@ const defaultProps = {
   channels: []
 }
 
+const isChannelActive = (boardId, channelId) => (match, location) => {
+  return location.pathname === `/boards/${boardId}/messages/${channelId}`
+}
+
 const Channels = props => {
   const channels = props.channels.map(channel => (
       <li
@@ -24,6 +28,7 @@ const Channels = props => {
         key={channel.id}
       >
         <NavLink
+          exact
           onClick={props.setMessageNotification({channel_id: channel.id, board_id: channel.board_id, unread_messages: 0})}
           to={`/boards/${channel.board_id}/messages/${channel.id}`}
         >

@@ -90,7 +90,7 @@ class CreateBoardContent extends React.Component {
             error={this.state.errors['username']}
             handleChange={this.handleChange('username')}>
             {this.state.errors['username'] && <p className="error">{this.state.errors['username']}</p>}
-            <p>Username can only contain lowercase letters and numbers.</p>
+            <p>Username can only contain lowercase letters and numbers and cannot be longer than 16 characters.</p>
           </InlineInput>
         </div>
 

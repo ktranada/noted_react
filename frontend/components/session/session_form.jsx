@@ -31,7 +31,7 @@ class SessionForm extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.isLoggedIn) {
-      let nextRoute = `/boards${nextProps.currentBoardId ? `/${nextProps.currentBoard.id}` : ''}`;
+      let nextRoute = `/boards${nextProps.currentBoard ? `/${nextProps.currentBoard.id}` : ''}`;
       this.props.history.push(nextRoute);
     }
   }
@@ -66,6 +66,17 @@ class SessionForm extends React.Component {
       return;
     }
 
+    if (this.state.password.length < 6) {
+      if (this.props.formType === 'login') {
+        this.setState({ invalidCredentials: true });
+      } else {
+        this.setState({
+          errors: { password:  'Must be at least six characters long'}
+        })
+      }
+      return;
+    }
+
     this.setState({ isSubmitting: true });
 
     const user = {
@@ -81,14 +92,17 @@ class SessionForm extends React.Component {
       (result) => {
       },
       err => {
-        this.setState({
+        const nextState = {
           isSubmitting: false,
           errors:  {
             email: err.email ? err.email[0] : '',
             password: err.password ? err.password[0] : ''
           },
-          invalidCredentials: err.credentials
-        })
+        }
+        if (this.props.formType === 'login') {
+          nextState['invalidCredentials'] = true;
+        }
+        this.setState(nextState)
       }
     )
 
@@ -113,7 +127,7 @@ class SessionForm extends React.Component {
       <form className="session-form" onSubmit={this.handleSubmit}>
         <div className="session-form__content">
           <img src="https://res.cloudinary.com/mycut/image/upload/v1496273166/logo-min_tmylez.png" />
-          { this.state.invalidCredentials && <p className="error__credentials">{this.state.invalidCredentials}</p> }
+          {this.state.invalidCredentials && <p className="error__credentials">Invalid credentials</p>}
           <h3>{formContent.title}</h3>
           <InlineInput
             type="email"

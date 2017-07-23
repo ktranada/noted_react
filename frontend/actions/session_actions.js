@@ -42,13 +42,12 @@ export const login = user => (dispatch) => (
    parseSignInResponse(SessionAPI.login(user), dispatch)
 )
 
-export const logout = () => dispatch => (
-  SessionAPI.logout()
-    .then(() => {
-      dispatch(toggleModal(null));
-      dispatch(receiveCurrentUser(null));
-    })
-)
+export const logout = () => dispatch => {
+  dispatch(toggleModal(null));
+  dispatch(receiveCurrentUser(null));
+  return SessionAPI.logout()
+}
+
 
 export const updateInvite = invite => dispatch => (
   SessionAPI.updateInvite(invite)
@@ -102,9 +101,10 @@ export const receiveBoards = boards => ({
   boards
 })
 
-export const receiveCurrentUser = currentUser => ({
+export const receiveCurrentUser = (currentUser, message = null) => ({
   type: RECEIVE_CURRENT_USER,
-  currentUser
+  currentUser,
+  message
 });
 
 export const receiveSessionErrors = errors => ({

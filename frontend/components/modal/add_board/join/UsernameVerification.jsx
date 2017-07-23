@@ -30,6 +30,11 @@ class UsernameVerification extends React.Component {
       this.setState({ error: 'Username cannot be blank'})
       return;
     }
+
+    if (!this.state.username.match(/^[a-z0-9]{1,16}$/)) {
+      this.setState({error: 'Username format is incorrect'});
+      return;
+    }
     const invite = {
       id: this.props.invite.id,
       username: this.state.username
@@ -60,7 +65,7 @@ class UsernameVerification extends React.Component {
             value={this.state.username}
             handleChange={this.handleChange}>
             <InviteVerificationErrors error={this.state.error}/>
-            <p>Username can only contain lowercase letters and numbers.</p>
+            <p>Username can only contain lowercase letters, numbers, and cannot exceed 16 characters.</p>
           </JoinBoardStep>
         </div>
         <Footer

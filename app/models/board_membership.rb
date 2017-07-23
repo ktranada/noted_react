@@ -19,7 +19,8 @@ class BoardMembership < ActiveRecord::Base
   validates :user_id, :board_id, :username, presence: true
   validates :invite_id, presence: true
   validates :username, format: { with: /\A[a-z0-9]+\Z/, message: "Username format is incorrect" },
-    uniqueness: { case_sensitive: false, scope: :board_id, message: "Username has been taken" }
+    uniqueness: { case_sensitive: false, scope: :board_id, message: "Username has been taken" },
+    length: { maximum: 16, message: "Username cannot exceed 16 characters" }
 
 
   belongs_to :user
@@ -31,8 +32,8 @@ class BoardMembership < ActiveRecord::Base
 
   delegate :is_owned_by?, to: :board, prefix: true
 
-  after_create_commit { MembershipBroadcastJob.perform_now('create', self, nil) }
-  after_update_commit { MembershipBroadcastJob.perform_now('update', self, nil) }
+  after_create_commit { MembershipBroadcastJob.perform_now('create', self) }
+  after_update_commit { MembershipBroadcastJob.perform_now('update', self) }
 
   def self.to_destroy(id)
     memberships = BoardMembership.includes(board: [:members, :invites, lists: [cards: [:comments]], channels: [:messages]]).where(id: id)

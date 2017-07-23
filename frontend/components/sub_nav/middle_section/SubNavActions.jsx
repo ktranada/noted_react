@@ -24,6 +24,9 @@ const defaultProps = {
   members: []
 }
 
+const isViewingBoard = boardId => {
+  return window.location.href.includes(`/boards/${boardId}/lists`);
+}
 const SubNavActions = (props) => {
   const {
     boardId,
@@ -38,7 +41,6 @@ const SubNavActions = (props) => {
     <ul className="sub-nav__actions">
       <li className="sub-nav__category">
         <NavLink
-          className={isViewingCard ? 'active' : ''}
           to={`/boards/${boardId}/lists`}
         >
           <i aria-hidden className="material-icons">&#xE3EC;</i>VIEW BOARD
@@ -46,6 +48,7 @@ const SubNavActions = (props) => {
       </li>
       <li className="sub-nav__category channels"><span><i aria-hidden className="material-icons">&#xE0B7;</i>CHAT</span>
         <Channels
+          boardId={boardId}
           setMessageNotification={props.setMessageNotification}
           channels={subscribedChannels} />
       </li>

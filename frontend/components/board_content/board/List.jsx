@@ -126,7 +126,7 @@ class List extends React.Component  {
   }
 
   handleSubmit(e) {
-    if (this.props.title === this.state.title) {
+    if (this.props.list.title === this.state.title) {
       this.toggleEdit();
       return;
     }

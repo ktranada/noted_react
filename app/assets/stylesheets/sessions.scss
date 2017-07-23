@@ -17,7 +17,7 @@ $input-width: 225px;
 
   .session-form__content {
     max-width: 420px;
-    padding: 20px 4rem;
+    padding: 25px 4rem;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -85,7 +85,7 @@ $input-width: 225px;
     }
 
     .session-form__link {
-      font-size: 12px;
+      font-size: 14px;
       color: $primary-grey;
       pointer-events: none;
       > a {
@@ -99,7 +99,7 @@ $input-width: 225px;
       width: $input-width;
       margin: 5px 0;
       list-style: none;
-      font-size: 12px;
+      font-size: 13px;
       letter-spacing: .6px;
       color: $primary-red;
       > li:nth-child(2) {

@@ -13,6 +13,7 @@ class NotificationsActionCable extends React.Component {
     const { type, action } = data;
     switch (type) {
       case 'membership': this.handleMembershipUpdates(action, data); break;
+      case 'session': this.handleSessionUpdates(action, data); break;
     }
   }
 
@@ -22,6 +23,15 @@ class NotificationsActionCable extends React.Component {
       const boardId = membership.id;
       this.refs.notificationChannel.removeBoardSubscriptions(boardId)
       this.props.removeBoard(membership);
+    }
+  }
+
+  handleSessionUpdates(action, data) {
+    const { session } = data;
+    if (action === 'update') {
+      if (session.logout) {
+        this.props.endSession();
+      }
     }
   }
 

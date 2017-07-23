@@ -6,9 +6,13 @@ const propTypes = {
   value: PropTypes.string.isRequired,
   field: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  updateField: PropTypes.func.isRequired
+  updateField: PropTypes.func.isRequired,
+  note: PropTypes.string
 }
 
+const defaultProps = {
+  note: ""
+}
 
 class Overview extends React.Component {
   constructor(props) {
@@ -76,6 +80,7 @@ class Overview extends React.Component {
               className={!this.state.isValid || this.state.errors.length ? 'error' : ''}
               onChange={this.handleChange}
               value={this.state.input}/>
+            {this.props.note && <div className="input__note">{this.props.note}</div>}
           </label>
         </div>
         <button

@@ -15,51 +15,65 @@ class BoardSettings extends React.Component {
     super(props);
 
     this.state = {
-      showDropdown: false
+      showDropdown: false,
+      isDropdownFocused: false
     }
     this.dropdownRef = null;
 
+    this.handleBlur = this.handleBlur.bind(this);
     this.toggleDropdown = this.toggleDropdown.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps, { showDropdown, isDropdownFocused }) {
     if (this.state.showDropdown) {
       this.dropdownRef.focus();
     }
   }
 
-  toggleDropdown() {
-    this.setState({
-      showDropdown: !this.state.showDropdown
-    });
+  toggleDropdown(e) {
+    const { showDropdown, isDropdownFocused } = this.state;
+    if ((showDropdown && !isDropdownFocused)) {
+      this.setState({
+        showDropdown: false,
+      })
+    } else  {
+      this.setState({
+        showDropdown: true,
+        isDropdownFocused: true
+      })
+
+    }
   }
 
   toggleModal(type) {
     return (e) => {
       this.setState({
-        showDropdown: false
+        showDropdown: false,
+        isDropdownFocused: false
       });
-      this.dropdownRef.blur();
       this.props.toggleModal(type)(e);
     }
+  }
+
+  handleBlur(e) {
+    this.setState({ isDropdownFocused: false });
   }
 
   render() {
     const { title, isOwner } = this.props;
     return (
       <div className="board-configuration">
-        <span>{title}</span>
+        <div>{title}</div>
         <i
           role="button"
           className="material-icons"
           onClick={this.toggleDropdown}>&#xE5D4;</i>
         <div
           tabIndex={-1}
-          onBlur={this.toggleDropdown}
+          onBlur={this.handleBlur}
           ref={el => {this.dropdownRef = el; }}
-          style={!isOwner ? ({bottom: '-4rem' }) : ({})}
-          className={`board-configuration__dropdown ${this.state.showDropdown ? 'open' : ''}`}>
+          className={`board-configuration__dropdown ${this.state.showDropdown && this.state.isDropdownFocused ? 'open' : ''}`}>
           {
             isOwner &&
             <div role="button"

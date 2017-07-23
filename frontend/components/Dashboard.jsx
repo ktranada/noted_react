@@ -41,7 +41,7 @@ class Dashboard extends React.Component {
       return null;
     }
 
-    const { isLoading, currentUser, currentBoard, history } = this.props;
+    const { isLoading, currentUser, currentBoard, history, location } = this.props;
 
     return (
       <div className="landing-container">
@@ -58,6 +58,7 @@ class Dashboard extends React.Component {
 
         <section className="sub-nav">
           <SubNavContainer
+            location={location}
             currentBoard={currentBoard}
             toggleModal={this.toggleModal}
             currentUserId={currentUser.id}
