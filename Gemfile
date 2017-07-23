@@ -21,13 +21,13 @@ gem 'pusher'
 gem 'mailgun-ruby', '~>1.1.6'
 gem 'acts_as_list'
 gem 'faker'
+gem 'redis'
 
 
 group :development, :test do
   gem 'byebug', platform: :mri
   gem 'rspec-rails'
   gem 'factory_girl_rails'
-  gem 'redis'
   gem 'rack-mini-profiler'
 end
 

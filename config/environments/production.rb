@@ -84,6 +84,9 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
+  config.web_socket_server_url = ENV['WEB_SOCKET_SERVER_URL']
+  config.action_cable.allowed_request_origins = ["https://#{ENV['APP_DOMAIN']}", "http://#{ENV['APP_DOMAIN']}"]
+
   config.action_mailer.delivery_method = :mailgun
   config.action_mailer.mailgun_settings = {
     api_key: ENV['mailgun_private_api_key'],

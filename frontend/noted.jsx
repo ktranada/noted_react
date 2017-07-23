@@ -25,15 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
   } else {
     store = configureStore();
   }
-  window.logout = logout;
-  window.store = store;
-  window.merge = merge;
-
-  //
-  // if (process.env.NODE_ENV !== 'production') {
-  //   const {whyDidYouUpdate} = require('why-did-you-update')
-  //   whyDidYouUpdate(React)
-  // }
 
   ReactDOM.render(<Root store={store} />, rootEl);
 });

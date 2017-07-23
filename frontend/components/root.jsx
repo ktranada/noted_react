@@ -7,7 +7,7 @@ import App from './app';
 const Root = ({ store }) => {
   const cableUrl = process.env.NODE_ENV !== 'production'
     ? 'ws://127.0.0.1:3000/cable'
-    : 'ws://www.noted.pw/cable'
+    : process.env.WEB_SOCKET_SERVER_URL
 
   return  (
     <Provider store={store}>
