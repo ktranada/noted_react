@@ -47,6 +47,7 @@ $input-width: 225px;
       width: 225px;
       .session-form__input {
         width: $input-width;
+        font-size: 13px;
       }
       &:last-of-type {
         margin-bottom: 40px;
@@ -78,6 +79,7 @@ $input-width: 225px;
     hr {
       width: $input-width;
       margin: 20px 0;
+      margin-bottom: 15px;
       height: 1px!important;
       border-style: none;
       content: " ";
@@ -85,7 +87,7 @@ $input-width: 225px;
     }
 
     .session-form__link {
-      font-size: 14px;
+      font-size: 13px;
       color: $primary-grey;
       pointer-events: none;
       > a {
@@ -134,7 +136,7 @@ $input-width: 225px;
         p {
           text-align: left;
           margin-top: 40px;
-          font-size: 14px;
+          font-size: 13px;
           line-height: 24px;
           font-weight: 100;
           margin-bottom: 20px;
