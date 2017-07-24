@@ -122,7 +122,7 @@ class InviteResponseForm extends React.Component {
       return (
         <div className="session-form invite-form loading">
           <div className="session-form__content">
-            <img src="https://res.cloudinary.com/mycut/image/upload/v1496273166/logo-min_tmylez.png" />
+            <img alt="logo" src="/images/logo_com.png" />
             {status ? <InviteStatus status={status}/> : <Spinner />}
           </div>
         </div>
@@ -134,7 +134,7 @@ class InviteResponseForm extends React.Component {
       <form className="session-form invite-form" onSubmit={this.handleSubmit}>
         <div className="session-form__content">
           <a href={logoLink}>
-            <img src="https://res.cloudinary.com/mycut/image/upload/v1496273166/logo-min_tmylez.png" />
+            <img alt="logo" src="/images/logo_com.png" />
           </a>
           <h3>Join <b>{invite.board_title}</b></h3>
           <InlineInput

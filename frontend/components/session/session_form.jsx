@@ -126,7 +126,7 @@ class SessionForm extends React.Component {
     return (
       <form className="session-form" onSubmit={this.handleSubmit}>
         <div className="session-form__content">
-          <img src="https://res.cloudinary.com/mycut/image/upload/v1496273166/logo-min_tmylez.png" />
+          <img src="/images/logo_com.png" />
           {this.state.invalidCredentials && <p className="error__credentials">Invalid credentials</p>}
           <h3>{formContent.title}</h3>
           <InlineInput

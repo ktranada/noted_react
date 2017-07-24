@@ -20,5 +20,7 @@ module NotedApp
       g.stylesheets false
     end
 
+    config.force_ssl = ENV['FORCE_SSL']
+
   end
 end

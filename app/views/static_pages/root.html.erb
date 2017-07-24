@@ -1,3 +1,16 @@
+<div style="display:none;" id="preloaded-images">
+  <img src="/images/logo_com.png"/>
+</div>
+
+<div id="root"></div>
+<div id="root-loader" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #546E7A; display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; align-items: center;">
+  <div class="root-loader__spinner-container" style="height: 200px; width: 175px; display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-orient: vertical; -webkit-box-direction: normal; -ms-flex-direction: column; flex-direction: column; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; align-items: center; background: rgba(0,0,0,0.6); border-radius: 2px;">
+    <svg class="spinner" width="35px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+      <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+    </svg>
+    <i style="font-family: Lato; color: white; letter-spacing: 1.5px; margin-top: 15px; font-size: 12px;">LOADING...</i>
+  </div>
+</div>
 
 <script id="bootstrap-current-user" type="text/javascript">
   <% if logged_in? %>
@@ -11,5 +24,11 @@
   <% end %>
 </script>
 
-
-<div id="root"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+<script>
+ WebFont.load({
+    google: {
+      families: ['Roboto:300,400,700', 'Material+Icons']
+    }
+  });
+</script>

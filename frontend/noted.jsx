@@ -7,7 +7,7 @@ import {logout} from './actions/session_actions';
 import {createBoard} from './actions/nav_actions';
 
 
-document.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('load', () => {
   const rootEl = document.getElementById('root');
   let store;
   if (window.currentUser) {
@@ -26,5 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
     store = configureStore();
   }
 
-  ReactDOM.render(<Root store={store} />, rootEl);
+  setTimeout(() => {
+    document.getElementById('preloaded-images').outerHTML = "";
+    document.getElementById('root-loader').outerHTML = "";
+    document.getElementById('bootstrap-current-user').outerHTML = "";
+    ReactDOM.render(<Root store={store} />, rootEl);
+  }, 500);
+
 });
