@@ -64,7 +64,7 @@ class BoardSettings extends React.Component {
     const { title, isOwner } = this.props;
     return (
       <div className="board-configuration">
-        <div>{title}</div>
+        <div data-title={title}>{title}</div>
         <i
           role="button"
           className="material-icons"

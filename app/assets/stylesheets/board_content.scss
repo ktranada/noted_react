@@ -2,7 +2,7 @@
 @import "misc";
 .board-content {
   height: 100%;
-  overflow-x: scroll;
+  // overflow-x: scroll;
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
@@ -72,6 +72,8 @@
 
 .board-content {
   .board-wrapper {
+    @include scrollbar-style(#EBEBEB, height);
+    overflow-x: scroll;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -96,8 +98,8 @@
       top: 0;
       right: 0;
       bottom: 0;
-      overflow-x: auto;
-      overflow-y: scroll;
+      // overflow-x: auto;
+      // overflow-y: scroll;
       padding: 25px 20px;
       white-space: nowrap;
       > .list-index__add-button {
@@ -214,7 +216,7 @@
           .list__cards {
             list-style: none;
             overflow-y: scroll;
-            @include scrollbar-vertical(#EBEBEB);
+            @include scrollbar-style(#EBEBEB);
 
             &.vertical-overlow {
               li {

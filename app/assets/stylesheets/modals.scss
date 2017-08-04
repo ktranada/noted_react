@@ -1,5 +1,5 @@
 @import 'variables';
-
+@import 'misc';
 @mixin box-shadow {
   -webkit-box-shadow: 0 2px 4px 0 rgba(34, 36, 38, 0.12), 0 2px 10px 0 rgba(34, 36, 38, 0.15) !important;
           box-shadow: 0 2px 4px 0 rgba(34, 36, 38, 0.12), 0 2px 10px 0 rgba(34, 36, 38, 0.15) !important;
@@ -20,6 +20,7 @@
   overflow-y: auto;
   background: rgba(0,0,0,.8);
   z-index: 100;
+  @include scrollbar-style(#EBEBEB);
 
   > div {
     margin-top: 10rem;

@@ -9,7 +9,9 @@
           flex-direction: column;
 }
 .navbar {
-  flex-grow: 1;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
     width: 64px;
     background: $bluegrey-dark;
     list-style: none;
@@ -64,6 +66,8 @@
         height: 44px;
         width: 44px;
         i {
+          margin-left: -1px;
+          margin-top: -1px;
           font-size: 44px;
           color: #979797;
         }

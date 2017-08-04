@@ -109,7 +109,7 @@ $duration: 1.4s;
 //====================
 
 
-@mixin scrollbar-vertical($scrollbar-track-background: white) {
+@mixin scrollbar-style($scrollbar-track-background: white, $type: width) {
   &::-webkit-scrollbar-track
   {
   	// -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
@@ -119,7 +119,7 @@ $duration: 1.4s;
 
   &::-webkit-scrollbar
   {
-  	width: 6px;
+  	#{$type}: 6px;
   	background-color: #49636F;
   }
 
@@ -159,7 +159,7 @@ $duration: 1.4s;
   }
 
   .select__menu {
-    @include scrollbar-vertical;
+    @include scrollbar-style;
     // transition: max-height .3s ease;
     position: absolute;
     left: 0;

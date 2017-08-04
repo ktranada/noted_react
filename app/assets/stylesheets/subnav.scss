@@ -21,7 +21,8 @@ $margin-left-subcategory: 30px;
       > div:first-of-type {
           pointer-events: none;
           text-overflow: ellipsis;
-          overflow-x: hidden;
+          overflow: hidden;
+          max-height: 150px;
           width: 185px;
         }
         > i {

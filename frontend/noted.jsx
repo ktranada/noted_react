@@ -27,7 +27,6 @@ window.addEventListener('load', () => {
   }
 
   setTimeout(() => {
-    document.getElementById('preloaded-images').outerHTML = "";
     document.getElementById('root-loader').outerHTML = "";
     document.getElementById('bootstrap-current-user').outerHTML = "";
     ReactDOM.render(<Root store={store} />, rootEl);
