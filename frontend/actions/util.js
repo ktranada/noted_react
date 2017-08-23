@@ -11,7 +11,7 @@ export function throttle(func, wait) {
     args = arguments;
     argsChanged = JSON.stringify(args) != JSON.stringify(prevArgs);
     prevArgs = {...args};
-    if (wait && (remaining <= 0 || remaining > wait)) {
+    if (argsChanged || (wait && (remaining <= 0 || remaining > wait))) {
       if (wait) {
         previous = now;
       }
