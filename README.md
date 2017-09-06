@@ -1,13 +1,31 @@
 
 # Overview
 
-Noted is a kanban board for personal or team use.
+I use trello extensively to manage personal projects and to serve as a todo list. Noted is a Kanban board that also offers chat for team communication. Members belong to a board and will be able to see updates + messages in real time.
+
+# Technical Tools
+
+**Frontend**:
+
+- ES6
+- React
+- Redux
+- SCSS
+- Webpack
+
+**Backend**:
+- Ruby
+- Rails
+- PostgreSQL
+- Redis
+- WebSockets
+- Heroku
 
 ------
 
 # Design
 
-[Can be viewed here](https://github.com/ktranada/noted_react/blob/master/docs/mocks/README.md)
+Before building a project, I would like to design it from front-to-back. This will give a clear idea of what components will be needed, how to organize them, and how they will function. The designs can be viewed [here](https://github.com/ktranada/noted_react/blob/master/docs/mocks/README.md).
 
 ------
 
